@@ -1,0 +1,67 @@
+﻿@using System.Web.Optimization
+@using EPiServer.Editor
+@using EPiServer.Security
+@using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
+@using EPiServer.Framework.Web.Mvc.Html
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width initial-scale=1.0">
+        <title> @{ Html.RenderAction("Title", "Head"); }</title>
+        @RenderSection("Meta", false)
+
+    
+        @Styles.Render("~/styles/bundled")
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"> </script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"> </script>
+        <![endif]-->
+    
+        <link rel="icon" href="~/Styles/Images/favicon.ico" type="image/x-icon">
+        @Html.RequiredClientResources("Header")
+    </head>
+    <body>
+
+        @Html.RenderEPiServerQuickNavigator()
+        @if (!PageEditing.PageIsInEditMode && PrincipalInfo.HasEditAccess)
+        {
+            // Add element to make room for quick navigator.
+            <div class="container-fluid">
+                <div class="container">
+                    <p>&nbsp;</p>
+                </div>
+            </div>
+        }
+
+        @Html.RenderReadonlyMessage()
+
+        <div id="ModalDialog" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+            </div>
+        </div>
+
+        <div class="cookies jsCookies" style="display: none">
+            @Html.Translate("/Header/Cookie/CookieUse") <button type="button" class="btn btn-xs btn-primary jsCookiesBtn" href="#">@Html.Translate("/Header/Cookie/Ok")</button>
+        </div>
+
+        @{
+            Html.RenderAction("Index", "Navigation");
+        }
+
+        <div class="quicksilver site-wrapper">
+            @RenderBody()
+        </div>
+
+        @{ Html.RenderAction("Index", "Footer"); }
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/js")
+        @Html.RequiredClientResources("Footer")
+    </body>
+</html>

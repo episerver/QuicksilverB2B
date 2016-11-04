@@ -346,6 +346,10 @@
     <Content Include="Scripts\js\Product.js" />
     <Content Include="Scripts\js\Registration.js" />
     <Content Include="Scripts\js\Search.js" />
+    <Content Include="Styles\b2b\components\_navigation.less" />
+    <Content Include="Styles\b2b\global.css" />
+    <Content Include="Styles\b2b\mixins\_mixins.less" />
+    <Content Include="Styles\b2b\mixins\_variables.less" />
     <Content Include="Styles\font-awesome\.gitignore" />
     <Content Include="Styles\font-awesome\css\font-awesome.css" />
     <Content Include="Styles\font-awesome\css\font-awesome.min.css" />
@@ -768,6 +772,7 @@
     <Content Include="modules\_protected\CMS\CMS.zip" />
     <Content Include="modules\_protected\Shell\web.config" />
     <Content Include="modules\_protected\CMS\web.config" />
+    <Content Include="Styles\b2b\global.less" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -902,9 +907,7 @@
       <Name>EPiServer.Reference.Commerce.Shared</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Styles\b2b\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

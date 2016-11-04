@@ -407,6 +407,9 @@
     <Compile Include="Features\Checkout\ViewModels\UpdateAddressViewModel.cs" />
     <Compile Include="Features\Checkout\ViewModels\UpdateShippingMethodViewModel.cs" />
     <Compile Include="Features\Market\Services\MarketContentLoader.cs" />
+    <Compile Include="Features\Organization\Controllers\OrganizationPageController.cs" />
+    <Compile Include="Features\Organization\Pages\OrganizationPage.cs" />
+    <Compile Include="Features\Organization\ViewModels\OrganizationPageViewModel.cs" />
     <Compile Include="Features\Payment\Models\PaymentMethodModel.cs" />
     <Compile Include="Features\Payment\Services\IPaymentService.cs" />
     <Compile Include="Features\Payment\Services\PaymentService.cs" />
@@ -773,6 +776,7 @@
     <Content Include="modules\_protected\Shell\web.config" />
     <Content Include="modules\_protected\CMS\web.config" />
     <Content Include="Styles\b2b\global.less" />
+    <Content Include="Views\OrganizationPage\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

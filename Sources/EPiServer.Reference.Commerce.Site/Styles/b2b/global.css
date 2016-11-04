@@ -1,3 +1,24 @@
+.max-width {
+  max-width: 500px;
+}
+.spacer-bottom-s {
+  margin-bottom: 8px;
+}
+.spacer-top-s {
+  margin-top: 8px;
+}
+.spacer-bottom-m {
+  margin-bottom: 16px;
+}
+.spacer-top-m {
+  margin-top: 16px;
+}
+.spacer-bottom-l {
+  margin-bottom: 32px;
+}
+.spacer-top-l {
+  margin-top: 32px;
+}
 .sidebar-nav {
   border-right: 1px solid #ccc;
 }

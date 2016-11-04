@@ -6,28 +6,30 @@
         <div class="col-xs-12 col-md-9">
             <h2>@Html.PropertyFor(x => x.CurrentPage.Name)</h2>
             @Html.PropertyFor(x => x.CurrentPage.MainBody)
-            <div class="row max-width">
-                <div class="col-xs-6">
-                    Name
+            <div class="max-width">
+                <div class="row spacer-top-l spacer-bottom-l">
+                    <div class="col-xs-6 col-sm-3">
+                        Name
+                    </div>
+                    <div class="col-xs-6">
+                        <strong>[First Name] [Last Name]</strong>
+                    </div>
                 </div>
-                <div class="col-xs-6">
-                    <strong>Terry May</strong>
+                <div class="row spacer-bottom-l">
+                    <div class="col-xs-6 col-sm-3">
+                        User type
+                    </div>
+                    <div class="col-xs-6">
+                        <strong>[admin | approver | purchaser]</strong>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-6">
-                    Name
-                </div>
-                <div class="col-xs-6">
-                    <strong>Terry May</strong>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-6">
-                    Name
-                </div>
-                <div class="col-xs-6">
-                    <strong>Terry May</strong>
+                <div class="row spacer-bottom-l">
+                    <div class="col-xs-6 col-sm-3">
+                        Organization
+                    </div>
+                    <div class="col-xs-6">
+                        <strong>[Organization name]</strong>
+                    </div>
                 </div>
             </div>
         </div>

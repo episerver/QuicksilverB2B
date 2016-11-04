@@ -14,6 +14,7 @@ var autoprefixer = new lessAutoprefixer({ browsers: ['last 2 versions'] });
 
 var config = {
     inputLESS: './Styles/b2b/global.less',
+    inputLESSPartials: './Styles/b2b/**/*.less',
     outputLESS: './Styles/b2b/',
     outputSourceMaps: './',
     inputMinifier: './Styles/b2b/global.css',
@@ -48,7 +49,7 @@ gulp.task('minify', ['less'], function () {
 
 // Watch files for changes
 gulp.task('watch', ['less'], function () {
-    gulp.watch(config.inputLESS, ['less']);
+    gulp.watch(config.inputLESSPartials, ['less']);
 });
 
 gulp.task('default', ['watch']);

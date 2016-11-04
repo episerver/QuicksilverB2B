@@ -777,6 +777,9 @@
     <Content Include="modules\_protected\CMS\web.config" />
     <Content Include="Styles\b2b\global.less" />
     <Content Include="Views\OrganizationPage\Index.cshtml" />
+    <Content Include="Styles\b2b\mixins\_buttons.less" />
+    <Content Include="Styles\b2b\shared\_base.less" />
+    <Content Include="Styles\b2b\mixins\_form.less" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

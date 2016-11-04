@@ -2,6 +2,98 @@
 
 <div class="container-fluid">
     <div class="row myPage">
-        @Html.Partial("_CmsNavigation", Model.CurrentPage)
+        <aside class="col-xs-12 col-sm-3 sidebar-nav">
+            <h2 class="h3">Account</h2>
+            <ul class="nav nav-stacked" role="tablist">
+                <li role="presentation" class="is-active">
+                    <a href="/en/my-pages/profile/" aria-expanded="True">Profile</a>
+                </li>
+                <li role="presentation" class="">
+                    <a href="/en/my-pages/address-book/" aria-expanded="False">Address book</a>
+                </li>
+                <li role="presentation" class="">
+                    <a href="/en/my-pages/order-history/" aria-expanded="False">Order history</a>
+                </li>
+                <li role="presentation" class="">
+                    <a href="/en/my-pages/wish-list/" aria-expanded="False">Wish list</a>
+                </li>
+                <li role="presentation" class="">
+                    <a href="/en/my-pages/reset-password/" aria-expanded="False">Reset password</a>
+                </li>
+
+            </ul>
+            <h2 class="h3">Organization</h2>
+            <ul class="nav nav-stacked" role="tablist">
+                <li role="presentation">
+                    <a href="#" class="" aria-expanded="">[Organization]</a>
+                    <ul class="nav nav-stacked" role="tablist">
+                        <li><a href="#" class="" aria-expanded="">[Suborganization A]</a></li>
+                        <li><a href="#" class="" aria-expanded="">[Suborganization B]</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </aside>
+        <main class="col-xs-12 col-sm-9 main-content">
+            <div class="btn-group spacer-bottom-l" role="group" aria-label="">
+                <a href="#" class="btn btn-default">Overview</a>
+                <a href="#" class="btn btn-default">Users</a>
+                <a href="#" class="btn btn-default">Orders</a>
+                <a href="#" class="btn btn-default">Order Pad</a>
+                <a href="#" class="btn btn-default">Budgeting</a>
+            </div>
+            <section class="spacer-bottom-l">
+                <div class="section-title spacer-bottom-l">
+                    <h2 class="h3">Organization Info</h2>
+                    <a href="#" class="btn btn-primary spacer-left-m">Edit</a>
+                </div>
+
+                <h2 class="h4">Organization</h2>
+                <form class="spacer-bottom-s">
+                    <input type="text" placeholder="" disabled />
+                </form>
+                <h2 class="h4">Address</h2>
+                <form>
+                    <textarea disabled></textarea>
+                </form>
+            </section>
+            <section>
+                <div class="section-title spacer-bottom-l">
+                    <h2 class="h3">Suborganization</h2>
+                    <a href="#" class="btn btn-primary spacer-left-m">Add New</a>
+                </div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>name</th>
+                            <th>spent budget</th>
+                            <th>allocated budget</th>
+                            <th>start date</th>
+                            <th>end date</th>
+                            <th>status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="#">Episerver Americares</a></td>
+                            <td>$200,000</td>
+                            <td>$600,000</td>
+                            <td>September 1st, 2016</td>
+                            <td>February 2nd, 2017</td>
+                            <td>active</td>
+                        </tr>
+                        <tr>
+                            <td><a href="#">Episerver EMEA</a></td>
+                            <td>$200,000</td>
+                            <td>$600,000</td>
+                            <td>September 1st, 2016</td>
+                            <td>February 2nd, 2017</td>
+                            <td>on hold</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+
+        </main>
     </div>
 </div>

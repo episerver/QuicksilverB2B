@@ -39,22 +39,8 @@
     <body>
 
         @Html.RenderEPiServerQuickNavigator()
-        @if (!PageEditing.PageIsInEditMode && PrincipalInfo.HasEditAccess)
-        {
-            // Add element to make room for quick navigator.
-            <div class="container-fluid">
-                <div class="container">
-                    <p>&nbsp;</p>
-                </div>
-            </div>
-        }
 
         @Html.RenderReadonlyMessage()
-
-        <div id="ModalDialog" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-lg">
-            </div>
-        </div>
 
         <div class="cookies jsCookies" style="display: none">
             @Html.Translate("/Header/Cookie/CookieUse") <button type="button" class="btn btn-xs btn-primary jsCookiesBtn" href="#">@Html.Translate("/Header/Cookie/Ok")</button>

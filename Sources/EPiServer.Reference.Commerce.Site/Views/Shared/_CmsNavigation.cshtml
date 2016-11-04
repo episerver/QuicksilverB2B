@@ -3,8 +3,9 @@
 @{
     var siblings = Model.GetSiblings();
 }
-<div class="col-xs-12 col-sm-3">
-    <ul class="nav nav-stacked sidebar-nav" role="tablist">
+<aside class="col-xs-12 col-sm-3 sidebar-nav">
+    <h2 class="h3">Account</h2>
+    <ul class="nav nav-stacked" role="tablist">
         @{
             foreach (var sibling in siblings)
             {
@@ -15,4 +16,14 @@
             }
         }
     </ul>
-</div>
+    <h2 class="h3">Organization</h2>
+    <ul class="nav nav-stacked" role="tablist">
+        <li role="presentation">
+            <a href="#" class="" aria-expanded="">[Organization]</a>
+            <ul class="nav nav-stacked" role="tablist">
+                <li><a href="#" class="" aria-expanded="">[Suborganization A]</a></li>
+                <li><a href="#" class="" aria-expanded="">[Suborganization B]</a></li>
+            </ul>
+        </li>
+    </ul>
+</aside>

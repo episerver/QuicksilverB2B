@@ -22,7 +22,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                         "~/Scripts/js/*.js"));
             
             bundles.Add(new StyleBundle("~/styles/bundled").Include(
-                        "~/Styles/style.css"
+                        "~/Styles/style.css",
+                        "~/Styles/b2b/global.css"
                 ));
         }
     }

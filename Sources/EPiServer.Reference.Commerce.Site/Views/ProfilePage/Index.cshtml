@@ -16,31 +16,37 @@
                             <strong>@Model.Contact.FirstName @Model.Contact.LastName</strong>
                         </div>
                     </div>
-                    <div class="row spacer-bottom-l">
-                        <div class="col-xs-6 col-sm-3">
-                            User type
+                    @if (Model.Contact.B2BOrganization != null)
+                    {
+                        <div class="row spacer-bottom-l">
+                            <div class="col-xs-6 col-sm-3">
+                                User type
+                            </div>
+                            <div class="col-xs-6">
+                                <strong>@Model.Contact.UserRole</strong>
+                            </div>
                         </div>
-                        <div class="col-xs-6">
-                            <strong>@Model.Contact.UserRole [admin | approver | purchaser]</strong>
+                        <div class="row spacer-bottom-l">
+                            <div class="col-xs-6 col-sm-3">
+                                Organization
+                            </div>
+                            <div class="col-xs-6">
+                                <strong>@Model.Contact.B2BOrganization.Name</strong> <a class="btn btn-primary btn-xs mypages-new-address-btn" href="/en/my-pages/address-book/EditForm/"><span class="fa fa-pencil"></span></a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row spacer-bottom-l">
-                        <div class="col-xs-6 col-sm-3">
-                            Organization
+                    }
+                    else
+                    { 
+                        <!-- Appears if there's no organization created -->
+                        <div class="row spacer-bottom-l">
+                            <div class="col-xs-6 col-sm-3">
+                                Organization
+                            </div>
+                            <div class="col-xs-6">
+                                <a class="btn btn-primary btn-sm mypages-new-address-btn" href="/en/my-pages/address-book/EditForm/">Create</a>
+                            </div>
                         </div>
-                        <div class="col-xs-6">
-                            <strong>[Organization name]</strong> <a class="btn btn-primary btn-xs mypages-new-address-btn" href="/en/my-pages/address-book/EditForm/"><span class="fa fa-pencil"></span></a>
-                        </div>
-                    </div>
-                    <!-- Appears if there's no organization created -->
-                    <div class="row spacer-bottom-l">
-                        <div class="col-xs-6 col-sm-3">
-                            Organization
-                        </div>
-                        <div class="col-xs-6">
-                            <a class="btn btn-primary btn-sm mypages-new-address-btn" href="/en/my-pages/address-book/EditForm/">Create</a>
-                        </div>
-                    </div>
+                    }
                 </div>
                 <!-- Wireframe 5.0 starts here -->
                 <h2 class="h3">Personal Budget</h2>

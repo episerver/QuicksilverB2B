@@ -22,10 +22,5 @@ namespace EPiServer.Reference.Commerce.Site.Features.Suborganization.Controllers
             var viewModel = new SubOrganizationPageViewModel { CurrentPage = currentPage };
             return View(viewModel);
         }
-        public ActionResult AddSub(SubOrganizationPage currentPage)
-        {
-            var viewModel = new SubOrganizationPageViewModel { CurrentPage = currentPage };
-            return View(viewModel);
-        }
     }
 }

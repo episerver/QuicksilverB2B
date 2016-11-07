@@ -27,6 +27,9 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.InitializationModules
             CreateMetaField(budgetMetaClass, Constants.Fields.StartDate, Constants.Fields.StartDateFriendly, MetaFieldType.Date);
             CreateMetaField(budgetMetaClass, Constants.Fields.DueDate, Constants.Fields.DueDateFriendly, MetaFieldType.Date);
             CreateMetaField(budgetMetaClass, Constants.Fields.Amount, Constants.Fields.Amount, MetaFieldType.Currency);
+
+            var contactMetaClass = GetOrCreateMetaClass(Constants.Classes.Contact, Constants.Classes.Contact);
+            CreateMetaField(contactMetaClass, Constants.Fields.UserRole, Constants.Fields.UserRoleFriendly, MetaFieldType.Text);
         }
         
         private MetaClass GetOrCreateMetaClass(string metaClassName, string metaClassFriendlyName)
@@ -52,6 +55,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.InitializationModules
         {
             MetaClass relatedMetaClass = DataContext.Current.GetMetaClass(relatedClassName);
             MetaClass primaryMetaClass = DataContext.Current.GetMetaClass(primaryClassName);
+
+            if (relatedMetaClass.Fields[MetaClassManager.GetPrimaryKeyName(primaryClassName)] != null) return;
             using (MetaClassManagerEditScope managerEditScope = DataContext.Current.MetaModel.BeginEdit())
             {
                 var metaField = relatedMetaClass.CreateReference(primaryMetaClass, primaryClassName, primaryClassName, true);

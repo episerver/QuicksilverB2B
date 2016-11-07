@@ -46,6 +46,19 @@
     margin-left: 32px;
 }
 
+a {
+    color: @brand-red;
+    &:hover,
+    &:focus,
+    &:active {
+        color: @brand-red;
+    }
+}
+
+.product-row .product.has-discount::before {
+    background: @brand-red;
+}
+
 .section-title {
   
     .h1,

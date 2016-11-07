@@ -239,12 +239,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Extensions\EntityObjectExtensions.cs" />
+    <Compile Include="Models\Contact\B2BContact.cs" />
     <Compile Include="Models\Pages\OrganizationPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceContracts\ICustomerService.cs" />
+    <Compile Include="Services\CustomerService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ServiceContracts\" />
-    <Folder Include="Services\" />
+    <Folder Include="Enums\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

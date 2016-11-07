@@ -13,7 +13,7 @@
                             Name
                         </div>
                         <div class="col-xs-6">
-                            <strong>[First Name] [Last Name]</strong>
+                            <strong>@Model.Contact.FirstName @Model.Contact.LastName</strong>
                         </div>
                     </div>
                     <div class="row spacer-bottom-l">
@@ -21,7 +21,7 @@
                             User type
                         </div>
                         <div class="col-xs-6">
-                            <strong>[admin | approver | purchaser]</strong>
+                            <strong>@Model.Contact.UserRole [admin | approver | purchaser]</strong>
                         </div>
                     </div>
                     <div class="row spacer-bottom-l">

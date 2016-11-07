@@ -16,6 +16,8 @@
             public static string DueDate = "DueDate";
             public static string DueDateFriendly = "Due Date";
             public static string Amount = "Amount";
+            public static string UserRole = "UserRole";
+            public static string UserRoleFriendly = "User Role";
         }
 
         public static class Forms

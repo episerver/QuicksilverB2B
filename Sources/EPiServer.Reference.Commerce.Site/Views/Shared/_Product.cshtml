@@ -44,7 +44,7 @@
             @using (@Html.BeginForm("AddToCart", "Cart", FormMethod.Post, new { @class = "form-inline", data_container = "MiniCart" }))
             {
                 @Html.Hidden("code", Model.Code)
-                <button type="submit" role="button" class="btn btn-primary jsAddToCart"><span class="glyphicon glyphicon-shopping-cart"></span> @Html.Translate("/Product/Button/AddToCart")</button>
+                <button type="submit" role="button" class="btn btn-danger jsAddToCart"><span class="glyphicon glyphicon-shopping-cart"></span> @Html.Translate("/Product/Button/AddToCart")</button>
             }
             @using (@Html.BeginForm("ChangeCartItem", "WishList", FormMethod.Post, new { @class = "form-inline", data_container = "WishListMiniCart" }))
             {

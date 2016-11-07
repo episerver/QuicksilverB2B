@@ -780,6 +780,8 @@
     <Content Include="Styles\b2b\mixins\_buttons.less" />
     <Content Include="Styles\b2b\shared\_base.less" />
     <Content Include="Styles\b2b\mixins\_form.less" />
+    <Content Include="Views\OrganizationPage\Edit.cshtml" />
+    <Content Include="Views\OrganizationPage\AddSub.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

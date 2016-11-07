@@ -1,15 +1,18 @@
 ﻿.btn {
     border-radius: 3px;
+
     &.btn-default {
         color: @brand-red;
         background-color: transparent;
         border-color: #eee;
+
         &:hover,
         &:focus,
-        &:active{
+        &:active {
             background-color: #f2f2f2;
             box-shadow: none;
         }
+
         &.active {
             background: #f2f2f2;
             box-shadow: none;
@@ -20,6 +23,7 @@
         background: #111;
         border-color: #111;
         transition: .1s ease background;
+
         &:hover,
         &:active,
         &:focus {
@@ -27,6 +31,7 @@
             background: #333;
         }
     }
+
     &.btn-cart {
         background: @brand-red;
         box-shadow: 0 0 0 3px @brand-red, 0 5px 9px 0 rgba(0, 0, 0, 0.8);
@@ -45,6 +50,7 @@
             transition: .1s ease all;
             border-width: 2px;
             padding: 4px 10px;
+
             &:hover,
             &:active,
             &:focus {
@@ -52,5 +58,40 @@
                 color: #fff;
             }
         }
+    }
+}
+
+.close-icon {
+    display: inline-block;
+    background: transparent;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.15s linear;
+    vertical-align: middle;
+    margin-left: 3px;
+
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        width: 80%;
+        height: 4px;
+        right: 0;
+        background-color: #c9302c;
+        left: 0;
+        margin: 0 auto;
+        margin-top: -2px;
+        top: 50%;
+    }
+
+    &::before {
+        transform: rotate(45deg);
+    }
+
+    &::after {
+        transform: rotate(-45deg);
     }
 }

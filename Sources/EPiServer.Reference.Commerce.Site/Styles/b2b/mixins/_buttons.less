@@ -4,8 +4,11 @@
         color: @brand-red;
         background-color: transparent;
         border-color: #eee;
-        &:hover{
+        &:hover,
+        &:focus,
+        &:active{
             background-color: #eee;
+            box-shadow: none;
         }
         &.active {
             background: #f2f2f2;

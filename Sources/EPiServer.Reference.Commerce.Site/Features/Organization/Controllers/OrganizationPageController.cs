@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using EPiServer.Reference.Commerce.Site.Features.Organization.Pages;
+using EPiServer.Reference.Commerce.Site.B2B.Models.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Organization.ViewModels;
 using EPiServer.Web.Mvc;
 

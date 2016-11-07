@@ -343,6 +343,7 @@
     <Content Include="Scripts\js\Market.js" />
     <Content Include="Scripts\js\Misc.js" />
     <Content Include="Scripts\js\Navigation.js" />
+    <Content Include="Scripts\js\Organization.js" />
     <Content Include="Scripts\js\Product.js" />
     <Content Include="Scripts\js\Registration.js" />
     <Content Include="Scripts\js\Search.js" />
@@ -436,6 +437,9 @@
     <Compile Include="Features\Shared\ViewModels\PageViewModel.cs" />
     <Compile Include="Features\Start\Models\PromotionViewModel.cs" />
     <Compile Include="Features\Start\Models\StartPageViewModel.cs" />
+    <Compile Include="Features\SubOrganization\Controllers\SubOrganizationPageController.cs" />
+    <Compile Include="Features\SubOrganization\Pages\SubOrganizationPage.cs" />
+    <Compile Include="Features\SubOrganization\ViewModels\SubOrganizationPageViewModel.cs" />
     <Compile Include="Infrastructure\Attributes\AllowDBWriteAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\ReadOnlyFilter.cs" />
     <Compile Include="Infrastructure\Business\SiteOrderGroupCalculator.cs" />
@@ -781,6 +785,8 @@
     <Content Include="Styles\b2b\mixins\_form.less" />
     <Content Include="Views\OrganizationPage\Edit.cshtml" />
     <Content Include="Views\OrganizationPage\AddSub.cshtml" />
+    <Content Include="Views\SubOrganizationPage\Index.cshtml" />
+    <Content Include="Views\SubOrganizationPage\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -960,7 +966,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Target Name="BeforeBuild" DependsOnTargets="BuildLessFiles">
+  <Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">
     <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
@@ -968,9 +974,9 @@
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
     <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
   </Target>
-  <Target Name="BuildLessFiles">
+  <!--<Target Name="BuildLessFiles">
     <Exec WorkingDirectory="$(ProjectDir)" Command="&#xD;&#xA;          WHERE npm&#xD;&#xA;          IF %ERRORLEVEL% NEQ 0 ECHO nodejs is not installed. You need to install nodejs for changes in less files to appear in the css on the site. The old styles will still work.&#xD;&#xA;          IF %ERRORLEVEL% NEQ 0 GOTO :EOF&#xD;&#xA;          npm install &amp;&amp; npm run buildless" />
-  </Target>
+  </Target>-->
   <ItemGroup>
     <Content Include="modules\_protected\EPiServer.Commerce.Shell\EPiServer.Commerce.Shell.zip" />
     <Content Include="modules\_protected\Commerce\Commerce.zip" />

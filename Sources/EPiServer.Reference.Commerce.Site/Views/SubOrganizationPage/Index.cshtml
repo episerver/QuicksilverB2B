@@ -1,4 +1,4 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.Organization.ViewModels.OrganizationPageViewModel
+﻿@model EPiServer.Reference.Commerce.Site.Features.Suborganization.ViewModels.SubOrganizationPageViewModel
 
 <div class="container-fluid">
     <div class="row myPage">
@@ -20,23 +20,22 @@
                 <li role="presentation" class="">
                     <a href="/en/my-pages/reset-password/" aria-expanded="False">Reset password</a>
                 </li>
-
             </ul>
             <h2 class="h3">Organization</h2>
             <ul class="nav nav-stacked" role="tablist">
                 <li role="presentation">
-                    <a href="#" class="" aria-expanded="">[Organization]</a>
+                    <a href="@Url.Action("Index","OrganizationPage")" class="" aria-expanded="">[Organization]</a>
                     <ul class="nav nav-stacked" role="tablist">
-                        <li><a href="#" class="" aria-expanded="">[Suborganization A]</a></li>
-                        <li><a href="#" class="" aria-expanded="">[Suborganization B]</a></li>
+                        <li><a href="@Url.Action("Index","SubOrganizationPage")" class="" aria-expanded="">[Sub-organization A]</a></li>
+                        <li><a href="@Url.Action("Index","SubOrganizationPage")" class="" aria-expanded="">[Sub-organization B]</a></li>
                     </ul>
                 </li>
             </ul>
         </aside>
         <main class="col-xs-12 col-sm-9">
             <div class="spacer-left-l">
-             <div class="btn-group spacer-bottom-l" role="group" aria-label="">
-                    <a href="@Url.Action("Index", "OrganizationPage")" class="btn btn-default active">Overview</a>
+                <div class="btn-group spacer-bottom-l" role="group" aria-label="">
+                    <a href="#" class="btn btn-default active">Overview</a>
                     <a href="#" class="btn btn-default">Users</a>
                     <a href="#" class="btn btn-default">Orders</a>
                     <a href="#" class="btn btn-default">Order Pad</a>
@@ -45,58 +44,44 @@
                 <section class="spacer-bottom-l">
                     <div class="section-title spacer-bottom-l">
                         <h2 class="h3">Organization Info</h2>
-                        <a href="@Url.Action("Edit", "OrganizationPage")" class="btn btn-primary btn-sm spacer-left-m">Edit</a>
+                        <a href="@Url.Action("Edit", "SubOrganizationPage")" class="btn btn-primary btn-sm spacer-left-m">Edit</a>
                     </div>
                     <form>
                         <div class="form-group">
-                            <label>Name</label>
+                            <label>Parent organization</label>
                             <br />
-                            <input type="text" disabled value="[Organization Name]" />
+                            <input type="text" value="[Organization Name]" disabled />
                         </div>
                         <div class="form-group">
-                            <label>Address</label>
+                            <label>Sub-organization name</label>
                             <br />
-                            <textarea disabled>[Organization Address]</textarea>
+                            <input type="text" value="[Sub-organization Name]" disabled />
                         </div>
                     </form>
                 </section>
                 <section>
                     <div class="section-title spacer-bottom-l">
-                        <h2 class="h3">Suborganizations</h2>
-                        <a href="@Url.Action("AddSub", "OrganizationPage")" class="btn btn-primary btn-sm spacer-left-m">Add New</a>
+                        <h2 class="h3">Locations</h2>
                     </div>
                     <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>name</th>
-                                <th>spent budget</th>
-                                <th>allocated budget</th>
-                                <th>start date</th>
-                                <th>end date</th>
-                                <th>status</th>
+                                <th>address</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><a href="#">[Suborganization A]</a></td>
-                                <td>$200,000</td>
-                                <td>$600,000</td>
-                                <td>September 1st, 2016</td>
-                                <td>February 2nd, 2017</td>
-                                <td>active</td>
+                                <td>US</td>
+                                <td>16165 W Whitton Ave, Goodyear, AZ, 85338</td>
                             </tr>
                             <tr>
-                                <td><a href="#">[Suborganization B]</a></td>
-                                <td>$200,000</td>
-                                <td>$600,000</td>
-                                <td>September 1st, 2016</td>
-                                <td>February 2nd, 2017</td>
-                                <td>on hold</td>
+                                <td>CA</td>
+                                <td>233 Robbins Rest Cir, Davenport, FL, 33896</td>
                             </tr>
                         </tbody>
                     </table>
                 </section>
-
             </div>
         </main>
     </div>

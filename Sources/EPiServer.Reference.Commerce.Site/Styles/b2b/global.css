@@ -15,7 +15,8 @@ select,
 textarea {
   border-radius: 2px;
   border: 1px solid #ccc;
-  width: 240px;
+  max-width: 240px;
+  width: 100%;
   padding: 5px;
 }
 .main-content {

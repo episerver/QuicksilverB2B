@@ -43,29 +43,18 @@
                 </div>
                 <section class="spacer-bottom-l">
                     <div class="section-title spacer-bottom-l">
-                        <h2 class="h3">Look up user or fill in their details</h2>
-                    </div>
-                    <form action="" method="get" role="search">
-                        <div class="custom-search">
-                            <input type="text" autocomplete="off" placeholder="search for users" />
-                            <span class="icon-search glyphicon glyphicon-search" aria-hidden="true"></span>
-                        </div>
-                    </form>
-                </section>
-                <section class="spacer-bottom-l">
-                    <div class="section-title spacer-bottom-l">
-                        <h2 class="h3">User Details</h2>
+                        <h2 class="h3">Editings user role</h2>
                     </div>
                     <form>
                         <div class="form-group">
                             <label>Name</label>
                             <br />
-                            <input type="text" />
+                            <input type="text" value="Ashley Steward" disabled />
                         </div>
                         <div class="form-group">
                             <label>Email</label>
                             <br />
-                            <input type="text" />
+                            <input type="email" value="ashley@steward.com" disabled />
                         </div>
                         <div class="form-group">
                             <label>Organization</label>
@@ -73,7 +62,7 @@
                             <div class="custom-select">
                                 <span class="custom-select-split"></span>
                                 <span class="custom-select-arrow arrow-down"></span>
-                                <select>
+                                <select disabled>
                                     <option value="EpiserverAmericas" selected>Episerver Americas</option>
                                     <option value="EpiserverEMEA">Episerver EMEA</option>
                                 </select>
@@ -351,7 +340,7 @@
                             </div>
                         </div>
                         <div class="spacer-top-l">
-                            <button type="submit" class="btn btn-primary">Add</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
                             <a href="@Url.Action("Index", "UsersPage")" class="btn btn-default">Cancel</a>
                         </div>
                     </form>

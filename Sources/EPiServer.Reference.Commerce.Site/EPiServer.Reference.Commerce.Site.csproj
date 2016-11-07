@@ -794,7 +794,7 @@
     <Content Include="Views\SubOrganizationPage\Edit.cshtml" />
     <Content Include="Views\UsersPage\Index.cshtml" />
     <Content Include="Views\UsersPage\AddUser.cshtml" />
-    <Content Include="Views\UsersPage\Edit.cshtml" />
+    <Content Include="Views\UsersPage\EditUser.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -22,7 +22,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
             var viewModel = new UsersPageViewModel { CurrentPage = currentPage };
             return View(viewModel);
         }
-        public ActionResult Edit(UsersPage currentPage)
+        public ActionResult EditUser(UsersPage currentPage)
         {
             var viewModel = new UsersPageViewModel { CurrentPage = currentPage };
             return View(viewModel);

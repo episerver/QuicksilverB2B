@@ -43,10 +43,12 @@
                 </div>
                 <section>
                     <div class="section-title spacer-bottom-m">
-                        <a href="#" class="btn btn-primary btn-sm">Add User</a>
-                        <form action="" class="search-form" method="get" role="search">
-                            <input type="text" class="form-control" autocomplete="off" placeholder="search" />
-                            <span class="icon-search glyphicon glyphicon-search" aria-hidden="true"></span>
+                        <a href="@Url.Action("AddUser","UsersPage")" class="btn btn-primary btn-sm">Add User</a>
+                        <form class="pull-right" action="" method="get" role="search">
+                            <div class="custom-search">
+                                <input type="text" autocomplete="off" placeholder="search" />
+                                <span class="icon-search glyphicon glyphicon-search" aria-hidden="true"></span>
+                            </div>
                         </form>
                     </div>
                     <table class="table table-striped">

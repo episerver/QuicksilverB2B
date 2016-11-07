@@ -34,6 +34,7 @@
         .dropdown-menu {
             margin-top: -8px;
             margin-right: 5px;
+            border-radius: 4px 0 4px 4px;
         }
         .dropdown-toggle {
             padding: 4px 8px;
@@ -50,11 +51,34 @@
     }
     .site-menu {
         li {
+            margin-right: 0;
+            &::before,
+            &::after {
+                display: none;
+            }
             a {
                 color: #fff;
                 font-family: Arial, Helvetica, sans-serif;
                 font-size: 12px;
                 font-style: normal;
+                transition: .1s ease background;
+                padding-top: 13px;
+                padding-bottom: 12px;
+                &:hover,
+                &:active,
+                &:focus {
+                    background: #444;
+                }
+            }
+            &.is-active {
+                a {
+                    background: @brand-red;
+                    &:hover,
+                    &:active,
+                    &:focus {
+                        background: #444;
+                    }
+                }
             }
         }
     }

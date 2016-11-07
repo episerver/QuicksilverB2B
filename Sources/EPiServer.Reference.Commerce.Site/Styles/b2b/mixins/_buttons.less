@@ -1,7 +1,7 @@
 ﻿.btn {
-
+    border-radius: 3px;
     &.btn-default {
-        color: #337ab7 ;
+        color: @brand-red;
         background-color: transparent;
         border-color: #eee;
         &:hover{
@@ -22,6 +22,32 @@
         &:focus {
             box-shadow: none;
             background: #333;
+        }
+    }
+    &.btn-cart {
+        background: @brand-red;
+        box-shadow: 0 0 0 3px @brand-red, 0 5px 9px 0 rgba(0, 0, 0, 0.8);
+    }
+
+    &.btn-cart,
+    &.btn-favorites {
+        border-radius: 0;
+    }
+
+    &.btn-danger {
+        &.btn-empty {
+            background: transparent;
+            border-color: @brand-red;
+            color: @brand-red;
+            transition: .1s ease all;
+            border-width: 2px;
+            padding: 4px 10px;
+            &:hover,
+            &:active,
+            &:focus {
+                background: @brand-red;
+                color: #fff;
+            }
         }
     }
 }

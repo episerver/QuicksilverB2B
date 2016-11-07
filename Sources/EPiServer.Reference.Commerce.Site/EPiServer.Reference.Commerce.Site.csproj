@@ -408,7 +408,6 @@
     <Compile Include="Features\Checkout\ViewModels\UpdateShippingMethodViewModel.cs" />
     <Compile Include="Features\Market\Services\MarketContentLoader.cs" />
     <Compile Include="Features\Organization\Controllers\OrganizationPageController.cs" />
-    <Compile Include="Features\Organization\Pages\OrganizationPage.cs" />
     <Compile Include="Features\Organization\ViewModels\OrganizationPageViewModel.cs" />
     <Compile Include="Features\Payment\Models\PaymentMethodModel.cs" />
     <Compile Include="Features\Payment\Services\IPaymentService.cs" />
@@ -914,6 +913,10 @@
     <ProjectReference Include="..\EPiServer.Reference.Commerce.Shared\EPiServer.Reference.Commerce.Shared.csproj">
       <Project>{341c8e14-4eae-4946-9841-45f9818265a8}</Project>
       <Name>EPiServer.Reference.Commerce.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EPiServer.Reference.Commerce.Site.B2B\EPiServer.Reference.Commerce.Site.B2B.csproj">
+      <Project>{3E1439F1-F51E-47D6-BEA4-D7AFF1881745}</Project>
+      <Name>EPiServer.Reference.Commerce.Site.B2B</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

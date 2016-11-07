@@ -1,10 +1,17 @@
 ﻿$(document).ready(function () {
-    $(".cloner").click(function (e) {
-        e.preventDefault();
-        var $temp = $(this).siblings(".clone-source").eq(0);
-        $temp.clone().insertBefore($(this)).removeClass("clone-source hidden");
+    var $cloner = $('.js-cloner');
+
+    $cloner.each(function() {
+        $(this).click(function (e) {
+            var $this = $(this),
+                target = $this.attr('data-target'),
+                $temp = $("." + target);
+
+            e.preventDefault();
+            $temp.clone().insertBefore($this).removeClass(target + " hidden");
+        });
+        $(this).trigger('click');
     });
-    $(".cloner").click();
 
     $('.suborg-form').submit(function (e) {
         e.preventDefault();

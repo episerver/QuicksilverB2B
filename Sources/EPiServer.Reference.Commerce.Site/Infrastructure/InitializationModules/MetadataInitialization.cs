@@ -52,6 +52,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.InitializationModules
         {
             MetaClass relatedMetaClass = DataContext.Current.GetMetaClass(relatedClassName);
             MetaClass primaryMetaClass = DataContext.Current.GetMetaClass(primaryClassName);
+
+            if (relatedMetaClass.Fields[MetaClassManager.GetPrimaryKeyName(primaryClassName)] != null) return;
             using (MetaClassManagerEditScope managerEditScope = DataContext.Current.MetaModel.BeginEdit())
             {
                 var metaField = relatedMetaClass.CreateReference(primaryMetaClass, primaryClassName, primaryClassName, true);

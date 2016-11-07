@@ -437,6 +437,9 @@
     <Compile Include="Features\Shared\ViewModels\PageViewModel.cs" />
     <Compile Include="Features\Start\Models\PromotionViewModel.cs" />
     <Compile Include="Features\Start\Models\StartPageViewModel.cs" />
+    <Compile Include="Features\SubOrganization\Controllers\SubOrganizationPageController.cs" />
+    <Compile Include="Features\SubOrganization\Pages\SubOrganizationPage.cs" />
+    <Compile Include="Features\SubOrganization\ViewModels\SubOrganizationPageViewModel.cs" />
     <Compile Include="Infrastructure\Attributes\AllowDBWriteAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\ReadOnlyFilter.cs" />
     <Compile Include="Infrastructure\Business\SiteOrderGroupCalculator.cs" />
@@ -782,6 +785,8 @@
     <Content Include="Styles\b2b\mixins\_form.less" />
     <Content Include="Views\OrganizationPage\Edit.cshtml" />
     <Content Include="Views\OrganizationPage\AddSub.cshtml" />
+    <Content Include="Views\SubOrganizationPage\Index.cshtml" />
+    <Content Include="Views\SubOrganizationPage\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

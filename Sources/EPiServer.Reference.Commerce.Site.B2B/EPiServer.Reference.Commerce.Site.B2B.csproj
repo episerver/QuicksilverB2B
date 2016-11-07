@@ -238,6 +238,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
     <Compile Include="Models\Pages\OrganizationPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

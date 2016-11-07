@@ -6,6 +6,10 @@
 .btn.btn-default:hover {
   background-color: #eee;
 }
+.btn.btn-default.active {
+  background: #f2f2f2;
+  box-shadow: none;
+}
 input,
 select,
 textarea {

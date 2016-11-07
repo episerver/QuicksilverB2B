@@ -13,5 +13,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
             var viewModel = new OrganizationPageViewModel { CurrentPage = currentPage };
             return View(viewModel);
         }
+        public ActionResult Edit(OrganizationPage currentPage)
+        {
+            var viewModel = new OrganizationPageViewModel { CurrentPage = currentPage };
+            return View(viewModel);
+        }
+        public ActionResult AddSub(OrganizationPage currentPage)
+        {
+            var viewModel = new OrganizationPageViewModel { CurrentPage = currentPage };
+            return View(viewModel);
+        }
     }
 }

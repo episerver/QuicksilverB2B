@@ -31,7 +31,7 @@
                                 Organization
                             </div>
                             <div class="col-xs-6">
-                                <strong>@Model.Contact.B2BOrganization.Name</strong> <a class="btn btn-primary btn-xs mypages-new-address-btn" href="/en/my-pages/address-book/EditForm/"><span class="fa fa-pencil"></span></a>
+                                <strong>@Model.Contact.B2BOrganization.Name</strong> <a class="btn btn-primary btn-xs mypages-new-address-btn" href="@(Url.ContentUrl(Model.OrganizationPage))?showForm=true"><span class="fa fa-pencil"></span></a>
                             </div>
                         </div>
                     }
@@ -43,7 +43,7 @@
                                 Organization
                             </div>
                             <div class="col-xs-6">
-                                <a class="btn btn-primary btn-sm mypages-new-address-btn" href="/en/my-pages/address-book/EditForm/">Create</a>
+                                <a class="btn btn-primary btn-sm mypages-new-address-btn" href="@(Url.ContentUrl(Model.OrganizationPage))?showForm=true">Create</a>
                             </div>
                         </div>
                     }

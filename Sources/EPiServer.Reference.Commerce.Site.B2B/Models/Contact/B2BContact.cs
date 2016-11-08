@@ -27,6 +27,8 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.Contact
             set { Contact.OwnerId = value.OrganizationEntity.PrimaryKeyId; }
         }
 
+        public Budget Budget { get; set; }
+
         public void SaveChanges()
         {
             Contact.SaveChanges();

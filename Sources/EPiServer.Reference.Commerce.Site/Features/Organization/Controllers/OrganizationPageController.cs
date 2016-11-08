@@ -10,6 +10,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
     {
         public ActionResult Index(OrganizationPage currentPage)
         {
+
+            if (Request.QueryString["showForm"] != null && bool.Parse(Request.QueryString["showForm"]))
+            {
+                return RedirectToAction("Edit");
+            }
+
             var viewModel = new OrganizationPageViewModel { CurrentPage = currentPage };
             return View(viewModel);
         }

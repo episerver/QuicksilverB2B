@@ -31,51 +31,54 @@
                                 Organization
                             </div>
                             <div class="col-xs-6">
-                                <strong>@Model.Contact.B2BOrganization.Name</strong> <a class="btn btn-primary btn-xs mypages-new-address-btn" href="/en/my-pages/address-book/EditForm/"><span class="fa fa-pencil"></span></a>
+                                <strong>@Model.Contact.B2BOrganization.Name</strong> <a class="btn btn-primary btn-xs mypages-new-address-btn" href="@(Url.ContentUrl(Model.OrganizationPage))?showForm=true"><span class="fa fa-pencil"></span></a>
                             </div>
                         </div>
                     }
                     else
-                    { 
+                    {
                         <!-- Appears if there's no organization created -->
                         <div class="row spacer-bottom-l">
                             <div class="col-xs-6 col-sm-3">
                                 Organization
                             </div>
                             <div class="col-xs-6">
-                                <a class="btn btn-primary btn-sm mypages-new-address-btn" href="/en/my-pages/address-book/EditForm/">Create</a>
+                                <a class="btn btn-primary btn-sm mypages-new-address-btn" href="@(Url.ContentUrl(Model.OrganizationPage))?showForm=true">Create</a>
                             </div>
                         </div>
                     }
                 </div>
+                @if(Model.Contact.Budget != null)
+                {
                 <!-- Wireframe 5.0 starts here -->
                 <h2 class="h3">Personal Budget</h2>
-                <div class="max-width">
-                    <div class="row spacer-top-l spacer-bottom-l">
-                        <div class="col-xs-6 col-sm-3">
-                            Allocated
+                    <div class="max-width">
+                        <div class="row spacer-top-l spacer-bottom-l">
+                            <div class="col-xs-6 col-sm-3">
+                                Allocated
+                            </div>
+                            <div class="col-xs-6">
+                                <strong>$20,000</strong>
+                            </div>
                         </div>
-                        <div class="col-xs-6">
-                            <strong>$20,000</strong>
+                        <div class="row spacer-bottom-l">
+                            <div class="col-xs-6 col-sm-3">
+                                Spent
+                            </div>
+                            <div class="col-xs-6">
+                                <strong>$5,000</strong>
+                            </div>
+                        </div>
+                        <div class="row spacer-bottom-l">
+                            <div class="col-xs-6 col-sm-3">
+                                Remaining
+                            </div>
+                            <div class="col-xs-6">
+                                <strong class="text-success">$15,000</strong>
+                            </div>
                         </div>
                     </div>
-                    <div class="row spacer-bottom-l">
-                        <div class="col-xs-6 col-sm-3">
-                            Spent
-                        </div>
-                        <div class="col-xs-6">
-                            <strong>$5,000</strong>
-                        </div>
-                    </div>
-                    <div class="row spacer-bottom-l">
-                        <div class="col-xs-6 col-sm-3">
-                            Remaining
-                        </div>
-                        <div class="col-xs-6">
-                            <strong class="text-success">$15,000</strong>
-                        </div>
-                    </div>
-                </div>
+                }
             </div>
         </main>
     </div>

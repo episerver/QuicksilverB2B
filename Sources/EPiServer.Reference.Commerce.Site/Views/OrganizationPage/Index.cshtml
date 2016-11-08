@@ -1,41 +1,10 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.Organization.ViewModels.OrganizationPageViewModel
-
 <div class="container-fluid">
     <div class="row myPage">
-        <aside class="col-xs-12 col-sm-3 sidebar-nav">
-            <h2 class="h3">Account</h2>
-            <ul class="nav nav-stacked" role="tablist">
-                <li role="presentation" class="is-active">
-                    <a href="/en/my-pages/profile/" aria-expanded="True">Profile</a>
-                </li>
-                <li role="presentation" class="">
-                    <a href="/en/my-pages/address-book/" aria-expanded="False">Address book</a>
-                </li>
-                <li role="presentation" class="">
-                    <a href="/en/my-pages/order-history/" aria-expanded="False">Order history</a>
-                </li>
-                <li role="presentation" class="">
-                    <a href="/en/my-pages/wish-list/" aria-expanded="False">Wish list</a>
-                </li>
-                <li role="presentation" class="">
-                    <a href="/en/my-pages/reset-password/" aria-expanded="False">Reset password</a>
-                </li>
-
-            </ul>
-            <h2 class="h3">Organization</h2>
-            <ul class="nav nav-stacked" role="tablist">
-                <li role="presentation">
-                    <a href="#" class="" aria-expanded="">[Organization]</a>
-                    <ul class="nav nav-stacked" role="tablist">
-                        <li><a href="#" class="" aria-expanded="">[Suborganization A]</a></li>
-                        <li><a href="#" class="" aria-expanded="">[Suborganization B]</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </aside>
+        @Html.Partial("_CmsNavigation", Model.CurrentPage)
         <main class="col-xs-12 col-sm-9">
             <div class="spacer-left-l">
-             <div class="btn-group spacer-bottom-l" role="group" aria-label="">
+                <div class="btn-group spacer-bottom-l" role="group" aria-label="">
                     <a href="@Url.Action("Index", "OrganizationPage")" class="btn btn-default active">Overview</a>
                     <a href="#" class="btn btn-default">Users</a>
                     <a href="#" class="btn btn-default">Orders</a>
@@ -96,7 +65,6 @@
                         </tbody>
                     </table>
                 </section>
-
             </div>
         </main>
     </div>

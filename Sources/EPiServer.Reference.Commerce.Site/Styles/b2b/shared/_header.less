@@ -11,6 +11,20 @@
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#050505', endColorstr='#333333',GradientType=0 ); /* IE6-9 */
     border-radius: 0;
 
+    .shopping-btn-container {
+      font-size: 0;
+    }
+
+    .cart-dropdown {
+      padding: 0;
+      &.open {
+        .btn-cart,
+        .btn-favorites {
+          background: #444;
+        }
+      }
+    }
+
     .dropdown {
         a {
             color: rgba(255,255,255,.81);

@@ -32,14 +32,23 @@
         }
     }
 
-    &.btn-cart {
-        background: @brand-red;
-        box-shadow: 0 0 0 3px @brand-red, 0 5px 9px 0 rgba(0, 0, 0, 0.8);
-    }
-
     &.btn-cart,
     &.btn-favorites {
+        position: static;
         border-radius: 0;
+        padding: 0;
+        border: none;
+        padding: 13px 16px 12px 16px;
+        box-shadow: none;
+        margin: 0;
+        background: transparent;
+        transition: .1s ease all;
+        &:hover {
+          background: #444;
+        }
+    }
+
+    &.btn-favorites {
     }
 
     &.btn-danger {

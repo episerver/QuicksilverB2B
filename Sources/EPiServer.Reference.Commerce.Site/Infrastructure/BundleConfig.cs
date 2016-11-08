@@ -20,6 +20,9 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
 
             bundles.Add(new ScriptBundle("~/bundles/js").Include(
                         "~/Scripts/js/*.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/pickaday").Include(
+                "~/Scripts/pickaday.min.js"));
             
             bundles.Add(new StyleBundle("~/styles/bundled").Include(
                         "~/Styles/style.css",

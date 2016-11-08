@@ -1,4 +1,5 @@
 ﻿using EPiServer.Reference.Commerce.Site.B2B.Extensions;
+using EPiServer.Reference.Commerce.Site.B2B.Models.Entities;
 using Mediachase.Commerce.Customers;
 
 namespace EPiServer.Reference.Commerce.Site.B2B.Models.Contact
@@ -21,14 +22,12 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.Contact
             set { Contact.Properties[Constants.Fields.UserRole].Value = value; }
         }
 
-        public Organization B2BOrganization {
-            get { return Contact.ContactOrganization; }
-            set
-            {
-                Contact.OwnerId = value.PrimaryKeyId;
-                SaveChanges();
-            }
+        public B2BOrganization B2BOrganization {
+            get { return Contact.ContactOrganization != null ? new B2BOrganization(Contact.ContactOrganization) : null; }
+            set { Contact.OwnerId = value.OrganizationEntity.PrimaryKeyId; }
         }
+
+        public Budget Budget { get; set; }
 
         public void SaveChanges()
         {

@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
+using EPiServer.Reference.Commerce.Site.B2B.Models.Pages;
 using EPiServer.Reference.Commerce.Site.Infrastructure;
 using EPiServer.SpecializedProperties;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
@@ -94,6 +95,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
             Order = 6)]
         [AllowedTypes(typeof(ResetPasswordPage))]
         public virtual ContentReference ResetPasswordPage { get; set; }
+
+        [Display(
+            Name = "Organization Main Page",
+            Description = "",
+            GroupName = SiteTabs.SiteStructure,
+            Order = 7)]
+        [AllowedTypes(typeof(OrganizationPage))]
+        public virtual ContentReference OrganizationMainPage { get; set; }
 
         [Display(
             Name = "Order confirmation mail",

@@ -388,6 +388,9 @@
     </Compile>
     <Compile Include="Features\AddressBook\ViewModels\AddressCollectionViewModel.cs" />
     <Compile Include="Features\AddressBook\ViewModels\AddressViewModel.cs" />
+    <Compile Include="Features\Budgeting\Controllers\BudgetingPageController.cs" />
+    <Compile Include="Features\Budgeting\Pages\BudgetingPage.cs" />
+    <Compile Include="Features\Budgeting\ViewModels\BudgetingPageViewModel.cs" />
     <Compile Include="Features\Cart\Extensions\CartExtensions.cs" />
     <Compile Include="Features\Cart\ViewModels\CartViewModelBase.cs" />
     <Compile Include="Features\Cart\ViewModels\ShipmentViewModel.cs" />
@@ -409,6 +412,7 @@
     <Compile Include="Features\Checkout\ViewModels\UpdateShippingMethodViewModel.cs" />
     <Compile Include="Features\Market\Services\MarketContentLoader.cs" />
     <Compile Include="Features\Orders\Controllers\OrdersPageController.cs" />
+    <Compile Include="Features\Orders\Pages\OrdersPage.cs" />
     <Compile Include="Features\Orders\ViewModels\OrdersPageViewModel.cs" />
     <Compile Include="Features\Organization\Controllers\OrganizationPageController.cs" />
     <Compile Include="Features\Organization\ViewModels\OrganizationPageViewModel.cs" />
@@ -797,6 +801,9 @@
     <Content Include="Views\UsersPage\Index.cshtml" />
     <Content Include="Views\UsersPage\AddUser.cshtml" />
     <Content Include="Views\UsersPage\EditUser.cshtml" />
+    <Content Include="Views\BudgetingPage\Index.cshtml" />
+    <Content Include="Views\BudgetingPage\AddBudget.cshtml" />
+    <Content Include="Views\BudgetingPage\EditBudget.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -936,7 +943,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Features\Orders\Pages\" />
     <Folder Include="Views\OrdersPage\" />
   </ItemGroup>
   <PropertyGroup>

@@ -801,6 +801,7 @@
     <Content Include="Views\UsersPage\Index.cshtml" />
     <Content Include="Views\UsersPage\AddUser.cshtml" />
     <Content Include="Views\UsersPage\EditUser.cshtml" />
+    <Content Include="Views\OrdersPage\Index.cshtml" />
     <Content Include="Views\BudgetingPage\Index.cshtml" />
     <Content Include="Views\BudgetingPage\AddBudget.cshtml" />
     <Content Include="Views\BudgetingPage\EditBudget.cshtml" />
@@ -942,9 +943,7 @@
       <Name>EPiServer.Reference.Commerce.Site.B2B</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\OrdersPage\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

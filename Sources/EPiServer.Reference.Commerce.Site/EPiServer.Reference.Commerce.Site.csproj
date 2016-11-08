@@ -337,6 +337,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\js\AddressBook.js" />
+    <Content Include="Scripts\js\Budgeting.js" />
     <Content Include="Scripts\js\Cart.js" />
     <Content Include="Scripts\js\Checkout.js" />
     <Content Include="Scripts\js\Login.js" />
@@ -347,6 +348,8 @@
     <Content Include="Scripts\js\Product.js" />
     <Content Include="Scripts\js\Registration.js" />
     <Content Include="Scripts\js\Search.js" />
+    <Content Include="Scripts\pickaday.min.js" />
+    <None Include="Styles\b2b\components\_pikaday.less" />
     <Content Include="Styles\b2b\components\_navigation.less" />
     <Content Include="Styles\b2b\global.css" />
     <Content Include="Styles\b2b\mixins\_mixins.less" />
@@ -805,6 +808,8 @@
     <Content Include="Views\BudgetingPage\Index.cshtml" />
     <Content Include="Views\BudgetingPage\AddBudget.cshtml" />
     <Content Include="Views\BudgetingPage\EditBudget.cshtml" />
+    <Content Include="Styles\b2b\shared\_header.less" />
+    <Content Include="Styles\b2b\shared\_typography.less" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

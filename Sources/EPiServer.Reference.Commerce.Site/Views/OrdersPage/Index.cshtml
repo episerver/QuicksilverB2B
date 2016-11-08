@@ -1,0 +1,100 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.Orders.ViewModels.OrdersPageViewModel
+<div class="container-fluid">
+    <div class="row myPage">
+        <aside class="col-xs-12 col-sm-3 sidebar-nav">
+            <h2 class="h3">Account</h2>
+            <ul class="nav nav-stacked" role="tablist">
+                <li role="presentation" class="is-active">
+                    <a href="/en/my-pages/profile/" aria-expanded="True">Profile</a>
+                </li>
+                <li role="presentation" class="">
+                    <a href="/en/my-pages/address-book/" aria-expanded="False">Address book</a>
+                </li>
+                <li role="presentation" class="">
+                    <a href="/en/my-pages/order-history/" aria-expanded="False">Order history</a>
+                </li>
+                <li role="presentation" class="">
+                    <a href="/en/my-pages/wish-list/" aria-expanded="False">Wish list</a>
+                </li>
+                <li role="presentation" class="">
+                    <a href="/en/my-pages/reset-password/" aria-expanded="False">Reset password</a>
+                </li>
+            </ul>
+            <h2 class="h3">Organization</h2>
+            <ul class="nav nav-stacked" role="tablist">
+                <li role="presentation">
+                    <a href="#" class="" aria-expanded="">[Organization]</a>
+                    <ul class="nav nav-stacked" role="tablist">
+                        <li><a href="#" class="" aria-expanded="">[Suborganization A]</a></li>
+                        <li><a href="#" class="" aria-expanded="">[Suborganization B]</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </aside>
+        <main class="col-xs-12 col-sm-9">
+            <div class="spacer-left-l">
+                <div class="btn-group spacer-bottom-l" role="group" aria-label="">
+                    <a href="@Url.Action("Index", "OrganizationPage")" class="btn btn-default active">Overview</a>
+                    <a href="#" class="btn btn-default">Users</a>
+                    <a href="#" class="btn btn-default">Orders</a>
+                    <a href="#" class="btn btn-default">Order Pad</a>
+                    <a href="#" class="btn btn-default">Budgeting</a>
+                </div>
+                <section class="spacer-bottom-l">
+                    <div class="section-title spacer-bottom-l">
+                        <h2 class="h3">Organization Info</h2>
+                        <a href="@Url.Action("Edit", "OrganizationPage")" class="btn btn-primary btn-sm spacer-left-m">Edit</a>
+                    </div>
+                    <form>
+                        <div class="form-group">
+                            <label>Name</label>
+                            <br />
+                            <input type="text" disabled value="[Organization Name]" />
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <br />
+                            <textarea disabled>[Organization Address]</textarea>
+                        </div>
+                    </form>
+                </section>
+                <section>
+                    <div class="section-title spacer-bottom-l">
+                        <h2 class="h3">Suborganizations</h2>
+                        <a href="@Url.Action("AddSub", "OrganizationPage")" class="btn btn-primary btn-sm spacer-left-m">Add New</a>
+                    </div>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>name</th>
+                                <th>spent budget</th>
+                                <th>allocated budget</th>
+                                <th>start date</th>
+                                <th>end date</th>
+                                <th>status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="#">[Suborganization A]</a></td>
+                                <td>$200,000</td>
+                                <td>$600,000</td>
+                                <td>September 1st, 2016</td>
+                                <td>February 2nd, 2017</td>
+                                <td>active</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#">[Suborganization B]</a></td>
+                                <td>$200,000</td>
+                                <td>$600,000</td>
+                                <td>September 1st, 2016</td>
+                                <td>February 2nd, 2017</td>
+                                <td>on hold</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+        </main>
+    </div>
+</div>

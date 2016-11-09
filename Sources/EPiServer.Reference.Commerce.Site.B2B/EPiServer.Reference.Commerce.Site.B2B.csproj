@@ -257,7 +257,7 @@
     <Compile Include="Services\AddressService.cs" />
     <Compile Include="Services\CustomerService.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
     <Compile Include="ServiceContracts\ICartServiceB2B.cs" />
     <Compile Include="Services\CartServiceB2B.cs" />
   </ItemGroup>

@@ -1,0 +1,16 @@
+﻿@using EPiServer.Reference.Commerce.Site.Features.Navigation.Extensions
+@model EPiServer.Reference.Commerce.Site.Features.Navigation.ViewModels.NavigationViewModel
+@{
+    Layout = null;
+}
+
+@if (Model.UserLinks != null && Model.UserLinks.Any())
+{
+    <div class="btn-group spacer-bottom-l" role="group" aria-label="">
+        @foreach (var userLink in Model.UserLinks)
+        {
+            var selected = userLink.GetContentReference() == Model.CurrentContentLink;
+            <a href="@Url.PageUrl(userLink.Href)" class="btn btn-default @(selected ? "active" : "")">@userLink.Text</a>
+        }
+    </div>
+}

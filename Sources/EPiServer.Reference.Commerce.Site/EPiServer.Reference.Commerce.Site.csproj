@@ -450,7 +450,6 @@
     <Compile Include="Features\SubOrganization\Pages\SubOrganizationPage.cs" />
     <Compile Include="Features\SubOrganization\ViewModels\SubOrganizationPageViewModel.cs" />
     <Compile Include="Features\Users\Controllers\UsersPageController.cs" />
-    <Compile Include="Features\Users\Pages\UsersPage.cs" />
     <Compile Include="Features\Users\ViewModels\UsersPageViewModel.cs" />
     <Compile Include="Infrastructure\Attributes\AllowDBWriteAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\ReadOnlyFilter.cs" />

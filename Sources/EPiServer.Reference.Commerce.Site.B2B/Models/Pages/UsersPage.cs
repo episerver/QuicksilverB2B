@@ -5,9 +5,9 @@ using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.SpecializedProperties;
 
-namespace EPiServer.Reference.Commerce.Site.Features.Users.Pages
+namespace EPiServer.Reference.Commerce.Site.B2B.Models.Pages
 {
-    [ContentType(DisplayName = "UsersPage", GUID = "8118b44f-17d9-47af-a40c-c77d1aa0d2ae", Description = "", AvailableInEditMode = false)]
+    [ContentType(DisplayName = "UsersPage", GUID = "8118b44f-17d9-47af-a40c-c77d1aa0d2ae", Description = "", AvailableInEditMode = true)]
     public class UsersPage : PageData
     {
         [CultureSpecific]

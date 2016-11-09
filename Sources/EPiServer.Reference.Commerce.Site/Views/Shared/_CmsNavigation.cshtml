@@ -7,7 +7,7 @@
     <h2 class="h3">Account</h2>
     <ul class="nav nav-stacked" role="tablist">
         @{
-            foreach (var sibling in siblings)
+            foreach (var sibling in siblings.Where(page => page.VisibleInMenu))
             {
                 var selected = sibling.ContentLink == Model.ContentLink;
                 <li role="presentation" class="@(selected ? "is-active" : "")">

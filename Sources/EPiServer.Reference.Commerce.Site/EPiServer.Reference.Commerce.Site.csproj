@@ -337,15 +337,19 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\js\AddressBook.js" />
+    <Content Include="Scripts\js\Budgeting.js" />
     <Content Include="Scripts\js\Cart.js" />
     <Content Include="Scripts\js\Checkout.js" />
     <Content Include="Scripts\js\Login.js" />
     <Content Include="Scripts\js\Market.js" />
     <Content Include="Scripts\js\Misc.js" />
     <Content Include="Scripts\js\Navigation.js" />
+    <Content Include="Scripts\js\Organization.js" />
     <Content Include="Scripts\js\Product.js" />
     <Content Include="Scripts\js\Registration.js" />
     <Content Include="Scripts\js\Search.js" />
+    <Content Include="Scripts\pickaday.min.js" />
+    <None Include="Styles\b2b\components\_pikaday.less" />
     <Content Include="Styles\b2b\components\_navigation.less" />
     <Content Include="Styles\b2b\global.css" />
     <Content Include="Styles\b2b\mixins\_mixins.less" />
@@ -387,6 +391,9 @@
     </Compile>
     <Compile Include="Features\AddressBook\ViewModels\AddressCollectionViewModel.cs" />
     <Compile Include="Features\AddressBook\ViewModels\AddressViewModel.cs" />
+    <Compile Include="Features\Budgeting\Controllers\BudgetingPageController.cs" />
+    <Compile Include="Features\Budgeting\Pages\BudgetingPage.cs" />
+    <Compile Include="Features\Budgeting\ViewModels\BudgetingPageViewModel.cs" />
     <Compile Include="Features\Cart\Extensions\CartExtensions.cs" />
     <Compile Include="Features\Cart\ViewModels\CartViewModelBase.cs" />
     <Compile Include="Features\Cart\ViewModels\ShipmentViewModel.cs" />
@@ -407,8 +414,10 @@
     <Compile Include="Features\Checkout\ViewModels\UpdateAddressViewModel.cs" />
     <Compile Include="Features\Checkout\ViewModels\UpdateShippingMethodViewModel.cs" />
     <Compile Include="Features\Market\Services\MarketContentLoader.cs" />
+    <Compile Include="Features\Orders\Controllers\OrdersPageController.cs" />
+    <Compile Include="Features\Orders\Pages\OrdersPage.cs" />
+    <Compile Include="Features\Orders\ViewModels\OrdersPageViewModel.cs" />
     <Compile Include="Features\Organization\Controllers\OrganizationPageController.cs" />
-    <Compile Include="Features\Organization\Pages\OrganizationPage.cs" />
     <Compile Include="Features\Organization\ViewModels\OrganizationPageViewModel.cs" />
     <Compile Include="Features\Payment\Models\PaymentMethodModel.cs" />
     <Compile Include="Features\Payment\Services\IPaymentService.cs" />
@@ -437,6 +446,11 @@
     <Compile Include="Features\Shared\ViewModels\PageViewModel.cs" />
     <Compile Include="Features\Start\Models\PromotionViewModel.cs" />
     <Compile Include="Features\Start\Models\StartPageViewModel.cs" />
+    <Compile Include="Features\SubOrganization\Controllers\SubOrganizationPageController.cs" />
+    <Compile Include="Features\SubOrganization\Pages\SubOrganizationPage.cs" />
+    <Compile Include="Features\SubOrganization\ViewModels\SubOrganizationPageViewModel.cs" />
+    <Compile Include="Features\Users\Controllers\UsersPageController.cs" />
+    <Compile Include="Features\Users\ViewModels\UsersPageViewModel.cs" />
     <Compile Include="Infrastructure\Attributes\AllowDBWriteAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\ReadOnlyFilter.cs" />
     <Compile Include="Infrastructure\Business\SiteOrderGroupCalculator.cs" />
@@ -781,6 +795,19 @@
     <Content Include="Styles\b2b\mixins\_buttons.less" />
     <Content Include="Styles\b2b\shared\_base.less" />
     <Content Include="Styles\b2b\mixins\_form.less" />
+    <Content Include="Views\OrganizationPage\Edit.cshtml" />
+    <Content Include="Views\OrganizationPage\AddSub.cshtml" />
+    <Content Include="Views\SubOrganizationPage\Index.cshtml" />
+    <Content Include="Views\SubOrganizationPage\Edit.cshtml" />
+    <Content Include="Views\UsersPage\Index.cshtml" />
+    <Content Include="Views\UsersPage\AddUser.cshtml" />
+    <Content Include="Views\UsersPage\EditUser.cshtml" />
+    <Content Include="Views\OrdersPage\Index.cshtml" />
+    <Content Include="Views\BudgetingPage\Index.cshtml" />
+    <Content Include="Views\BudgetingPage\AddBudget.cshtml" />
+    <Content Include="Views\BudgetingPage\EditBudget.cshtml" />
+    <Content Include="Styles\b2b\shared\_header.less" />
+    <Content Include="Styles\b2b\shared\_typography.less" />
     <Content Include="Views\Checkout\_CheckoutInvalidOperationError.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -961,7 +988,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Target Name="BeforeBuild" DependsOnTargets="BuildLessFiles">
+  <Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">
     <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
@@ -969,9 +996,9 @@
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
     <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
   </Target>
-  <Target Name="BuildLessFiles">
+  <!--<Target Name="BuildLessFiles">
     <Exec WorkingDirectory="$(ProjectDir)" Command="&#xD;&#xA;          WHERE npm&#xD;&#xA;          IF %ERRORLEVEL% NEQ 0 ECHO nodejs is not installed. You need to install nodejs for changes in less files to appear in the css on the site. The old styles will still work.&#xD;&#xA;          IF %ERRORLEVEL% NEQ 0 GOTO :EOF&#xD;&#xA;          npm install &amp;&amp; npm run buildless" />
-  </Target>
+  </Target>-->
   <ItemGroup>
     <Content Include="modules\_protected\EPiServer.Commerce.Shell\EPiServer.Commerce.Shell.zip" />
     <Content Include="modules\_protected\Commerce\Commerce.zip" />

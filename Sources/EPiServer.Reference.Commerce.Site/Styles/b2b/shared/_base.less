@@ -46,6 +46,19 @@
     margin-left: 32px;
 }
 
+a {
+    color: @brand-red;
+    &:hover,
+    &:focus,
+    &:active {
+        color: @brand-red;
+    }
+}
+
+.product-row .product.has-discount::before {
+    background: @brand-red;
+}
+
 .section-title {
   
     .h1,
@@ -54,7 +67,8 @@
     .h4,
     .h5,
     .h6,
-    .btn {
+    .btn,
+     form{
         display: inline-block;
         vertical-align: middle;
         margin-top: 0;

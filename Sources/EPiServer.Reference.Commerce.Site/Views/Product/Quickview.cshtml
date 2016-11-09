@@ -61,14 +61,14 @@
                         using (Html.BeginForm("AddToCart", "Cart", FormMethod.Post, new { @class = "form-inline", data_container = "MiniCart" }))
                         {
                             @Html.Hidden("code", Model.Variation.Code)
-                            <button type="submit" role="button" class="btn btn-primary jsAddToCart" data-container="MiniCart"><span class="glyphicon glyphicon-shopping-cart"></span> @Html.Translate("/Product/Button/AddToCart")</button>
+                            <button type="submit" role="button" class="btn btn-danger jsAddToCart" data-container="MiniCart"><span class="fa fa-shopping-cart"></span> @Html.Translate("/Product/Button/AddToCart")</button>
                         }
                         if (User.Identity.IsAuthenticated)
                         {
                             using (Html.BeginForm("AddToCart", "WishList", FormMethod.Post, new { @class = "form-inline jsAddToWishList", data_container = "WishListMiniCart" }))
                             {
                                 @Html.Hidden("code", Model.Variation.Code)
-                                <button type="submit" role="button" class="btn btn-default btn--blue jsAddToCart" data-container="WishListMiniCart"><span class="glyphicon glyphicon-heart"></span> @Html.Translate("/Product/Button/AddToWishList")</button>
+                                <button type="submit" role="button" class="btn btn-default spacer-left-s jsAddToCart" data-container="WishListMiniCart"><span class="fa fa-star"></span> @Html.Translate("/Product/Button/AddToWishList")</button>
                             }
                         }
                     }

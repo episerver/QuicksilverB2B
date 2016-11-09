@@ -1,8 +1,107 @@
 ﻿input,
 select,
-textarea{
+textarea {
     border-radius: 2px;
     border: 1px solid #ccc;
-    width:240px;
-    padding:5px;
+    max-width: 240px;
+    width: 100%;
+    padding: 5px;
 }
+
+.form-horizontal {
+    label {
+        text-align: left;
+        margin-bottom: 0;
+        padding-top: 7px;
+        font-weight: normal;
+    }
+}
+
+.custom-select,
+.custom-search,
+.custom-date-input {
+    max-width: 240px;
+    width: 100%;
+}
+
+.custom-search {
+    position: relative;
+
+    .icon-search {
+        position: absolute;
+        right: 10px;
+        top: 8px;
+    }
+}
+
+.custom-date-input{
+    position: relative;
+    display: inline-block;
+    .icon-calendar {
+        position: absolute;
+        right: 10px;
+        top: 8px;
+    }
+}
+
+.custom-select {
+    position: relative;
+    background-color: #FFF;
+    margin: 0;
+    border-radius: 2px;
+    border: none;
+    display: inline-block;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    select {
+        background: transparent;
+        background-image: none;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        text-overflow: ellipsis;
+        text-indent: 0;
+        margin: 0;
+        padding-right: 35px;
+        box-shadow: none;
+        appearance: none;
+
+        &::-ms-expand {
+            display: none;
+        }
+
+        &:disabled {
+            background: rgb(235, 235, 228);
+        }
+
+        option {
+            padding: 0;
+        }
+    }
+}
+
+.custom-select-arrow {
+    position: absolute;
+    right: 10px;
+    top: 13px;
+    pointer-events: none;
+
+    &.arrow-down {
+        border-bottom: 0;
+        border-left: 5px solid rgba(255, 255, 255, 0);
+        border-right: 5px solid rgba(255, 255, 255, 0);
+        border-top: 8px solid #444444;
+    }
+}
+
+.custom-select-split {
+    position: absolute;
+    top: 0;
+    right: 30px;
+    width: 0;
+    height: 100%;
+    border-right: 1px solid #ccc;
+}
+

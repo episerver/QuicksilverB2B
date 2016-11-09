@@ -50,10 +50,18 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
 
         [CultureSpecific]
         [Display(
-            Name = "Main body",
+            Name = "B2B menu",
             Description = "",
             GroupName = SystemTabNames.Content,
             Order = 6)]
+        public virtual LinkItemCollection B2BMenu { get; set; }
+
+        [CultureSpecific]
+        [Display(
+            Name = "Main body",
+            Description = "",
+            GroupName = SystemTabNames.Content,
+            Order = 7)]
         public virtual XhtmlString MainBody { get; set; }
 
         [Display(

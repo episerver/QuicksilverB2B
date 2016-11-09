@@ -34,62 +34,48 @@
         <main class="col-xs-12 col-sm-9">
             <div class="spacer-left-l">
                 <div class="btn-group spacer-bottom-l" role="group" aria-label="">
-                    <a href="@Url.Action("Index", "OrganizationPage")" class="btn btn-default active">Overview</a>
+                    <a href="@Url.Action("Index", "OrganizationPage")" class="btn btn-default">Overview</a>
                     <a href="#" class="btn btn-default">Users</a>
-                    <a href="#" class="btn btn-default">Orders</a>
+                    <a href="#" class="btn btn-default active">Orders</a>
                     <a href="#" class="btn btn-default">Order Pad</a>
                     <a href="#" class="btn btn-default">Budgeting</a>
                 </div>
-                <section class="spacer-bottom-l">
-                    <div class="section-title spacer-bottom-l">
-                        <h2 class="h3">Organization Info</h2>
-                        <a href="@Url.Action("Edit", "OrganizationPage")" class="btn btn-primary btn-sm spacer-left-m">Edit</a>
-                    </div>
-                    <form>
-                        <div class="form-group">
-                            <label>Name</label>
-                            <br />
-                            <input type="text" disabled value="[Organization Name]" />
-                        </div>
-                        <div class="form-group">
-                            <label>Address</label>
-                            <br />
-                            <textarea disabled>[Organization Address]</textarea>
-                        </div>
-                    </form>
-                </section>
                 <section>
-                    <div class="section-title spacer-bottom-l">
-                        <h2 class="h3">Suborganizations</h2>
-                        <a href="@Url.Action("AddSub", "OrganizationPage")" class="btn btn-primary btn-sm spacer-left-m">Add New</a>
-                    </div>
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>name</th>
-                                <th>spent budget</th>
-                                <th>allocated budget</th>
-                                <th>start date</th>
-                                <th>end date</th>
+                                <th>order no.</th>
+                                <th>placed on</th>
+                                <th>amount</th>
+                                <th>suborganization</th>
+                                <th>user</th>
                                 <th>status</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><a href="#">[Suborganization A]</a></td>
-                                <td>$200,000</td>
-                                <td>$600,000</td>
-                                <td>September 1st, 2016</td>
-                                <td>February 2nd, 2017</td>
-                                <td>active</td>
+                                <td><a href="#">#22548</a></td>
+                                <td>September 23rd, 2016</td>
+                                <td>$320</td>
+                                <td>Episerver EMEA</td>
+                                <td>Tina Mayer</td>
+                                <td>completed</td>
                             </tr>
                             <tr>
-                                <td><a href="#">[Suborganization B]</a></td>
-                                <td>$200,000</td>
-                                <td>$600,000</td>
-                                <td>September 1st, 2016</td>
-                                <td>February 2nd, 2017</td>
-                                <td>on hold</td>
+                                <td><a href="#">#23948</a></td>
+                                <td>September 23rd, 2016</td>
+                                <td>$120</td>
+                                <td>Episerver Americas</td>
+                                <td>Ashley Steward</td>
+                                <td>in progress</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#">#24589</a></td>
+                                <td>September 23rd, 2016</td>
+                                <td>$390</td>
+                                <td>Episerver Americas</td>
+                                <td>Mike Purchaser</td>
+                                <td>requested quote</td>
                             </tr>
                         </tbody>
                     </table>

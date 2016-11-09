@@ -6,6 +6,8 @@
             .on('click', '.jsRemoveCartItem', Cart.removeCartItem)
             .on('change', '.jsChangeCartItem', Cart.changeCartItem)
             .on('click', '.jsAddToCart', Cart.addCartItem)
+            .on('click', '.jsCartRequestQuote', Cart.requestQuote)
+            .on('click', '.jsCartLoadOrder', Cart.loadOrder)
             .on('change', '#MiniCart', function () { $("#MiniCartResponsive").html($(this).html()); })
             .on('change', '#WishListMiniCart', function () { $("#WishListMiniCartResponsive").html($(this).html()); })
             .on('click', '.jsCartContinueShopping', function () {
@@ -97,6 +99,37 @@
                 $('.cartTotalAmountLabel', formContainer.parent()).text($('#CartTotalAmount', formContainer).val());
 
                 formContainer.change();
+            },
+            error: function (xhr, status, error) {
+                $(".warning-message", $("#CartWarningMessage")).html(xhr.statusText);
+                $("#CartWarningMessage").show();
+            }
+        });
+    },
+    requestQuote: function(e) {
+        var form = $(this).closest("form");
+        $.ajax({
+            type: "POST",
+            url:   form[0].action,
+            success: function (result) {
+                $("#CartQuoteSucceedMessage").show();
+                window.location.reload();
+            },
+            error: function (xhr, status, error) {
+                $(".warning-message", $("#CartWarningMessage")).html(xhr.statusText);
+                $("#CartWarningMessage").show();
+            }
+        });
+    },
+    loadOrder: function (e) {
+        var form = $(this).closest("form");
+        var orderLink = $(".jsCartLoadOrder").data("order-link");
+        $.ajax({
+            type: "POST",
+            url: form[0].action,
+            data: {orderLink : orderLink},
+            success: function (result) {
+                window.location = result.link;
             },
             error: function (xhr, status, error) {
                 $(".warning-message", $("#CartWarningMessage")).html(xhr.statusText);

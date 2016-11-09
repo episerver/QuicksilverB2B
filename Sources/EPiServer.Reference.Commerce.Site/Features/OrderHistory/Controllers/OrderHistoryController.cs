@@ -1,17 +1,14 @@
-﻿using EPiServer.Commerce.Catalog.ContentTypes;
-using EPiServer.Globalization;
-using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
+﻿using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.OrderHistory.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Web.Mvc;
-using Mediachase.Commerce.Catalog;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using EPiServer.Commerce.Order;
 using EPiServer.Reference.Commerce.Site.Features.OrderHistory.ViewModels;
+using Mediachase.Commerce.Orders;
 
 namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.Controllers
 {
@@ -32,9 +29,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.Controllers
         [HttpGet]
         public ActionResult Index(OrderHistoryPage currentPage)
         {
-            var purchaseOrders = _orderRepository.Load<IPurchaseOrder>(_customerContext.CurrentContactId)
+            var iPurchaseOrders = _orderRepository.Load<IPurchaseOrder>(_customerContext.CurrentContactId)
                                              .OrderByDescending(x => x.Created)
                                              .ToList();
+
+            var purchaseOrders = iPurchaseOrders.Cast<PurchaseOrder>().ToList();
 
             var viewModel = new OrderHistoryViewModel
             {
@@ -46,8 +45,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.Controllers
             {
                 // Assume there is only one form per purchase.
                 var form = purchaseOrder.GetFirstForm();
-                var billingAddress = form.Payments.First().BillingAddress;
-
+ 
+                var billingAddress = form.Payments.FirstOrDefault() != null ? form.Payments.First().BillingAddress : new OrderAddress();
                 var orderViewModel = new OrderViewModel
                 {
                     PurchaseOrder = purchaseOrder,
@@ -59,10 +58,17 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.Controllers
                     ShippingAddresses = new List<AddressModel>()
                 };
 
-                foreach (var orderAddress in purchaseOrder.Forms.SelectMany(x => x.Shipments).Select(s => s.ShippingAddress))
+                foreach (var orderAddress in form.Shipments.Select(s => s.ShippingAddress))
                 {
                     var shippingAddress = _addressBookService.ConvertToModel(orderAddress);
                     orderViewModel.ShippingAddresses.Add(shippingAddress);
+                    orderViewModel.OrderGroupId = purchaseOrder.OrderGroupId;
+                }
+
+                if (!string.IsNullOrEmpty(purchaseOrder["QuoteStatus"]?.ToString()) && 
+                    (purchaseOrder.Status == OrderStatus.InProgress.ToString() || purchaseOrder.Status == OrderStatus.OnHold.ToString()) )
+                {
+                    orderViewModel.QuoteStatus = purchaseOrder["QuoteStatus"].ToString();
                 }
 
                 viewModel.Orders.Add(orderViewModel);

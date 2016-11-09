@@ -573,6 +573,7 @@
     <Compile Include="Infrastructure\Indexing\IndexingHelper.cs" />
     <Compile Include="Infrastructure\Indexing\SearchDocumentController.cs" />
     <Compile Include="Features\Shared\ModelBinders\DecimalModelBinder.cs" />
+    <Compile Include="Infrastructure\InitializationModules\MetaDataPlusInitialization.cs" />
     <Compile Include="Infrastructure\Owin\Startup.cs" />
     <Compile Include="Infrastructure\Descriptors\FashionProductUIDescriptor.cs" />
     <Compile Include="Infrastructure\CustomCurrencySiteContext.cs" />
@@ -780,6 +781,7 @@
     <Content Include="Styles\b2b\mixins\_buttons.less" />
     <Content Include="Styles\b2b\shared\_base.less" />
     <Content Include="Styles\b2b\mixins\_form.less" />
+    <Content Include="Views\Checkout\_CheckoutInvalidOperationError.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -912,6 +914,10 @@
     <ProjectReference Include="..\EPiServer.Reference.Commerce.Shared\EPiServer.Reference.Commerce.Shared.csproj">
       <Project>{341c8e14-4eae-4946-9841-45f9818265a8}</Project>
       <Name>EPiServer.Reference.Commerce.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EPiServer.Reference.Commerce.Site.B2B\EPiServer.Reference.Commerce.Site.B2B.csproj">
+      <Project>{3E1439F1-F51E-47D6-BEA4-D7AFF1881745}</Project>
+      <Name>EPiServer.Reference.Commerce.Site.B2B</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

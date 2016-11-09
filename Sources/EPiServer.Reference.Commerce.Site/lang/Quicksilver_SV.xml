@@ -17,6 +17,7 @@
         <Button>
           <Close>Stäng</Close>
           <GoToCheckout>Fortsätt till utcheckningen</GoToCheckout>
+          <RequestQuotation>Offertförfrågan</RequestQuotation> 
         </Button>
       </MiniCart>
     </Header>

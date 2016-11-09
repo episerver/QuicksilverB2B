@@ -3,6 +3,7 @@ using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using System.Web.Mvc;
+using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
 {
@@ -12,15 +13,18 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         private ICart _cart;
         private readonly IOrderRepository _orderRepository;
         readonly CartViewModelFactory _cartViewModelFactory;
+        private readonly ICartServiceB2B _cartServiceB2B;
 
         public CartController(
             ICartService cartService,
             IOrderRepository orderRepository,
-            CartViewModelFactory cartViewModelFactory)
+            CartViewModelFactory cartViewModelFactory,
+            ICartServiceB2B cartServiceB2B)
         {
             _cartService = cartService;
             _orderRepository = orderRepository;
             _cartViewModelFactory = cartViewModelFactory;
+            _cartServiceB2B = cartServiceB2B;
         }
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
@@ -50,6 +54,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
                 _cart = _cartService.LoadOrCreateCart(_cartService.DefaultCartName);
             }
 
+            // If order comes from an quoted order.
+            if (Cart.Properties["ParentOrderGroupId"] != null)
+            {
+                int orderLink = int.Parse(Cart.Properties["ParentOrderGroupId"].ToString());
+                if (orderLink != 0)
+                {
+                    return new HttpStatusCodeResult(500, "Invalid operation on quoted cart.");
+                }
+            }
+
             if (_cartService.AddToCart(Cart, code, out warningMessage))
             {
                 _orderRepository.Save(Cart);
@@ -67,15 +81,55 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         public ActionResult ChangeCartItem(int shipmentId, string code, decimal quantity, string size, string newSize)
         {
             ModelState.Clear();
-
+            if (quantity != 0)
+            {
+                // If order comes from an quoted order.
+                if (Cart.Properties["ParentOrderGroupId"] != null)
+                {
+                    int orderLink = int.Parse(Cart.Properties["ParentOrderGroupId"].ToString());
+                    if (orderLink != 0)
+                    {
+                        return new HttpStatusCodeResult(500, "Invalid operation on quoted cart.");
+                    }
+                }
+            }
+          
             _cartService.ChangeCartItem(Cart, shipmentId, code, quantity, size, newSize);
             _orderRepository.Save(Cart);
             return MiniCartDetails();
         }
 
+        [HttpPost]
+        [AllowDBWrite]
+        public ActionResult RequestQuote()
+        {
+            bool succesRequest;
+            if (Cart == null)
+            {
+                _cart = _cartService.LoadOrCreateCart(_cartService.DefaultCartName);
+                succesRequest = _cartServiceB2B.PlaceCartForQuote(_cart);
+            }
+            else
+            {
+                succesRequest = _cartServiceB2B.PlaceCartForQuote(Cart);
+            }
+            _cartServiceB2B.DeleteCart(_cart);
+            _cart = _cartServiceB2B.CreateNewCart();
+
+            return Json(new { result = succesRequest });
+        }
+
         private ICart Cart
         {
             get { return _cart ?? (_cart = _cartService.LoadCart(_cartService.DefaultCartName)); }
+        }
+
+        public CartViewModelFactory CartViewModelFactory
+        {
+            get
+            {
+                return _cartViewModelFactory;
+            }
         }
     }
 }

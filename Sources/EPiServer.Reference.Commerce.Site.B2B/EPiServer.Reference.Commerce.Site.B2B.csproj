@@ -237,11 +237,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceContracts\ICartServiceB2B.cs" />
+    <Compile Include="Services\CartServiceB2B.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ServiceContracts\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />

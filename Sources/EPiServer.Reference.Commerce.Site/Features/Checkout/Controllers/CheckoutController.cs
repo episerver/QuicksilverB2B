@@ -29,6 +29,8 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using EPiServer.Logging;
+using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 {
@@ -47,8 +49,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         private readonly IOrderRepository _orderRepository;
         private readonly IPromotionEngine _promotionEngine;
         private readonly ICartService _cartService;
+        private readonly ICartServiceB2B _cartServiceB2B;
         private readonly IAddressBookService _addressBookService;
         private readonly IOrderFactory _orderFactory;
+        private readonly IContentLoader _contentLoader;
         private ICart _cart;
 
         public CheckoutController(IContentRepository contentRepository,
@@ -65,7 +69,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             ICartService cartService,
             IAddressBookService addressBookService,
             OrderSummaryViewModelFactory orderSummaryViewModelFactory,
-            IOrderFactory orderFactory)
+            IOrderFactory orderFactory,
+            ICartServiceB2B cartServiceB2B,
+            IContentLoader contentLoader)
         {
             _contentRepository = contentRepository;
             _mailService = mailService;
@@ -82,6 +88,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             _addressBookService = addressBookService;
             _orderSummaryViewModelFactory = orderSummaryViewModelFactory;
             _orderFactory = orderFactory;
+            _cartServiceB2B = cartServiceB2B;
+            _contentLoader = contentLoader;
         }
 
         [HttpGet]
@@ -90,6 +98,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         {
             if (CartIsNullOrEmpty())
             {
+                _cartServiceB2B.RemoveQuoteNumber(Cart);
                 return View("EmptyCart");
             }
 
@@ -292,16 +301,53 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             var startpage = _contentRepository.Get<StartPage>(ContentReference.StartPage);
             var confirmationPage = _contentRepository.GetFirstChild<OrderConfirmationPage>(checkoutViewModel.CurrentPage.ContentLink);
             IPurchaseOrder purchaseOrder = null;
-
+            IPurchaseOrder quoteOrder = null;
             try
             {
+                // If order comes from an quoted order.
+                if (Cart.Properties["ParentOrderGroupId"] != null)
+                {
+                    int orderLink = int.Parse(Cart.Properties["ParentOrderGroupId"].ToString());
+                    if (orderLink != 0)
+                    {
+                        quoteOrder = _orderRepository.Load<IPurchaseOrder>(orderLink);
+                        if (quoteOrder.Properties["QuoteStatus"] != null)
+                        {
+                            if (quoteOrder.Properties["QuoteStatus"].ToString().Equals("RequestQuotationFinished"))
+                            {
+                                DateTime quoteExpireDate;
+                                DateTime.TryParse(quoteOrder.Properties["QuoteExpireDate"].ToString(),
+                                    out quoteExpireDate);
+                                if (DateTime.Compare(DateTime.Now, quoteExpireDate) > 0)
+                                {
+                                    _orderRepository.Delete(Cart.OrderLink);
+                                    _orderRepository.Delete(quoteOrder.OrderLink);
+                                    throw new InvalidOperationException("Quote Expired");
+                                }
+                            }
+                        }
+                    }
+                }
                 purchaseOrder = PlaceOrder(checkoutViewModel);
             }
             catch (PaymentException)
             {
-                ModelState.AddModelError("", _localizationService.GetString("/Checkout/Payment/Errors/ProcessingPaymentFailure"));
+                ModelState.AddModelError("",
+                    _localizationService.GetString("/Checkout/Payment/Errors/ProcessingPaymentFailure"));
                 return View(checkoutViewModel, paymentViewModel);
             }
+            catch (InvalidOperationException)
+            {
+                return View("_CheckoutInvalidOperationError");
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetLogger(GetType()).Error("Failed processs on place order.", ex);
+
+            }
+
+            if(quoteOrder != null)
+                _orderRepository.Delete(quoteOrder.OrderLink);
 
             var queryCollection = new NameValueCollection
             {
@@ -310,7 +356,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             };
 
             SendConfirmationEmail(checkoutViewModel.BillingAddress.Email, startpage.OrderConfirmationMail, confirmationPage.Language.Name, queryCollection);
-
+          
             return Redirect(new UrlBuilder(confirmationPage.LinkURL) { QueryCollection = queryCollection }.ToString());
         }
 
@@ -408,8 +454,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             var payment = Cart.GetFirstForm().Payments.First();
             checkoutViewModel.Payment.PaymentMethod.PostProcess(payment);
 
-            var orderReference = _orderRepository.SaveAsPurchaseOrder(Cart);
-            var purchaseOrder = _orderRepository.Load<IPurchaseOrder>(orderReference.OrderGroupId);
+           var orderReference = _orderRepository.SaveAsPurchaseOrder(Cart);
+           var purchaseOrder = _orderRepository.Load<IPurchaseOrder>(orderReference.OrderGroupId);
             _orderRepository.Delete(Cart.OrderLink);
 
             return purchaseOrder;
@@ -449,7 +495,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             Cart.AddPayment(payment, _orderFactory);
             payment.BillingAddress = address;
         }
-                
+
         private ViewResult View(CheckoutViewModel checkoutViewModel, IPaymentMethodViewModel<PaymentMethodBase> paymentViewModel)
         {
             return View(checkoutViewModel.ViewName, CreateCheckoutViewModel(checkoutViewModel.CurrentPage, paymentViewModel));
@@ -472,6 +518,33 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             ModelState.AddModelError("Purchase", filterContext.Exception.Message);
 
             return View(viewModel.ViewName, viewModel);
+        }
+
+        public ActionResult LoadOrder(int orderLink)
+        {
+            bool success = false;
+            var purchaseOrder = _orderRepository.Load<IPurchaseOrder>(orderLink) as PurchaseOrder;
+
+            DateTime quoteExpireDate;
+            DateTime.TryParse(purchaseOrder["QuoteExpireDate"].ToString(), out quoteExpireDate);
+            if (DateTime.Compare(DateTime.Now, quoteExpireDate) > 0) return Json(new { success = success });
+            if (Cart.OrderLink != null)
+                _orderRepository.Delete(Cart.OrderLink);
+
+            _cart = _cartServiceB2B.CreateNewCart();
+            var returnedCart =_cartServiceB2B.PlaceOrderToCart(purchaseOrder, _cart);
+
+            returnedCart.Properties["ParentOrderGroupId"] = purchaseOrder.OrderGroupId;
+            _orderRepository.Save(returnedCart);
+
+            // Get URL of the checkout page
+            var homePage = DataFactory.Instance.GetPage(ContentReference.StartPage);
+            var checkoutPage = DataFactory.Instance.GetChildren<CheckoutPage>(homePage.PageLink).FirstOrDefault();
+
+            //TODO replace with content loader if possible and extend type to get link url
+            //var checkoutPage = _contentLoader.Get<StartPage>(ContentReference.StartPage).CheckoutPage;
+
+            return Json(new { link = checkoutPage.LinkURL}); 
         }
 
         protected override void OnException(ExceptionContext filterContext)
@@ -513,7 +586,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
         private ICart Cart
         {
-            get { return _cart ?? (_cart = _cartService.LoadCart(_cartService.DefaultCartName)); }
+            get { return _cart ?? (_cart = _cartService.LoadCart(_cartService.DefaultCartName));}
         }
 
         private bool CartIsNullOrEmpty()

@@ -414,6 +414,9 @@
     <Compile Include="Features\Checkout\ViewModels\UpdateAddressViewModel.cs" />
     <Compile Include="Features\Checkout\ViewModels\UpdateShippingMethodViewModel.cs" />
     <Compile Include="Features\Market\Services\MarketContentLoader.cs" />
+    <Compile Include="Features\OrderPads\Controllers\OrderPadsPageController.cs" />
+    <Compile Include="Features\OrderPads\Pages\OrderPadsPage.cs" />
+    <Compile Include="Features\OrderPads\ViewModels\OrderPadsPageViewModel.cs" />
     <Compile Include="Features\Orders\Controllers\OrdersPageController.cs" />
     <Compile Include="Features\Orders\Pages\OrdersPage.cs" />
     <Compile Include="Features\Orders\ViewModels\OrdersPageViewModel.cs" />
@@ -809,6 +812,7 @@
     <Content Include="Styles\b2b\shared\_header.less" />
     <Content Include="Styles\b2b\shared\_typography.less" />
     <Content Include="Views\Checkout\_CheckoutInvalidOperationError.cshtml" />
+    <Content Include="Views\OrderPadsPage\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

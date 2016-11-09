@@ -13,22 +13,47 @@
                 </div>
                 <section class="spacer-bottom-l">
                     <div class="section-title spacer-bottom-l">
-                        <h2 class="h3">Edit parent organization</h2>
+                        @if (Model.Organization.OrganizationId == Guid.Empty)
+                        {
+                            <h2 class="h3">
+                                Add New Organization
+                            </h2>
+                        }
+                        else
+                        {
+                            <h2 class="h3">
+                                Edit parent organization
+                            </h2>
+                        }
                     </div>
-                    <form>
+                    @using (Html.BeginForm("Save", "OrganizationPage", FormMethod.Post))
+                    {
                         <div class="form-group">
-                            <label>Name</label>
-                            <br />
-                            <input required type="text" placeholder="" />
+                            @Html.LabelFor(x => x.Organization.Name)
+                            <br/>
+                            @Html.TextBoxFor(x => x.Organization.Name)
+                            @Html.ValidationMessageFor(x => x.Organization.Name)
                         </div>
+
                         <div class="form-group">
                             <label>Address</label>
                             <br />
-                            <textarea required></textarea>
                         </div>
-                    </form>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                    <a href="@Url.Action("Index", "OrganizationPage")" class="btn btn-default">Cancel</a>
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.Organization.Address.Name)
+                            @Html.TextBoxFor(x => x.Organization.Address.Name, new { @class = "form-control", autofocus = "autofocus" })
+                            @Html.ValidationMessageFor(x => x.Organization.Address.Name)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.Organization.Address.Line1)
+                            @Html.TextBoxFor(x => x.Organization.Address.Line1, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Organization.Address.Line1)
+                        </div>
+                        @Html.HiddenFor(x => x.Organization.Address.AddressId)
+                        @Html.HiddenFor(x => x.Organization.OrganizationId)
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <a href="@Url.Action("Index", "OrganizationPage")" class="btn btn-default">Cancel</a>
+                    }
                 </section>
             </div>
         </main>

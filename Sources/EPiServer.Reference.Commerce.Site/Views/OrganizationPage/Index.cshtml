@@ -20,12 +20,12 @@
                         <div class="form-group">
                             <label>Name</label>
                             <br />
-                            <input type="text" disabled value="[Organization Name]" />
+                            <input type="text" disabled value="@Model.Organization.Name" />
                         </div>
                         <div class="form-group">
                             <label>Address</label>
                             <br />
-                            <textarea disabled>[Organization Address]</textarea>
+                            <textarea disabled>@Model.Organization.Address.Name : @Model.Organization.Address.Line1</textarea>
                         </div>
                     </form>
                 </section>

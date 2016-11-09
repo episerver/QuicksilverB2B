@@ -587,7 +587,6 @@
     <Compile Include="Infrastructure\Indexing\IndexingHelper.cs" />
     <Compile Include="Infrastructure\Indexing\SearchDocumentController.cs" />
     <Compile Include="Features\Shared\ModelBinders\DecimalModelBinder.cs" />
-    <Compile Include="Infrastructure\InitializationModules\MetadataInitialization.cs" />
     <Compile Include="Infrastructure\InitializationModules\MetaDataPlusInitialization.cs" />
     <Compile Include="Infrastructure\Owin\Startup.cs" />
     <Compile Include="Infrastructure\Descriptors\FashionProductUIDescriptor.cs" />
@@ -809,6 +808,7 @@
     <Content Include="Views\BudgetingPage\EditBudget.cshtml" />
     <Content Include="Styles\b2b\shared\_header.less" />
     <Content Include="Styles\b2b\shared\_typography.less" />
+    <Content Include="Views\Checkout\_CheckoutInvalidOperationError.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

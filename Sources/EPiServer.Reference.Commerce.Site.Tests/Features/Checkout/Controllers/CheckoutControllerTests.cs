@@ -30,6 +30,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
@@ -236,9 +237,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
         private readonly Mock<IPaymentProcessor> _paymentProcessorMock;
         private readonly Mock<IPromotionEngine> _promotionEngineMock;
         private readonly Mock<ICartService> _cartServiceMock;
+        private readonly Mock<ICartServiceB2B> _cartServiceB2BMock;
         private readonly Mock<IAddressBookService> _addressBookServiceMock;
         private readonly Mock<OrderSummaryViewModelFactory> _orderSummaryViewModelFactoryMock;
         private readonly Mock<IOrderFactory> _orderFactoryMock;
+        private readonly Mock<IContentLoader> _contentLoaderMock;
         private readonly ICart _cart;
 
         public CheckoutControllerTests()
@@ -251,6 +254,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
             _mailServiceMock = new Mock<IMailService>();
             _localizationService = new MemoryLocalizationService();
             _currencyServiceMock = new Mock<ICurrencyService>();
+            _cartServiceB2BMock = new Mock<ICartServiceB2B>();
             _customerContextFacadeMock = new Mock<CustomerContextFacade>();
             _orderRepositoryMock = new Mock<IOrderRepository>();
             _orderGroupCalculatorMock = new Mock<IOrderGroupCalculator>();
@@ -261,6 +265,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
             _orderSummaryViewModelFactoryMock = new Mock<OrderSummaryViewModelFactory>(null, null, null, null);
             _checkoutViewModelFactoryMock = new Mock<CheckoutViewModelFactory>(null, null, null, null, null, null, null, null);
             _orderFactoryMock = new Mock<IOrderFactory>();
+            _contentLoaderMock = new Mock<IContentLoader>();
             _cart = new FakeCart(null, new Currency("USD"));
             _exceptionContext = new ExceptionContext
             {
@@ -280,7 +285,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
             _subject = new CheckoutControllerForTest(_contentRepositoryMock.Object, _mailServiceMock.Object, _localizationService,
                 _currencyServiceMock.Object, _controllerExceptionHandlerMock.Object, _customerContextFacadeMock.Object, _orderRepositoryMock.Object,
                 _checkoutViewModelFactoryMock.Object, _orderGroupCalculatorMock.Object, _paymentProcessorMock.Object, _promotionEngineMock.Object,
-                _cartServiceMock.Object, _addressBookServiceMock.Object, _orderSummaryViewModelFactoryMock.Object, _orderFactoryMock.Object);
+                _cartServiceMock.Object, _addressBookServiceMock.Object, _orderSummaryViewModelFactoryMock.Object, _orderFactoryMock.Object, _cartServiceB2BMock.Object, _contentLoaderMock.Object);
 
             _checkoutViewModelFactoryMock
                 .Setup(x => x.CreateCheckoutViewModel(It.IsAny<ICart>(), It.IsAny<CheckoutPage>(), It.IsAny<PaymentMethodViewModel<PaymentMethodBase>>()))
@@ -390,7 +395,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
                 ICartService cartService,
                 IAddressBookService addressBookService,
                 OrderSummaryViewModelFactory orderSummaryViewModelFactory,
-                IOrderFactory orderFactory
+                IOrderFactory orderFactory,
+                ICartServiceB2B cartServiceB2B,
+                IContentLoader contentLoader
                 )
                 : base(contentRepository,
                       mailService,
@@ -406,7 +413,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
                       cartService,
                       addressBookService,
                       orderSummaryViewModelFactory,
-                      orderFactory)
+                      orderFactory,
+                      cartServiceB2B,
+                      contentLoader)
             {
             }
 

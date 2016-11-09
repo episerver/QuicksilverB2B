@@ -1,5 +1,6 @@
 ﻿@using EPiServer.Commerce.Order
 @using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
+@using Mediachase.Commerce.Orders
 @model EPiServer.Reference.Commerce.Site.Features.OrderHistory.ViewModels.OrderHistoryViewModel
 
 
@@ -19,7 +20,8 @@
                 <div class="row section-box">
                     <div class="col-xs-12 col-sm-6">
                         <h3>@Html.Translate("/OrderHistory/Labels/OrderID") @order.PurchaseOrder.OrderNumber</h3>
-                        <p>@Html.Translate("/OrderHistory/Labels/OrderDate") @order.PurchaseOrder.Created.ToLongDateString()<br>@Html.Translate("/OrderHistory/Labels/Status") <strong>@order.PurchaseOrder.OrderStatus</strong></p>
+                        <p>@Html.Translate("/OrderHistory/Labels/OrderDate") @order.PurchaseOrder.Created.ToLongDateString()<br>@Html.Translate("/OrderHistory/Labels/Status") <strong>@(order.QuoteStatus ?? order.PurchaseOrder.OrderStatus.ToString())</strong>
+                        </p>
                         @Html.Translate("/OrderHistory/Labels/Payment")
                         @if (orderForm.Payments.Any())
                         {
@@ -42,11 +44,18 @@
                         <ul class="list-unstyled">
                             @foreach (var item in order.Items)
                             {
-                                <li><a href="@item.LineItem.GetUrl()" class="link--black"><img src="@item.LineItem.GetThumbnailUrl()" /> @item.LineItem.GetEntryContent().DisplayName</a></li>
+                                <li><a href="@item.LineItem.GetUrl()" class="link--black"><img src="@item.LineItem.GetThumbnailUrl()"/> @item.LineItem.GetEntryContent().DisplayName</a></li>
                             }
                         </ul>
                     </div>
                 </div>
+                if (order.QuoteStatus != null && order.QuoteStatus.Equals("RequestQuotationFinished"))
+                {
+                    using (@Html.BeginForm("LoadOrder", "Checkout", FormMethod.Post))
+                    {
+                        <button type="button" class="btn btn-block btn-warning jsCartLoadOrder" aria-expanded="false" data-order-link="@order.OrderGroupId">@Html.Translate("/Header/MiniCart/Button/GoToCheckout")</button>
+                    }
+                }
             }
         </div>
     </div>

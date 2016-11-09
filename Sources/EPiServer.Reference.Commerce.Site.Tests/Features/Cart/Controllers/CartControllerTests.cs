@@ -1,4 +1,5 @@
 using EPiServer.Commerce.Order;
+using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Controllers;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
@@ -65,15 +66,17 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Controllers
         private readonly Mock<ICartService> _cartServiceMock;
         private readonly Mock<IOrderRepository> _orderRepositoryMock;
         private readonly Mock<CartViewModelFactory> _cartViewModelFactoryMock;
+        private readonly Mock<ICartServiceB2B> _cartServiceB2BMock;
 
         public CartControllerTests()
         {
             string warningMessage = null;
             _cartServiceMock = new Mock<ICartService>();
+            _cartServiceB2BMock = new Mock<ICartServiceB2B>();
             _cartViewModelFactoryMock = new Mock<CartViewModelFactory>(null, null, null, null, null);
             _orderRepositoryMock = new Mock<IOrderRepository>();
             _cartServiceMock.Setup(x => x.AddToCart(It.IsAny<ICart>(), "Code 1", out warningMessage)).Returns(true).Verifiable();
-            _subject = new CartController(_cartServiceMock.Object, _orderRepositoryMock.Object, _cartViewModelFactoryMock.Object);
+            _subject = new CartController(_cartServiceMock.Object, _orderRepositoryMock.Object, _cartViewModelFactoryMock.Object, _cartServiceB2BMock.Object);
         }
     }
 }

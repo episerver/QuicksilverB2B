@@ -17,6 +17,7 @@
         <Button>
           <Close>Close</Close>
           <GoToCheckout>Proceed to checkout</GoToCheckout>
+          <RequestQuotation>Request Quotation</RequestQuotation>
         </Button>
       </MiniCart>
     </Header>

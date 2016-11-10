@@ -344,11 +344,13 @@
     <Content Include="Scripts\js\Market.js" />
     <Content Include="Scripts\js\Misc.js" />
     <Content Include="Scripts\js\Navigation.js" />
+    <Content Include="Scripts\js\OrderPads.js" />
     <Content Include="Scripts\js\Organization.js" />
     <Content Include="Scripts\js\Product.js" />
     <Content Include="Scripts\js\Registration.js" />
     <Content Include="Scripts\js\Search.js" />
     <Content Include="Scripts\pickaday.min.js" />
+    <Content Include="Styles\b2b\components\_orderPadsTable.less" />
     <None Include="Styles\b2b\components\_pikaday.less" />
     <Content Include="Styles\b2b\components\_navigation.less" />
     <Content Include="Styles\b2b\global.css" />
@@ -414,6 +416,9 @@
     <Compile Include="Features\Checkout\ViewModels\UpdateAddressViewModel.cs" />
     <Compile Include="Features\Checkout\ViewModels\UpdateShippingMethodViewModel.cs" />
     <Compile Include="Features\Market\Services\MarketContentLoader.cs" />
+    <Compile Include="Features\OrderPads\Controllers\OrderPadsPageController.cs" />
+    <Compile Include="Features\OrderPads\Pages\OrderPadsPage.cs" />
+    <Compile Include="Features\OrderPads\ViewModels\OrderPadsPageViewModel.cs" />
     <Compile Include="Features\Navigation\ViewModels\OrgNavigationViewModel.cs" />
     <Compile Include="Features\Orders\Controllers\OrdersPageController.cs" />
     <Compile Include="Features\Orders\Pages\OrdersPage.cs" />
@@ -452,7 +457,6 @@
     <Compile Include="Features\SubOrganization\Pages\SubOrganizationPage.cs" />
     <Compile Include="Features\SubOrganization\ViewModels\SubOrganizationPageViewModel.cs" />
     <Compile Include="Features\Users\Controllers\UsersPageController.cs" />
-    <Compile Include="Features\Users\Pages\UsersPage.cs" />
     <Compile Include="Features\Users\ViewModels\UsersPageViewModel.cs" />
     <Compile Include="Infrastructure\Attributes\AllowDBWriteAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\ReadOnlyFilter.cs" />
@@ -590,7 +594,6 @@
     <Compile Include="Infrastructure\Indexing\IndexingHelper.cs" />
     <Compile Include="Infrastructure\Indexing\SearchDocumentController.cs" />
     <Compile Include="Features\Shared\ModelBinders\DecimalModelBinder.cs" />
-    <Compile Include="Infrastructure\InitializationModules\MetadataInitialization.cs" />
     <Compile Include="Infrastructure\InitializationModules\MetaDataPlusInitialization.cs" />
     <Compile Include="Infrastructure\Owin\Startup.cs" />
     <Compile Include="Infrastructure\Descriptors\FashionProductUIDescriptor.cs" />
@@ -812,6 +815,8 @@
     <Content Include="Views\BudgetingPage\EditBudget.cshtml" />
     <Content Include="Styles\b2b\shared\_header.less" />
     <Content Include="Styles\b2b\shared\_typography.less" />
+    <Content Include="Views\Checkout\_CheckoutInvalidOperationError.cshtml" />
+    <Content Include="Views\OrderPadsPage\Index.cshtml" />
     <Content Include="Views\Shared\_OrgNavigation.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

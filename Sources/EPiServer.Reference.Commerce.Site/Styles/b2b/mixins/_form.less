@@ -18,7 +18,8 @@ textarea {
 }
 
 .custom-select,
-.custom-search {
+.custom-search,
+.custom-date-input {
     max-width: 240px;
     width: 100%;
 }
@@ -27,6 +28,16 @@ textarea {
     position: relative;
 
     .icon-search {
+        position: absolute;
+        right: 10px;
+        top: 8px;
+    }
+}
+
+.custom-date-input{
+    position: relative;
+    display: inline-block;
+    .icon-calendar {
         position: absolute;
         right: 10px;
         top: 8px;
@@ -93,3 +104,4 @@ textarea {
     height: 100%;
     border-right: 1px solid #ccc;
 }
+

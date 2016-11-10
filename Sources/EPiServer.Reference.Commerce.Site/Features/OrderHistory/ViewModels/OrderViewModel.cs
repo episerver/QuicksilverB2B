@@ -10,5 +10,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.ViewModels
         public IEnumerable<OrderHistoryItemViewModel> Items { get; set; }
         public AddressModel BillingAddress { get; set; }
         public IList<AddressModel> ShippingAddresses { get; set; }
+        public string QuoteStatus { get; set; }
+        public int OrderGroupId { get; set; }
     }
 }

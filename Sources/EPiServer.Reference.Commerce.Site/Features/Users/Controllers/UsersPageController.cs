@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using EPiServer.Reference.Commerce.Site.Features.Users.Pages;
+﻿using System.Web.Mvc;
+using EPiServer.Reference.Commerce.Site.B2B.Models.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Users.ViewModels;
 using EPiServer.Web.Mvc;
 

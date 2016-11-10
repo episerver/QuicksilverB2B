@@ -77,7 +77,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             services.AddTransient<IModelBinderProvider, ModelBinderProvider>();
             services.AddHttpContextOrThreadScoped<SiteContext, CustomCurrencySiteContext>();
             services.AddTransient<HttpContextBase>(locator => HttpContext.Current.ContextBaseOrNull());
-
+            services.AddTransient<IOrderRepository, DefaultOrderRepository>();
             DependencyResolver.SetResolver(new StructureMapDependencyResolver(context.Container));
             GlobalConfiguration.Configure(config =>
             {

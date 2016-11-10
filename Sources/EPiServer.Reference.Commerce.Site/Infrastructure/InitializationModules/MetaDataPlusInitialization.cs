@@ -13,28 +13,35 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.InitializationModules
         public void Initialize(InitializationEngine context)
         {
             MetaDataContext mdContext = CatalogContext.MetaDataContext;
-
-            //AddMetaFieldToClass(mdContext, metaDataNamespace, metaClassName, metaFieldName, MetaDataType.LongString, 255,
-            //    true, false);
+            AddMetaFieldToClass(mdContext, "Mediachase.Commerce.Orders.System", "OrderFormEx", "QuoteExpireDate", MetaDataType.DateTime, 255,
+                true, false);
+            AddMetaFieldToClass(mdContext, "Mediachase.Commerce.Orders.System", "OrderFormEx", "QuoteStatus", MetaDataType.LongString, 255,
+                true, false);
+            AddMetaFieldToClass(mdContext, "Mediachase.Commerce.Orders.System", "OrderFormEx", "PreQuoteTotal", MetaDataType.Decimal, 255,
+                true, false, 9, 38);
+            AddMetaFieldToClass(mdContext, "Mediachase.Commerce.Orders.System", "LineItemEx", "PreQuotePrice", MetaDataType.Decimal, 38,
+               true, false, 9, 38);
+            AddMetaFieldToClass(mdContext, "Mediachase.Commerce.Orders.System", "ShoppingCart", "ParentOrderGroupId", MetaDataType.Int, 255,
+               true, false);
         }
 
         private void AddMetaFieldToClass(MetaDataContext mdContext, string metaDataNamespace, string metaClassName,
-            string metaFieldName, MetaDataType type, int length, bool allowNulls, bool cultureSpecific)
+            string metaFieldName, MetaDataType type, int length, bool allowNulls, bool cultureSpecific, int optScale = 2, int optPrecision = 18)
         {
             var metaField = CreateMetaField(mdContext, metaDataNamespace, metaFieldName, type, length, allowNulls,
-                cultureSpecific);
+                cultureSpecific,optScale, optPrecision);
             JoinField(mdContext, metaField, metaClassName);
         }
 
-        private MetaField CreateMetaField(MetaDataContext mdContext, string metaDataNamespace, string metaFieldName, MetaDataType type, int length, bool allowNulls, bool cultureSpecific)
+        private MetaField CreateMetaField(MetaDataContext mdContext, string metaDataNamespace, string metaFieldName, MetaDataType type, int length, bool allowNulls, bool cultureSpecific, int optScale = 2, int optPrecision = 18 )
         {
             var metaField = MetaField.Load(mdContext, metaFieldName) ??
                     MetaField.Create(mdContext, metaDataNamespace, metaFieldName, metaFieldName, string.Empty, type, length, allowNulls, cultureSpecific, false, false);
 
             if (type != MetaDataType.Decimal) return metaField;
 
-            metaField.Attributes[MetaFieldAttributeConstants.MdpPrecisionAttributeName] = "18";
-            metaField.Attributes[MetaFieldAttributeConstants.MdpScaleAttributeName] = "2";
+            metaField.Attributes[MetaFieldAttributeConstants.MdpPrecisionAttributeName] = optPrecision.ToString();
+            metaField.Attributes[MetaFieldAttributeConstants.MdpScaleAttributeName] = optScale.ToString();
             return metaField;
         }
 

@@ -5,11 +5,12 @@ using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.SpecializedProperties;
 
-namespace EPiServer.Reference.Commerce.Site.Features.Users.Pages
+namespace EPiServer.Reference.Commerce.Site.Features.OrderPads.Pages
 {
-    [ContentType(DisplayName = "UsersPage", GUID = "8118b44f-17d9-47af-a40c-c77d1aa0d2ae", Description = "", AvailableInEditMode = false)]
-    public class UsersPage : PageData
+    [ContentType(DisplayName = "OrderPadsPage", GUID = "32114883-3ebb-4582-b864-7262ea177af0", Description = "")]
+    public class OrderPadsPage : PageData
     {
+
         [CultureSpecific]
         [Display(
             Name = "Main body",
@@ -17,5 +18,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Pages
             GroupName = SystemTabNames.Content,
             Order = 1)]
         public virtual XhtmlString MainBody { get; set; }
+
     }
 }

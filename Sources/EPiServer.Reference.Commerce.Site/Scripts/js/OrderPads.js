@@ -1,77 +1,105 @@
-﻿var orderPadsComponent = (function () {
+﻿var OrderPadsComponent = function(options) {
 
-    var $subOrganizationRows,
-        $userRows,
-        $productRows,
-        $expandUserRowsBtn,
-        $expandProductRowsBtn;
+    var $table,
+        $firstRows,
+        $secondRows,
+        $thirdRows,
+        $expandFirstRowsBtn,
+        $expandSecondRowsBtn;
+
+    function expandUserRows(e) {
+        e.preventDefault();
+        var $this = $(this);
+        var $thisIcon = $this.find('span');
+        var dataToExpandClassForUsers = $this.attr('data-expand');
+        var $usersRows = $firstRows.siblings('.' + dataToExpandClassForUsers);
+
+        if ($this.hasClass('js-second-row-collapsed')) {
+            $thisIcon.addClass('glyphicon-minus').removeClass('glyphicon-plus');
+            $usersRows.addClass('tr-show');
+            $this.removeClass('js-second-row-collapsed');
+        }
+        else {
+            $usersRows.each(function () {
+
+                var $this = $(this);
+                var $btn = $this.find('.btn');
+                var $icon = $btn.find('span');
+                var dataToExpandClassForProducts = $btn.attr('data-expand');
+
+                if (!$btn.hasClass('js-third-row-collapsed')) {
+                    $firstRows.siblings('.' + dataToExpandClassForProducts).removeClass('tr-show');
+                    $btn.addClass('js-third-row-collapsed');
+                    $icon.addClass('glyphicon-plus').removeClass('glyphicon-minus');
+                }
+
+                $this.removeClass('tr-show');
+            });
+            $thisIcon.addClass('glyphicon-plus').removeClass('glyphicon-minus');
+            $this.addClass('js-second-row-collapsed');
+        }
+    }
+
+    function expandProductRows(e) {
+        e.preventDefault();
+        var $this = $(this);
+        var $thisIcon = $this.find('span');
+        var dataToExpandClassForProducts = $this.attr('data-expand');
+
+        if ($this.hasClass('js-third-row-collapsed')) {
+            $this.removeClass('js-third-row-collapsed');
+            $thisIcon.addClass('glyphicon-minus').removeClass('glyphicon-plus');
+            $firstRows.siblings('.' + dataToExpandClassForProducts).addClass('tr-show');
+        }
+        else {
+            $thisIcon.addClass('glyphicon-plus').removeClass('glyphicon-minus');
+            $firstRows.siblings('.' + dataToExpandClassForProducts).removeClass('tr-show');
+            $this.addClass('js-third-row-collapsed');
+        }
+    }
 
     function bindEvents() {
-        $expandUserRowsBtn.click(function (e) {
-            e.preventDefault();
-            var $this = $(this);
-            var $thisIcon = $this.find('span');
-            var dataToExpandClassForUsers = $this.attr('data-expand');
-            var $usersRows = $subOrganizationRows.siblings('.' + dataToExpandClassForUsers);
+        $expandFirstRowsBtn.click(expandUserRows);
 
-            if ($this.hasClass('js-users-row-collapsed')) {
-                $thisIcon.addClass('glyphicon-minus').removeClass('glyphicon-plus');
-                $usersRows.addClass('tr-show');
-                $this.removeClass('js-users-row-collapsed');
-            } else {
-                $usersRows.each(function () {
+        if ($thirdRows.length > 0) {
+            $expandSecondRowsBtn.click(expandProductRows);
+        }
+    }
 
-                    var $this = $(this);
-                    var $btn = $this.find('.btn');
-                    var $icon = $btn.find('span');
-                    var dataToExpandClassForProducts = $btn.attr('data-expand');
+    function init(options) {
+        var table = options.table ? options.table : '';
+        var firstRow = options.firstRowClass ? options.firstRowClass : '.first-row';
+        var secondRow = options.secondRowClass ? options.secondRowClass : '.second-row';
+        var thirdRow = options.thirdRowClass ? options.thirdRowClass : '.third-row';
 
-                    if (!$btn.hasClass('js-products-row-collapsed')) {
-                        $subOrganizationRows.siblings('.' + dataToExpandClassForProducts).removeClass('tr-show');
-                        $btn.addClass('js-products-row-collapsed');
-                        $icon.addClass('glyphicon-plus').removeClass('glyphicon-minus');
-                    }
-                    
-                    $this.removeClass('tr-show');
-                });
-                $thisIcon.addClass('glyphicon-plus').removeClass('glyphicon-minus');
-                $this.addClass('js-users-row-collapsed');
+        $table = $(table);
+        $firstRows = $(firstRow, $table); // $('.sub-organization-row');
+        $secondRows = $(secondRow, $table); // $('.user-row');
+        $thirdRows = $(thirdRow, $table); // $('.product-row');
+
+        if ($table.length > 0) {
+            if ($secondRows.length > 0) {
+                $expandFirstRowsBtn = $firstRows.find('.btn');
+
+                if ($thirdRows.length > 0)
+                    $expandSecondRowsBtn = $secondRows.find('.btn');
+
+                bindEvents();
             }
-        });
-
-        $expandProductRowsBtn.click(function (e) {
-            e.preventDefault();
-            var $this = $(this);
-            var $thisIcon = $this.find('span');
-            var dataToExpandClassForProducts = $this.attr('data-expand');
-            if ($this.hasClass('js-products-row-collapsed')) {
-                $this.removeClass('js-products-row-collapsed');
-                $thisIcon.addClass('glyphicon-minus').removeClass('glyphicon-plus');
-                $subOrganizationRows.siblings('.' + dataToExpandClassForProducts).addClass('tr-show');
-            } else {
-                $thisIcon.addClass('glyphicon-plus').removeClass('glyphicon-minus');
-                $subOrganizationRows.siblings('.' + dataToExpandClassForProducts).removeClass('tr-show');
-                $this.addClass('js-products-row-collapsed');
-            }
-        });
+        }
     }
 
-    function init() {
-        $subOrganizationRows = $('.sub-organization-row');
-        $userRows = $('.user-row');
-        $productRows = $('.product-row');
-        $expandUserRowsBtn = $subOrganizationRows.find('.btn');
-        $expandProductRowsBtn = $userRows.find('.btn');
+    init(options);
 
-        bindEvents();
-    }
-
-    return {
-        init: init
-    }
-
-})();
+};
 
 $(document).ready(function () {
-    orderPadsComponent.init();
+
+    var firstTable = new OrderPadsComponent({
+        table: '#firstTable'
+    });
+
+    var secondTable = new OrderPadsComponent({
+        table: '#secondTable'
+    });
 });

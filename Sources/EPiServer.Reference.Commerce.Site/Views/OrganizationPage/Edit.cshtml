@@ -24,7 +24,7 @@
                     {
                         <div class="form-group">
                             @Html.LabelFor(x => x.Organization.Name)
-                            <br/>
+                            <br />
                             @Html.TextBoxFor(x => x.Organization.Name)
                             @Html.ValidationMessageFor(x => x.Organization.Name)
                         </div>
@@ -39,9 +39,50 @@
                             @Html.ValidationMessageFor(x => x.Organization.Address.Name)
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(x => x.Organization.Address.Line1)
-                            @Html.TextBoxFor(x => x.Organization.Address.Line1, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.Organization.Address.Line1)
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    @Html.LabelFor(x => x.Organization.Address.Street)
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            @Html.LabelFor(x => x.Organization.Address.City)
+                                        </div>
+                                        <div class="col-sm-6">
+                                            @Html.LabelFor(x => x.Organization.Address.PostalCode)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    @Html.LabelFor(x => x.Organization.Address.CountryCode)
+                                </div>
+                            </div>
+                            <div class="row location-row">
+                                <div class="form-group col-sm-3">
+                                    @Html.TextBoxFor(x => x.Organization.Address.Street, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.Organization.Address.Street)
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            @Html.TextBoxFor(x => x.Organization.Address.City, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Organization.Address.City)
+                                        </div>
+                                        <div class="col-sm-6">
+                                            @Html.TextBoxFor(x => x.Organization.Address.PostalCode, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Organization.Address.PostalCode)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <div class="custom-select">
+                                        <span class="custom-select-split"></span>
+                                        <span class="custom-select-arrow arrow-down"></span>
+                                        @Html.DropDownListFor(x => x.Organization.Address.CountryCode, new SelectList(Model.Organization.Address.CountryOptions, "Code", "Name", Model.Organization.Address.CountryCode), new { @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(x => x.Organization.Address.CountryCode)
+                                </div>
+                            </div>
                         </div>
                         @Html.HiddenFor(x => x.Organization.Address.AddressId)
                         @Html.HiddenFor(x => x.Organization.OrganizationId)

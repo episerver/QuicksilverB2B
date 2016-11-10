@@ -13,9 +13,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
     public class OrganizationPageController : PageController<OrganizationPage>
     {
         private readonly IOrganizationService _organizationService;
-        public OrganizationPageController(IOrganizationService organizationService)
+        private readonly IAddressService _addressService;
+        public OrganizationPageController(IOrganizationService organizationService, IAddressService addressService)
         {
             _organizationService = organizationService;
+            _addressService = addressService;
         }
 
         public ActionResult Index(OrganizationPage currentPage)
@@ -29,6 +31,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
                 CurrentPage = currentPage,
                 Organization = _organizationService.GetCurrentUserOrganization()
             };
+            if (viewModel.Organization?.Address != null)
+            {
+                viewModel.Organization.Address.CountryName = _addressService.GetCountryNameByCode(viewModel.Organization.Address.CountryCode);
+            }
+            else
+            {
+                if (viewModel.Organization != null) viewModel.Organization.Address = new B2BAddressViewModel();
+            }
             if (viewModel.Organization == null)
             {
                 return RedirectToAction("Edit");
@@ -43,7 +53,20 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
                 Organization = _organizationService.GetCurrentUserOrganization() ?? new OrganizationModel(),
                 CurrentPage = currentPage
             };
-
+            if (viewModel.Organization?.Address != null)
+            {
+                viewModel.Organization.Address.CountryOptions = _addressService.GetAllCountries();
+            }
+            else
+            {
+                if (viewModel.Organization != null)
+                {
+                    viewModel.Organization.Address = new B2BAddressViewModel
+                    {
+                        CountryOptions = _addressService.GetAllCountries()
+                    };
+                }
+            }
             return View(viewModel);
         }
         public ActionResult AddSub(OrganizationPage currentPage)

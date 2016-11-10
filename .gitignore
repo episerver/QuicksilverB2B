@@ -184,3 +184,4 @@ FakesAssemblies/
 # VS2015 settings folder
 .vs
 
+*.pubxml

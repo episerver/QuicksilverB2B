@@ -99,7 +99,9 @@
 					<Button id="CancelOrderButton" text="{OrderStrings:Cancel_Order}" commandName="btn_CancelOrderBtn" width="120" disableMode="true" permissions="order:mng:edit"></Button>
 					<Button id="OnHoldOrderButton" text="{OrderStrings:Place_On_Hold}" commandName="btn_OnHoldOrderBtn" width="120" disableMode="true" permissions="order:mng:edit"></Button>
 					<Button id="ReleaseHoldOrderButton" text="{OrderStrings:Release_Order_Hold}" commandName="btn_ReleaseHoldOrderBtn" width="120" disableMode="true" permissions="order:mng:edit"></Button>
+          <!-- B2B changes START -->
           <Button id="FinishedQuoteRequestButton" text="Finish Quote" tooltip="Click Me" commandName="btn_FinishedQuoteRequestBtn" disableMode="true" permissions="order:mng:edit"></Button>
+          <!-- B2B changes END -->
         </ButtonSet>
 			</add>
 		</ButtonSets>
@@ -213,11 +215,13 @@
 					</Handler>
 					<EnableHandler type="Mediachase.Commerce.Manager.Order.CommandHandlers.PurchaseOrderHandlers.ReleaseHoldPurchaseOrderHandler, Mediachase.ConsoleManager"></EnableHandler>
 				</Command>
+        <!-- B2B changes START -->
         <Command id="btn_FinishedQuoteRequestBtn">
           <CommandType>ServerAction</CommandType>
           <Handler type="EPiServer.Reference.Commerce.Manager.CustomCommands.FinishQuoteRequest, EPiServer.Reference.Commerce.Manager" />
           <EnableHandler type="EPiServer.Reference.Commerce.Manager.CustomCommands.FinishQuoteRequest, EPiServer.Reference.Commerce.Manager"></EnableHandler>
         </Command>
+        <!-- B2B changes END -->
 				<!-- LineItem commands -->
 				<Command id="cmdOrderLineItemNew">
 					<CommandType>OpenFrameModalPopup</CommandType>

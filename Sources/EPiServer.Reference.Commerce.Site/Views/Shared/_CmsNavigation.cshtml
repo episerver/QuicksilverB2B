@@ -16,14 +16,6 @@
             }
         }
     </ul>
-    <h2 class="h3">Organization</h2>
-    <ul class="nav nav-stacked" role="tablist">
-        <li role="presentation">
-            <a href="@Url.Action("Index","OrganizationPage")" class="" aria-expanded="">[Organization]</a>
-            <ul class="nav nav-stacked" role="tablist">
-                <li><a href="#" class="" aria-expanded="">[Suborganization A]</a></li>
-                <li><a href="#" class="" aria-expanded="">[Suborganization B]</a></li>
-            </ul>
-        </li>
-    </ul>
+
+    @Html.Action("OrgNavigation", "OrganizationNav")
 </aside>

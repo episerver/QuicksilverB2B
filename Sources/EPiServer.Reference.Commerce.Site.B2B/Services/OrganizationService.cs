@@ -1,4 +1,5 @@
-﻿using EPiServer.Reference.Commerce.Site.B2B.Enums;
+﻿using System;
+using EPiServer.Reference.Commerce.Site.B2B.Enums;
 using EPiServer.Reference.Commerce.Site.B2B.Models.Entities;
 using EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
@@ -22,9 +23,14 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
         public OrganizationModel GetCurrentUserOrganization()
         {
             var currentOrganization = GetCurrentUserOrganizationEntity();
-            return currentOrganization != null ? new OrganizationModel(currentOrganization) : null;
+            if (currentOrganization == null) return null;
+
+            if (currentOrganization.ParentOrganizationId == Guid.Empty) return new OrganizationModel(currentOrganization);
+
+            var parentOrganization = GetOrganizationEntityById(currentOrganization.ParentOrganizationId.ToString());
+            return new OrganizationModel(currentOrganization) {ParentOrganization = new OrganizationModel(parentOrganization)};
         }
-        
+
         public void CreateOrganization(OrganizationModel organizationInfo)
         {
             var organization = new B2BOrganization(Organization.CreateInstance()) {Name = organizationInfo.Name};

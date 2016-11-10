@@ -13,10 +13,10 @@
                             Name
                         </div>
                         <div class="col-xs-6">
-                            <strong>@Model.Contact.FirstName @Model.Contact.LastName</strong>
+                            <strong>@Model.Contact.FullName</strong>
                         </div>
                     </div>
-                    @if (Model.Contact.B2BOrganization != null)
+                    @if (Model.Contact.Organization != null)
                     {
                         <div class="row spacer-bottom-l">
                             <div class="col-xs-6 col-sm-3">
@@ -31,7 +31,7 @@
                                 Organization
                             </div>
                             <div class="col-xs-6">
-                                <strong>@Model.Contact.B2BOrganization.Name</strong> <a class="btn btn-primary btn-xs mypages-new-address-btn" href="@(Url.ContentUrl(Model.OrganizationPage))?showForm=true"><span class="fa fa-pencil"></span></a>
+                                <strong>@Model.Contact.Organization.Name</strong> <a class="btn btn-primary btn-xs mypages-new-address-btn" href="@(Url.ContentUrl(Model.OrganizationPage))?showForm=true"><span class="fa fa-pencil"></span></a>
                             </div>
                         </div>
                     }

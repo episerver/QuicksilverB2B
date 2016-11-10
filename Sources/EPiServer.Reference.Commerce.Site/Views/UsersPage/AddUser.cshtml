@@ -2,45 +2,10 @@
 
 <div class="container-fluid">
     <div class="row myPage">
-        <aside class="col-xs-12 col-sm-3 sidebar-nav">
-            <h2 class="h3">Account</h2>
-            <ul class="nav nav-stacked" role="tablist">
-                <li role="presentation" class="is-active">
-                    <a href="/en/my-pages/profile/" aria-expanded="True">Profile</a>
-                </li>
-                <li role="presentation" class="">
-                    <a href="/en/my-pages/address-book/" aria-expanded="False">Address book</a>
-                </li>
-                <li role="presentation" class="">
-                    <a href="/en/my-pages/order-history/" aria-expanded="False">Order history</a>
-                </li>
-                <li role="presentation" class="">
-                    <a href="/en/my-pages/wish-list/" aria-expanded="False">Wish list</a>
-                </li>
-                <li role="presentation" class="">
-                    <a href="/en/my-pages/reset-password/" aria-expanded="False">Reset password</a>
-                </li>
-            </ul>
-            <h2 class="h3">Organization</h2>
-            <ul class="nav nav-stacked" role="tablist">
-                <li role="presentation">
-                    <a href="@Url.Action("Index","OrganizationPage")" class="" aria-expanded="">[Organization]</a>
-                    <ul class="nav nav-stacked" role="tablist">
-                        <li><a href="@Url.Action("Index","SubOrganizationPage")" class="" aria-expanded="">[Sub-organization A]</a></li>
-                        <li><a href="@Url.Action("Index","SubOrganizationPage")" class="" aria-expanded="">[Sub-organization B]</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </aside>
+        @Html.Partial("_CmsNavigation", Model.CurrentPage)
         <main class="col-xs-12 col-sm-9">
             <div class="spacer-left-l">
-                <div class="btn-group spacer-bottom-l" role="group" aria-label="">
-                    <a href="#" class="btn btn-default active">Overview</a>
-                    <a href="#" class="btn btn-default">Users</a>
-                    <a href="#" class="btn btn-default">Orders</a>
-                    <a href="#" class="btn btn-default">Order Pad</a>
-                    <a href="#" class="btn btn-default">Budgeting</a>
-                </div>
+                @{ Html.RenderAction("Index", "B2BNavigation");}
                 <section class="spacer-bottom-l">
                     <div class="section-title spacer-bottom-l">
                         <h2 class="h3">Look up user or fill in their details</h2>
@@ -59,6 +24,55 @@
                     <div class="section-title spacer-bottom-l">
                         <h2 class="h3">User Details</h2>
                     </div>
+                    @using (Html.BeginForm("Save", "OrganizationPage", FormMethod.Post))
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.Contact.FirstName)
+                            <br />
+                            @Html.TextBoxFor(x => x.Contact.FirstName)
+                            @Html.ValidationMessageFor(x => x.Contact.FirstName)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.Contact.LastName)
+                            <br />
+                            @Html.TextBoxFor(x => x.Contact.LastName)
+                            @Html.ValidationMessageFor(x => x.Contact.LastName)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.Contact.Email)
+                            <br />
+                            @Html.TextBoxFor(x => x.Contact.Email)
+                            @Html.ValidationMessageFor(x => x.Contact.Email)
+                        </div>
+                        <div class="form-group">
+                            <label>Organization</label>
+                            <br />
+                            <div class="custom-select">
+                                <span class="custom-select-split"></span>
+                                <span class="custom-select-arrow arrow-down"></span>
+                                <select>
+                                    <option value="EpiserverAmericas" selected>Episerver Americas</option>
+                                    <option value="EpiserverEMEA">Episerver EMEA</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Role</label>
+                            <br />
+                            <div class="custom-select">
+                                <span class="custom-select-split"></span>
+                                <span class="custom-select-arrow arrow-down"></span>
+                                <select>
+                                    <option value="approver" selected>approver</option>
+                                    <option value="purchaser">purchaser</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="spacer-top-l">
+                            <button type="submit" class="btn btn-primary">Add</button>
+                            <a href="@Url.Action("Index", "UsersPage")" class="btn btn-default">Cancel</a>
+                        </div>
+                    }
                     <form>
                         <div class="form-group">
                             <label>Name</label>
@@ -352,10 +366,6 @@
                                     <option value="ZW">Zimbabwe</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="spacer-top-l">
-                            <button type="submit" class="btn btn-primary">Add</button>
-                            <a href="@Url.Action("Index", "UsersPage")" class="btn btn-default">Cancel</a>
                         </div>
                     </form>
                 </section>

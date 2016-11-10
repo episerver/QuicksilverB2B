@@ -822,6 +822,7 @@
     <Content Include="Views\OrderPadsPage\Index.cshtml" />
     <Content Include="Views\Shared\_OrgNavigation.cshtml" />
     <Content Include="Views\OrdersPage\QuickOrder.cshtml" />
+    <Content Include="Views\B2BNavigation\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

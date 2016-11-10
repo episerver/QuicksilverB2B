@@ -597,6 +597,7 @@
     <Compile Include="Infrastructure\Indexing\IndexingHelper.cs" />
     <Compile Include="Infrastructure\Indexing\SearchDocumentController.cs" />
     <Compile Include="Features\Shared\ModelBinders\DecimalModelBinder.cs" />
+    <Compile Include="Infrastructure\InitializationModules\MetadataInitialization.cs" />
     <Compile Include="Infrastructure\InitializationModules\MetaDataPlusInitialization.cs" />
     <Compile Include="Infrastructure\Owin\Startup.cs" />
     <Compile Include="Infrastructure\Descriptors\FashionProductUIDescriptor.cs" />

@@ -432,7 +432,7 @@
     <Compile Include="Features\Profile\ViewModels\ProfilePageViewModel.cs" />
     <Compile Include="Features\ResetPassword\ViewModels\ResetPasswordMailPageViewModel.cs" />
     <Compile Include="Features\Navigation\Controllers\OrganizationNavController.cs" />
-	<Compile Include="Features\Navigation\Controllers\B2BNavigationController.cs" />
+    <Compile Include="Features\Navigation\Controllers\B2BNavigationController.cs" />
     <Compile Include="Features\Shared\ViewModels\CountryRegionViewModel.cs" />
     <Compile Include="Features\ErrorHandling\Controllers\ErrorHandlingController.cs" />
     <Compile Include="Features\ErrorHandling\ViewModels\ErrorViewModel.cs" />
@@ -819,6 +819,7 @@
     <Content Include="Views\Checkout\_CheckoutInvalidOperationError.cshtml" />
     <Content Include="Views\OrderPadsPage\Index.cshtml" />
     <Content Include="Views\Shared\_OrgNavigation.cshtml" />
+    <Content Include="Views\B2BNavigation\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -344,11 +344,13 @@
     <Content Include="Scripts\js\Market.js" />
     <Content Include="Scripts\js\Misc.js" />
     <Content Include="Scripts\js\Navigation.js" />
+    <Content Include="Scripts\js\OrderPads.js" />
     <Content Include="Scripts\js\Organization.js" />
     <Content Include="Scripts\js\Product.js" />
     <Content Include="Scripts\js\Registration.js" />
     <Content Include="Scripts\js\Search.js" />
     <Content Include="Scripts\pickaday.min.js" />
+    <Content Include="Styles\b2b\components\_orderPadsTable.less" />
     <None Include="Styles\b2b\components\_pikaday.less" />
     <Content Include="Styles\b2b\components\_navigation.less" />
     <Content Include="Styles\b2b\global.css" />
@@ -414,7 +416,6 @@
     <Compile Include="Features\Checkout\ViewModels\UpdateAddressViewModel.cs" />
     <Compile Include="Features\Checkout\ViewModels\UpdateShippingMethodViewModel.cs" />
     <Compile Include="Features\Market\Services\MarketContentLoader.cs" />
-    <Compile Include="Features\Navigation\Controllers\B2BNavigationController.cs" />
     <Compile Include="Features\OrderPads\Controllers\OrderPadsPageController.cs" />
     <Compile Include="Features\OrderPads\Pages\OrderPadsPage.cs" />
     <Compile Include="Features\OrderPads\ViewModels\OrderPadsPageViewModel.cs" />
@@ -814,7 +815,6 @@
     <Content Include="Styles\b2b\shared\_typography.less" />
     <Content Include="Views\Checkout\_CheckoutInvalidOperationError.cshtml" />
     <Content Include="Views\OrderPadsPage\Index.cshtml" />
-    <Content Include="Views\B2BNavigation\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

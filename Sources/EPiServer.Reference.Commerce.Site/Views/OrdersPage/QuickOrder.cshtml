@@ -1,0 +1,89 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.Orders.ViewModels.OrdersPageViewModel
+
+<div class="container-fluid">
+    <div class="row myPage">
+        <aside class="col-xs-12 col-sm-3 sidebar-nav">
+            <h2 class="h3">Account</h2>
+            <ul class="nav nav-stacked" role="tablist">
+                <li role="presentation" class="is-active">
+                    <a href="/en/my-pages/profile/" aria-expanded="True">Profile</a>
+                </li>
+                <li role="presentation" class="">
+                    <a href="/en/my-pages/address-book/" aria-expanded="False">Address book</a>
+                </li>
+                <li role="presentation" class="">
+                    <a href="/en/my-pages/order-history/" aria-expanded="False">Order history</a>
+                </li>
+                <li role="presentation" class="">
+                    <a href="/en/my-pages/wish-list/" aria-expanded="False">Wish list</a>
+                </li>
+                <li role="presentation" class="">
+                    <a href="/en/my-pages/reset-password/" aria-expanded="False">Reset password</a>
+                </li>
+            </ul>
+            <h2 class="h3">Organization</h2>
+            <ul class="nav nav-stacked" role="tablist">
+                <li role="presentation">
+                    <a href="#" class="" aria-expanded="">[Organization]</a>
+                    <ul class="nav nav-stacked" role="tablist">
+                        <li><a href="#" class="" aria-expanded="">[Suborganization A]</a></li>
+                        <li><a href="#" class="" aria-expanded="">[Suborganization B]</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </aside>
+        <main class="col-xs-12 col-sm-9">
+            <div class="spacer-left-l">
+                <section>
+                    <div class="section-title spacer-bottom-l">
+                        <h2 class="h3">Quick Order Interface</h2>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label>Product name</label>
+                        </div>
+                        <div class="col-sm-2">
+                            <label>SKU</label>
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Unit Price</label>
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Quantity</label>
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Total Price</label>
+                        </div>
+                    </div>
+                    <form>
+                        <div class="row order-row">
+                            <div class="form-group col-sm-4">
+                                <input type="text" placeholder="" required />
+                            </div>
+                            <div class="form-group col-sm-2">
+                                <input type="text" placeholder="" required />
+                            </div>
+                            <div class="form-group col-sm-2">
+                                <input type="text" placeholder="" required />
+                            </div>
+                            <div class="form-group col-sm-2">
+                                <input type="text" placeholder="" required />
+                            </div>
+                            <div class="form-group col-sm-2">
+                                <input type="text" placeholder="" required />
+                            </div>
+                        </div>
+                        <a class="btn btn-sm btn-primary js-cloner" data-target="order-row">Add row</a>
+                        <div class="spacer-top-l">
+                            <input type="file" data-interface="lattice" data-label="Upload CVS">
+
+                            <button type="submit" class="btn btn-primary">Import</button>
+                            <a href="@Url.Action("Index", "UsersPage")" class="btn btn-default">Cancel</a>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </main>
+    </div>
+</div>

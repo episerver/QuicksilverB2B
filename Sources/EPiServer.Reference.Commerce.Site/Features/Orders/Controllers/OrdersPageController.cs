@@ -17,12 +17,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Orders
             var viewModel = new OrdersPageViewModel { CurrentPage = currentPage };
             return View(viewModel);
         }
-        public ActionResult Edit(OrdersPage currentPage)
-        {
-            var viewModel = new OrdersPageViewModel { CurrentPage = currentPage };
-            return View(viewModel);
-        }
-        public ActionResult AddSub(OrdersPage currentPage)
+        public ActionResult QuickOrder(OrdersPage currentPage)
         {
             var viewModel = new OrdersPageViewModel { CurrentPage = currentPage };
             return View(viewModel);

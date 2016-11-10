@@ -42,7 +42,7 @@
                     <a href="#" class="btn btn-default">Budgeting</a>
                 </div>
                 <section>
-                    <table class="table table-striped orders-pad-table">
+                    <table id="firstTable" class="table table-striped expandable-table">
                         <thead>
                             <tr>
                                 <th class="empty"></th>
@@ -56,24 +56,24 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="sub-organization-row">
+                            <tr class="first-row">
                                 <td colspan="8">
-                                    <a href="#" class="btn btn-primary btn-xs js-users-row-collapsed" data-expand="EpiserverEMEA">
+                                    <a href="#" class="btn btn-primary btn-xs js-second-row-collapsed" data-expand="EpiserverEMEA">
                                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                     </a>
                                     <span>Episerver EMEA</span>
                                 </td>
                             </tr>
-                            <tr class="user-row EpiserverEMEA">
+                            <tr class="second-row EpiserverEMEA">
                                 <td></td>
                                 <td colspan="7">
-                                    <a href="#" class="btn btn-primary btn-xs js-products-row-collapsed" data-expand="TinaMayer">
+                                    <a href="#" class="btn btn-primary btn-xs js-third-row-collapsed" data-expand="TinaMayer">
                                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                     </a>
                                     <span>Tina Mayer</span>
                                 </td>
                             </tr>
-                            <tr class="product-row TinaMayer">
+                            <tr class="third-row TinaMayer">
                                 <td></td>
                                 <td></td>
                                 <td><a href="#">#EPI7654</a></td>
@@ -90,7 +90,7 @@
                                     </a>
                                 </td>
                             </tr>
-                            <tr class="product-row TinaMayer">
+                            <tr class="third-row TinaMayer">
                                 <td></td>
                                 <td></td>
                                 <td><a href="#">#EPI7654</a></td>
@@ -108,24 +108,24 @@
                                 </td>
                             </tr>
                             <!-- NEW ORG -->
-                            <tr class="sub-organization-row">
+                            <tr class="first-row">
                                 <td colspan="8">
-                                    <a href="#" class="btn btn-primary btn-xs js-users-row-collapsed" data-expand="EpiserverAmericas">
+                                    <a href="#" class="btn btn-primary btn-xs js-second-row-collapsed" data-expand="EpiserverAmericas">
                                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                     </a>
                                     <span>Episerver Americas</span>
                                 </td>
                             </tr>
-                            <tr class="user-row EpiserverAmericas">
+                            <tr class="second-row EpiserverAmericas">
                                 <td></td>
                                 <td colspan="7">
-                                    <a href="#" class="btn btn-primary btn-xs js-products-row-collapsed" data-expand="AshleySteward">
+                                    <a href="#" class="btn btn-primary btn-xs js-third-row-collapsed" data-expand="AshleySteward">
                                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                     </a>
                                     <span>Ashley Steward</span>
                                 </td>
                             </tr>
-                            <tr class="product-row AshleySteward">
+                            <tr class="third-row AshleySteward">
                                 <td></td>
                                 <td></td>
                                 <td><a href="#">#EPI7654</a></td>
@@ -142,7 +142,7 @@
                                     </a>
                                 </td>
                             </tr>
-                            <tr class="product-row AshleySteward">
+                            <tr class="third-row AshleySteward">
                                 <td></td>
                                 <td></td>
                                 <td><a href="#">#EPI7654</a></td>
@@ -159,16 +159,16 @@
                                     </a>
                                 </td>
                             </tr>
-                            <tr class="user-row EpiserverAmericas">
+                            <tr class="second-row EpiserverAmericas">
                                 <td></td>
                                 <td colspan="7">
-                                    <a href="#" class="btn btn-primary btn-xs js-products-row-collapsed" data-expand="MikePurchaser">
+                                    <a href="#" class="btn btn-primary btn-xs js-third-row-collapsed" data-expand="MikePurchaser">
                                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                     </a>
                                     <span>Mike Purchaser</span>
                                 </td>
                             </tr>
-                            <tr class="product-row MikePurchaser">
+                            <tr class="third-row MikePurchaser">
                                 <td></td>
                                 <td></td>
                                 <td><a href="#">#EPI7654</a></td>
@@ -185,8 +185,105 @@
                                     </a>
                                 </td>
                             </tr>
-                            <tr class="product-row MikePurchaser">
+                            <tr class="third-row MikePurchaser">
                                 <td></td>
+                                <td></td>
+                                <td><a href="#">#EPI7654</a></td>
+                                <td>Mici cu bere</td>
+                                <td>$3200</td>
+                                <td>08/16/2016</td>
+                                <td>1000</td>
+                                <td class="text-right">
+                                    <a href="#" class="btn btn-primary btn-xs">
+                                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+                                    </a>
+                                    <a href="#" class="btn btn-danger btn-xs">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                            <!-- NEW ORG -->
+                        </tbody>
+                    </table>
+
+                    <table id="secondTable" class="table table-striped expandable-table">
+                        <thead>
+                            <tr>
+                                <th class="empty"></th>
+                                <th>sku</th>
+                                <th>product title</th>
+                                <th>amount</th>
+                                <th>created on</th>
+                                <th>quantity</th>
+                                <th class="text-right">actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="first-row">
+                                <td colspan="7">
+                                    <a href="#" class="btn btn-primary btn-xs js-second-row-collapsed" data-expand="TinaMayer">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                    </a>
+                                    <span>Tina Mayer</span>
+                                </td>
+                            </tr>
+                            <tr class="second-row TinaMayer">
+                                <td></td>
+                                <td><a href="#">#EPI7654</a></td>
+                                <td>Mici cu bere</td>
+                                <td>$3200</td>
+                                <td>08/16/2016</td>
+                                <td>1000</td>
+                                <td class="text-right">
+                                    <a href="#" class="btn btn-primary btn-xs">
+                                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+                                    </a>
+                                    <a href="#" class="btn btn-danger btn-xs">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class="second-row TinaMayer">
+                                <td></td>
+                                <td><a href="#">#EPI7654</a></td>
+                                <td>Mici cu bere</td>
+                                <td>$3200</td>
+                                <td>08/16/2016</td>
+                                <td>1000</td>
+                                <td class="text-right">
+                                    <a href="#" class="btn btn-primary btn-xs">
+                                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+                                    </a>
+                                    <a href="#" class="btn btn-danger btn-xs">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class="first-row EpiserverAmericas">
+                                <td colspan="7">
+                                    <a href="#" class="btn btn-primary btn-xs js-second-row-collapsed" data-expand="MikePurchaser">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                    </a>
+                                    <span>Mike Purchaser</span>
+                                </td>
+                            </tr>
+                            <tr class="second-row MikePurchaser">
+                                <td></td>
+                                <td><a href="#">#EPI7654</a></td>
+                                <td>Mici cu bere</td>
+                                <td>$3200</td>
+                                <td>08/16/2016</td>
+                                <td>1000</td>
+                                <td class="text-right">
+                                    <a href="#" class="btn btn-primary btn-xs">
+                                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+                                    </a>
+                                    <a href="#" class="btn btn-danger btn-xs">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class="second-row MikePurchaser">
                                 <td></td>
                                 <td><a href="#">#EPI7654</a></td>
                                 <td>Mici cu bere</td>
@@ -204,6 +301,7 @@
                             </tr>
                         </tbody>
                     </table>
+
                 </section>
             </div>
         </main>

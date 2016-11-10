@@ -349,8 +349,10 @@
     <Content Include="Scripts\js\Product.js" />
     <Content Include="Scripts\js\Registration.js" />
     <Content Include="Scripts\js\Search.js" />
+    <Content Include="Scripts\js\uploadFile.js" />
     <Content Include="Scripts\pickaday.min.js" />
-    <Content Include="Styles\b2b\components\_orderPadsTable.less" />
+    <None Include="Styles\b2b\components\_file.less" />
+    <Content Include="Styles\b2b\components\_expandableTable.less" />
     <None Include="Styles\b2b\components\_pikaday.less" />
     <Content Include="Styles\b2b\components\_navigation.less" />
     <Content Include="Styles\b2b\global.css" />
@@ -432,7 +434,7 @@
     <Compile Include="Features\Profile\ViewModels\ProfilePageViewModel.cs" />
     <Compile Include="Features\ResetPassword\ViewModels\ResetPasswordMailPageViewModel.cs" />
     <Compile Include="Features\Navigation\Controllers\OrganizationNavController.cs" />
-	<Compile Include="Features\Navigation\Controllers\B2BNavigationController.cs" />
+    <Compile Include="Features\Navigation\Controllers\B2BNavigationController.cs" />
     <Compile Include="Features\Shared\ViewModels\CountryRegionViewModel.cs" />
     <Compile Include="Features\ErrorHandling\Controllers\ErrorHandlingController.cs" />
     <Compile Include="Features\ErrorHandling\ViewModels\ErrorViewModel.cs" />
@@ -595,6 +597,7 @@
     <Compile Include="Infrastructure\Indexing\IndexingHelper.cs" />
     <Compile Include="Infrastructure\Indexing\SearchDocumentController.cs" />
     <Compile Include="Features\Shared\ModelBinders\DecimalModelBinder.cs" />
+    <Compile Include="Infrastructure\InitializationModules\MetadataInitialization.cs" />
     <Compile Include="Infrastructure\InitializationModules\MetaDataPlusInitialization.cs" />
     <Compile Include="Infrastructure\Owin\Startup.cs" />
     <Compile Include="Infrastructure\Descriptors\FashionProductUIDescriptor.cs" />
@@ -819,6 +822,8 @@
     <Content Include="Views\Checkout\_CheckoutInvalidOperationError.cshtml" />
     <Content Include="Views\OrderPadsPage\Index.cshtml" />
     <Content Include="Views\Shared\_OrgNavigation.cshtml" />
+    <Content Include="Views\OrdersPage\QuickOrder.cshtml" />
+    <Content Include="Views\B2BNavigation\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,18 @@
+﻿.expandable-table {
+    table-layout: fixed;
+
+    th {
+        &.empty {
+            width: 50px;
+        }
+    }
+
+    .second-row,
+    .third-row {
+        display: none;
+
+        &.tr-show {
+            display: table-row;
+        }
+    }
+}

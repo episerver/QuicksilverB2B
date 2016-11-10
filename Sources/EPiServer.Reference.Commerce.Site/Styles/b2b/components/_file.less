@@ -1,0 +1,61 @@
+.lattice-file-wrapper {
+    background: #fff;
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    width:auto;
+    max-width:300px;
+    vertical-align: middle;
+}
+
+.lattice-file-button {
+    display: inline-block;
+    width: 100px;
+}
+
+.lattice-file-button.disabled {
+    background: #ccc;
+}
+
+.lattice-file-name {
+    width: 200px;
+    padding: 5px;
+    text-overflow: ellipsis;
+    display: none;
+
+    &.loaded{
+        display:inline-block;
+    }
+}
+
+
+.lattice-file-icon {
+    background: green;
+    color: #fff;
+    display: inline-block;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    text-align: center;
+    -moz-transition: opacity .5s ease-out;
+    -o-transition: opacity .5s ease-out;
+    -webkit-transition: opacity .5s ease-out;
+    transition: opacity .5s ease-out;
+    width: 35px;
+    vertical-align: middle;
+}
+
+.lattice-file-icon.active {
+    height: 100%;
+    opacity: 1;
+}
+
+.lattice-file-icon:after {
+    content: "✓";
+    font-size: 26px;
+    -moz-transition: all 1s ease-in 0s;
+    -o-transition: all 1s ease-in 0s;
+    -webkit-transition: all 1s ease-in 0s;
+    transition: all 1s ease-in 0s;
+    vertical-align: middle;
+}

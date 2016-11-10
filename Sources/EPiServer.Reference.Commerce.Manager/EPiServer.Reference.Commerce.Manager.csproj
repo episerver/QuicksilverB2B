@@ -282,6 +282,7 @@
     <Compile Include="..\AssemblyVersionAuto.cs">
       <Link>AssemblyVersionAuto.cs</Link>
     </Compile>
+    <Compile Include="CustomCommands\B2BSaveChangesHandler.cs" />
     <Compile Include="CustomCommands\FinishQuoteRequest.cs" />
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx.cs</DependentUpon>

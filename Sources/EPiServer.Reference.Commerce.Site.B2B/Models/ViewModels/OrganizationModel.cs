@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using EPiServer.Reference.Commerce.Site.B2B.Models.Entities;
 
 namespace EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels
@@ -12,14 +13,9 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels
             OrganizationId = organization.OrganizationId;
             Name = organization.Name;
             Address = organization.Address != null ? new B2BAddressViewModel(organization.Address) : null;
-            if (organization.SubOrganizations.Count > 0)
-            {
-                SubOrganizations = new List<OrganizationModel>();
-                foreach (var c in organization.SubOrganizations)
-                {
-                    SubOrganizations.Add(new OrganizationModel(c));
-                }
-            }
+            SubOrganizations = organization.SubOrganizations != null && organization.SubOrganizations.Any()
+                ? organization.SubOrganizations.Select(subOrg => new OrganizationModel(subOrg)).ToList()
+                : new List<OrganizationModel>();
             ParentOrganizationId = organization.ParentOrganizationId;
         }
 

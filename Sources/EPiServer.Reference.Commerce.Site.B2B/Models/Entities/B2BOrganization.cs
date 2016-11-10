@@ -38,6 +38,8 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.Entities
             }
         }
 
+        public Guid ParentOrganizationId => OrganizationEntity.ParentId ?? Guid.Empty;
+
         public void SaveChanges()
         {
             OrganizationEntity.SaveChanges();

@@ -414,6 +414,7 @@
     <Compile Include="Features\Checkout\ViewModels\UpdateAddressViewModel.cs" />
     <Compile Include="Features\Checkout\ViewModels\UpdateShippingMethodViewModel.cs" />
     <Compile Include="Features\Market\Services\MarketContentLoader.cs" />
+    <Compile Include="Features\Navigation\ViewModels\OrgNavigationViewModel.cs" />
     <Compile Include="Features\Orders\Controllers\OrdersPageController.cs" />
     <Compile Include="Features\Orders\Pages\OrdersPage.cs" />
     <Compile Include="Features\Orders\ViewModels\OrdersPageViewModel.cs" />
@@ -425,6 +426,7 @@
     <Compile Include="Features\Payment\ViewModelFactories\PaymentMethodViewModelFactory.cs" />
     <Compile Include="Features\Profile\ViewModels\ProfilePageViewModel.cs" />
     <Compile Include="Features\ResetPassword\ViewModels\ResetPasswordMailPageViewModel.cs" />
+    <Compile Include="Features\Navigation\Controllers\OrganizationNavController.cs" />
     <Compile Include="Features\Shared\ViewModels\CountryRegionViewModel.cs" />
     <Compile Include="Features\ErrorHandling\Controllers\ErrorHandlingController.cs" />
     <Compile Include="Features\ErrorHandling\ViewModels\ErrorViewModel.cs" />
@@ -810,6 +812,7 @@
     <Content Include="Views\BudgetingPage\EditBudget.cshtml" />
     <Content Include="Styles\b2b\shared\_header.less" />
     <Content Include="Styles\b2b\shared\_typography.less" />
+    <Content Include="Views\Shared\_OrgNavigation.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

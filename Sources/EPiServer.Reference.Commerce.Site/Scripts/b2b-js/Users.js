@@ -1,19 +1,21 @@
 ﻿$(document).ready(function () {
 
     var $addUserForm = $('#addUserForm');
-    var $userName = $('#userName', $addUserForm);
-    var $userEmail = $('#email', $addUserForm);
-    var $autocompleteInput = $('#usersAutocomplete');
-    var $autoCompleteWrapper = $('.custom-search');
-    var $result = $('.autocomplete-result');
-    var $resultClose = $('.close-icon', $result);
-    var $resultUserName = $('.user-name', $result);
+    var $firstName = $('#Contact_FirstName', $addUserForm);
+    var $lastName = $('#Contact_LastName', $addUserForm);
+    var $userEmail = $('#Contact_Email', $addUserForm);
+    var $autocompleteWrapper = $('.js-autocomplete-wrapper');
+    var $autocompleteInput = $('#usersAutocomplete', $autocompleteWrapper);
+    var $autocompleteResult = $('.js-autocomplete-result');
+    var $autocompleteResultClose = $('.js-close-icon', $autocompleteResult);
+    var $autocompleteResultUserName = $('.js-user-name', $autocompleteResult);
 
-    $resultClose.click(function (e) {
+    $autocompleteResultClose.click(function (e) {
         e.preventDefault();
-        $autoCompleteWrapper.show();
-        $result.hide();
-        $userName.val('');
+        $autocompleteWrapper.show();
+        $autocompleteResult.hide();
+        $firstName.val('');
+        $lastName.val('');
         $userEmail.val('');
         $autocompleteInput.val('');
     });
@@ -22,23 +24,22 @@
         url: function (phrase) {
             return "/UsersPage/GetUsers?query=" + phrase;
         },
-        getValue: "name",
+        getValue: "fullname",
         list: {
             match: {
                 enabled: true
             },
             onChooseEvent: function () {
-                var selectedItem = $("#usersAutocomplete").getSelectedItemData();
-                $resultUserName.text(selectedItem.name);
-                $autoCompleteWrapper.hide();
-                $result.show();
-                $userName.val(selectedItem.name);
+                var selectedItem = $autocompleteInput.getSelectedItemData();
+                $autocompleteWrapper.hide();
+                $autocompleteResult.show();
+                $autocompleteResultUserName.text(selectedItem.fullname);
+                $firstName.val(selectedItem.firstname);
+                $lastName.val(selectedItem.lastname);
                 $userEmail.val(selectedItem.email);
             }
         }
     };
-
-
 
     $autocompleteInput.easyAutocomplete(options);
 

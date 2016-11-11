@@ -10,21 +10,19 @@
                     <div class="section-title spacer-bottom-l">
                         <h2 class="h3">Look up user or fill in their details</h2>
                     </div>
-                    <form action="" method="get" role="search">
-                        <div class="custom-search">
-                            <input type="text" autocomplete="off" placeholder="search for users" />
-                            <span class="icon-search glyphicon glyphicon-search" aria-hidden="true"></span>
-                        </div>
-                    </form>
-                    <button class="btn" type="button">
-                        <span class="v-align-middle">Ashley Steward</span><span class="close-icon v-align-middle"></span>
+                    <div class="js-autocomplete-wrapper custom-search">
+                        <input type="text" id="usersAutocomplete" autocomplete="off" placeholder="search for users" />
+                        <span class="icon-search glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </div>
+                    <button class="btn js-autocomplete-result" type="button" style="display:none">
+                        <span class="js-user-name v-align-middle"></span><span class="js-close-icon close-icon v-align-middle" data-hide="true"></span>
                     </button>
                 </section>
                 <section class="spacer-bottom-l">
                     <div class="section-title spacer-bottom-l">
                         <h2 class="h3">User Details</h2>
                     </div>
-                    @using (Html.BeginForm("Save", "UsersPage", FormMethod.Post))
+                    @using (Html.BeginForm("Save", "UsersPage", FormMethod.Post, new {@id = "addUserForm" }))
                     {
                         <div class="form-group">
                             @Html.LabelFor(x => x.Contact.FirstName)

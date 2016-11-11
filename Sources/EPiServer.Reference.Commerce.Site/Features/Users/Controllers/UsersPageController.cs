@@ -60,11 +60,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
         {
 
             var data = new[] {
-              new { name= "marius", email = "mariuslazar@yahoo.ro" },
-              new { name= "alex", email = "alex@yahoo.ro" },
-              new { name= "simona", email = "simona@yahoo.ro" },
-              new { name= "ionut", email = "ionut@yahoo.ro" },
-              new { name= "mihai", email = "mihai@yahoo.ro" }
+              new { fullname= "Marius Lazar", firstname = "Marius", lastname = "Lazar", email = "mariuslazar@yahoo.ro" },
+              new { fullname= "Alex Tiponut", firstname = "Alex", lastname = "Tiponut", email = "alex@yahoo.ro" },
+              new { fullname= "Simona Danciu", firstname = "Simona", lastname = "Danciu", email = "simona@yahoo.ro" },
+              new { fullname= "Ionut Iancau", firstname = "Ionut", lastname = "Iancau", email = "ionut@yahoo.ro" },
+              new { fullname= "Mihai Runcan", firstname = "Mihai", lastname = "Runcan", email = "mihai@yahoo.ro" }
            };
 
             return Json(data, JsonRequestBehavior.AllowGet);

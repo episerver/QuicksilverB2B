@@ -26,11 +26,15 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                         "~/Scripts/b2b-js/Budgeting.js",
                         "~/Scripts/b2b-js/QuickOrderInterface.js",
                         "~/Scripts/b2b-js/uploadFile.js",
+                        "~/Scripts/b2b-js/Users.js",
                         "~/Scripts/b2b-js/Organization.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/pickaday").Include(
                 "~/Scripts/pickaday.min.js"));
-            
+
+            bundles.Add(new ScriptBundle("~/bundles/autocomplete").Include(
+                "~/Scripts/jquery.easyautocomplete.min.js"));
+
             bundles.Add(new StyleBundle("~/styles/bundled").Include(
                         "~/Styles/style.css",
                         "~/Styles/b2b/global.css"

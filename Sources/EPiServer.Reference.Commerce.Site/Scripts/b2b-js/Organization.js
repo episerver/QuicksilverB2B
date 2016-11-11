@@ -24,4 +24,6 @@
     });
     var quickOrderInputTypeFile = new InputTypeFile();
     QuickOrderComponent.init();
+
+
 });

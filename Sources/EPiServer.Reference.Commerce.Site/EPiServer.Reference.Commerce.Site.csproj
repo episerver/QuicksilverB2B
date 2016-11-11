@@ -333,7 +333,10 @@
   <ItemGroup>
     <Content Include="lang\Quicksilver_SV.xml" />
     <Content Include="lang\Display_en.xml" />
+    <Content Include="Scripts\b2b-js\Users.js" />
     <Content Include="Scripts\jquery-1.11.1.js" />
+    <Content Include="Scripts\jquery.autocomplete.min.js" />
+    <Content Include="Scripts\jquery.easyautocomplete.min.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\js\AddressBook.js" />
@@ -352,6 +355,8 @@
     <Content Include="Scripts\js\Search.js" />
     <Content Include="Scripts\b2b-js\uploadFile.js" />
     <Content Include="Scripts\pickaday.min.js" />
+    <Content Include="Styles\b2b\components\_autocomplete.less" />
+    <Content Include="Scripts\b2b-js\users.json" />
     <None Include="Styles\b2b\components\_file.less" />
     <Content Include="Styles\b2b\components\_expandableTable.less" />
     <None Include="Styles\b2b\components\_pikaday.less" />

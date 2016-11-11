@@ -47,5 +47,19 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
         {
             return RedirectToAction("Index");
         }
+
+        public JsonResult GetUsers(string phrase)
+        {
+
+            var data = new[] {
+              new { name= "marius", email = "mariuslazar@yahoo.ro" },
+              new { name= "alex", email = "alex@yahoo.ro" },
+              new { name= "simona", email = "simona@yahoo.ro" },
+              new { name= "ionut", email = "ionut@yahoo.ro" },
+              new { name= "mihai", email = "mihai@yahoo.ro" }
+           };
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
     }
 }

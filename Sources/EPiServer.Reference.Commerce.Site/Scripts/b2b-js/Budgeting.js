@@ -30,5 +30,3 @@
         init: init
     }
 }();
-
-calendarComponent.init('startDate', 'dueDate');

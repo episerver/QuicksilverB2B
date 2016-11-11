@@ -90,16 +90,9 @@
     }
 
     init(options);
-
 };
 
 $(document).ready(function () {
 
-    var firstTable = new OrderPadsComponent({
-        table: '#firstTable'
-    });
-
-    var secondTable = new OrderPadsComponent({
-        table: '#secondTable'
-    });
+    
 });

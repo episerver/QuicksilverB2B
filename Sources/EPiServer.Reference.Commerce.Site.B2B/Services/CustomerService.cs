@@ -33,5 +33,20 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             var organizationUsers = _customerDomainService.GetContactsForOrganization(currentOrganization.OrganizationEntity);
             return organizationUsers.Select(user => new ContactViewModel(user)).ToList();
         }
+
+        public void CreateUser(ContactViewModel contactModel)
+        {
+            var contact = _customerDomainService.GetNewContact();
+            contact.FirstName = contactModel.FirstName;
+            contact.LastName = contactModel.LastName;
+            contact.Email = contactModel.Email;
+            contact.UserRole = contactModel.UserRole;
+            contact.FullName = contactModel.FullName;
+            
+            var organization = _organizationDomainService.GetOrganizationEntityById(contactModel.OrganizationId);
+            contact.B2BOrganization = organization;
+
+            contact.SaveChanges();
+        }
     }
 }

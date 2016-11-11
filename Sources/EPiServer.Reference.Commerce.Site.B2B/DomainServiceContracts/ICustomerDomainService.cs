@@ -11,5 +11,6 @@ namespace EPiServer.Reference.Commerce.Site.B2B.DomainServiceContracts
         B2BContact GetCurrentContact();
         List<B2BContact> GetContactsForOrganization(Organization organization);
         void AddContactToOrganization(B2BOrganization organization, B2BContact contact, B2BUserRoles userRole);
+        B2BContact GetNewContact();
     }
 }

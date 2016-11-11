@@ -21,6 +21,13 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             bundles.Add(new ScriptBundle("~/bundles/js").Include(
                         "~/Scripts/js/*.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/b2b-js").Include(
+                        "~/Scripts/b2b-js/OrderPads.js",
+                        "~/Scripts/b2b-js/Budgeting.js",
+                        "~/Scripts/b2b-js/QuickOrderInterface.js",
+                        "~/Scripts/b2b-js/uploadFile.js",
+                        "~/Scripts/b2b-js/Organization.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/pickaday").Include(
                 "~/Scripts/pickaday.min.js"));
             

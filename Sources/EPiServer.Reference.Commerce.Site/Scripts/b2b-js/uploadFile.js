@@ -68,7 +68,3 @@ function InputTypeFile() {
         init();
     }
 };
-
-$(document).ready(function() {
-    var inputTypeFile = new InputTypeFile();
-});

@@ -5,6 +5,7 @@ using EPiServer.Reference.Commerce.Site.B2B.Enums;
 using EPiServer.Reference.Commerce.Site.B2B.Models.Contact;
 using EPiServer.Reference.Commerce.Site.B2B.Models.Entities;
 using EPiServer.ServiceLocation;
+using Mediachase.BusinessFoundation.Data.Business;
 using Mediachase.Commerce.Customers;
 
 namespace EPiServer.Reference.Commerce.Site.B2B.DomainServices
@@ -30,6 +31,13 @@ namespace EPiServer.Reference.Commerce.Site.B2B.DomainServices
             contact.B2BOrganization = organization;
             contact.UserRole = userRole.ToString();
             contact.SaveChanges();
+        }
+
+        public B2BContact GetNewContact()
+        {
+            var contact = new B2BContact(CustomerContact.CreateInstance());
+            contact.ContactId = BusinessManager.Create(contact.Contact);
+            return contact;
         }
     }
 }

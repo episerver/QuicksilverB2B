@@ -27,7 +27,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.Contact
         public string UserRole
         {
             get { return Contact.GetStringValue(Constants.Fields.UserRole); }
-            set { Contact.Properties[Constants.Fields.UserRole].Value = value; }
+            set { Contact[Constants.Fields.UserRole] = value; }
         }
 
         public B2BOrganization B2BOrganization {

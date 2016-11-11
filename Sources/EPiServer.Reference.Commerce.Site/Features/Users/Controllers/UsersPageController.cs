@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using EPiServer.Reference.Commerce.Site.B2B.Models.Pages;
 using EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
@@ -12,9 +13,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
     public class UsersPageController : PageController<UsersPage>
     {
         private readonly ICustomerService _customerService;
-        public UsersPageController(ICustomerService customerService)
+        private readonly IOrganizationService _organizationService;
+
+        public UsersPageController(ICustomerService customerService, IOrganizationService organizationService)
         {
             _customerService = customerService;
+            _organizationService = organizationService;
         }
 
         public ActionResult Index(UsersPage currentPage)
@@ -28,10 +32,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
         }
         public ActionResult AddUser(UsersPage currentPage)
         {
+            var organization = _organizationService.GetCurrentUserOrganization();
             var viewModel = new UsersPageViewModel
             {
                 CurrentPage = currentPage,
-                Contact = new ContactViewModel()
+                Contact = new ContactViewModel(),
+                Organizations = organization.SubOrganizations?? new List<OrganizationModel>()
             };
             return View(viewModel);
         }
@@ -45,6 +51,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
         [AllowDBWrite]
         public ActionResult Save(UsersPageViewModel viewModel)
         {
+            _customerService.CreateUser(viewModel.Contact);
+
             return RedirectToAction("Index");
         }
 

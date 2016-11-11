@@ -15,18 +15,18 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.Entities
             get { return BudgetEntity.GetDateTimeValue(Constants.Fields.StartDate); }
             set
             {
-                BudgetEntity.Properties[Constants.Fields.StartDate].Value = value;
+                BudgetEntity[Constants.Fields.StartDate] = value;
             }
         }
         public DateTime DueDate
         {
             get { return BudgetEntity.GetDateTimeValue(Constants.Fields.DueDate); }
-            set { BudgetEntity.Properties[Constants.Fields.DueDate].Value = value; }
+            set { BudgetEntity[Constants.Fields.DueDate] = value; }
         }
         public float Amount
         {
             get { return BudgetEntity.GetFloatValue(Constants.Fields.Amount); }
-            set { BudgetEntity.Properties[Constants.Fields.Amount].Value = value; }
+            set { BudgetEntity[Constants.Fields.Amount] = value; }
         }
 
         public void SaveChanges()

@@ -38,6 +38,15 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels
         [EmailAddress(ErrorMessage = "Invalid email address")]
         public string Email { get; set; }
 
+        [Display(Name = "Organization")]
+        [Required(ErrorMessage = "Organization is required")]
+        public string OrganizationId { get; set; }
+
+
+        [Display(Name = "Location")]
+        [Required(ErrorMessage = "Location is required")]
+        public string Location { get; set; }
+
         public B2BUserRoles Role
         {
             get

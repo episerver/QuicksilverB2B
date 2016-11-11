@@ -25,5 +25,6 @@
     var quickOrderInputTypeFile = new InputTypeFile();
     QuickOrderComponent.init();
 
-
+    addUsersAutocompleteComponent.init();
+    viewUsersAutocompleteComponent.init();
 });

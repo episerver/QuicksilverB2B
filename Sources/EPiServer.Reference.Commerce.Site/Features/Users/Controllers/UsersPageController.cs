@@ -60,6 +60,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
         {
 
             var data = new[] {
+              new { fullname= "admin", firstname = "admin", lastname = "admin", email = "admin@yahoo.ro" },
               new { fullname= "Marius Lazar", firstname = "Marius", lastname = "Lazar", email = "mariuslazar@yahoo.ro" },
               new { fullname= "Alex Tiponut", firstname = "Alex", lastname = "Tiponut", email = "alex@yahoo.ro" },
               new { fullname= "Simona Danciu", firstname = "Simona", lastname = "Danciu", email = "simona@yahoo.ro" },

@@ -26,6 +26,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Navigation.Controllers
             if (startPage != null)
             {
                 model.OrganizationPage = startPage.OrganizationMainPage;
+                model.SubOrganizationPage = startPage.SubOrganizationPage;
             }
 
             return View("~/Views/Shared/_OrgNavigation.cshtml", model);

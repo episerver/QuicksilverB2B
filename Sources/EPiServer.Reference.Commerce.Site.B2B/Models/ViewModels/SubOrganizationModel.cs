@@ -9,6 +9,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels
     {
         public SubOrganizationModel(B2BOrganization organization) : base(organization)
         {
+            Name = organization.Name;
             Locations = organization.Addresses != null && organization.Addresses.Any()
                 ? organization.Addresses.Select(address => new B2BAddressViewModel(address)).ToList()
                 : new List<B2BAddressViewModel>();

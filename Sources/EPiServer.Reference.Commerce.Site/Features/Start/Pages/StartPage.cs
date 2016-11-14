@@ -10,6 +10,7 @@ using EPiServer.Reference.Commerce.Site.Features.AddressBook.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Pages;
 using EPiServer.Reference.Commerce.Site.Features.ResetPassword.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Search.Pages;
+using EPiServer.Reference.Commerce.Site.Features.Suborganization.Pages;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
 {
@@ -111,6 +112,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
             Order = 7)]
         [AllowedTypes(typeof(OrganizationPage))]
         public virtual ContentReference OrganizationMainPage { get; set; }
+
+        [Display(
+            Name = "Sub Organization Page",
+            Description = "",
+            GroupName = SiteTabs.SiteStructure,
+            Order = 8)]
+        [AllowedTypes(typeof(SubOrganizationPage))]
+        public virtual ContentReference SubOrganizationPage { get; set; }
 
         [Display(
             Name = "Order confirmation mail",

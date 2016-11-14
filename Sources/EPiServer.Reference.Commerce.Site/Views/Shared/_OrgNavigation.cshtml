@@ -11,7 +11,7 @@
             {
                 <a href="@(Url.ContentUrl(Model.OrganizationPage))" class="" aria-expanded="">@Model.Organization.ParentOrganization.Name</a>
                 <ul class="nav nav-stacked" role="tablist">
-                    <li><a href="#" class="" aria-expanded="">@Model.Organization.Name</a></li>
+                    <li><a href="@(Url.ContentUrl(Model.SubOrganizationPage))?suborg=@(Model.Organization.OrganizationId)" class="" aria-expanded="">@Model.Organization.Name</a></li>
                 </ul>
             }
             else
@@ -20,7 +20,7 @@
                 <ul class="nav nav-stacked" role="tablist">
                     @foreach (var subOrganization in Model.Organization.SubOrganizations)
                     {
-                        <li><a href="#" class="" aria-expanded="">@subOrganization.Name</a></li>
+                        <li><a href="@(Url.ContentUrl(Model.SubOrganizationPage))?suborg=@(subOrganization.OrganizationId)" class="" aria-expanded="">@subOrganization.Name</a></li>
                     }
                 </ul>
             }

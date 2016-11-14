@@ -24,9 +24,11 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.Entities
 
         public string Name { get { return OrganizationEntity.Name; } set { OrganizationEntity.Name = value; } }
 
-        public B2BAddress Address => OrganizationEntity.Addresses != null && OrganizationEntity.Addresses.Any()
-            ? new B2BAddress(OrganizationEntity.Addresses.FirstOrDefault())
-            : null;
+        public B2BAddress Address => Addresses != null && Addresses.Any() ? Addresses.FirstOrDefault() : null;
+
+        public List<B2BAddress> Addresses => OrganizationEntity.Addresses != null && OrganizationEntity.Addresses.Any()
+            ? OrganizationEntity.Addresses.Select(address => new B2BAddress(address)).ToList()
+            : new List<B2BAddress>();
 
         public List<B2BOrganization> SubOrganizations
         {
@@ -38,7 +40,11 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.Entities
             }
         }
 
-        public Guid ParentOrganizationId => OrganizationEntity.ParentId ?? Guid.Empty;
+        public Guid ParentOrganizationId
+        {
+            get { return OrganizationEntity.ParentId ?? Guid.Empty; }
+            set { OrganizationEntity.ParentId = (PrimaryKeyId?) value; }
+        }
 
         public void SaveChanges()
         {

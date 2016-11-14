@@ -40,22 +40,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><a href="#">[Suborganization A]</a></td>
-                                <td>$200,000</td>
-                                <td>$600,000</td>
-                                <td>September 1st, 2016</td>
-                                <td>February 2nd, 2017</td>
-                                <td>active</td>
-                            </tr>
-                            <tr>
-                                <td><a href="#">[Suborganization B]</a></td>
-                                <td>$200,000</td>
-                                <td>$600,000</td>
-                                <td>September 1st, 2016</td>
-                                <td>February 2nd, 2017</td>
-                                <td>on hold</td>
-                            </tr>
+                        @if (Model.Organization != null && Model.Organization.SubOrganizations != null && Model.Organization.SubOrganizations.Any())
+                        {
+                            foreach (var subOrganization in Model.Organization.SubOrganizations)
+                            {
+                                <tr>
+                                    <td><a href="#">@subOrganization.Name</a></td>
+                                    <td>$200,000</td>
+                                    <td>$600,000</td>
+                                    <td>September 1st, 2016</td>
+                                    <td>February 2nd, 2017</td>
+                                    <td>active</td>
+                                </tr>
+                            }
+                        }
                         </tbody>
                     </table>
                 </section>

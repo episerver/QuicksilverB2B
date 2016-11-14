@@ -7,5 +7,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.ViewModels
     public class OrganizationPageViewModel : PageViewModel<OrganizationPage>
     {
         public OrganizationModel Organization { get; set; }
+        public SubOrganizationModel NewSubOrganization { get; set; }
     }
 }

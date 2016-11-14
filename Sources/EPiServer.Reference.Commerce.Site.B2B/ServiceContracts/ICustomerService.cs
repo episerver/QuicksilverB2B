@@ -8,5 +8,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
         ContactViewModel GetCurrentContact();
         List<ContactViewModel> GetContactsForCurrentOrganization();
         void CreateUser(ContactViewModel contact, string contactId);
+        ContactViewModel GetContactById(string id);
+        void EditContact(ContactViewModel model);
     }
 }

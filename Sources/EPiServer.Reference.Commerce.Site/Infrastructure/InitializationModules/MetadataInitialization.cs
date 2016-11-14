@@ -30,6 +30,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.InitializationModules
 
             var contactMetaClass = GetOrCreateMetaClass(Constants.Classes.Contact, Constants.Classes.Contact);
             CreateMetaField(contactMetaClass, Constants.Fields.UserRole, Constants.Fields.UserRoleFriendly, MetaFieldType.Text);
+            CreateMetaField(contactMetaClass, Constants.Fields.UserLocation, Constants.Fields.UserLocationFriendly, MetaFieldType.Text);
         }
         
         private MetaClass GetOrCreateMetaClass(string metaClassName, string metaClassFriendlyName)

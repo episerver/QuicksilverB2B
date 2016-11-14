@@ -28,6 +28,11 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             return new ContactViewModel(_customerDomainService.GetCurrentContact());
         }
 
+        public ContactViewModel GetContactById(string id)
+        {
+            return new ContactViewModel(_customerDomainService.GetContactById(id));
+        }
+
         public List<ContactViewModel> GetContactsForCurrentOrganization()
         {
             var currentOrganization = _organizationDomainService.GetCurrentUserOrganizationEntity();
@@ -56,13 +61,21 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
                 LastName = contactModel.LastName,
                 Email = contactModel.Email,
                 UserRole = contactModel.UserRole,
-                FullName = contactModel.FullName
+                FullName = contactModel.FullName,
+                UserLocationId = contactModel.Location
             };
-
 
             var organization = _organizationDomainService.GetOrganizationEntityById(contactModel.OrganizationId);
             contact.B2BOrganization = organization;
 
+            contact.SaveChanges();
+        }
+
+        public void EditContact(ContactViewModel model)
+        {
+            var contact = _customerDomainService.GetContactById(model.ContactId.ToString());
+            contact.UserRole = model.UserRole;
+            contact.UserLocationId = model.Location;
             contact.SaveChanges();
         }
     }

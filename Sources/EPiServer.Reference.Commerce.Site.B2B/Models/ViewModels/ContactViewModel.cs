@@ -16,6 +16,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels
             Organization = contact.B2BOrganization != null ? new OrganizationModel(contact.B2BOrganization) : null;
             UserRole = contact.UserRole;
             Budget = contact.Budget != null ? new BudgetViewModel(contact.Budget) : null;
+            Location = contact.UserLocationId;
         }
 
         public ContactViewModel()

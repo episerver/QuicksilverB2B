@@ -23,7 +23,7 @@
                     <div class="section-title spacer-bottom-l">
                         <h2 class="h3">User Details</h2>
                     </div>
-                    @using (Html.BeginForm("Save", "UsersPage", FormMethod.Post, new {@id = "addUserForm" }))
+                    @using (Html.BeginForm("AddUser", "UsersPage", FormMethod.Post, new {@id = "addUserForm" }))
                     {
                         <div class="form-group">
                             @Html.LabelFor(x => x.Contact.FirstName)
@@ -71,7 +71,7 @@
                             <div class="custom-select">
                                 <span class="custom-select-split"></span>
                                 <span class="custom-select-arrow arrow-down"></span>
-                                @Html.DropDownListFor(model => model.Contact.Location, new SelectList(Model.Organizations, "Address.Name", "Address.Name", Model.Contact.Location))
+                                @Html.DropDownListFor(model => model.Contact.Location, new SelectList(Model.Organizations, "Address.AddressId", "Address.Name", Model.Contact.Location))
                             </div>
                         </div>
                         <div class="spacer-top-l">

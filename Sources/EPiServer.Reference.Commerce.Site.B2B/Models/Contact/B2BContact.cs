@@ -35,6 +35,12 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.Contact
             set { Contact.OwnerId = value.OrganizationEntity.PrimaryKeyId; }
         }
 
+        public string UserLocationId
+        {
+            get { return Contact.GetStringValue(Constants.Fields.UserLocation); }
+            set { Contact[Constants.Fields.UserLocation] = value; }
+        }
+
         public Budget Budget { get; set; }
 
         public void SaveChanges()

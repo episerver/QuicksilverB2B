@@ -56,5 +56,21 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             organization.SaveChanges();
             _addressService.UpdateOrganizationAddress(organization, organizationInfo.Address);
         }
+
+        public void CreateSubOrganization(SubOrganizationModel newSubOrganization)
+        {
+            var currentOrganization = _organizationDomainService.GetCurrentUserOrganizationEntity();
+            if (currentOrganization == null) return;
+
+            var organization = _organizationDomainService.GetNewOrganization();
+            organization.Name = newSubOrganization.Name;
+            organization.ParentOrganizationId = currentOrganization.OrganizationId;
+            organization.SaveChanges();
+
+            foreach (var location in newSubOrganization.Locations)
+            {
+                _addressService.UpdateOrganizationAddress(organization, location);
+            }
+        }
     }
 }

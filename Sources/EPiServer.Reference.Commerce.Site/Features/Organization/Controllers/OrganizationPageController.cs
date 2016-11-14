@@ -71,7 +71,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
         }
         public ActionResult AddSub(OrganizationPage currentPage)
         {
-            var viewModel = new OrganizationPageViewModel { CurrentPage = currentPage };
+            var viewModel = new OrganizationPageViewModel
+            {
+                CurrentPage = currentPage,
+                Organization = _organizationService.GetCurrentUserOrganization() ?? new OrganizationModel(),
+                NewSubOrganization = new SubOrganizationModel()
+                {
+                    CountryOptions = _addressService.GetAllCountries()
+                }
+            };
             return View(viewModel);
         }
 
@@ -92,6 +100,19 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
             {
                 _organizationService.UpdateOrganization(viewModel.Organization);
             }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [AllowDBWrite]
+        public ActionResult SaveSub(OrganizationPageViewModel viewModel)
+        {
+            if (string.IsNullOrEmpty(viewModel.NewSubOrganization.Name))
+            {
+                ModelState.AddModelError("NewSubOrganization.Name", "Sub organization Name is requried");
+            }
+
+            _organizationService.CreateSubOrganization(viewModel.NewSubOrganization);
             return RedirectToAction("Index");
         }
     }

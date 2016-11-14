@@ -9,5 +9,6 @@ namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
         void UpdateOrganization(OrganizationModel organizationInfo);
         void CreateSubOrganization(SubOrganizationModel newSubOrganization);
         SubOrganizationModel GetSubOrganizationById(string subOrganizationId);
+        void UpdateSubOrganization(SubOrganizationModel subOrganizationModel);
     }
 }

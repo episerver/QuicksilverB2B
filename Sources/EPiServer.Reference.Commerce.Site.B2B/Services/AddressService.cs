@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using EPiServer.Reference.Commerce.Site.B2B.DomainServiceContracts;
 using EPiServer.Reference.Commerce.Site.B2B.Models.Contact;
 using EPiServer.Reference.Commerce.Site.B2B.Models.Entities;
 using EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels;
@@ -16,6 +17,12 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
     [ServiceConfiguration(typeof(IAddressService), Lifecycle = ServiceInstanceScope.Singleton)]
     public class AddressService : IAddressService
     {
+        private readonly IOrganizationDomainService _organizationDomainService;
+        public AddressService(IOrganizationDomainService organizationDomainService)
+        {
+            _organizationDomainService = organizationDomainService;
+        }
+
         public void UpdateOrganizationAddress(B2BOrganization organization, B2BAddressViewModel addressModel)
         {
             B2BAddress address = GetOrganizationAddress(organization.OrganizationEntity, addressModel.AddressId) ??
@@ -42,6 +49,15 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             var countryOptions = GetCountries().Country.Select(x => new B2BCountryViewModel { Code = x.Code, Name = x.Name });
             var selectedCountry = countryOptions.FirstOrDefault(x => x.Code == code);
             return selectedCountry?.Name;
+        }
+
+        public void DeleteAddress(string organizationId, string addressId)
+        {
+            var organization = _organizationDomainService.GetOrganizationEntityById(organizationId);
+            if (organization == null) return;
+
+            var address = GetOrganizationAddress(organization.OrganizationEntity, new Guid(addressId));
+            address?.Address?.Delete();
         }
 
         private B2BAddress CreateAddress()

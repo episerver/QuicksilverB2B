@@ -8,5 +8,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Navigation.ViewModels
         public OrganizationModel Organization { get; set; }
 
         public ContentReference OrganizationPage { get; set; }
+
+        public ContentReference SubOrganizationPage { get; set; }
     }
 }

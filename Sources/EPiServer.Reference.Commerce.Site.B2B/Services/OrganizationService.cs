@@ -37,6 +37,33 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             };
         }
 
+        public SubOrganizationModel GetSubOrganizationById(string subOrganizationId)
+        {
+            var subOrganization = _organizationDomainService.GetOrganizationEntityById(subOrganizationId);
+            if (subOrganization == null) return null;
+
+            if (subOrganization.ParentOrganizationId == Guid.Empty) return new SubOrganizationModel(subOrganization);
+
+            var parentOrganization =
+                _organizationDomainService.GetOrganizationEntityById(subOrganization.ParentOrganizationId.ToString());
+            return new SubOrganizationModel(subOrganization)
+            {
+                ParentOrganization = new OrganizationModel(parentOrganization)
+            };
+        }
+
+        public void UpdateSubOrganization(SubOrganizationModel subOrganizationModel)
+        {
+            var organization =
+                _organizationDomainService.GetOrganizationEntityById(subOrganizationModel.OrganizationId.ToString());
+            organization.Name = subOrganizationModel.Name;
+            organization.SaveChanges();
+            foreach (var location in subOrganizationModel.Locations)
+            {
+                _addressService.UpdateOrganizationAddress(organization, location);
+            }
+        }
+
         public void CreateOrganization(OrganizationModel organizationInfo)
         {
             var organization = _organizationDomainService.GetNewOrganization();

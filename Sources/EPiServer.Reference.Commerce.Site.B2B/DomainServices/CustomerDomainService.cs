@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using EPiServer.Reference.Commerce.Site.B2B.DomainServiceContracts;
 using EPiServer.Reference.Commerce.Site.B2B.Enums;
@@ -24,6 +25,15 @@ namespace EPiServer.Reference.Commerce.Site.B2B.DomainServices
             return organizationContacts != null && organizationContacts.Any()
                 ? organizationContacts.Select(contact => new B2BContact(contact)).ToList()
                 : new List<B2BContact>();
+        }
+
+        public B2BContact GetContactById(string contactId)
+        {
+            if (string.IsNullOrEmpty(contactId)) return null;
+
+            var id = new Guid(contactId);
+            var contact = CustomerContext.Current.GetContactById(id);
+            return contact != null ? new B2BContact(contact) : null;
         }
 
         public void AddContactToOrganization(B2BOrganization organization, B2BContact contact, B2BUserRoles userRole)

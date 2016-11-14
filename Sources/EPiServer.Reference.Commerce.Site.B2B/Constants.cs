@@ -18,6 +18,8 @@
             public static string Amount = "Amount";
             public static string UserRole = "UserRole";
             public static string UserRoleFriendly = "User Role";
+            public static string UserLocation = "UserLocation";
+            public static string UserLocationFriendly = "User Location";
         }
 
         public static class Forms

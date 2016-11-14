@@ -2,13 +2,13 @@
 using System.Collections.Specialized;
 using System.Web;
 using System.Web.Mvc;
+using Castle.Core.Internal;
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
 using EPiServer.Globalization;
 using EPiServer.Reference.Commerce.Shared.Models;
 using EPiServer.Reference.Commerce.Shared.Models.Identity;
 using EPiServer.Reference.Commerce.Shared.Services;
-using EPiServer.Reference.Commerce.Site.B2B.DomainServiceContracts;
 using EPiServer.Reference.Commerce.Site.B2B.Models.Pages;
 using EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
@@ -60,15 +60,36 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
             };
             return View(viewModel);
         }
-        public ActionResult EditUser(UsersPage currentPage)
+        public ActionResult EditUser(UsersPage currentPage,string id)
         {
-            var viewModel = new UsersPageViewModel { CurrentPage = currentPage };
+            if (id.IsNullOrEmpty())
+            {
+                return RedirectToAction("Index");
+            }
+            var organization = _organizationService.GetCurrentUserOrganization();
+            var contact = _customerService.GetContactById(id);
+
+            var viewModel = new UsersPageViewModel
+            {
+                CurrentPage = currentPage,
+                Contact = contact,
+                Organizations = organization.SubOrganizations ?? new List<OrganizationModel>()
+            };
             return View(viewModel);
         }
 
         [HttpPost]
         [AllowDBWrite]
-        public ActionResult Save(UsersPageViewModel viewModel)
+        public ActionResult UpdateUser(UsersPageViewModel viewModel)
+        {
+            _customerService.EditContact(viewModel.Contact);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [AllowDBWrite]
+        public ActionResult AddUser(UsersPageViewModel viewModel)
         {
             SaveUser(viewModel);
 

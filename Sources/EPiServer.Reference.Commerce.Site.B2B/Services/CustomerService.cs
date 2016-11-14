@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EPiServer.Reference.Commerce.Site.B2B.DomainServiceContracts;
 using EPiServer.Reference.Commerce.Site.B2B.Models.Contact;
+using EPiServer.Reference.Commerce.Site.B2B.Models.Entities;
 using EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using EPiServer.ServiceLocation;
@@ -76,6 +77,13 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             var contact = _customerDomainService.GetContactById(model.ContactId.ToString());
             contact.UserRole = model.UserRole;
             contact.UserLocationId = model.Location;
+            contact.SaveChanges();
+        }
+
+        public void RemoveContact(string id)
+        {
+            var contact = _customerDomainService.GetContactById(id);
+            contact.B2BOrganization = new B2BOrganization(new Organization());
             contact.SaveChanges();
         }
     }

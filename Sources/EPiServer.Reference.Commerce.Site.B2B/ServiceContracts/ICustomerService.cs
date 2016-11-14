@@ -10,5 +10,6 @@ namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
         void CreateUser(ContactViewModel contact, string contactId);
         ContactViewModel GetContactById(string id);
         void EditContact(ContactViewModel model);
+        void RemoveContact(string id);
     }
 }

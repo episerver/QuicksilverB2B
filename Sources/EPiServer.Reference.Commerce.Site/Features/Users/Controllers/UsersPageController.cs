@@ -78,6 +78,17 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
             return View(viewModel);
         }
 
+        public ActionResult RemoveUser(string id)
+        {
+            if (id.IsNullOrEmpty())
+            {
+                return RedirectToAction("Index");
+            }
+            _customerService.RemoveContact(id);
+
+            return RedirectToAction("Index");
+        }
+
         [HttpPost]
         [AllowDBWrite]
         public ActionResult UpdateUser(UsersPageViewModel viewModel)

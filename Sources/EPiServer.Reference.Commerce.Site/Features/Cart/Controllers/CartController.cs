@@ -4,6 +4,7 @@ using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using System.Web.Mvc;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
+using EPiServer.Reference.Commerce.Site.B2B;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
 {
@@ -55,9 +56,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
             }
 
             // If order comes from an quoted order.
-            if (Cart.Properties["ParentOrderGroupId"] != null)
+            if (Cart.Properties[Constants.Quote.ParentOrderGroupId] != null)
             {
-                int orderLink = int.Parse(Cart.Properties["ParentOrderGroupId"].ToString());
+                int orderLink = int.Parse(Cart.Properties[Constants.Quote.ParentOrderGroupId].ToString());
                 if (orderLink != 0)
                 {
                     return new HttpStatusCodeResult(500, "Invalid operation on quoted cart.");
@@ -84,9 +85,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
             if (quantity != 0)
             {
                 // If order comes from an quoted order.
-                if (Cart.Properties["ParentOrderGroupId"] != null)
+                if (Cart.Properties[Constants.Quote.ParentOrderGroupId] != null)
                 {
-                    int orderLink = int.Parse(Cart.Properties["ParentOrderGroupId"].ToString());
+                    int orderLink = int.Parse(Cart.Properties[Constants.Quote.ParentOrderGroupId].ToString());
                     if (orderLink != 0)
                     {
                         return new HttpStatusCodeResult(500, "Invalid operation on quoted cart.");

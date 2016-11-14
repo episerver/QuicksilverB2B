@@ -355,6 +355,7 @@
     <Content Include="Scripts\b2b-js\uploadFile.js" />
     <Content Include="Scripts\pickaday.min.js" />
     <Content Include="Styles\b2b\components\_autocomplete.less" />
+    <None Include="Properties\PublishProfiles\Quick.pubxml" />
     <None Include="Styles\b2b\components\_file.less" />
     <Content Include="Styles\b2b\components\_expandableTable.less" />
     <None Include="Styles\b2b\components\_pikaday.less" />

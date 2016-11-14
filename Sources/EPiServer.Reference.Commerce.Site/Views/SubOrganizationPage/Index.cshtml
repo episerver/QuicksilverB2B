@@ -8,7 +8,7 @@
                 <section class="spacer-bottom-l">
                     <div class="section-title spacer-bottom-l">
                         <h2 class="h3">Organization Info</h2>
-                        <a href="@Url.Action("Edit", "SubOrganizationPage")?suborg=@(Model.SubOrganizationModel.OrganizationId)" class="btn btn-primary btn-sm spacer-left-m">Edit</a>
+                        <a href="@Url.Action("Edit", "SubOrganizationPage", new { suborg = Model.SubOrganizationModel.OrganizationId})" class="btn btn-primary btn-sm spacer-left-m">Edit</a>
                     </div>
                     <form>  
                         <div class="form-group">

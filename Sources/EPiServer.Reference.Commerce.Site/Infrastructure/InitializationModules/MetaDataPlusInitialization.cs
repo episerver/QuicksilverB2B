@@ -3,6 +3,7 @@ using EPiServer.Framework.Initialization;
 using Mediachase.Commerce.Catalog;
 using Mediachase.MetaDataPlus;
 using Mediachase.MetaDataPlus.Configurator;
+using EPiServer.Reference.Commerce.Site.B2B;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure.InitializationModules
 {
@@ -13,15 +14,15 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.InitializationModules
         public void Initialize(InitializationEngine context)
         {
             MetaDataContext mdContext = CatalogContext.MetaDataContext;
-            AddMetaFieldToClass(mdContext, "Mediachase.Commerce.Orders.System", "OrderFormEx", "QuoteExpireDate", MetaDataType.DateTime, 255,
+            AddMetaFieldToClass(mdContext, "Mediachase.Commerce.Orders.System", "OrderFormEx", Constants.Quote.QuoteExpireDate, MetaDataType.DateTime, 255,
                 true, false);
-            AddMetaFieldToClass(mdContext, "Mediachase.Commerce.Orders.System", "OrderFormEx", "QuoteStatus", MetaDataType.LongString, 255,
+            AddMetaFieldToClass(mdContext, "Mediachase.Commerce.Orders.System", "OrderFormEx", Constants.Quote.QuoteStatus, MetaDataType.LongString, 255,
                 true, false);
-            AddMetaFieldToClass(mdContext, "Mediachase.Commerce.Orders.System", "OrderFormEx", "PreQuoteTotal", MetaDataType.Decimal, 255,
+            AddMetaFieldToClass(mdContext, "Mediachase.Commerce.Orders.System", "OrderFormEx", Constants.Quote.PreQuoteTotal, MetaDataType.Decimal, 255,
                 true, false, 9, 38);
-            AddMetaFieldToClass(mdContext, "Mediachase.Commerce.Orders.System", "LineItemEx", "PreQuotePrice", MetaDataType.Decimal, 38,
+            AddMetaFieldToClass(mdContext, "Mediachase.Commerce.Orders.System", "LineItemEx", Constants.Quote.PreQuotePrice, MetaDataType.Decimal, 38,
                true, false, 9, 38);
-            AddMetaFieldToClass(mdContext, "Mediachase.Commerce.Orders.System", "ShoppingCart", "ParentOrderGroupId", MetaDataType.Int, 255,
+            AddMetaFieldToClass(mdContext, "Mediachase.Commerce.Orders.System", "ShoppingCart", Constants.Quote.ParentOrderGroupId, MetaDataType.Int, 255,
                true, false);
         }
 

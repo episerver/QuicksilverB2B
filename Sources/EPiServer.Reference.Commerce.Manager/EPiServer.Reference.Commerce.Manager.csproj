@@ -342,6 +342,10 @@
       <Project>{341c8e14-4eae-4946-9841-45f9818265a8}</Project>
       <Name>EPiServer.Reference.Commerce.Shared</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EPiServer.Reference.Commerce.Site.B2B\EPiServer.Reference.Commerce.Site.B2B.csproj">
+      <Project>{3e1439f1-f51e-47d6-bea4-d7aff1881745}</Project>
+      <Name>EPiServer.Reference.Commerce.Site.B2B</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -6,6 +6,7 @@ using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using EPiServer.ServiceLocation;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Website.Helpers;
+using System.Configuration;
 
 namespace EPiServer.Reference.Commerce.Site.B2B.Services
 {
@@ -46,7 +47,13 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
                 PurchaseOrder purchaseOrder = _orderRepository.Load<IPurchaseOrder>(orderReference.OrderGroupId) as PurchaseOrder;
                 if (purchaseOrder != null)
                 {
-                    purchaseOrder["QuoteExpireDate"] = DateTime.Now.AddDays(30);
+                    int quoteExpireDays;
+                    int.TryParse(ConfigurationManager.AppSettings["QuoteExpireDate"], out quoteExpireDays);
+                    purchaseOrder["QuoteExpireDate"] =
+                        string.IsNullOrEmpty(ConfigurationManager.AppSettings["QuoteExpireDate"])
+                            ? DateTime.Now.AddDays(30)
+                            : DateTime.Now.AddDays(quoteExpireDays);
+
                     purchaseOrder["PreQuoteTotal"] = purchaseOrder.Total;
                     purchaseOrder["QuoteStatus"] = "RequestQuotation";
                     purchaseOrder.Status = OrderStatus.OnHold.ToString();

@@ -77,6 +77,8 @@
         if (!$(".jsProductTile").length) {
             $(".wishlist-noitem").show();
         }
+        if (window.location.pathname.toLowerCase().indexOf("checkout") > 0)
+            window.location.reload();
     },
     addCartItem: function (e) {
 

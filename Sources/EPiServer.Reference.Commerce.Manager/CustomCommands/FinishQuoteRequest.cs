@@ -4,6 +4,8 @@ using Mediachase.BusinessFoundation;
 using Mediachase.Commerce.Manager.Order.CommandHandlers.PurchaseOrderHandlers;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Managers;
+using System.Configuration;
+using EPiServer.Reference.Commerce.Site.B2B;
 
 namespace EPiServer.Reference.Commerce.Manager.CustomCommands
 {
@@ -12,8 +14,8 @@ namespace EPiServer.Reference.Commerce.Manager.CustomCommands
         protected override bool IsCommandEnable(OrderGroup order, CommandParameters cp)
         {
             bool flag = base.IsCommandEnable(order, cp);
-            if (flag && !string.IsNullOrEmpty(order["QuoteStatus"] as string) )
-                flag = order["QuoteStatus"].ToString() == "RequestQuotation";
+            if (flag && !string.IsNullOrEmpty(order[Constants.Quote.QuoteStatus] as string) )
+                flag = order[Constants.Quote.QuoteStatus].ToString() == Constants.Quote.RequestQuotation;
             return flag;
         }
 
@@ -22,8 +24,14 @@ namespace EPiServer.Reference.Commerce.Manager.CustomCommands
             try
             {
                 PurchaseOrder purchaseOrder = order as PurchaseOrder;
-                purchaseOrder["QuoteExpireDate"] = DateTime.Now.AddDays(30);
-                purchaseOrder["QuoteStatus"] = "RequestQuotationFinished";
+                int quoteExpireDays;
+                int.TryParse(ConfigurationManager.AppSettings[Constants.Quote.QuoteExpireDate], out quoteExpireDays);
+                purchaseOrder[Constants.Quote.QuoteExpireDate] =
+                    string.IsNullOrEmpty(ConfigurationManager.AppSettings[Constants.Quote.QuoteExpireDate])
+                        ? DateTime.Now.AddDays(30)
+                        : DateTime.Now.AddDays(quoteExpireDays);
+
+                purchaseOrder[Constants.Quote.QuoteStatus] = Constants.Quote.RequestQuotationFinished;
                 OrderStatusManager.ReleaseHoldOnOrder(purchaseOrder);
                 AddNoteToPurchaseOrder("OrderNote_ChangeOrderStatusPattern", purchaseOrder, purchaseOrder.Status);
                 SavePurchaseOrderChanges(purchaseOrder);

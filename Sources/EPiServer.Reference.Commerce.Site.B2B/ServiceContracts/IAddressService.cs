@@ -9,5 +9,6 @@ namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
         void UpdateOrganizationAddress(B2BOrganization organization, B2BAddressViewModel addressModel);
         IEnumerable<B2BCountryViewModel> GetAllCountries();
         string GetCountryNameByCode(string code);
+        void DeleteAddress(string organizationId, string addressId);
     }
 }

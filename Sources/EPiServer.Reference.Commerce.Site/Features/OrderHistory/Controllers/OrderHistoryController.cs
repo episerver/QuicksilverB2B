@@ -1,4 +1,5 @@
-﻿using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
+﻿using System;
+using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.OrderHistory.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
@@ -9,6 +10,7 @@ using System.Web.Mvc;
 using EPiServer.Commerce.Order;
 using EPiServer.Reference.Commerce.Site.Features.OrderHistory.ViewModels;
 using Mediachase.Commerce.Orders;
+using EPiServer.Reference.Commerce.Site.B2B;
 
 namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.Controllers
 {
@@ -65,10 +67,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.Controllers
                     orderViewModel.OrderGroupId = purchaseOrder.OrderGroupId;
                 }
 
-                if (!string.IsNullOrEmpty(purchaseOrder["QuoteStatus"]?.ToString()) && 
+                if (!string.IsNullOrEmpty(purchaseOrder[Constants.Quote.QuoteStatus]?.ToString()) && 
                     (purchaseOrder.Status == OrderStatus.InProgress.ToString() || purchaseOrder.Status == OrderStatus.OnHold.ToString()) )
                 {
-                    orderViewModel.QuoteStatus = purchaseOrder["QuoteStatus"].ToString();
+                    orderViewModel.QuoteStatus = purchaseOrder[Constants.Quote.QuoteStatus].ToString();
+                    DateTime quoteExpireDate;
+                    DateTime.TryParse(purchaseOrder[Constants.Quote.QuoteExpireDate].ToString(), out quoteExpireDate);
+                    if (DateTime.Compare(DateTime.Now, quoteExpireDate) > 0)
+                    {
+                        orderViewModel.QuoteStatus = Constants.Quote.QuoteExpired;
+                    }
                 }
 
                 viewModel.Orders.Add(orderViewModel);

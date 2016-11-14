@@ -36,6 +36,18 @@
             public static string DisplayOrder = "Ref_DisplayOrder";
         }
 
+        public static class Quote
+        {
+            public static string QuoteExpireDate = "QuoteExpireDate";
+            public static string ParentOrderGroupId = "ParentOrderGroupId";
+            public static string QuoteStatus = "QuoteStatus";
+            public static string RequestQuotation = "RequestQuotation";
+            public static string RequestQuotationFinished = "RequestQuotationFinished";
+            public static string PreQuoteTotal = "PreQuoteTotal";
+            public static string PreQuotePrice = "PreQuotePrice";
+            public static string QuoteExpired = "QuoteExpired";            
+        }
+
         public static string SectionName = "InfoBlock";
         public static string DefaultDisplayOrder = "10000";
     }

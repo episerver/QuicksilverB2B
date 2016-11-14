@@ -31,6 +31,7 @@ using System.Linq;
 using System.Web.Mvc;
 using EPiServer.Logging;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
+using EPiServer.Reference.Commerce.Site.B2B;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 {
@@ -305,18 +306,18 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             try
             {
                 // If order comes from an quoted order.
-                if (Cart.Properties["ParentOrderGroupId"] != null)
+                if (Cart.Properties[Constants.Quote.ParentOrderGroupId] != null)
                 {
-                    int orderLink = int.Parse(Cart.Properties["ParentOrderGroupId"].ToString());
+                    int orderLink = int.Parse(Cart.Properties[Constants.Quote.ParentOrderGroupId].ToString());
                     if (orderLink != 0)
                     {
                         quoteOrder = _orderRepository.Load<IPurchaseOrder>(orderLink);
-                        if (quoteOrder.Properties["QuoteStatus"] != null)
+                        if (quoteOrder.Properties[Constants.Quote.QuoteStatus] != null)
                         {
-                            if (quoteOrder.Properties["QuoteStatus"].ToString().Equals("RequestQuotationFinished"))
+                            if (quoteOrder.Properties[Constants.Quote.QuoteStatus].ToString().Equals(Constants.Quote.RequestQuotationFinished))
                             {
                                 DateTime quoteExpireDate;
-                                DateTime.TryParse(quoteOrder.Properties["QuoteExpireDate"].ToString(),
+                                DateTime.TryParse(quoteOrder.Properties[Constants.Quote.QuoteExpireDate].ToString(),
                                     out quoteExpireDate);
                                 if (DateTime.Compare(DateTime.Now, quoteExpireDate) > 0)
                                 {
@@ -526,15 +527,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             var purchaseOrder = _orderRepository.Load<IPurchaseOrder>(orderLink) as PurchaseOrder;
 
             DateTime quoteExpireDate;
-            DateTime.TryParse(purchaseOrder["QuoteExpireDate"].ToString(), out quoteExpireDate);
+            DateTime.TryParse(purchaseOrder[Constants.Quote.QuoteExpireDate].ToString(), out quoteExpireDate);
             if (DateTime.Compare(DateTime.Now, quoteExpireDate) > 0) return Json(new { success = success });
-            if (Cart.OrderLink != null)
+            if (Cart != null && Cart.OrderLink != null)
                 _orderRepository.Delete(Cart.OrderLink);
 
             _cart = _cartServiceB2B.CreateNewCart();
             var returnedCart =_cartServiceB2B.PlaceOrderToCart(purchaseOrder, _cart);
 
-            returnedCart.Properties["ParentOrderGroupId"] = purchaseOrder.OrderGroupId;
+            returnedCart.Properties[Constants.Quote.ParentOrderGroupId] = purchaseOrder.OrderGroupId;
             _orderRepository.Save(returnedCart);
 
             // Get URL of the checkout page

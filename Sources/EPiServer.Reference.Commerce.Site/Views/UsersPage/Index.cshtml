@@ -10,7 +10,6 @@
                         @if (Model.Organizations.Count == 0)
                         {
                             <a href="@Url.Action("AddUser", "UsersPage")" class="btn btn-primary btn-sm disabled">Add User</a>
-                            <p>At least one sub-organization needs to be configured before adding a user.</p>
                         }
                         else
                         {
@@ -23,7 +22,12 @@
                                 <span class="js-search-icon icon-search glyphicon glyphicon-search" aria-hidden="true"></span>
                             </div>
                         </form>
+
                     </div>
+                    @if (Model.Organizations.Count == 0)
+                    {
+                        <p>At least one sub-organization needs to be configured before adding a user.</p>
+                    }
                     <table class="table table-striped">
                         <thead>
                             <tr>

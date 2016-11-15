@@ -17,7 +17,7 @@
                 <hr />
                 <div class="row section-box">
                     <div class="col-xs-12 col-sm-6">
-                        <h3>@Html.Translate("/OrderHistory/Labels/OrderID") <a href="/@Model.OrderDetailsPageUrl?orderGroupId=@order.OrderGroupId">@order.PurchaseOrder.OrderNumber</a></h3>
+                        <h3>@Html.Translate("/OrderHistory/Labels/OrderID") <a href="@Model.OrderDetailsPageUrl?orderGroupId=@order.OrderGroupId">@order.PurchaseOrder.OrderNumber</a></h3>
                         <p>@Html.Translate("/OrderHistory/Labels/OrderDate") @order.PurchaseOrder.Created.ToLongDateString()<br>@Html.Translate("/OrderHistory/Labels/Status") <strong>@(order.QuoteStatus ?? order.PurchaseOrder.OrderStatus.ToString())</strong>
                         </p>
                         @Html.Translate("/OrderHistory/Labels/Payment")

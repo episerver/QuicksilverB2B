@@ -31,13 +31,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
                 CurrentPage = currentPage,
                 Organization = _organizationService.GetCurrentUserOrganization()
             };
-            if (viewModel.Organization?.Address != null)
+            if (viewModel.Organization != null && viewModel.Organization?.Address == null)
             {
-                viewModel.Organization.Address.CountryName = _addressService.GetCountryNameByCode(viewModel.Organization.Address.CountryCode);
-            }
-            else
-            {
-                if (viewModel.Organization != null) viewModel.Organization.Address = new B2BAddressViewModel();
+                viewModel.Organization.Address = new B2BAddressViewModel();
             }
             if (viewModel.Organization == null)
             {

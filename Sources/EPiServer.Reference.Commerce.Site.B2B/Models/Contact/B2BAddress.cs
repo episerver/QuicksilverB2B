@@ -22,6 +22,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.Contact
         public string City { get { return Address.City; } set { Address.City = value; } }
         public string PostalCode { get { return Address.PostalCode; } set { Address.PostalCode = value; } }
         public string CountryCode { get { return Address.CountryCode; } set { Address.CountryCode = value; } }
+        public string CountryName { get { return Address.CountryName; } set { Address.CountryName = value; } }
 
         public Guid OrganizationId {
             get { return Address.OrganizationId ?? Guid.Empty; }

@@ -1,0 +1,51 @@
+﻿@using System.Web.Mvc.Html
+@using EPiServer.Commerce.Order
+@using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
+@model EPiServer.Reference.Commerce.Site.Features.OrderDetails.ViewModels.OrderDetailsViewModel
+
+@if (Model.PurchaseOrder != null)
+{
+    var orderForm = Model.PurchaseOrder.GetFirstForm();
+
+    <hr/>
+    <div class="row section-box">
+        <div class="col-xs-12 col-sm-6">
+            <h3>@Html.Translate("/OrderHistory/Labels/OrderID") @Model.PurchaseOrder.OrderNumber</h3>
+            <p>
+                @Html.Translate("/OrderHistory/Labels/OrderDate") @Model.PurchaseOrder.Created.ToLongDateString()<br>@Html.Translate("/OrderHistory/Labels/Status") <strong>@(Model.QuoteStatus ?? Model.PurchaseOrder.OrderStatus.ToString())</strong>
+            </p>
+            @Html.Translate("/OrderHistory/Labels/Payment")
+            @if (orderForm.Payments.Any())
+            {
+                string.Join(", ", orderForm.Payments.Select(x => x.PaymentMethodName));
+            }
+            <br>
+            @Html.Translate("/OrderHistory/Labels/TotalPrice") @Model.PurchaseOrder.GetTotal().ToString()
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <h4>@Html.Translate("/OrderHistory/Labels/ShippedTo")</h4>
+
+            @foreach (var shippingAddress in Model.ShippingAddresses)
+            {
+                @(Html.Partial("_Address", shippingAddress))
+            }
+
+        </div>
+        <div class="col-xs-12">
+            <h4>@Html.Translate("/OrderHistory/Labels/ObjectsOrdered")</h4>
+            <ul class="list-unstyled">
+                @foreach (var item in Model.Items)
+                {
+                    <li><a href="@item.LineItem.GetUrl()" class="link--black"><img src="@item.LineItem.GetThumbnailUrl()"/> @item.LineItem.GetEntryContent().DisplayName</a></li>
+                }
+            </ul>
+        </div>
+    </div>
+    if (Model.QuoteStatus != null && Model.QuoteStatus.Equals("RequestQuotationFinished"))
+    {
+        using (Html.BeginForm("LoadOrder", "Checkout", FormMethod.Post))
+        {
+            <button type="button" class="btn btn-block btn-warning jsCartLoadOrder" aria-expanded="false" data-order-link="@Model.OrderGroupId">@Html.Translate("/Header/MiniCart/Button/GoToCheckout")</button>
+        }
+    }
+}

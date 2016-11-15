@@ -8,9 +8,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using EPiServer.Commerce.Order;
+using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.OrderHistory.ViewModels;
 using Mediachase.Commerce.Orders;
 using EPiServer.Reference.Commerce.Site.B2B;
+using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
+using EPiServer.Web.Routing;
 
 namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.Controllers
 {
@@ -20,12 +23,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.Controllers
         private readonly CustomerContextFacade _customerContext;
         private readonly IAddressBookService _addressBookService;
         private readonly IOrderRepository _orderRepository;
+        private readonly IContentLoader _contentLoader;
 
-        public OrderHistoryController(CustomerContextFacade customerContextFacade, IAddressBookService addressBookService, IOrderRepository orderRepository)
+        public OrderHistoryController(CustomerContextFacade customerContextFacade, IAddressBookService addressBookService, IOrderRepository orderRepository, IContentLoader contentLoader)
         {
             _customerContext = customerContextFacade;
             _addressBookService = addressBookService;
             _orderRepository = orderRepository;
+            _contentLoader = contentLoader;
         }
 
         [HttpGet]
@@ -81,6 +86,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.Controllers
 
                 viewModel.Orders.Add(orderViewModel);
             }
+
+            viewModel.OrderDetailsPageUrl =
+                UrlResolver.Current.GetUrl(_contentLoader.Get<StartPage>(ContentReference.StartPage).OrderDetailsPage);
 
             return View(viewModel);
         }

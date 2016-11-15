@@ -143,5 +143,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
             Order = 10)]
         public virtual ContentReference PageNotFound { get; set; }
 
+        [Display(
+            Name = "Order details page",
+            Description = "",
+            GroupName = SiteTabs.SiteStructure,
+            Order = 15)]
+        public virtual ContentReference OrderDetailsPage { get; set; }
+
     }
 }

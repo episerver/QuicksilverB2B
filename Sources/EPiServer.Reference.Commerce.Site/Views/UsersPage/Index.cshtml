@@ -7,11 +7,19 @@
                 @{ Html.RenderAction("Index", "B2BNavigation");}
                 <section>
                     <div class="section-title spacer-bottom-m">
-                        <a href="@Url.Action("AddUser","UsersPage")" class="btn btn-primary btn-sm">Add User</a>
+                        @if (Model.Organizations.Count == 0)
+                        {
+                            <a href="@Url.Action("AddUser", "UsersPage")" class="btn btn-primary btn-sm disabled">Add User</a>
+                            <p>At least one sub-organization needs to be configured before adding a user.</p>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("AddUser", "UsersPage")" class="btn btn-primary btn-sm">Add User</a>
+                        }
                         <form class="pull-right" action="" method="get" role="search">
                             <div class="custom-search">
                                 <input type="text" id="viewUsersAutocomplete" autocomplete="off" placeholder="search"/>
-                                <span class="js-reset-icon close-icon" style="display:none"></span>
+                                <span class="js-reset-icon close-icon" style="display: none"></span>
                                 <span class="js-search-icon icon-search glyphicon glyphicon-search" aria-hidden="true"></span>
                             </div>
                         </form>

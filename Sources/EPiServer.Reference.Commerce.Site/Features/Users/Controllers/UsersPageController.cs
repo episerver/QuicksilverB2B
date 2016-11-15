@@ -42,10 +42,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
 
         public ActionResult Index(UsersPage currentPage)
         {
+            var organization = _organizationService.GetCurrentUserOrganization();
             var viewModel = new UsersPageViewModel
             {
                 CurrentPage = currentPage,
-                Users = _customerService.GetContactsForCurrentOrganization()
+                Users = _customerService.GetContactsForCurrentOrganization(),
+                Organizations = organization.SubOrganizations ?? new List<OrganizationModel>()
             };
             return View(viewModel);
         }

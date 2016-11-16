@@ -62,5 +62,6 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels
         public string UserRole { get; set; }
         public OrganizationModel Organization { get; set; }
         public BudgetViewModel Budget { get; set; }
+        public bool ExistingUser { get; set; }
     }
 }

@@ -27,42 +27,23 @@
                             <label>Total Price</label>
                         </div>
                     </div>
-                    <form id="quickOrderForm">
+                    @using (Html.BeginForm("Import", "QuickOrderPage", FormMethod.Post, new { @id = "quickOrderForm" }))
+                    {
                         <div class="row order-row">
                             <div class="form-group col-sm-4">
-                                <input type="text" id="" name="productname1" placeholder="" required/>
+                                @Html.TextBoxFor(x => x.ProductsList[0].ProductName)
                             </div>
                             <div class="form-group col-sm-2">
-                                <input type="text" id="" name="sku1" placeholder="" required/>
+                                @Html.TextBoxFor(x => x.ProductsList[0].Sku)
                             </div>
                             <div class="form-group col-sm-2">
-                                <input type="text" id="" name="unitprice1" placeholder="" required/>
+                                @Html.TextBoxFor(x => x.ProductsList[0].UnitPrice)
                             </div>
                             <div class="form-group col-sm-2">
-                                <input type="text" id="" name="quantity1" placeholder="" required/>
+                                @Html.TextBoxFor(x => x.ProductsList[0].Quantity)
                             </div>
                             <div class="form-group col-sm-2">
-                                <input type="text" id="" name="totalprice1" placeholder="" required/>
-                            </div>
-                            <a href="#" class="btn btn-danger btn-xs delete-icon">
-                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                            </a>
-                        </div>
-                        <div class="row order-row">
-                            <div class="form-group col-sm-4">
-                                <input type="text" id="" name="productname2" placeholder="" required />
-                            </div>
-                            <div class="form-group col-sm-2">
-                                <input type="text" id="" name="sku2" placeholder="" required />
-                            </div>
-                            <div class="form-group col-sm-2">
-                                <input type="text" id="" name="unitprice2" placeholder="" required />
-                            </div>
-                            <div class="form-group col-sm-2">
-                                <input type="text" id="" name="quantity2" placeholder="" required />
-                            </div>
-                            <div class="form-group col-sm-2">
-                                <input type="text" id="" name="totalprice2" placeholder="" required />
+                                @Html.TextBoxFor(x => x.ProductsList[0].TotalPrice)
                             </div>
                             <a href="#" class="btn btn-danger btn-xs delete-icon">
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
@@ -70,12 +51,12 @@
                         </div>
                         <a class="btn btn-sm btn-primary js-add-row-btn">Add row</a>
                         <div class="spacer-top-l">
-                            <input type="file" data-interface="lattice" data-label="Upload CVS">
+                            <input type="file" data-interface="lattice" data-label="Upload CSV">
 
                             <button type="submit" class="btn btn-primary">Import</button>
                             <a href="@Url.Action("Index", "UsersPage")" class="btn btn-default">Cancel</a>
                         </div>
-                    </form>
+                    }
                 </section>
             </div>
         </main>

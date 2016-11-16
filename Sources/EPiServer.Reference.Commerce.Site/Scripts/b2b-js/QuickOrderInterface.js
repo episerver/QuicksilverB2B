@@ -21,7 +21,8 @@
                 var arrNum = nameAttr.match(/\d+/);
                 var nr = arrNum ? arrNum[0] : 0;
                 var substr = nameAttr.substring(0, nameAttr.indexOf(nr));
-                var newName = substr + (++nr);
+                var endStr = nameAttr.substring(nameAttr.indexOf(nr) + 1, nameAttr.length);
+                var newName = substr + (++nr) + endStr;
                 $this.attr('name', newName);
                 $this.val('');
             });

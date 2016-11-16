@@ -254,6 +254,7 @@
     <Compile Include="Models\Pages\UsersPage.cs" />
     <Compile Include="Models\ViewModels\B2BAddressViewModel.cs" />
     <Compile Include="Models\ViewModels\B2BCountryViewModel.cs" />
+    <Compile Include="Models\ViewModels\ProductViewModel.cs" />
     <Compile Include="Models\ViewModels\BudgetViewModel.cs" />
     <Compile Include="Models\ViewModels\ContactViewModel.cs" />
     <Compile Include="Models\ViewModels\OrganizationModel.cs" />

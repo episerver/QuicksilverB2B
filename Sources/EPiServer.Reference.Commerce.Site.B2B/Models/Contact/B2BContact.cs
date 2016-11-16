@@ -18,7 +18,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.Contact
         public Guid ContactId
         {
             get { return Contact.PrimaryKeyId ?? Guid.Empty; }
-            set { Contact.PrimaryKeyId = (PrimaryKeyId?) value; }
+            set { Contact.PrimaryKeyId = new PrimaryKeyId(value); }
         }
         public string FirstName { get { return Contact.FirstName; } set { Contact.FirstName = value; } }
         public string LastName { get { return Contact.LastName; } set { Contact.LastName = value; } }
@@ -42,6 +42,8 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.Contact
         }
 
         public Budget Budget { get; set; }
+        // The UserId needs to be set in the format "String:{email}". Else a duplicate CustomerContact will be created later on.
+        public string UserId { get { return Contact.UserId; } set { Contact.UserId = $"String:{value}"; } }
 
         public void SaveChanges()
         {

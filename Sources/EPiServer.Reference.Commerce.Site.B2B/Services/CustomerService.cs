@@ -61,14 +61,15 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
                 FirstName = contactModel.FirstName,
                 LastName = contactModel.LastName,
                 Email = contactModel.Email,
+                UserId = contactModel.Email,
                 UserRole = contactModel.UserRole,
                 FullName = contactModel.FullName,
                 UserLocationId = contactModel.Location
             };
+            contact.SaveChanges();
 
             var organization = _organizationDomainService.GetOrganizationEntityById(contactModel.OrganizationId);
             contact.B2BOrganization = organization;
-
             contact.SaveChanges();
         }
 

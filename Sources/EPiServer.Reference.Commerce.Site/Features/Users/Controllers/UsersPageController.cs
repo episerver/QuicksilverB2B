@@ -104,6 +104,17 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
         [AllowDBWrite]
         public ActionResult AddUser(UsersPageViewModel viewModel)
         {
+            ApplicationUser user = _userManager.FindByEmail(viewModel.Contact.Email);
+            if (user != null)
+            {
+                viewModel.Contact.ExistingUser = true;
+
+                var organization = _organizationService.GetCurrentUserOrganization();
+                viewModel.Organizations = organization.SubOrganizations ?? new List<OrganizationModel>();
+
+                return View(viewModel);
+            }
+
             SaveUser(viewModel);
 
             return RedirectToAction("Index");

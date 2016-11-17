@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EPiServer.Reference.Commerce.Site.B2B.DomainServiceContracts;
+using EPiServer.Reference.Commerce.Site.B2B.Enums;
 using EPiServer.Reference.Commerce.Site.B2B.Models.Contact;
 using EPiServer.Reference.Commerce.Site.B2B.Models.Entities;
 using EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels;
@@ -86,6 +87,12 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             var contact = _customerDomainService.GetContactById(id);
             contact.B2BOrganization = new B2BOrganization(new Organization());
             contact.SaveChanges();
+        }
+
+        public bool CanSeeOrganizationNav()
+        {
+            var currentRole = _customerDomainService.GetCurrentContact().B2BUserRole;
+            return currentRole == B2BUserRoles.Admin || currentRole == B2BUserRoles.Approver;
         }
     }
 }

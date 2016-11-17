@@ -1,4 +1,5 @@
 ﻿using System;
+using EPiServer.Reference.Commerce.Site.B2B.Enums;
 using EPiServer.Reference.Commerce.Site.B2B.Extensions;
 using EPiServer.Reference.Commerce.Site.B2B.Models.Entities;
 using Mediachase.BusinessFoundation.Data;
@@ -28,6 +29,16 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.Contact
         {
             get { return Contact.GetStringValue(Constants.Fields.UserRole); }
             set { Contact[Constants.Fields.UserRole] = value; }
+        }
+
+        public B2BUserRoles B2BUserRole
+        {
+            get
+            {
+                B2BUserRoles retVal;
+                var parsed = Enum.TryParse(UserRole, out retVal);
+                return parsed ? retVal : B2BUserRoles.None;
+            }
         }
 
         public B2BOrganization B2BOrganization {

@@ -6,8 +6,8 @@
     function onChooseEvent() {
         var selectedItemData = this.getSelectedItemData();
         var parent = this.closest('.order-row');
-        parent.find('input[name*=ProductName]').attr('value', selectedItemData.productName);
-        parent.find('input[name*=UnitPrice]').attr('value', selectedItemData.unitPrice);
+        parent.find('input[name*=ProductName]').val(selectedItemData.productName);
+        parent.find('input[name*=UnitPrice]').val(selectedItemData.unitPrice);
     }
 
     function onDeleteIcon() {
@@ -27,6 +27,7 @@
             var $clone = $rowToClone.clone();
             $clone.find('input').each(function () {
                 var $this = $(this);
+                
 
                 // update name
                 var nameAttr = $this.attr('name');
@@ -36,6 +37,8 @@
                 var endStr = nameAttr.substring(nameAttr.indexOf(nr) + 1, nameAttr.length);
                 var newString = substr + (++nr) + endStr;
                 $this.attr('name', newString);
+
+                
 
                 // update id
                 var idAttr = $this.attr('id');
@@ -47,8 +50,41 @@
                 $this.attr('id', newString);
 
                 $this.val('');
+
+                
             });
             $clone.insertBefore($this);
+
+            var $skuInput = $('input[name*=Sku]', $clone);
+            var $parentOfSku = $skuInput.parent();
+            var options = {
+                url: function (phrase) {
+                    return "/QuickOrderPage/GetSku?query=" + phrase;
+                },
+                getValue: "sku",
+                list: {
+                    match: {
+                        enabled: true
+                    },
+                    onChooseEvent: onChooseEvent.bind($skuInput)
+                }
+            };
+            $skuInput.prependTo($skuInput.parent().parent());
+            $parentOfSku.remove();
+            $skuInput.easyAutocomplete(options);
+        });
+    }
+
+    function onUpdateQuantity() {
+        $quickOrderForm.on('change', 'input[name*=Quantity]', function () {
+            var $quantity = $(this);
+            var $row = $quantity.closest('.order-row');
+            var $totalPrice = $row.find('input[name*=TotalPrice]');
+            var $unitPrice = $row.find('input[name*=UnitPrice]');
+            var quantityVal = parseInt($quantity.val());
+            var unitPriceVal = parseFloat($unitPrice.val());
+            var total = quantityVal * unitPriceVal;
+            $totalPrice.val(total);
         });
     }
 
@@ -56,6 +92,7 @@
 
         onDeleteIcon();
         onAddRow();
+        onUpdateQuantity();
     }
 
     function init() {

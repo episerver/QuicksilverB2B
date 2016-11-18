@@ -9,7 +9,7 @@
                     <div class="section-title spacer-bottom-l">
                         <h2 class="h3">Quick Order Interface</h2>
                     </div>
-
+                    
                     <div class="row">
                         <div class="col-sm-4">
                             <label>Product name</label>
@@ -37,19 +37,28 @@
                                 @Html.TextBoxFor(x => x.ProductsList[0].Sku)
                             </div>
                             <div class="form-group col-sm-2">
-                                @Html.TextBoxFor(x => x.ProductsList[0].UnitPrice)
+                                @Html.TextBoxFor(x => x.ProductsList[0].UnitPrice, new { @readonly = "readonly" })
                             </div>
                             <div class="form-group col-sm-2">
                                 @Html.TextBoxFor(x => x.ProductsList[0].Quantity)
                             </div>
                             <div class="form-group col-sm-2">
-                                @Html.TextBoxFor(x => x.ProductsList[0].TotalPrice)
+                                @Html.TextBoxFor(x => x.ProductsList[0].TotalPrice, new { @readonly = "readonly" })
                             </div>
                             <a href="#" class="btn btn-danger btn-xs delete-icon">
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                             </a>
                         </div>
                         <a class="btn btn-sm btn-primary js-add-row-btn">Add row</a>
+
+                        if (Model.ReturnedMessages != null && Model.ReturnedMessages.Count > 0)
+                        {
+                            foreach (var message in Model.ReturnedMessages)
+                            {
+                                <p>@message</p>
+                            }
+                        }
+
                         <div class="spacer-top-l">
                             <input type="file" data-interface="lattice" data-label="Upload CSV">
 

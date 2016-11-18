@@ -34,6 +34,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             address.City = addressModel.City;
             address.PostalCode = addressModel.PostalCode;
             address.CountryCode = addressModel.CountryCode;
+            address.CountryName = GetCountryNameByCode(addressModel.CountryCode);
 
             address.SaveChanges();
         }

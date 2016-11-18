@@ -7,5 +7,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.ViewModels
     public class OrderHistoryViewModel : PageViewModel<OrderHistoryPage>
     {
         public List<OrderViewModel> Orders { get; set; }
+        public string OrderDetailsPageUrl { get; set; }
     }
 }

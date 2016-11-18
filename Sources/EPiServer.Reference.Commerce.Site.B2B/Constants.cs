@@ -1,4 +1,6 @@
-﻿namespace EPiServer.Reference.Commerce.Site.B2B
+﻿using System.Collections.Generic;
+
+namespace EPiServer.Reference.Commerce.Site.B2B
 {
     public static class Constants
     {
@@ -52,6 +54,13 @@
             public static string CustomerFullName = "CustomerFullName";
             public static string CustomerEmailAddress = "CustomerEmailAddress";
             public static string CurrentCustomerOrganization = "CurrentCustomerOrganization";
+        }
+
+        public static class B2BNavigationFor
+        {
+            public static List<string> Admin = new List<string> { "Overview", "Users", "Orders", "Order Pad", "Budgeting" };
+            public static List<string> Approver = new List<string> { "Overview", "Orders", "Order Pad", "Budgeting" };
+            //public static List<string> Purchaser = new List<string> { "" };
         }
 
         public static string SectionName = "InfoBlock";

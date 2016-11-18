@@ -15,6 +15,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels
             City = address.City;
             PostalCode = address.PostalCode;
             CountryCode = address.CountryCode;
+            CountryName = address.CountryName;
         }
 
         public B2BAddressViewModel()

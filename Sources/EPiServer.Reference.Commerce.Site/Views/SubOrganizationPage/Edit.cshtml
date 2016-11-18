@@ -85,7 +85,7 @@
                                         <span class="custom-select-split"></span>
                                         <span class="custom-select-arrow arrow-down"></span>
                                         @Html.DropDownListFor(x => x.SubOrganizationModel.Locations[i].CountryCode,
-                                        new SelectList(Model.SubOrganizationModel.CountryOptions, "Code", "Name"),
+                                        new SelectList(Model.SubOrganizationModel.CountryOptions, "Code", "Name", Model.SubOrganizationModel.Locations[i].CountryCode),
                                         new { @class = "form-control" })
                                     </div>
                                     @Html.ValidationMessageFor(x => x.SubOrganizationModel.Locations[i].CountryCode)

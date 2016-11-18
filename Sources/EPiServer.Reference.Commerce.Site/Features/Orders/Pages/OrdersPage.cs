@@ -1,13 +1,11 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
-using EPiServer.SpecializedProperties;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Orders.Pages
 {
-    [ContentType(DisplayName = "OrdersPage", GUID = "3c436a14-38d1-4fd1-ab37-15f0848cfa24", Description = "", AvailableInEditMode = false)]
+    [ContentType(DisplayName = "OrdersPage", GUID = "3c436a14-38d1-4fd1-ab37-15f0848cfa24", Description = "", AvailableInEditMode = true)]
     public class OrdersPage : PageData
     {
         [CultureSpecific]

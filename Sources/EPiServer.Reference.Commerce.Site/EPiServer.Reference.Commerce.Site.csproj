@@ -348,6 +348,7 @@
     <Content Include="Scripts\js\Navigation.js" />
     <Content Include="Scripts\b2b-js\OrderPads.js" />
     <Content Include="Scripts\b2b-js\Organization.js" />
+    <Content Include="Scripts\js\Orders.js" />
     <Content Include="Scripts\js\Product.js" />
     <Content Include="Scripts\b2b-js\QuickOrderInterface.js" />
     <Content Include="Scripts\js\Registration.js" />
@@ -429,7 +430,6 @@
     <Compile Include="Features\Navigation\ViewModels\OrgNavigationViewModel.cs" />
     <Compile Include="Features\Orders\Controllers\OrdersPageController.cs" />
     <Compile Include="Features\Orders\Pages\OrdersPage.cs" />
-    <Compile Include="Features\Orders\ViewModels\OrdersPageViewModel.cs" />
     <Compile Include="Features\Organization\Controllers\OrganizationPageController.cs" />
     <Compile Include="Features\Organization\ViewModels\OrganizationPageViewModel.cs" />
     <Compile Include="Features\Payment\Models\PaymentMethodModel.cs" />

@@ -7,6 +7,7 @@ using EPiServer.ServiceLocation;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Website.Helpers;
 using System.Configuration;
+using Mediachase.Commerce.Customers;
 
 namespace EPiServer.Reference.Commerce.Site.B2B.Services
 {
@@ -14,13 +15,15 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
     public class CartServiceB2B: ICartServiceB2B
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly IOrganizationService _organizationService;
         private const string DefaultCartName = "Default";
 
-        public CartServiceB2B(IOrderRepository orderRepository)
+        public CartServiceB2B(IOrderRepository orderRepository, IOrganizationService organizationService)
         {
             _orderRepository = orderRepository;
+            _organizationService = organizationService;
         }
- 
+
         public ICart CreateNewCart()
         {
             return new CartHelper(DefaultCartName).Cart;
@@ -43,20 +46,37 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             var quoteResult = true;
             try
             {
+                foreach (var lineItem in cart.GetFirstForm().GetAllLineItems())
+                {
+                    lineItem.Properties[Constants.Quote.PreQuotePrice] = lineItem.PlacedPrice;
+                }
+                
                 OrderReference orderReference = _orderRepository.SaveAsPurchaseOrder(cart);
                 PurchaseOrder purchaseOrder = _orderRepository.Load<IPurchaseOrder>(orderReference.OrderGroupId) as PurchaseOrder;
                 if (purchaseOrder != null)
                 {
                     int quoteExpireDays;
-                    int.TryParse(ConfigurationManager.AppSettings["QuoteExpireDate"], out quoteExpireDays);
-                    purchaseOrder["QuoteExpireDate"] =
-                        string.IsNullOrEmpty(ConfigurationManager.AppSettings["QuoteExpireDate"])
+                    int.TryParse(ConfigurationManager.AppSettings[Constants.Quote.QuoteExpireDate], out quoteExpireDays);
+                    purchaseOrder[Constants.Quote.QuoteExpireDate] =
+                        string.IsNullOrEmpty(ConfigurationManager.AppSettings[Constants.Quote.QuoteExpireDate])
                             ? DateTime.Now.AddDays(30)
                             : DateTime.Now.AddDays(quoteExpireDays);
 
-                    purchaseOrder["PreQuoteTotal"] = purchaseOrder.Total;
-                    purchaseOrder["QuoteStatus"] = "RequestQuotation";
+                    purchaseOrder[Constants.Quote.PreQuoteTotal] = purchaseOrder.Total;
+                    purchaseOrder[Constants.Quote.QuoteStatus] = Constants.Quote.RequestQuotation;
                     purchaseOrder.Status = OrderStatus.OnHold.ToString();
+
+                    if (CustomerContext.Current != null && CustomerContext.Current.CurrentContact != null)
+                    {
+                        var contact = CustomerContext.Current.CurrentContact;
+                        purchaseOrder[Constants.Customer.CustomerFullName] = contact.FullName;
+                        purchaseOrder[Constants.Customer.CustomerEmailAddress] = contact.Email;
+                        if (_organizationService.GetCurrentUserOrganization() != null)
+                        {
+                            var organization = _organizationService.GetCurrentUserOrganization();
+                            purchaseOrder[Constants.Customer.CurrentCustomerOrganization] = organization.Name;
+                        }
+                    }
                 }
                 _orderRepository.Save(purchaseOrder);
             }

@@ -240,6 +240,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="CustomerProcessors\B2BPlacedPriceProcessor.cs" />
     <Compile Include="DomainServiceContracts\ICustomerDomainService.cs" />
     <Compile Include="DomainServiceContracts\IOrganizationDomainService.cs" />
     <Compile Include="DomainServices\CustomerDomainService.cs" />
@@ -256,12 +257,16 @@
     <Compile Include="Models\ViewModels\B2BCountryViewModel.cs" />
     <Compile Include="Models\ViewModels\BudgetViewModel.cs" />
     <Compile Include="Models\ViewModels\ContactViewModel.cs" />
+    <Compile Include="Models\ViewModels\OrdersPageViewModel.cs" />
     <Compile Include="Models\ViewModels\OrganizationModel.cs" />
     <Compile Include="Models\ViewModels\SubOrganizationModel.cs" />
+    <Compile Include="Models\ViewModels\OrderOrganizationViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceContracts\IOrdersService.cs" />
     <Compile Include="ServiceContracts\IOrganizationService.cs" />
     <Compile Include="ServiceContracts\IAddressService.cs" />
     <Compile Include="ServiceContracts\ICustomerService.cs" />
+    <Compile Include="Services\OrdersService.cs" />
     <Compile Include="Services\OrganizationService.cs" />
     <Compile Include="Services\AddressService.cs" />
     <Compile Include="Services\CustomerService.cs" />

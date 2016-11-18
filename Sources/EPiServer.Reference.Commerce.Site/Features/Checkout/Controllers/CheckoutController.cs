@@ -32,6 +32,7 @@ using System.Web.Mvc;
 using EPiServer.Logging;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using EPiServer.Reference.Commerce.Site.B2B;
+using Mediachase.Commerce.Customers;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 {
@@ -54,6 +55,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         private readonly IAddressBookService _addressBookService;
         private readonly IOrderFactory _orderFactory;
         private readonly IContentLoader _contentLoader;
+        private readonly IOrganizationService _organizationService;
         private ICart _cart;
 
         public CheckoutController(IContentRepository contentRepository,
@@ -72,7 +74,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             OrderSummaryViewModelFactory orderSummaryViewModelFactory,
             IOrderFactory orderFactory,
             ICartServiceB2B cartServiceB2B,
-            IContentLoader contentLoader)
+            IContentLoader contentLoader,
+            IOrganizationService organizationService)
         {
             _contentRepository = contentRepository;
             _mailService = mailService;
@@ -91,6 +94,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             _orderFactory = orderFactory;
             _cartServiceB2B = cartServiceB2B;
             _contentLoader = contentLoader;
+            _organizationService = organizationService;
         }
 
         [HttpGet]
@@ -455,9 +459,28 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             var payment = Cart.GetFirstForm().Payments.First();
             checkoutViewModel.Payment.PaymentMethod.PostProcess(payment);
 
-           var orderReference = _orderRepository.SaveAsPurchaseOrder(Cart);
+            var orderReference = _orderRepository.SaveAsPurchaseOrder(Cart);
            var purchaseOrder = _orderRepository.Load<IPurchaseOrder>(orderReference.OrderGroupId);
             _orderRepository.Delete(Cart.OrderLink);
+
+            if (CustomerContext.Current != null && CustomerContext.Current.CurrentContact != null)
+            {
+                var contact = CustomerContext.Current.CurrentContact;
+                purchaseOrder.Properties[Constants.Customer.CustomerFullName] = contact.FullName;
+                purchaseOrder.Properties[Constants.Customer.CustomerEmailAddress] = contact.Email;
+                if (_organizationService.GetCurrentUserOrganization() != null)
+                {
+                    var organization = _organizationService.GetCurrentUserOrganization();
+                    purchaseOrder.Properties[Constants.Customer.CurrentCustomerOrganization] = organization.Name;
+                }
+            }
+            else
+            {
+                purchaseOrder.Properties[Constants.Customer.CustomerFullName] = checkoutViewModel.BillingAddress.Name;
+                purchaseOrder.Properties[Constants.Customer.CustomerEmailAddress] = checkoutViewModel.BillingAddress.Email;
+                purchaseOrder.Properties[Constants.Customer.CurrentCustomerOrganization] = "";
+            }
+            _orderRepository.Save(purchaseOrder);
 
             return purchaseOrder;
         }

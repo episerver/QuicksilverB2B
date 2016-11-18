@@ -24,6 +24,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.WebPages;
+using EPiServer.Reference.Commerce.Site.B2B.CustomerProcessors;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure
 {
@@ -66,6 +67,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
 
             services.AddTransient<IOrderGroupCalculator, SiteOrderGroupCalculator>(); // TODO: should remove this configuration and calculator class after COM-2434 was resolved
             services.AddTransient<IOrderFormCalculator, SiteOrderFormCalculator>(); // TODO: should remove this configuration and calculator class after COM-2434 was resolved
+            services.AddTransient<IPlacedPriceProcessor, B2BPlacedPriceProcessor>(); // TODO: should remove this configuration and calculator class after COM-2434 was resolved
 
             services.AddTransient<PreferredCultureAccessor>(locator => () => ContentLanguage.PreferredCulture);
 

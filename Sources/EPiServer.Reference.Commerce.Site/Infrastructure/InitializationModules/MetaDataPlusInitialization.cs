@@ -20,6 +20,12 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.InitializationModules
                 true, false);
             AddMetaFieldToClass(mdContext, "Mediachase.Commerce.Orders.System", "OrderFormEx", Constants.Quote.PreQuoteTotal, MetaDataType.Decimal, 255,
                 true, false, 9, 38);
+            AddMetaFieldToClass(mdContext, "Mediachase.Commerce.Orders.System", "OrderFormEx", Constants.Customer.CustomerFullName, MetaDataType.LongString, 255,
+                true, false, 9, 38);
+            AddMetaFieldToClass(mdContext, "Mediachase.Commerce.Orders.System", "OrderFormEx", Constants.Customer.CurrentCustomerOrganization, MetaDataType.LongString, 255,
+                true, false, 9, 38);
+            AddMetaFieldToClass(mdContext, "Mediachase.Commerce.Orders.System", "OrderFormEx", Constants.Customer.CustomerEmailAddress, MetaDataType.LongString, 255,
+                true, false, 9, 38);
             AddMetaFieldToClass(mdContext, "Mediachase.Commerce.Orders.System", "LineItemEx", Constants.Quote.PreQuotePrice, MetaDataType.Decimal, 38,
                true, false, 9, 38);
             AddMetaFieldToClass(mdContext, "Mediachase.Commerce.Orders.System", "ShoppingCart", Constants.Quote.ParentOrderGroupId, MetaDataType.Int, 255,

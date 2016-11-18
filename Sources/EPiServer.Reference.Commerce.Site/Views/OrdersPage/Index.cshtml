@@ -1,92 +1,46 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.Orders.ViewModels.OrdersPageViewModel
+﻿@model EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels.OrdersPageViewModel
 <div class="container-fluid">
     <div class="row myPage">
-        <aside class="col-xs-12 col-sm-3 sidebar-nav">
-            <h2 class="h3">Account</h2>
-            <ul class="nav nav-stacked" role="tablist">
-                <li role="presentation" class="is-active">
-                    <a href="/en/my-pages/profile/" aria-expanded="True">Profile</a>
-                </li>
-                <li role="presentation" class="">
-                    <a href="/en/my-pages/address-book/" aria-expanded="False">Address book</a>
-                </li>
-                <li role="presentation" class="">
-                    <a href="/en/my-pages/order-history/" aria-expanded="False">Order history</a>
-                </li>
-                <li role="presentation" class="">
-                    <a href="/en/my-pages/wish-list/" aria-expanded="False">Wish list</a>
-                </li>
-                <li role="presentation" class="">
-                    <a href="/en/my-pages/reset-password/" aria-expanded="False">Reset password</a>
-                </li>
-            </ul>
-            <h2 class="h3">Organization</h2>
-            <ul class="nav nav-stacked" role="tablist">
-                <li role="presentation">
-                    <a href="#" class="" aria-expanded="">[Organization]</a>
-                    <ul class="nav nav-stacked" role="tablist">
-                        <li><a href="#" class="" aria-expanded="">[Suborganization A]</a></li>
-                        <li><a href="#" class="" aria-expanded="">[Suborganization B]</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </aside>
+        @Html.Partial("_CmsNavigation", Model.CurrentPage)
         <main class="col-xs-12 col-sm-9">
             <div class="spacer-left-l">
-                <div class="btn-group spacer-bottom-l" role="group" aria-label="">
-                    <a href="@Url.Action("Index", "OrganizationPage")" class="btn btn-default">Overview</a>
-                    <a href="#" class="btn btn-default">Users</a>
-                    <a href="#" class="btn btn-default active">Orders</a>
-                    <a href="#" class="btn btn-default">Order Pad</a>
-                    <a href="#" class="btn btn-default">Budgeting</a>
-                </div>
+                @{ Html.RenderAction("Index", "B2BNavigation");}
                 <section>
-
                     <div class="section-title spacer-bottom-m">
                         <label>Filter by status:</label>
-                        <div class="btn-group spacer-left-s" role="group">
-                            <a href="#" class="btn btn-default active">all</a>
-                            <a href="#" class="btn btn-default">in progress</a>
-                            <a href="#" class="btn btn-default">requested quote</a>
-                            <a href="#" class="btn btn-default">completed</a>
-                        </div>
                     </div>
+                    <select class="selectpicker orderStatusPicker">
+                        <option value="All">All</option>
+                        <option value="OnHold">On Hold</option>
+                        <option value="InProgress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                        <option value="RequestedQuote">Requested Quote</option>
+                        <option value="RequestedQuoteFinished">Requested Quote Finished</option>
+                        <option value="RequestedQuoteExpired">Requested Quote Expired</option>
+                    </select>
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th>order no.</th>
-                            <th>placed on</th>
-                            <th>amount</th>
-                            <th>suborganization</th>
-                            <th>user</th>
-                            <th>status</th>
+                            <th>Order No.</th>
+                            <th>Placed On</th>
+                            <th>Amount</th>
+                            <th>SubOrganization</th>
+                            <th>User</th>
+                            <th>Status</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td><a href="#">#22548</a></td>
-                            <td>September 23rd, 2016</td>
-                            <td>$320</td>
-                            <td>Episerver EMEA</td>
-                            <td>Tina Mayer</td>
-                            <td>completed</td>
-                        </tr>
-                        <tr>
-                            <td><a href="#">#23948</a></td>
-                            <td>September 23rd, 2016</td>
-                            <td>$120</td>
-                            <td>Episerver Americas</td>
-                            <td>Ashley Steward</td>
-                            <td>in progress</td>
-                        </tr>
-                        <tr>
-                            <td><a href="#">#24589</a></td>
-                            <td>September 23rd, 2016</td>
-                            <td>$390</td>
-                            <td>Episerver Americas</td>
-                            <td>Mike Purchaser</td>
-                            <td>requested quote</td>
-                        </tr>
+                        @foreach (var order in Model.OrdersOrganization)
+                        {
+                            <tr class="orderElement @order.Status">
+                                <td><a href="@order.OrderLink">#@order.OrderNumber</a></td>
+                                <td>@order.PlacedOrderDate</td>
+                                <td>@order.Currency @order.Ammount</td>
+                                <td>@order.SubOrganization</td>
+                                <td>@order.User</td>
+                                <td>@order.Status</td>
+                            </tr>
+                        }
                         </tbody>
                     </table>
                 </section>

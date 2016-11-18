@@ -45,7 +45,13 @@
             public static string RequestQuotationFinished = "RequestQuotationFinished";
             public static string PreQuoteTotal = "PreQuoteTotal";
             public static string PreQuotePrice = "PreQuotePrice";
-            public static string QuoteExpired = "QuoteExpired";            
+            public static string QuoteExpired = "QuoteExpired";
+        }
+        public static class  Customer
+        {
+            public static string CustomerFullName = "CustomerFullName";
+            public static string CustomerEmailAddress = "CustomerEmailAddress";
+            public static string CurrentCustomerOrganization = "CurrentCustomerOrganization";
         }
 
         public static string SectionName = "InfoBlock";

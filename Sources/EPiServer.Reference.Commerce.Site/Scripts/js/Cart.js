@@ -125,7 +125,7 @@
     },
     loadOrder: function (e) {
         var form = $(this).closest("form");
-        var orderLink = $(".jsCartLoadOrder").data("order-link");
+        var orderLink = e.currentTarget.getAttribute("data-order-link");
         $.ajax({
             type: "POST",
             url: form[0].action,

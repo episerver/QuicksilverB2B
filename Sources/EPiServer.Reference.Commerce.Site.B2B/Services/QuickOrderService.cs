@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Globalization;
+using System.Linq;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
+using EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using EPiServer.ServiceLocation;
 using Mediachase.Commerce.InventoryService;
@@ -31,6 +33,21 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
                 return $"The max quantity for the product with SKU {code} is {maxQuantity}.";
             }
             return null;
+        }
+
+        public ProductViewModel GetProductByCode(ContentReference productReference)
+        {
+            var product = new ProductViewModel();
+            if (!ContentReference.IsNullOrEmpty(productReference))
+            {
+                var variantContent = _contentLoader.Get<VariationContent>(productReference);
+                float unitPrice;
+                float.TryParse(variantContent.GetDefaultPrice().ToPriceValue().UnitPrice.Amount.ToString(CultureInfo.InvariantCulture), out unitPrice);
+                product.ProductName = variantContent.Name;
+                product.Sku = variantContent.Code;
+                product.UnitPrice = unitPrice;
+            }
+            return product;
         }
 
         private decimal GetTotalInventoryByEntry(string code)

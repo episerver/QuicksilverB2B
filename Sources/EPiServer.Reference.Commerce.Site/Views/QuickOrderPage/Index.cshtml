@@ -27,28 +27,57 @@
                             <label>Total Price</label>
                         </div>
                     </div>
-                    @using (Html.BeginForm("Import", "QuickOrderPage", FormMethod.Post, new { @id = "quickOrderForm" }))
+                    @using (Html.BeginForm("Import", "QuickOrderPage", FormMethod.Post, new { @id = "quickOrderForm", @enctype = "multipart/form-data" }))
                     {
-                        <div class="row order-row">
-                            <div class="form-group col-sm-4">
-                                @Html.TextBoxFor(x => x.ProductsList[0].ProductName)
+                        if (Model.ProductsList!=null && Model.ProductsList.Count > 0)
+                        {
+                            for(int i=0;i<Model.ProductsList.Count;i++)
+                            {
+                                <div class="row order-row">
+                                    <div class="form-group col-sm-4">
+                                        @Html.TextBoxFor(x => x.ProductsList[i].ProductName)
+                                    </div>
+                                    <div class="form-group col-sm-2">
+                                        @Html.TextBoxFor(x => x.ProductsList[i].Sku)
+                                    </div>
+                                    <div class="form-group col-sm-2">
+                                        @Html.TextBoxFor(x => x.ProductsList[i].UnitPrice, new { @readonly = "readonly" })
+                                    </div>
+                                    <div class="form-group col-sm-2">
+                                        @Html.TextBoxFor(x => x.ProductsList[i].Quantity)
+                                    </div>
+                                    <div class="form-group col-sm-2">
+                                        @Html.TextBoxFor(x => x.ProductsList[i].TotalPrice, new { @readonly = "readonly" })
+                                    </div>
+                                    <a href="#" class="btn btn-danger btn-xs delete-icon">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </a>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="row order-row">
+                                <div class="form-group col-sm-4">
+                                    @Html.TextBoxFor(x => x.ProductsList[0].ProductName)
+                                </div>
+                                <div class="form-group col-sm-2">
+                                    @Html.TextBoxFor(x => x.ProductsList[0].Sku)
+                                </div>
+                                <div class="form-group col-sm-2">
+                                    @Html.TextBoxFor(x => x.ProductsList[0].UnitPrice, new {@readonly = "readonly"})
+                                </div>
+                                <div class="form-group col-sm-2">
+                                    @Html.TextBoxFor(x => x.ProductsList[0].Quantity)
+                                </div>
+                                <div class="form-group col-sm-2">
+                                    @Html.TextBoxFor(x => x.ProductsList[0].TotalPrice, new {@readonly = "readonly"})
+                                </div>
+                                <a href="#" class="btn btn-danger btn-xs delete-icon">
+                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                </a>
                             </div>
-                            <div class="form-group col-sm-2">
-                                @Html.TextBoxFor(x => x.ProductsList[0].Sku)
-                            </div>
-                            <div class="form-group col-sm-2">
-                                @Html.TextBoxFor(x => x.ProductsList[0].UnitPrice, new { @readonly = "readonly" })
-                            </div>
-                            <div class="form-group col-sm-2">
-                                @Html.TextBoxFor(x => x.ProductsList[0].Quantity)
-                            </div>
-                            <div class="form-group col-sm-2">
-                                @Html.TextBoxFor(x => x.ProductsList[0].TotalPrice, new { @readonly = "readonly" })
-                            </div>
-                            <a href="#" class="btn btn-danger btn-xs delete-icon">
-                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                            </a>
-                        </div>
+                        }
                         <a class="btn btn-sm btn-primary js-add-row-btn">Add row</a>
 
                         if (Model.ReturnedMessages != null && Model.ReturnedMessages.Count > 0)
@@ -60,7 +89,7 @@
                         }
 
                         <div class="spacer-top-l">
-                            <input type="file" data-interface="lattice" data-label="Upload CSV">
+                            <input type="file" data-interface="lattice" data-label="Upload CSV" id="fileUploaded">
 
                             <button type="submit" class="btn btn-primary">Import</button>
                             <a href="@Url.Action("Index", "UsersPage")" class="btn btn-default">Cancel</a>

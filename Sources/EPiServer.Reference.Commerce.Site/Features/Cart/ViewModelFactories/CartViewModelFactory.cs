@@ -1,8 +1,6 @@
 ﻿using System.Linq;
 using EPiServer.Commerce.Order;
 using EPiServer.Core;
-using EPiServer.Reference.Commerce.Site.Features.Cart.Extensions;
-using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
@@ -43,7 +41,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
                     ItemCount = 0,
                     CheckoutPage = _contentLoader.Get<StartPage>(ContentReference.StartPage).CheckoutPage,
                     Shipments = Enumerable.Empty<ShipmentViewModel>(),
-                    Total = new Money(0, _currencyService.GetCurrentCurrency())
+                    Total = new Money(0, _currencyService.GetCurrentCurrency()),
                 };
             }
             return new MiniCartViewModel
@@ -51,7 +49,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
                 ItemCount = GetLineItemsTotalQuantity(cart),
                 CheckoutPage = _contentLoader.Get<StartPage>(ContentReference.StartPage).CheckoutPage,
                 Shipments = _shipmentViewModelFactory.CreateShipmentsViewModel(cart),
-                Total = _orderGroupCalculator.GetSubTotal(cart)
+                Total = _orderGroupCalculator.GetSubTotal(cart),
             };
         }
 
@@ -65,7 +63,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
                 {
                     Shipments = Enumerable.Empty<ShipmentViewModel>(),
                     TotalDiscount = zeroAmount,
-                    Total = zeroAmount
+                    Total = zeroAmount,
                 };
             }
 
@@ -73,7 +71,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
             {
                Shipments = _shipmentViewModelFactory.CreateShipmentsViewModel(cart),
                TotalDiscount = new Money(cart.GetAllLineItems().Sum(x => x.GetEntryDiscount()), cart.Currency),
-               Total = _orderGroupCalculator.GetSubTotal(cart)
+               Total = _orderGroupCalculator.GetSubTotal(cart),
             };
         }
 

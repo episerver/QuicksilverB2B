@@ -11,7 +11,6 @@ using FluentAssertions;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Markets;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -31,7 +30,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
                 ItemCount = 1,
                 CheckoutPage = _startPage.CheckoutPage,
                 Shipments = new[] { new ShipmentViewModel { CartItems = _cartItems } },
-                Total = _totals.SubTotal
+                Total = _totals.SubTotal,
             };
 
             viewModel.ShouldBeEquivalentTo(expectedViewModel);
@@ -47,7 +46,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
                 ItemCount = 0,
                 CheckoutPage = _startPage.CheckoutPage,
                 Shipments = Enumerable.Empty<ShipmentViewModel>(),
-                Total = new Money(0, Currency.USD)
+                Total = new Money(0, Currency.USD),
             };
 
             viewModel.ShouldBeEquivalentTo(expectedViewModel);
@@ -77,7 +76,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
             {
                 Shipments = Enumerable.Empty<ShipmentViewModel>(),
                 Total = new Money(0, Currency.USD),
-                TotalDiscount = new Money(0, Currency.USD)
+                TotalDiscount = new Money(0, Currency.USD),
             };
 
             viewModel.ShouldBeEquivalentTo(expectedViewModel);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using EPiServer.Reference.Commerce.Site.B2B.Filters;
 using EPiServer.Reference.Commerce.Site.B2B.Models.Pages;
 using EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
@@ -42,6 +43,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
 
             return View(viewModel);
         }
+
+        [NavigationAuthorize("Admin,Approver")]
         public ActionResult Edit(OrganizationPage currentPage, string organizationId)
         {
             OrganizationPageViewModel viewModel = new OrganizationPageViewModel
@@ -65,6 +68,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
             }
             return View(viewModel);
         }
+
+        [NavigationAuthorize("Admin,Approver")]
         public ActionResult AddSub(OrganizationPage currentPage)
         {
             var viewModel = new OrganizationPageViewModel
@@ -81,6 +86,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
 
         [HttpPost]
         [AllowDBWrite]
+        [NavigationAuthorize("Admin,Approver")]
         public ActionResult Save(OrganizationPageViewModel viewModel)
         {
             if (string.IsNullOrEmpty(viewModel.Organization.Name))
@@ -101,6 +107,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
 
         [HttpPost]
         [AllowDBWrite]
+        [NavigationAuthorize("Admin,Approver")]
         public ActionResult SaveSub(OrganizationPageViewModel viewModel)
         {
             if (string.IsNullOrEmpty(viewModel.NewSubOrganization.Name))

@@ -65,16 +65,18 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
                     purchaseOrder[Constants.Quote.PreQuoteTotal] = purchaseOrder.Total;
                     purchaseOrder[Constants.Quote.QuoteStatus] = Constants.Quote.RequestQuotation;
                     purchaseOrder.Status = OrderStatus.OnHold.ToString();
-
-                    if (CustomerContext.Current != null && CustomerContext.Current.CurrentContact != null)
+                    if (string.IsNullOrEmpty(purchaseOrder[Constants.Customer.CustomerFullName].ToString()))
                     {
-                        var contact = CustomerContext.Current.CurrentContact;
-                        purchaseOrder[Constants.Customer.CustomerFullName] = contact.FullName;
-                        purchaseOrder[Constants.Customer.CustomerEmailAddress] = contact.Email;
-                        if (_organizationService.GetCurrentUserOrganization() != null)
+                        if (CustomerContext.Current != null && CustomerContext.Current.CurrentContact != null)
                         {
-                            var organization = _organizationService.GetCurrentUserOrganization();
-                            purchaseOrder[Constants.Customer.CurrentCustomerOrganization] = organization.Name;
+                            var contact = CustomerContext.Current.CurrentContact;
+                            purchaseOrder[Constants.Customer.CustomerFullName] = contact.FullName;
+                            purchaseOrder[Constants.Customer.CustomerEmailAddress] = contact.Email;
+                            if (_organizationService.GetCurrentUserOrganization() != null)
+                            {
+                                var organization = _organizationService.GetCurrentUserOrganization();
+                                purchaseOrder[Constants.Customer.CurrentCustomerOrganization] = organization.Name;
+                            }
                         }
                     }
                 }

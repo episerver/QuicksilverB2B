@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using EPiServer.Reference.Commerce.Site.B2B.Filters;
 using EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using EPiServer.Reference.Commerce.Site.Features.Orders.Pages;
@@ -19,6 +20,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Orders.Controllers
             _ordersService = ordersService;
         }
 
+        [NavigationAuthorize("Admin,Approver")]
         public ActionResult Index(OrdersPage currentPage)
         {
             var organizationUsersList = _customerService.GetContactsForCurrentOrganization();
@@ -37,6 +39,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Orders.Controllers
             return View(viewModel);
         }
 
+        [NavigationAuthorize("Admin,Approver")]
         public ActionResult QuickOrder(OrdersPage currentPage)
         {
             var viewModel = new OrdersPageViewModel { CurrentPage = currentPage};

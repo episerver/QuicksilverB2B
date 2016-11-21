@@ -2,9 +2,9 @@
 {
     public enum B2BUserRoles
     {
-        None,
         Admin,
         Approver,
-        Purchaser
+        Purchaser,
+        None
     }
 }

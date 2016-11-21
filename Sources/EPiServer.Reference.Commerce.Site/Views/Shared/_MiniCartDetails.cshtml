@@ -87,11 +87,14 @@
                 <li class="cart-item">
                     <button type="button" class="btn btn-block btn-primary" aria-expanded="false" onclick="window.location.href = '@Url.ContentUrl(Model.CheckoutPage)'">@Html.Translate("/Header/MiniCart/Button/GoToCheckout")</button>
                 </li>
-                @using (@Html.BeginForm("RequestQuote", "Cart", FormMethod.Post))
+                @if (Request.IsAuthenticated)
                 {
-                    <li class="cart-item">
-                        <button type="button" class="btn btn-block btn-warning jsCartRequestQuote" aria-expanded="false">@Html.Translate("/Header/MiniCart/Button/RequestQuotation")</button>
-                    </li>
+                    using (@Html.BeginForm("RequestQuote", "Cart", FormMethod.Post))
+                    {
+                        <li class="cart-item">
+                            <button type="button" class="btn btn-block btn-warning jsCartRequestQuote" aria-expanded="false">@Html.Translate("/Header/MiniCart/Button/RequestQuotation")</button>
+                        </li>
+                    }
                 }
                 <li class="cart-item">
                     <button type="button" class="btn btn-block btn-default jsCartContinueShopping" aria-expanded="false">@Html.Translate("/Header/MiniCart/Button/Close")</button>

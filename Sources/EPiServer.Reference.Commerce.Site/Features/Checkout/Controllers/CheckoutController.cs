@@ -462,24 +462,27 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             var orderReference = _orderRepository.SaveAsPurchaseOrder(Cart);
            var purchaseOrder = _orderRepository.Load<IPurchaseOrder>(orderReference.OrderGroupId);
             _orderRepository.Delete(Cart.OrderLink);
-
-            if (CustomerContext.Current != null && CustomerContext.Current.CurrentContact != null)
+            if (string.IsNullOrEmpty(purchaseOrder.Properties[Constants.Customer.CustomerFullName].ToString()))
             {
-                var contact = CustomerContext.Current.CurrentContact;
-                purchaseOrder.Properties[Constants.Customer.CustomerFullName] = contact.FullName;
-                purchaseOrder.Properties[Constants.Customer.CustomerEmailAddress] = contact.Email;
-                if (_organizationService.GetCurrentUserOrganization() != null)
+                if (CustomerContext.Current != null && CustomerContext.Current.CurrentContact != null)
                 {
-                    var organization = _organizationService.GetCurrentUserOrganization();
-                    purchaseOrder.Properties[Constants.Customer.CurrentCustomerOrganization] = organization.Name;
+                    var contact = CustomerContext.Current.CurrentContact;
+                    purchaseOrder.Properties[Constants.Customer.CustomerFullName] = contact.FullName;
+                    purchaseOrder.Properties[Constants.Customer.CustomerEmailAddress] = contact.Email;
+                    if (_organizationService.GetCurrentUserOrganization() != null)
+                    {
+                        var organization = _organizationService.GetCurrentUserOrganization();
+                        purchaseOrder.Properties[Constants.Customer.CurrentCustomerOrganization] = organization.Name;
+                    }
+                }
+                else
+                {
+                    purchaseOrder.Properties[Constants.Customer.CustomerFullName] = checkoutViewModel.BillingAddress.Name;
+                    purchaseOrder.Properties[Constants.Customer.CustomerEmailAddress] = checkoutViewModel.BillingAddress.Email;
+                    purchaseOrder.Properties[Constants.Customer.CurrentCustomerOrganization] = "";
                 }
             }
-            else
-            {
-                purchaseOrder.Properties[Constants.Customer.CustomerFullName] = checkoutViewModel.BillingAddress.Name;
-                purchaseOrder.Properties[Constants.Customer.CustomerEmailAddress] = checkoutViewModel.BillingAddress.Email;
-                purchaseOrder.Properties[Constants.Customer.CurrentCustomerOrganization] = "";
-            }
+         
             _orderRepository.Save(purchaseOrder);
 
             return purchaseOrder;

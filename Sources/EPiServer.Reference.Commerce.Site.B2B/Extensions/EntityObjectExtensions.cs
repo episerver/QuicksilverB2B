@@ -60,6 +60,21 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Extensions
             return float.TryParse(item[fieldName].ToString(), out retVal) ? retVal : defaultValue;
         }
 
+        public static decimal GetDecimalValue(this EntityObject item, string fieldName)
+        {
+            return item.GetDecimalValue(fieldName, 0);
+        }
+
+        public static decimal GetDecimalValue(this EntityObject item, string fieldName, decimal defaultValue)
+        {
+            if (item[fieldName] == null)
+            {
+                return defaultValue;
+            }
+            decimal retVal;
+            return decimal.TryParse(item[fieldName].ToString(), out retVal) ? retVal : defaultValue;
+        }
+
         public static bool GetBoolValue(this EntityObject item, string fieldName)
         {
             return item.GetBoolValue(fieldName, false);
@@ -73,6 +88,21 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Extensions
             }
             bool retVal;
             return bool.TryParse(item[fieldName].ToString(), out retVal) ? retVal : defaultValue;
+        }
+
+        public static Guid GetGuidValue(this EntityObject item, string fieldName)
+        {
+            return item.GetGuidValue(fieldName, Guid.Empty);
+        }
+
+        public static Guid GetGuidValue(this EntityObject item, string fieldName, Guid defaultValue)
+        {
+            if (item[fieldName] == null)
+            {
+                return defaultValue;
+            }
+            Guid retVal;
+            return Guid.TryParse(item[fieldName].ToString(), out retVal) ? retVal : defaultValue;
         }
     }
 }

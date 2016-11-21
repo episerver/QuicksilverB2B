@@ -10,13 +10,21 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels
             StartDate = budget.StartDate;
             DueDate = budget.DueDate;
             Amount = budget.Amount;
+            IsActive = budget.IsActive;
+            OrganizationId = budget.OrganizationId;
+            ContactId = budget.ContactId;
+            BudgetId = budget.BudgetId;
         }
 
         public BudgetViewModel()
         {
         }
+        public Guid BudgetId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime DueDate { get; set; }
-        public float Amount { get; set; }
+        public decimal Amount { get; set; }
+        public bool IsActive { get; set; }
+        public Guid OrganizationId { get; set; }
+        public Guid ContactId { get; set; }
     }
 }

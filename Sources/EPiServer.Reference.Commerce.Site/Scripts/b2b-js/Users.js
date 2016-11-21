@@ -120,4 +120,12 @@ var viewUsersAutocompleteComponent = function () {
     }
 }();
 
+$("#select-role").change(function () {
+    var role = this.value;
+    if (role === "Admin") {
+        $('#location-div').hide();
+    } else {
+        $('#location-div').show();
+    }  
+});
 

@@ -65,7 +65,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
                 UserId = contactModel.Email,
                 UserRole = contactModel.UserRole,
                 FullName = contactModel.FullName,
-                UserLocationId = contactModel.Location
+                UserLocationId = (contactModel.UserRole != B2BUserRoles.Admin.ToString()) ? contactModel.Location : ""
             };
             contact.SaveChanges();
 

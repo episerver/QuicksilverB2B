@@ -60,12 +60,13 @@
                                 <span class="custom-select-arrow arrow-down"></span>
                                 @Html.DropDownListFor(m => m.Contact.UserRole, new SelectList(new List<SelectListItem>
                                 {
+                                    new SelectListItem { Text = "Admin", Value = "Admin" },
                                     new SelectListItem { Text = "Approver", Value = "Approver" },
                                     new SelectListItem { Text = "Purchaser", Value = "Purchaser" }
-                                }, "Value", "Text", Model.Contact.UserRole))
+                                }, "Value", "Text", Model.Contact.UserRole), new { @id = "select-role" })
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="location-div" style="display: none">
                             <label>@Html.LabelFor(x => x.Contact.Location)</label>
                             <br />
                             <div class="custom-select">

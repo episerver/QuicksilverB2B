@@ -1,32 +1,127 @@
 .product-component {
-  margin-top: -32px;
+    margin-top: -32px;
 
-  .breadcrumb {
-    background: transparent;
-    padding: 0;
-    font-size: 0;
+    .breadcrumb {
+        background: transparent;
+        padding: 0;
+        font-size: 0;
 
-    li {
-      font-size: 14px;
-      a {
-        &:hover {
-          text-decoration: underline;
+        li {
+            font-size: 14px;
+
+            a {
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
         }
-      }
+
+        & > li + li::before {
+            content: "|";
+            position: relative;
+            top: -1px;
+        }
     }
 
-    & > li + li::before {
-      content: "|";
-      position: relative;
-      top: -1px;
-    }
-  }
+    .item-data {
+        margin-right: 8px;
+        color: #606060;
 
-  .item-data {
-    margin-right: 8px;
-    color: #606060;
-    & strong {
-      color: #000;
+        & strong {
+            color: #000;
+        }
     }
-  }
+
+    .product-price {
+        line-height: 20px;
+
+        &.large-text{
+            line-height: 26px;
+        }
+        
+        &__label{
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        &__amount{
+            font-weight: bold;
+            font-size: 18px;
+            vertical-align: middle;
+
+        }
+
+        &__discounted-amount,
+        &__total-amount{
+            color: @brand-red;
+            font-size: 24px;
+            font-weight: bold;
+            vertical-align: middle;
+            
+            .product-price__currency-marker {
+                color: @brand-red;
+            }
+        }
+
+        &__currency-marker {
+            color: #000;
+        }
+    }
+
+    .product-table-wrapper {
+        border-right: 1px solid #ccc;
+        padding-right: 32px;
+    }
+
+    .product-table {
+        table-layout: fixed;
+
+        .quantity-column {
+            width: 75px;
+        }
+
+        td, th {
+            vertical-align: middle;
+        }
+
+       th{
+           border: none;
+           padding-bottom: 30px;
+       }
+
+        td{
+            border-top: none;
+            border-bottom: 1px solid #ccc;
+        }
+
+        tr:last-child{
+            td{
+                border: 0;
+            }
+        }
+
+        .product-image{
+            max-width: 100px;
+        }
+
+        .product-price{
+
+            &__amount,
+            &__discounted-amount{
+                font-size: 14px;
+            }
+            &__save-amount{
+                font-size: 12px;
+            }
+        }
+    }
+
+    .product-table-summary {
+
+        &.fixed {
+            position: fixed;
+            top: 10px;
+            width: 236.5px;
+        }
+    }
 }

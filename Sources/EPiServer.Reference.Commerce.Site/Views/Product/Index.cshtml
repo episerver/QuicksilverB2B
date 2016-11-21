@@ -1,6 +1,6 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.Product.ViewModels.FashionProductViewModel
 <div class="product-component">
-    <div class="row">
+    <div class="row spacer-bottom-l">
         <div class="col-xs-12">
             <ul class="breadcrumb">
                 <li><a href="#">Home</a></li>
@@ -12,7 +12,7 @@
             <span class="item-data">item no. <strong>@Html.PropertyFor(x => x.Variation.Code)</strong></span>
         </div>
     </div>
-    <div class="row jsProductDetails">
+    <div class="row spacer-bottom-l jsProductDetails">
         <div class="col-xs-12 col-sm-4 col--leading">
             <div id="product-carousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner" role="listbox">
@@ -44,64 +44,89 @@
             </div>
         </div>
         <div class="col-xs-12 col-sm-8 product-info">
-            <div class="row">
-                <div class="col-xs-12 col-sm-6">
+            <div class="row spacer-bottom-l">
+                <div class="col-xs-12 col-sm-4">
                     @if (Model.IsAvailable)
                     {
+                        <p class="spacer-bottom-m"><span class="label label-success">IN STOCK</span></p>
                         if (Model.DiscountedPrice.HasValue && Model.DiscountedPrice.Value < Model.ListingPrice)
                         {
-                            <h4 class="product-price">@Helpers.RenderMoney(Model.ListingPrice)</h4>
-                            <h4 class="product-price--discount">@Helpers.RenderMoney(Model.DiscountedPrice.Value)</h4>
+                            <div class="product-price spacer-bottom-m">
+                                <span class="product-price__label">LIST PRICE</span>
+                                <span class="product-price__amount float-right text-line-through">@Helpers.RenderMoney(Model.ListingPrice)</span>
+                            </div>
+                            <div class="product-price large-text spacer-bottom-m">
+                                <span class="product-price__label">YOUR PRICE</span>
+                                <span class="product-price__discounted-amount float-right">@Helpers.RenderMoney(Model.DiscountedPrice.Value)</span>
+                            </div>
+                            <div class="product-price">
+                                <span class="product-price__label">YOU SAVE</span>
+                                <span class="product-price__amount float-right">@Helpers.RenderMoney(Model.ListingPrice)</span>
+                            </div>
+
                         }
                         else
                         {
-                            <h4 class="product-price">@Helpers.RenderMoney(Model.ListingPrice)</h4>
+                            <div class="product-price">
+                                <span class="product-price__label">LIST PRICE</span>
+                                <span class="product-price__amount float-right">@Helpers.RenderMoney(Model.ListingPrice)</span>
+                            </div>
                         }
                     }
                     else
                     {
-                        <h4 class="product-price">@Html.Translate("/Product/NotAvailable")</h4>
+                        <p class="spacer-bottom-m"><span class="label label-danger">OUT OF STOCK</span></p>
+                        <div class="product-price">
+                            <span class="product-price__label">@Html.Translate("/Product/NotAvailable")</span>
+                        </div>
                     }
                 </div>
             </div>
+            <hr />
             <div class="row">
                 @using (Html.BeginForm("SelectVariant", "Product", FormMethod.Post, new { @class = "product-details__form clearfix" }))
-            {
-                    <div class="col-xs-12 col-sm-6">
+                {
+                    <div class="col-xs-12 col-sm-4 spacer-bottom-l">
                         <div class="spacer-bottom-m">
-                            <label for="Color">@Html.Translate("/ProductPage/VariationSelection/Color")</label><br />
-                            <div class="custom-select">
+                            @*<label for="Color">@Html.Translate("/ProductPage/VariationSelection/Color")</label><br />*@
+                            <div class="custom-select full-width">
                                 <span class="custom-select-split"></span>
                                 <span class="custom-select-arrow arrow-down"></span>
-                                @Html.DropDownListFor(x => x.Color, Model.Colors, new { @class = "form-control jsVariationSwitch" })
+                                @Html.DropDownListFor(x => x.Color, Model.Colors, new { @class = "full-width jsVariationSwitch" })
                             </div>
                         </div>
-                        <div class="spacer-bottom-m">
-                            <label for="Size">@Html.Translate("/ProductPage/VariationSelection/Size")</label><br />
-                            <div class="custom-select">
+                        <div class="spacer-bottom-l">
+                            @*<label for="Size">@Html.Translate("/ProductPage/VariationSelection/Size")</label><br />*@
+                            <div class="custom-select full-width">
                                 <span class="custom-select-split"></span>
                                 <span class="custom-select-arrow arrow-down"></span>
-                                @Html.DropDownListFor(x => x.Size, Model.Sizes, new { @class = "form-control jsVariationSwitch" })
+                                @Html.DropDownListFor(x => x.Size, Model.Sizes, new { @class = "full-width jsVariationSwitch" })
                             </div>
+                        </div>
+                        <div class="product-price large-text">
+                            <span class="product-price__label">TOTAL PRICE</span>
+                            <span class="product-price__total-amount float-right">@Helpers.RenderMoney(Model.DiscountedPrice.Value)</span>
                         </div>
                     </div>
                 }
             </div>
+
             <div class="row">
-                <div class="col-xs-12">
+                <div class="col-xs-12 col-sm-6 spacer-bottom-l">
+
                     @if (Model.IsAvailable && !(bool)ViewData["IsReadOnly"])
                     {
                         using (Html.BeginForm("AddToCart", "Cart", FormMethod.Post, new { @class = "form-inline", data_container = "MiniCart" }))
                         {
                             @Html.Hidden("code", Model.Variation.Code)
-                            <button type="submit" role="button" class="btn btn-danger btn-empty jsAddToCart" data-container="MiniCart"><span class="fa fa-shopping-cart"></span> @Html.Translate("/Product/Button/AddToCart")</button>
+                            <button type="submit" role="button" class="btn btn-danger btn-empty jsAddToCart" data-container="MiniCart"><span class="fa fa-shopping-cart fa-2x v-align-middle spacer-right-m"></span> @Html.Translate("/Product/Button/AddToCart")</button>
                         }
                         if (User.Identity.IsAuthenticated)
                         {
                             using (Html.BeginForm("AddToCart", "WishList", FormMethod.Post, new { @class = "form-inline jsAddToWishList", data_container = "WishListMiniCart" }))
                             {
                                 @Html.Hidden("code", Model.Variation.Code)
-                                <button type="submit" role="button" class="btn btn-default jsAddToCart spacer-left-s" data-container="WishListMiniCart"><span class="fa fa-star"></span> @Html.Translate("/Product/Button/AddToWishList")</button>
+                                <button type="submit" role="button" class="btn btn-default jsAddToCart spacer-left-s" data-container="WishListMiniCart"><span class="fa fa-star fa-2x v-align-middle spacer-right-m"></span> @Html.Translate("/Product/Button/AddToWishList")</button>
                             }
                         }
                     }
@@ -121,6 +146,190 @@
                 <div id="CartQuoteSucceedMessage" class="col-md-5 col-xs-12 alert alert-success pull-right" hidden>
                     <button type="button" class="close" data-hide="alert">&times;</button>
                     <span class="success-message"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <h2 class="h1 spacer-bottom-l">Select multiple</h2>
+            <div class="row">
+                <div class="col-sm-9 product-table-wrapper">
+                    <table class="product-table table table-stripped">
+                        <thead>
+                            <tr>
+                                <th>item</th>
+                                <th>size</th>
+                                <th>sku</th>
+                                <th class="price-column">your price / unit</th>
+                                <th class="quantity-column">quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><img class="product-image" src="http://placehold.it/54x54/"/></td>
+                            <td>US 14 UK/EU 47.5</td>
+                            <td>36127195</td>
+                            <td>
+                                <div class="product-price spacer-bottom-s">
+                                    <span class="product-price__amount text-line-through">$52.00</span><span class="product-price__discounted-amount spacer-left-m">$42.00</span>
+                                </div>
+                                <p class="product-price__save-amount">You save $10.00</p>
+                            </td>
+                            <td><input type="text" value="0"/></td>
+                        </tr>
+                        <tr>
+                            <td><img class="product-image" src="http://placehold.it/54x54/"/></td>
+                            <td>US 14 UK/EU 47.5</td>
+                            <td>36127195</td>
+                            <td>
+                                <div class="product-price spacer-bottom-s">
+                                    <span class="product-price__amount text-line-through">$52.00</span><span class="product-price__discounted-amount spacer-left-m">$42.00</span>
+                                </div>
+                                <p class="product-price__save-amount">You save $10.00</p>
+                            </td>
+                            <td><input type="text" value="0"/></td>
+                        </tr>
+                        <tr>
+                            <td><img class="product-image" src="http://placehold.it/54x54/"/></td>
+                            <td>US 14 UK/EU 47.5</td>
+                            <td>36127195</td>
+                            <td>
+                                <div class="product-price spacer-bottom-s">
+                                    <span class="product-price__amount text-line-through">$52.00</span><span class="product-price__discounted-amount spacer-left-m">$42.00</span>
+                                </div>
+                                <p class="product-price__save-amount">You save $10.00</p>
+                            </td>
+                            <td><input type="text" value="0"/></td>
+                        </tr>
+                        <tr>
+                            <td><img class="product-image" src="http://placehold.it/54x54/"/></td>
+                            <td>US 14 UK/EU 47.5</td>
+                            <td>36127195</td>
+                            <td>
+                                <div class="product-price spacer-bottom-s">
+                                    <span class="product-price__amount text-line-through">$52.00</span><span class="product-price__discounted-amount spacer-left-m">$42.00</span>
+                                </div>
+                                <p class="product-price__save-amount">You save $10.00</p>
+                            </td>
+                            <td><input type="text" value="0"/></td>
+                        </tr>
+                        <tr>
+                            <td><img class="product-image" src="http://placehold.it/54x54/"/></td>
+                            <td>US 14 UK/EU 47.5</td>
+                            <td>36127195</td>
+                            <td>
+                                <div class="product-price spacer-bottom-s">
+                                    <span class="product-price__amount text-line-through">$52.00</span><span class="product-price__discounted-amount spacer-left-m">$42.00</span>
+                                </div>
+                                <p class="product-price__save-amount">You save $10.00</p>
+                            </td>
+                            <td><input type="text" value="0"/></td>
+                        </tr>
+                        <tr>
+                            <td><img class="product-image" src="http://placehold.it/54x54/"/></td>
+                            <td>US 14 UK/EU 47.5</td>
+                            <td>36127195</td>
+                            <td>
+                                <div class="product-price spacer-bottom-s">
+                                    <span class="product-price__amount text-line-through">$52.00</span><span class="product-price__discounted-amount spacer-left-m">$42.00</span>
+                                </div>
+                                <p class="product-price__save-amount">You save $10.00</p>
+                            </td>
+                            <td><input type="text" value="0"/></td>
+                        </tr>
+                        <tr>
+                            <td><img class="product-image" src="http://placehold.it/54x54/"/></td>
+                            <td>US 14 UK/EU 47.5</td>
+                            <td>36127195</td>
+                            <td>
+                                <div class="product-price spacer-bottom-s">
+                                    <span class="product-price__amount text-line-through">$52.00</span><span class="product-price__discounted-amount spacer-left-m">$42.00</span>
+                                </div>
+                                <p class="product-price__save-amount">You save $10.00</p>
+                            </td>
+                            <td><input type="text" value="0"/></td>
+                        </tr>
+                        <tr>
+                            <td><img class="product-image" src="http://placehold.it/54x54/"/></td>
+                            <td>US 14 UK/EU 47.5</td>
+                            <td>36127195</td>
+                            <td>
+                                <div class="product-price spacer-bottom-s">
+                                    <span class="product-price__amount text-line-through">$52.00</span><span class="product-price__discounted-amount spacer-left-m">$42.00</span>
+                                </div>
+                                <p class="product-price__save-amount">You save $10.00</p>
+                            </td>
+                            <td><input type="text" value="0"/></td>
+                        </tr>
+                        <tr>
+                            <td><img class="product-image" src="http://placehold.it/54x54/"/></td>
+                            <td>US 14 UK/EU 47.5</td>
+                            <td>36127195</td>
+                            <td>
+                                <div class="product-price spacer-bottom-s">
+                                    <span class="product-price__amount text-line-through">$52.00</span><span class="product-price__discounted-amount spacer-left-m">$42.00</span>
+                                </div>
+                                <p class="product-price__save-amount">You save $10.00</p>
+                            </td>
+                            <td><input type="text" value="0"/></td>
+                        </tr>
+                        <tr>
+                            <td><img class="product-image" src="http://placehold.it/54x54/"/></td>
+                            <td>US 14 UK/EU 47.5</td>
+                            <td>36127195</td>
+                            <td>
+                                <div class="product-price spacer-bottom-s">
+                                    <span class="product-price__amount text-line-through">$52.00</span><span class="product-price__discounted-amount spacer-left-m">$42.00</span>
+                                </div>
+                                <p class="product-price__save-amount">You save $10.00</p>
+                            </td>
+                            <td><input type="text" value="0"/></td>
+                        </tr>
+                        <tr>
+                            <td><img class="product-image" src="http://placehold.it/54x54/"/></td>
+                            <td>US 14 UK/EU 47.5</td>
+                            <td>36127195</td>
+                            <td>
+                                <div class="product-price spacer-bottom-s">
+                                    <span class="product-price__amount text-line-through">$52.00</span><span class="product-price__discounted-amount spacer-left-m">$42.00</span>
+                                </div>
+                                <p class="product-price__save-amount">You save $10.00</p>
+                            </td>
+                            <td><input type="text" value="0"/></td>
+                        </tr>
+                            <tr>
+                                <td><img class="product-image" src="http://placehold.it/54x54/" /></td>
+                                <td>US 14 UK/EU 47.5</td>
+                                <td>36127195</td>
+                                <td>
+                                    <div class="product-price spacer-bottom-s">
+                                        <span class="product-price__amount text-line-through">$52.00</span><span class="product-price__discounted-amount spacer-left-m">$42.00</span>
+                                    </div>
+                                    <p class="product-price__save-amount">You save $10.00</p>
+                                </td>
+                                <td><input type="text" value="0" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-3">
+                    <div class="product-table-summary spacer-left-m">
+                        <div class="spacer-bottom-l">
+                            <p class="product-price text-right text-line-through">
+                                <span class="product-price__amount">$24.00</span>
+                            </p>
+                            <p class="product-price large-text">
+                                <span class="product-price__label">TOTAL PRICE</span>
+                                <span class="product-price__discounted-amount float-right">@Helpers.RenderMoney(Model.DiscountedPrice.Value)</span>
+                            </p>
+                            <p class="text-right">
+                                You save $10.00
+                            </p>
+                        </div>
+                        <button type="submit" role="button" class="btn btn-danger btn-empty text-left full-width spacer-bottom-s" data-container="MiniCart"><span class="fa fa-shopping-cart fa-2x v-align-middle spacer-right-m"></span> @Html.Translate("/Product/Button/AddToCart")</button>
+                        <button type="submit" role="button" class="btn btn-default full-width text-left" data-container="WishListMiniCart"><span class="fa fa-star fa-2x v-align-middle spacer-right-m"></span> @Html.Translate("/Product/Button/AddToWishList")</button>
+                    </div>
                 </div>
             </div>
         </div>

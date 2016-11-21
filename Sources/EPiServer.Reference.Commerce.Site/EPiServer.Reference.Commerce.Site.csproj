@@ -834,6 +834,7 @@
     <Content Include="Views\OrdersPage\QuickOrder.cshtml" />
     <Content Include="Views\B2BNavigation\Index.cshtml" />
     <Content Include="Views\OrderDetails\Index.cshtml" />
+    <Content Include="Styles\b2b\components\_product.less" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -31,6 +31,20 @@
     });
 
 
+    var $productTableSummary = $('.product-table-summary');
+    var productTableSummaryOffset = ($productTableSummary.length > 0) ? $productTableSummary.offset().top : 0;
+    $(window).on('scroll', function () {
+        if ($productTableSummary.length > 0) {
+            if (productTableSummaryOffset - $(window).scrollTop() <= 0) {
+                $productTableSummary.addClass('fixed');
+            } else {
+                if ($productTableSummary.hasClass('fixed')) {
+                    $productTableSummary.removeClass('fixed');
+                }
+            }
+        }
+    });
+
     calendarComponent.init('startDate', 'dueDate');
     var firstTable = new OrderPadsComponent({
         table: '#firstTable'

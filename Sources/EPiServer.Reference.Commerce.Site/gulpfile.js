@@ -6,7 +6,8 @@ var less = require('gulp-less'),
     lessAutoprefixer = require('less-plugin-autoprefix'),
     sourceMaps = require('gulp-sourcemaps'),
     cleanCSS = require('gulp-clean-css'),
-    rename = require('gulp-rename');
+    rename = require('gulp-rename'),
+    plumber = require('gulp-plumber');
 
 var autoprefixer = new lessAutoprefixer({ browsers: ['last 2 versions'] });
 
@@ -29,6 +30,9 @@ var config = {
 // Compiling less & generate sourcemaps & add vendor prefixes
 gulp.task('less', function () {
     return gulp.src(config.inputLESS)
+        .pipe(plumber({
+	  errorHandler: onError
+	  }))
         .pipe(sourceMaps.init())
         .pipe(less({
 			plugins: [autoprefixer]
@@ -53,3 +57,10 @@ gulp.task('watch', ['less'], function () {
 });
 
 gulp.task('default', ['watch']);
+
+var onError = function (err) {  
+  gutil.beep();
+  console.log(err);
+};
+
+

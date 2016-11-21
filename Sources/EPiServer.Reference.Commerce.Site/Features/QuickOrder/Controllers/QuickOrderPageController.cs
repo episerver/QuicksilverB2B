@@ -68,20 +68,23 @@ namespace EPiServer.Reference.Commerce.Site.Features.QuickOrder.Controllers
 
             foreach (var product in viewModel.ProductsList)
             {
-                ContentReference variationReference = _referenceConverter.GetContentLink(product.Sku);
-                var responseMessage = _quickOrderService.ValidateProduct(variationReference, Convert.ToDecimal(product.Quantity), product.Sku);
-                if (responseMessage.IsNullOrEmpty())
+                if (!product.ProductName.Equals("removed"))
                 {
-                    string warningMessage;
-                    if (_cartService.AddToCart(Cart, product.Sku, out warningMessage))
+                    ContentReference variationReference = _referenceConverter.GetContentLink(product.Sku);
+                    var responseMessage = _quickOrderService.ValidateProduct(variationReference, Convert.ToDecimal(product.Quantity), product.Sku);
+                    if (responseMessage.IsNullOrEmpty())
                     {
-                        _cartService.ChangeCartItem(Cart, 0, product.Sku, product.Quantity, "", "");
-                        _orderRepository.Save(Cart);
+                        string warningMessage;
+                        if (_cartService.AddToCart(Cart, product.Sku, out warningMessage))
+                        {
+                            _cartService.ChangeCartItem(Cart, 0, product.Sku, product.Quantity, "", "");
+                            _orderRepository.Save(Cart);
+                        }
                     }
-                }
-                else
-                {
-                    returnedMessages.Add(responseMessage);
+                    else
+                    {
+                        returnedMessages.Add(responseMessage);
+                    }
                 }
             }
             if (returnedMessages.Count == 0)
@@ -99,7 +102,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.QuickOrder.Controllers
             var homePage = DataFactory.Instance.GetPage(ContentReference.StartPage);
             var folderPage = DataFactory.Instance.GetChildren<FolderPage>(homePage.PageLink).FirstOrDefault();
             var quickOrderPage = DataFactory.Instance.GetChildren<QuickOrderPage>(folderPage?.PageLink).FirstOrDefault();
-            
+
             HttpPostedFileBase fileContent = Request.Files[0];
             if (fileContent != null && fileContent.ContentLength > 0)
             {
@@ -118,7 +121,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.QuickOrder.Controllers
                 while (!reader.EndOfStream)
                 {
                     var line = reader.ReadLine();
-                    
+
                     if (line != null)
                     {
                         line = line.Replace("\"", "");

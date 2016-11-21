@@ -15,8 +15,12 @@
             e.preventDefault();
 
             var $deleteIcon = $(this);
-            if ($quickOrderForm.children('.order-row').length > 1)
-                $deleteIcon.closest('.order-row').remove();
+            if ($quickOrderForm.children('.order-row').length > 1) {
+                //$deleteIcon.closest('.order-row').remove();
+                var parent = $deleteIcon.closest('.order-row');
+                parent.hide();
+                parent.find('input[name*=ProductName]').val("removed");
+            }
         });
     }
 

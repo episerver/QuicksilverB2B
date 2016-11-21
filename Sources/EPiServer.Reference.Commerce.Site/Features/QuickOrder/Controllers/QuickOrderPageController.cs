@@ -133,7 +133,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.QuickOrder.Controllers
 
                     productsList.Add(product);
                 }
-                TempData["products"] = productsList;
+                TempData["products"] = productsList.Count > 0 ? productsList : null;
             }
             else
             {

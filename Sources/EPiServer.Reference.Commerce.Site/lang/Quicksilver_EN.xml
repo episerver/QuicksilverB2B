@@ -44,12 +44,12 @@
       </Dropdown>
       <Button>
         <AddToCart>Add to cart</AddToCart>
-        <AddToWishList>Add to wish list</AddToWishList>
+        <AddToWishList>Add to order pad</AddToWishList>
       </Button>
     </Product>
     <ProductPage>
-      <AddedToWishList>Item added to wish list</AddedToWishList>
-      <NotAddedToWishList>The item could not be added to wish list</NotAddedToWishList>
+      <AddedToWishList>Item added to order pad</AddedToWishList>
+      <NotAddedToWishList>The item could not be added to order pad</NotAddedToWishList>
       <Price>Price</Price>
       <Size>Size</Size>
       <ListingPrice>Listing Price</ListingPrice>
@@ -459,11 +459,11 @@
     </AddressBook>
     <WishList>
       <Button>
-        <GotoWishListPage>Go to wishlist</GotoWishListPage>
+        <GotoWishListPage>Go to order pad</GotoWishListPage>
       </Button>
-      <NoItems>You don't have any items in your wish list.</NoItems>
-      <DeleteButton>Delete entire wishlist</DeleteButton>
-      <RemoveItem>Remove from wishlist</RemoveItem>
+      <NoItems>You don't have any items in your order pad.</NoItems>
+      <DeleteButton>Delete entire order pad</DeleteButton>
+      <RemoveItem>Remove from order pad</RemoveItem>
     </WishList>
     <OrderHistory>
       <Labels>

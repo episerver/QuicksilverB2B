@@ -1,0 +1,32 @@
+.product-component {
+  margin-top: -32px;
+
+  .breadcrumb {
+    background: transparent;
+    padding: 0;
+    font-size: 0;
+
+    li {
+      font-size: 14px;
+      a {
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    & > li + li::before {
+      content: "|";
+      position: relative;
+      top: -1px;
+    }
+  }
+
+  .item-data {
+    margin-right: 8px;
+    color: #606060;
+    & strong {
+      color: #000;
+    }
+  }
+}

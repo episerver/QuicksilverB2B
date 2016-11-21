@@ -12,12 +12,12 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels
         public string Sku { get; set; }
 
         [Required(ErrorMessage = "Unit price is required")]
-        public float UnitPrice { get; set; }
+        public decimal UnitPrice { get; set; }
 
         [Required(ErrorMessage = "Quantity is required")]
         public int Quantity { get; set; }
 
         [Required(ErrorMessage = "Total price is required")]
-        public float TotalPrice { get; set; }
+        public decimal TotalPrice { get; set; }
     }
 }

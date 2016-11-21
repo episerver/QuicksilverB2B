@@ -30,7 +30,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             var maxQuantity = GetTotalInventoryByEntry(variantContent.Code);
             if (quantity > maxQuantity)
             {
-                return $"The max quantity for the product with SKU {code} is {maxQuantity}.";
+                return $"Quantity ordered is bigger than in stock quantity for the product with SKU {code}.";
             }
             return null;
         }
@@ -41,11 +41,9 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             if (!ContentReference.IsNullOrEmpty(productReference))
             {
                 var variantContent = _contentLoader.Get<VariationContent>(productReference);
-                float unitPrice;
-                float.TryParse(variantContent.GetDefaultPrice().ToPriceValue().UnitPrice.Amount.ToString(CultureInfo.InvariantCulture), out unitPrice);
                 product.ProductName = variantContent.Name;
                 product.Sku = variantContent.Code;
-                product.UnitPrice = unitPrice;
+                product.UnitPrice = (variantContent.GetDefaultPrice() != null ) ? variantContent.GetDefaultPrice().UnitPrice.Amount : 0;
             }
             return product;
         }

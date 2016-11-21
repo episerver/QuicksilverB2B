@@ -1,3 +1,4 @@
+using System.Linq;
 using EPiServer.Commerce.Order;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
@@ -96,7 +97,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
             }
           
             _cartService.ChangeCartItem(Cart, shipmentId, code, quantity, size, newSize);
+            if (!Cart.GetAllLineItems().Any() && Cart.Properties[Constants.Quote.ParentOrderGroupId] != null)
+            {
+                _cartServiceB2B.DeleteCart(Cart);
+                _cart = _cartServiceB2B.CreateNewCart();
+            }
             _orderRepository.Save(Cart);
+
             return MiniCartDetails();
         }
 

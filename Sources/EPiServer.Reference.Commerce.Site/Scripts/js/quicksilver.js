@@ -9,7 +9,7 @@
     Registration.init();
     Search.init();
     Navigation.init();
-
+    OrdersPage.init();
     $("[data-hide]").on("click", function () {
         $(this).closest("." + $(this).attr("data-hide")).hide();
     });

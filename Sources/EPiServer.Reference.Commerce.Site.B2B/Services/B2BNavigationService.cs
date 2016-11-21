@@ -26,11 +26,11 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
                 switch (currentContact.B2BUserRole)
                 {
                     case B2BUserRoles.Admin:
-                        if (Constants.B2BNavigationFor.Admin.Contains(link.Text))
+                        if (Constants.B2BNavigationRoles.Admin.Contains(link.Text))
                             filteredLinks.Add(link);
                         break;
                     case B2BUserRoles.Approver:
-                        if (Constants.B2BNavigationFor.Approver.Contains(link.Text))
+                        if (Constants.B2BNavigationRoles.Approver.Contains(link.Text))
                             filteredLinks.Add(link);
                         break;
                 }

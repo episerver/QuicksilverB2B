@@ -47,14 +47,19 @@ namespace EPiServer.Reference.Commerce.Site.B2B
             public static string RequestQuotationFinished = "RequestQuotationFinished";
             public static string PreQuoteTotal = "PreQuoteTotal";
             public static string PreQuotePrice = "PreQuotePrice";
-            public static string QuoteExpired = "QuoteExpired";            
+            public static string QuoteExpired = "QuoteExpired";
+        }
+        public static class  Customer
+        {
+            public static string CustomerFullName = "CustomerFullName";
+            public static string CustomerEmailAddress = "CustomerEmailAddress";
+            public static string CurrentCustomerOrganization = "CurrentCustomerOrganization";
         }
 
-        public static class B2BNavigationFor
+        public static class B2BNavigationRoles
         {
             public static List<string> Admin = new List<string> { "Overview", "Users", "Orders", "Order Pad", "Budgeting" };
             public static List<string> Approver = new List<string> { "Overview", "Orders", "Order Pad", "Budgeting" };
-            //public static List<string> Purchaser = new List<string> { "" };
         }
 
         public static string SectionName = "InfoBlock";

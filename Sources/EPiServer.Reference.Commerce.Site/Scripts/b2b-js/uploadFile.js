@@ -50,7 +50,26 @@ function InputTypeFile() {
                 var fullPath = $(this).val();
                 var pathArray = fullPath.split(/[/\\]/);
                 fileName.val(pathArray[pathArray.length - 1]);
-                fileName.addClass('loaded');
+
+                var file = $("#fileUploaded")[0].files[0];
+                var formData = new FormData();
+                formData.append('file', file);
+
+                $.ajax({
+                    url: "/QuickOrderPage/AddFromFile",
+                    type: "POST",
+                    dataType: "json",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    error: function (data) {
+                        alert("Eroare:" + data);
+                    },
+                    success: function (result) {
+                        window.location.href = result.data;
+                    }
+                });
+
             });
         });
     }

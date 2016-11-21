@@ -348,6 +348,7 @@
     <Content Include="Scripts\js\Navigation.js" />
     <Content Include="Scripts\b2b-js\OrderPads.js" />
     <Content Include="Scripts\b2b-js\Organization.js" />
+    <Content Include="Scripts\js\Orders.js" />
     <Content Include="Scripts\js\Product.js" />
     <Content Include="Scripts\b2b-js\QuickOrderInterface.js" />
     <Content Include="Scripts\js\Registration.js" />
@@ -432,8 +433,9 @@
     <Compile Include="Features\OrderPads\ViewModels\OrderPadsPageViewModel.cs" />
     <Compile Include="Features\Navigation\ViewModels\OrgNavigationViewModel.cs" />
     <Compile Include="Features\Orders\Controllers\OrdersPageController.cs" />
+    <Compile Include="Features\QuickOrder\Controllers\QuickOrderPageController.cs" />
+    <Compile Include="Features\QuickOrder\Pages\QuickOrderPage.cs" />
     <Compile Include="Features\Orders\Pages\OrdersPage.cs" />
-    <Compile Include="Features\Orders\ViewModels\OrdersPageViewModel.cs" />
     <Compile Include="Features\Organization\Controllers\OrganizationPageController.cs" />
     <Compile Include="Features\Organization\ViewModels\OrganizationPageViewModel.cs" />
     <Compile Include="Features\Payment\Models\PaymentMethodModel.cs" />
@@ -441,6 +443,7 @@
     <Compile Include="Features\Payment\Services\PaymentService.cs" />
     <Compile Include="Features\Payment\ViewModelFactories\PaymentMethodViewModelFactory.cs" />
     <Compile Include="Features\Profile\ViewModels\ProfilePageViewModel.cs" />
+    <Compile Include="Features\QuickOrder\ViewModels\QuickOrderPageViewModel.cs" />
     <Compile Include="Features\ResetPassword\ViewModels\ResetPasswordMailPageViewModel.cs" />
     <Compile Include="Features\Navigation\Controllers\OrganizationNavController.cs" />
     <Compile Include="Features\Navigation\Controllers\B2BNavigationController.cs" />
@@ -831,7 +834,7 @@
     <Content Include="Views\Checkout\_CheckoutInvalidOperationError.cshtml" />
     <Content Include="Views\OrderPadsPage\Index.cshtml" />
     <Content Include="Views\Shared\_OrgNavigation.cshtml" />
-    <Content Include="Views\OrdersPage\QuickOrder.cshtml" />
+    <Content Include="Views\QuickOrderPage\Index.cshtml" />
     <Content Include="Views\B2BNavigation\Index.cshtml" />
     <Content Include="Views\OrderDetails\Index.cshtml" />
     <Content Include="Styles\b2b\components\_product.less" />

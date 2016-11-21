@@ -9,6 +9,7 @@ using EPiServer.Globalization;
 using EPiServer.Reference.Commerce.Shared.Models;
 using EPiServer.Reference.Commerce.Shared.Models.Identity;
 using EPiServer.Reference.Commerce.Shared.Services;
+using EPiServer.Reference.Commerce.Site.B2B.Filters;
 using EPiServer.Reference.Commerce.Site.B2B.Models.Pages;
 using EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
@@ -40,6 +41,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
             _localizationService = localizationService;
         }
 
+       [NavigationAuthorize("Admin")]
         public ActionResult Index(UsersPage currentPage)
         {
             var organization = _organizationService.GetCurrentUserOrganization();
@@ -51,6 +53,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
             };
             return View(viewModel);
         }
+
+        [NavigationAuthorize("Admin")]
         public ActionResult AddUser(UsersPage currentPage)
         {
             var organization = _organizationService.GetCurrentUserOrganization();
@@ -62,6 +66,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
             };
             return View(viewModel);
         }
+
+        [NavigationAuthorize("Admin")]
         public ActionResult EditUser(UsersPage currentPage,string id)
         {
             if (id.IsNullOrEmpty())
@@ -80,6 +86,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
             return View(viewModel);
         }
 
+        [NavigationAuthorize("Admin")]
         public ActionResult RemoveUser(string id)
         {
             if (id.IsNullOrEmpty())
@@ -93,6 +100,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
 
         [HttpPost]
         [AllowDBWrite]
+        [NavigationAuthorize("Admin")]
         public ActionResult UpdateUser(UsersPageViewModel viewModel)
         {
             _customerService.EditContact(viewModel.Contact);
@@ -102,6 +110,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
 
         [HttpPost]
         [AllowDBWrite]
+        [NavigationAuthorize("Admin")]
         public ActionResult AddUser(UsersPageViewModel viewModel)
         {
             ApplicationUser user = _userManager.FindByEmail(viewModel.Contact.Email);
@@ -114,12 +123,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
 
                 return View(viewModel);
             }
-
+            
             SaveUser(viewModel);
 
             return RedirectToAction("Index");
         }
 
+        [NavigationAuthorize("Admin")]
         public JsonResult GetUsers(string phrase)
         {
 

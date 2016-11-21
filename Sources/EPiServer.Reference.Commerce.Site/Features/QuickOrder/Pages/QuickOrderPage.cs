@@ -3,10 +3,10 @@ using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 
-namespace EPiServer.Reference.Commerce.Site.Features.Orders.Pages
+namespace EPiServer.Reference.Commerce.Site.Features.QuickOrder.Pages
 {
-    [ContentType(DisplayName = "OrdersPage", GUID = "3c436a14-38d1-4fd1-ab37-15f0848cfa24", Description = "", AvailableInEditMode = true)]
-    public class OrdersPage : PageData
+    [ContentType(DisplayName = "Quick Order Page", GUID = "9F846F7D-2DFA-4983-815D-C09B12CEF993", Description = "", AvailableInEditMode = true)]
+    public class QuickOrderPage : PageData
     {
         [CultureSpecific]
         [Display(

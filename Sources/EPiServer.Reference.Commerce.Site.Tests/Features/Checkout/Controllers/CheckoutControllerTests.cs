@@ -242,6 +242,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
         private readonly Mock<OrderSummaryViewModelFactory> _orderSummaryViewModelFactoryMock;
         private readonly Mock<IOrderFactory> _orderFactoryMock;
         private readonly Mock<IContentLoader> _contentLoaderMock;
+        private readonly Mock<IOrganizationService> _organizationServiceMock;
         private readonly ICart _cart;
 
         public CheckoutControllerTests()
@@ -262,6 +263,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
             _promotionEngineMock = new Mock<IPromotionEngine>();
             _cartServiceMock = new Mock<ICartService>();
             _addressBookServiceMock = new Mock<IAddressBookService>();
+            _organizationServiceMock = new Mock<IOrganizationService>();
             _orderSummaryViewModelFactoryMock = new Mock<OrderSummaryViewModelFactory>(null, null, null, null);
             _checkoutViewModelFactoryMock = new Mock<CheckoutViewModelFactory>(null, null, null, null, null, null, null, null);
             _orderFactoryMock = new Mock<IOrderFactory>();
@@ -285,7 +287,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
             _subject = new CheckoutControllerForTest(_contentRepositoryMock.Object, _mailServiceMock.Object, _localizationService,
                 _currencyServiceMock.Object, _controllerExceptionHandlerMock.Object, _customerContextFacadeMock.Object, _orderRepositoryMock.Object,
                 _checkoutViewModelFactoryMock.Object, _orderGroupCalculatorMock.Object, _paymentProcessorMock.Object, _promotionEngineMock.Object,
-                _cartServiceMock.Object, _addressBookServiceMock.Object, _orderSummaryViewModelFactoryMock.Object, _orderFactoryMock.Object, _cartServiceB2BMock.Object, _contentLoaderMock.Object);
+                _cartServiceMock.Object, _addressBookServiceMock.Object, _orderSummaryViewModelFactoryMock.Object, _orderFactoryMock.Object,
+                _cartServiceB2BMock.Object, _contentLoaderMock.Object,_organizationServiceMock.Object);
 
             _checkoutViewModelFactoryMock
                 .Setup(x => x.CreateCheckoutViewModel(It.IsAny<ICart>(), It.IsAny<CheckoutPage>(), It.IsAny<PaymentMethodViewModel<PaymentMethodBase>>()))
@@ -397,7 +400,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
                 OrderSummaryViewModelFactory orderSummaryViewModelFactory,
                 IOrderFactory orderFactory,
                 ICartServiceB2B cartServiceB2B,
-                IContentLoader contentLoader
+                IContentLoader contentLoader,
+                IOrganizationService organizationService
                 )
                 : base(contentRepository,
                       mailService,
@@ -415,7 +419,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
                       orderSummaryViewModelFactory,
                       orderFactory,
                       cartServiceB2B,
-                      contentLoader)
+                      contentLoader,
+                      organizationService)
             {
             }
 

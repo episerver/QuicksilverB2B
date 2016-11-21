@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Castle.Core.Internal;
 using EPiServer.Commerce.Order;
 using EPiServer.Core;
+using EPiServer.Reference.Commerce.Site.B2B.Models.Entities;
 using EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
@@ -24,6 +25,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.QuickOrder.Controllers
     {
         private readonly IQuickOrderService _quickOrderService;
         private readonly ICartService _cartService;
+        private readonly IFileHelperService _fileHelperService;
         private ICart _cart;
         private readonly IOrderRepository _orderRepository;
         private readonly ReferenceConverter _referenceConverter;
@@ -31,11 +33,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.QuickOrder.Controllers
         public QuickOrderPageController(
             IQuickOrderService quickOrderService,
             ICartService cartService,
+            IFileHelperService fileHelperService,
             IOrderRepository orderRepository,
             ReferenceConverter referenceConverter)
         {
             _quickOrderService = quickOrderService;
             _cartService = cartService;
+            _fileHelperService = fileHelperService;
             _orderRepository = orderRepository;
             _referenceConverter = referenceConverter;
         }
@@ -117,31 +121,17 @@ namespace EPiServer.Reference.Commerce.Site.Features.QuickOrder.Controllers
                     return Json(new { data = quickOrderPage?.LinkURL });
                 }
 
-                var reader = new StreamReader(uploadedFile);
-                while (!reader.EndOfStream)
+                var fileData = _fileHelperService.GetImportData<QuickOrderData>(uploadedFile);
+                foreach (var record in fileData)
                 {
-                    var line = reader.ReadLine();
+                    //find the product
+                    ContentReference variationReference = _referenceConverter.GetContentLink(record.Sku);
+                    var product = _quickOrderService.GetProductByCode(variationReference);
 
-                    if (line != null)
-                    {
-                        line = line.Replace("\"", "");
+                    product.Quantity = record.Quantity;
+                    product.TotalPrice = product.Quantity * product.UnitPrice;
 
-                        var values = line.Split(',');
-                        var sku = values[0];
-                        var fileQuantity = values[1];
-
-                        //find the product
-                        ContentReference variationReference = _referenceConverter.GetContentLink(sku);
-                        var product = _quickOrderService.GetProductByCode(variationReference);
-
-                        int quantity;
-                        if (Int32.TryParse(fileQuantity, out quantity))
-                        {
-                            product.Quantity = quantity;
-                            product.TotalPrice = product.Quantity * product.UnitPrice;
-                        }
-                        productsList.Add(product);
-                    }
+                    productsList.Add(product);
                 }
                 TempData["products"] = productsList;
             }

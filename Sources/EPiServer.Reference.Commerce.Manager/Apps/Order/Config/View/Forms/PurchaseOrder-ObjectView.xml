@@ -102,7 +102,7 @@
           <!-- B2B changes START -->
           <Button id="FinishedQuoteRequestButton" text="Finish Quote" tooltip="Click Me" commandName="btn_FinishedQuoteRequestBtn" disableMode="true" permissions="order:mng:edit"></Button>
           <!-- B2B changes END -->
-        </ButtonSet>
+				</ButtonSet>
 			</add>
 		</ButtonSets>
 		<Grids>

@@ -185,3 +185,4 @@ FakesAssemblies/
 .vs
 
 *.pubxml
+/Sources/EPiServer.Reference.Commerce.Site/appdata/GlobalLinkLog.txt

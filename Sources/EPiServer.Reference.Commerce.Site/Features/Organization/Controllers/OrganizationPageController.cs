@@ -25,7 +25,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
         {
             if (Request.QueryString["showForm"] != null && bool.Parse(Request.QueryString["showForm"]))
             {
-                return RedirectToAction("Edit");
+                return RedirectToAction("Create");
             }
             var viewModel = new OrganizationPageViewModel
             {
@@ -44,7 +44,24 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
             return View(viewModel);
         }
 
-        [NavigationAuthorize("Admin,Approver")]
+        [NavigationAuthorize("Admin,None")]
+        public ActionResult Create(OrganizationPage currentPage)
+        {
+            OrganizationPageViewModel viewModel = new OrganizationPageViewModel
+            {
+                Organization = new OrganizationModel
+                {
+                    Address = new B2BAddressViewModel
+                    {
+                        CountryOptions = _addressService.GetAllCountries()
+                    }
+                },
+                CurrentPage = currentPage
+            };
+            return View("Edit",viewModel);
+        }
+
+        [NavigationAuthorize("Admin")]
         public ActionResult Edit(OrganizationPage currentPage, string organizationId)
         {
             OrganizationPageViewModel viewModel = new OrganizationPageViewModel
@@ -69,7 +86,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
             return View(viewModel);
         }
 
-        [NavigationAuthorize("Admin,Approver")]
+        [NavigationAuthorize("Admin")]
         public ActionResult AddSub(OrganizationPage currentPage)
         {
             var viewModel = new OrganizationPageViewModel
@@ -86,7 +103,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
 
         [HttpPost]
         [AllowDBWrite]
-        [NavigationAuthorize("Admin,Approver")]
+        [NavigationAuthorize("Admin,None")]
         public ActionResult Save(OrganizationPageViewModel viewModel)
         {
             if (string.IsNullOrEmpty(viewModel.Organization.Name))
@@ -107,7 +124,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
 
         [HttpPost]
         [AllowDBWrite]
-        [NavigationAuthorize("Admin,Approver")]
+        [NavigationAuthorize("Admin")]
         public ActionResult SaveSub(OrganizationPageViewModel viewModel)
         {
             if (string.IsNullOrEmpty(viewModel.NewSubOrganization.Name))

@@ -69,7 +69,10 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             };
             contact.SaveChanges();
 
-            var organization = _organizationDomainService.GetOrganizationEntityById(contactModel.OrganizationId);
+            var organization = contactModel.UserRole == B2BUserRoles.Admin.ToString() ? 
+                _organizationDomainService.GetCurrentUserOrganizationEntity() : 
+                _organizationDomainService.GetOrganizationEntityById(contactModel.OrganizationId);
+
             contact.B2BOrganization = organization;
             contact.SaveChanges();
         }

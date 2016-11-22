@@ -19,7 +19,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels
         public BudgetViewModel()
         {
         }
-        public Guid BudgetId { get; set; }
+        public int BudgetId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime DueDate { get; set; }
         public decimal Amount { get; set; }

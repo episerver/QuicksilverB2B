@@ -49,7 +49,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.DomainServices
             return budgets?.Select(budget => new Budget(budget)).ToList();
         }
 
-        public Budget GetBudgetById(Guid budgetId)
+        public Budget GetBudgetById(int budgetId)
         {
             var budget = BusinessManager.Load(Constants.Classes.Budget, new PrimaryKeyId(budgetId));
             return budget != null ? new Budget(budget) : null;

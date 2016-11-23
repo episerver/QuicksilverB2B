@@ -266,7 +266,6 @@
     <Compile Include="Models\ViewModels\ProductViewModel.cs" />
     <Compile Include="Models\ViewModels\BudgetViewModel.cs" />
     <Compile Include="Models\ViewModels\ContactViewModel.cs" />
-    <Compile Include="Models\ViewModels\OrdersPageViewModel.cs" />
     <Compile Include="Models\ViewModels\OrganizationModel.cs" />
     <Compile Include="Models\ViewModels\SubOrganizationModel.cs" />
     <Compile Include="Models\ViewModels\OrderOrganizationViewModel.cs" />

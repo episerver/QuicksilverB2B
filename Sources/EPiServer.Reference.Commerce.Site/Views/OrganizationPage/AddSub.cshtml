@@ -23,7 +23,7 @@
                         <div class="form-group">
                             @Html.LabelFor(x => x.NewSubOrganization.Name)
                             <br />
-                            @Html.TextBoxFor(x => x.NewSubOrganization.Name)
+                            @Html.TextBoxFor(x => x.NewSubOrganization.Name, new { @class = "form-control" })
                             @Html.ValidationMessageFor(x => x.NewSubOrganization.Name)
                         </div>
                         <h3 class="h4 spacer-top-l">Locations</h3>

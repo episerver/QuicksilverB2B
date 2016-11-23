@@ -36,11 +36,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.Controllers
         [HttpGet]
         public ActionResult Index(OrderHistoryPage currentPage)
         {
-            var iPurchaseOrders = _orderRepository.Load<IPurchaseOrder>(_customerContext.CurrentContactId)
+            
+            var purchaseOrders = OrderContext.Current.GetPurchaseOrders(_customerContext.CurrentContactId)
                                              .OrderByDescending(x => x.Created)
                                              .ToList();
-
-            var purchaseOrders = iPurchaseOrders.Cast<PurchaseOrder>().ToList();
 
             var viewModel = new OrderHistoryViewModel
             {

@@ -38,7 +38,7 @@
                             <div class="col-sm-3">
                                 @Html.LabelFor(x => x.SubOrganizationModel.Address.Street)
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <div class="row">
                                     <div class="col-sm-6">
                                         @Html.LabelFor(x => x.SubOrganizationModel.Address.City)
@@ -52,8 +52,8 @@
                                 @Html.LabelFor(x => x.SubOrganizationModel.Address.CountryCode)
                             </div>
 
-                            <div class="col-sm-3">
-                                Actions
+                            <div class="col-sm-1">
+                                <label>Actions</label>
                             </div>
                         </div>
                         @for (int i = 0; i < Model.SubOrganizationModel.Locations.Count; i++)
@@ -68,7 +68,7 @@
                                     @Html.TextBoxFor(x => x.SubOrganizationModel.Locations[i].Street)
                                     @Html.ValidationMessageFor(x => x.SubOrganizationModel.Locations[i].Street)
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="row">
                                         <div class="col-sm-6">
                                             @Html.TextBoxFor(x => x.SubOrganizationModel.Locations[i].City)
@@ -90,7 +90,7 @@
                                     </div>
                                     @Html.ValidationMessageFor(x => x.SubOrganizationModel.Locations[i].CountryCode)
                                 </div>
-                                <div class="form-group col-sm-3">
+                                <div class="col-sm-1 spacer-top-xs text-right">
                                     <a href="@Url.Action("DeleteAddress", "SubOrganizationPage", new { suborg = Model.SubOrganizationModel.OrganizationId, addressId = Model.SubOrganizationModel.Locations[i].AddressId })" class="btn btn-danger btn-xs">
                                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                     </a>

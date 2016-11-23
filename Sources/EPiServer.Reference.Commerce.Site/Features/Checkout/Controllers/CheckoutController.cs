@@ -460,9 +460,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             checkoutViewModel.Payment.PaymentMethod.PostProcess(payment);
 
             var orderReference = _orderRepository.SaveAsPurchaseOrder(Cart);
-           var purchaseOrder = _orderRepository.Load<IPurchaseOrder>(orderReference.OrderGroupId);
+            var purchaseOrder = _orderRepository.Load<IPurchaseOrder>(orderReference.OrderGroupId);
             _orderRepository.Delete(Cart.OrderLink);
-            if (string.IsNullOrEmpty(purchaseOrder.Properties[Constants.Customer.CustomerFullName].ToString()))
+            if (string.IsNullOrEmpty(purchaseOrder.Properties[Constants.Customer.CustomerFullName]?.ToString()))
             {
                 if (CustomerContext.Current != null && CustomerContext.Current.CurrentContact != null)
                 {

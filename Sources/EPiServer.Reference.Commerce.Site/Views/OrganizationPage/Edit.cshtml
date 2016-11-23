@@ -25,13 +25,8 @@
                         <div class="form-group">
                             @Html.LabelFor(x => x.Organization.Name)
                             <br />
-                            @Html.TextBoxFor(x => x.Organization.Name, new { @maxlength = "100"})
+                            @Html.TextBoxFor(x => x.Organization.Name, new { @class = "form-control", @maxlength = "100"})
                             @Html.ValidationMessageFor(x => x.Organization.Name)
-                        </div>
-
-                        <div class="form-group">
-                            <label>Address</label>
-                            <br />
                         </div>
                         <div class="form-group">
                             @Html.LabelFor(x => x.Organization.Address.Name)

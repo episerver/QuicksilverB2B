@@ -1,15 +1,15 @@
 ﻿.btn {
     border-radius: 3px;
+    
 
     &.btn-default {
         color: @brand-red;
         background-color: transparent;
         border-color: #eee;
         border-width: 2px;
-        text-transform: uppercase;
         font-weight: bold;
+        text-transform: uppercase;
         font-size: 12px;
-        padding: 10px 12px 9px 12px;
         &:hover,
         &:focus,
         &:active {
@@ -27,6 +27,9 @@
         background: #111;
         border-color: #111;
         transition: .1s ease background;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 12px;
 
         &:hover,
         &:active,
@@ -47,6 +50,8 @@
         margin: 0;
         background: transparent;
         transition: .1s ease all;
+        text-transform: uppercase;
+        font-weight: bold;
         &:hover {
           background: #444;
         }
@@ -62,11 +67,10 @@
             color: @brand-red;
             transition: .1s ease all;
             border-width: 2px;
-            text-transform: uppercase;
             font-weight: bold;
             font-size: 12px;
             padding: 9px 12px 8px 12px;
-
+            text-transform: uppercase;
             &:hover,
             &:active,
             &:focus {
@@ -74,6 +78,12 @@
                 color: #fff;
             }
         }
+    }
+}
+
+.btn-group{
+    .btn-default{
+        padding: 9px 12px 8px 12px;
     }
 }
 

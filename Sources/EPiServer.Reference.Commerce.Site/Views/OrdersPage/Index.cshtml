@@ -1,4 +1,4 @@
-﻿@model EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels.OrdersPageViewModel
+﻿@model EPiServer.Reference.Commerce.Site.Features.Orders.ViewModels.OrdersPageViewModel
 <div class="container-fluid">
     <div class="row myPage">
         @Html.Partial("_CmsNavigation", Model.CurrentPage)
@@ -33,7 +33,7 @@
                         @foreach (var order in Model.OrdersOrganization)
                         {
                             <tr class="orderElement @order.Status">
-                                <td><a href="@order.OrderLink">#@order.OrderNumber</a></td>
+                                <td><a href="@(Model.OrderDetailsPageUrl)?orderGroupId=@order.OrderGroupId">#@order.OrderNumber</a></td>
                                 <td>@order.PlacedOrderDate</td>
                                 <td>@order.Currency @order.Ammount</td>
                                 <td>@order.SubOrganization</td>

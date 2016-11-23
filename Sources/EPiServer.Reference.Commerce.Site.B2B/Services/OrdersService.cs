@@ -29,7 +29,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
                 var orderViewModel = new OrderOrganizationViewModel
                 {
                     OrderNumber = purchaseOrder.OrderNumber,
-                    OrderLink = purchaseOrder.OrderLink,
+                    OrderGroupId = purchaseOrder.OrderLink.OrderGroupId,
                     PlacedOrderDate = purchaseOrder.Created.ToString("yyyy MMMM dd"),
                     Ammount = purchaseOrder.GetTotal().Amount.ToString("F"),
                     Currency = purchaseOrder.Currency.CurrencyCode,

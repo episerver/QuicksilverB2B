@@ -13,10 +13,10 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.Entities
             BudgetEntity = budgetEntity;
         }
         public EntityObject BudgetEntity { get; set; }
-        public Guid BudgetId
+        public int BudgetId
         {
-            get { return BudgetEntity.PrimaryKeyId ?? Guid.Empty; }
-            set { BudgetEntity.PrimaryKeyId = (PrimaryKeyId?)value; }
+            get { return BudgetEntity.PrimaryKeyId ?? 0; }
+            set { BudgetEntity.PrimaryKeyId = value; }
         }
         public DateTime StartDate
         {

@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using EPiServer.Reference.Commerce.Site.B2B.DomainServiceContracts;
+using EPiServer.Reference.Commerce.Site.B2B.Models.Entities;
 using EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using EPiServer.ServiceLocation;
@@ -26,23 +28,30 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
         public void CreateNewBudget(BudgetViewModel budgetModel)
         {
             var budget = _budgetDomainService.GetNewBudget();
-            budget.Amount = budgetModel.Amount;
-            budget.StartDate = budgetModel.StartDate;
-            budget.DueDate = budgetModel.DueDate;
-            budget.OrganizationId = budgetModel.OrganizationId;
-            budget.ContactId = budgetModel.ContactId;
-            budget.SaveChanges();
+            UpdateBudgetEntity(budget, budgetModel);
         }
 
         public void UpdateBudget(BudgetViewModel budgetModel)
         {
             var budget = _budgetDomainService.GetBudgetById(budgetModel.BudgetId);
-            budget.Amount = budgetModel.Amount;
-            budget.StartDate = budgetModel.StartDate;
-            budget.DueDate = budgetModel.DueDate;
-            budget.OrganizationId = budgetModel.OrganizationId;
-            budget.ContactId = budgetModel.ContactId;
-            budget.SaveChanges();
+            UpdateBudgetEntity(budget, budgetModel);
+        }
+
+
+        private void UpdateBudgetEntity(Budget budgetEntity, BudgetViewModel budgetModel)
+        {
+            budgetEntity.Amount = budgetModel.Amount;
+            budgetEntity.StartDate = budgetModel.StartDate;
+            budgetEntity.DueDate = budgetModel.DueDate;
+            if (budgetModel.OrganizationId != Guid.Empty)
+            {
+                budgetEntity.OrganizationId = budgetModel.OrganizationId;
+            }
+            if (budgetModel.ContactId != Guid.Empty)
+            {
+                budgetEntity.ContactId = budgetModel.ContactId;
+            }
+            budgetEntity.SaveChanges();
         }
     }
 }

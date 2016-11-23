@@ -145,6 +145,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetAddresses(string id)
+        {
+            var organization = _organizationService.GetSubOrganizationById(id);
+            var addresses = organization.Locations;
+
+            return Json(addresses, JsonRequestBehavior.AllowGet);
+        }
+
         #region Helpers
         private void SaveUser(UsersPageViewModel viewModel)
         {

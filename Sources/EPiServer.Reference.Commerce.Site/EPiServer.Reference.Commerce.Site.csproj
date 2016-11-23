@@ -355,6 +355,7 @@
     <Content Include="Scripts\js\Registration.js" />
     <Content Include="Scripts\js\Search.js" />
     <Content Include="Scripts\b2b-js\uploadFile.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\pickaday.min.js" />
     <Content Include="Styles\b2b\components\_autocomplete.less" />
     <None Include="Properties\PublishProfiles\Quick.pubxml" />

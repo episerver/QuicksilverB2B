@@ -340,6 +340,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\js\AddressBook.js" />
     <Content Include="Scripts\b2b-js\Budgeting.js" />
+    <Content Include="Scripts\js\Budget.js" />
     <Content Include="Scripts\js\Cart.js" />
     <Content Include="Scripts\js\Checkout.js" />
     <Content Include="Scripts\js\Login.js" />
@@ -603,7 +604,6 @@
     <Compile Include="Infrastructure\Attributes\LocalizedRequiredAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\LocalizedStringLengthAttribute.cs" />
     <Compile Include="Infrastructure\BundleConfig.cs" />
-    <Compile Include="Features\Market\Services\CookieService.cs" />
     <Compile Include="Infrastructure\Descriptors\MoveCategoryEditorDescriptor.cs" />
     <Compile Include="Infrastructure\Indexing\CatalogIndexer.cs" />
     <Compile Include="Infrastructure\Indexing\IndexingHelper.cs" />

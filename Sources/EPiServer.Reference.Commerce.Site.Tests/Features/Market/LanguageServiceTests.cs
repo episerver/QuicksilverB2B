@@ -7,6 +7,7 @@ using System;
 using System.Globalization;
 using System.Web;
 using System.Web.Routing;
+using EPiServer.Reference.Commerce.Site.B2B.Services;
 using Xunit;
 
 

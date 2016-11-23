@@ -279,7 +279,9 @@
     <Compile Include="ServiceContracts\IOrganizationService.cs" />
     <Compile Include="ServiceContracts\IAddressService.cs" />
     <Compile Include="ServiceContracts\ICustomerService.cs" />
+    <Compile Include="Services\B2BCurrentMarket.cs" />
     <Compile Include="Services\BudgetService.cs" />
+    <Compile Include="Services\CookieService.cs" />
     <Compile Include="Services\FileHelperService.cs" />
     <Compile Include="Services\B2BNavigationService.cs" />
     <Compile Include="Services\OrdersService.cs" />

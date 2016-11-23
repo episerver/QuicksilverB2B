@@ -1,4 +1,5 @@
-﻿using Mediachase.Commerce;
+﻿using EPiServer.Reference.Commerce.Site.B2B.Services;
+using Mediachase.Commerce;
 using Mediachase.Commerce.Core;
 using Mediachase.Commerce.Markets;
 

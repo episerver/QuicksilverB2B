@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using EPiServer.Reference.Commerce.Site.B2B.Services;
 using Mediachase.Commerce;
 using Moq;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;

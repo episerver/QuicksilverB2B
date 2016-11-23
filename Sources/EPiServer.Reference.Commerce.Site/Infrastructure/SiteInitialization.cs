@@ -25,6 +25,8 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.WebPages;
 using EPiServer.Reference.Commerce.Site.B2B.CustomerProcessors;
+using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
+using EPiServer.Reference.Commerce.Site.B2B.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure
 {
@@ -75,7 +77,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             services.AddTransient<ApplicationUserManager>(locator => locator.GetInstance<IOwinContext>().GetUserManager<ApplicationUserManager>());
             services.AddTransient<ApplicationSignInManager>(locator => locator.GetInstance<IOwinContext>().Get<ApplicationSignInManager>());
             services.AddTransient<IAuthenticationManager>(locator => locator.GetInstance<IOwinContext>().Authentication);
-
+            services.AddTransient<IBudgetService, BudgetService>();
+            services.AddTransient<IOrganizationService, OrganizationService>();
             services.AddTransient<IModelBinderProvider, ModelBinderProvider>();
             services.AddHttpContextOrThreadScoped<SiteContext, CustomCurrencySiteContext>();
             services.AddTransient<HttpContextBase>(locator => HttpContext.Current.ContextBaseOrNull());

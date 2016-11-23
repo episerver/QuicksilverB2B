@@ -41,8 +41,10 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
         private void UpdateBudgetEntity(Budget budgetEntity, BudgetViewModel budgetModel)
         {
             budgetEntity.Amount = budgetModel.Amount;
+            budgetEntity.Currency = budgetModel.Currency;
             budgetEntity.StartDate = budgetModel.StartDate;
             budgetEntity.DueDate = budgetModel.DueDate;
+            budgetEntity.Status = budgetModel.Status;
             if (budgetModel.OrganizationId != Guid.Empty)
             {
                 budgetEntity.OrganizationId = budgetModel.OrganizationId;
@@ -52,6 +54,11 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
                 budgetEntity.ContactId = budgetModel.ContactId;
             }
             budgetEntity.SaveChanges();
+        }
+
+        public List<Budget> GetOrganizationBudgets(Guid organizationId)
+        {
+            return _budgetDomainService.GetOrganizationBudgets(organizationId);
         }
     }
 }

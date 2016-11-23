@@ -18,6 +18,9 @@ namespace EPiServer.Reference.Commerce.Site.B2B
             public static string DueDate = "DueDate";
             public static string DueDateFriendly = "Due Date";
             public static string Amount = "Amount";
+            public static string SpentBudget = "SpentBudget";
+            public static string Currency = "Currency";
+            public static string Status = "Status";
             public static string UserRole = "UserRole";
             public static string UserRoleFriendly = "User Role";
             public static string UserLocation = "UserLocation";

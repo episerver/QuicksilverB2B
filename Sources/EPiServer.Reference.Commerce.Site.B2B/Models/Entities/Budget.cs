@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using EPiServer.Reference.Commerce.Site.B2B.Extensions;
 using Mediachase.BusinessFoundation.Data;
 using Mediachase.BusinessFoundation.Data.Business;
 using Mediachase.BusinessFoundation.Data.Meta.Management;
+using Mediachase.Commerce;
 
 namespace EPiServer.Reference.Commerce.Site.B2B.Models.Entities
 {
@@ -12,6 +14,9 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.Entities
         {
             BudgetEntity = budgetEntity;
         }
+
+        public List<Currency> BudgetCurrencies;
+
         public EntityObject BudgetEntity { get; set; }
         public int BudgetId
         {
@@ -33,15 +38,25 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.Entities
             get { return BudgetEntity.GetDecimalValue(Constants.Fields.Amount); }
             set { BudgetEntity[Constants.Fields.Amount] = value; }
         }
+        public string Currency
+        {
+            get { return BudgetEntity.GetStringValue(Constants.Fields.Currency); }
+            set { BudgetEntity[Constants.Fields.Currency] = value; }
+        }
         public Guid OrganizationId
         {
             get { return BudgetEntity.GetGuidValue(MetaClassManager.GetPrimaryKeyName(Constants.Classes.Organization)); }
-            set { BudgetEntity[MetaClassManager.GetPrimaryKeyName(Constants.Classes.Organization)] = value; }
+            set { BudgetEntity[MetaClassManager.GetPrimaryKeyName(Constants.Classes.Organization)] = new PrimaryKeyId(value); }
         }
         public Guid ContactId
         {
             get { return BudgetEntity.GetGuidValue(MetaClassManager.GetPrimaryKeyName(Constants.Classes.Contact)); }
-            set { BudgetEntity[MetaClassManager.GetPrimaryKeyName(Constants.Classes.Contact)] = value; }
+            set { BudgetEntity[MetaClassManager.GetPrimaryKeyName(Constants.Classes.Contact)] = new PrimaryKeyId(value); }
+        }
+        public string Status
+        {
+            get { return BudgetEntity.GetStringValue(Constants.Fields.Status); }
+            set { BudgetEntity[Constants.Fields.Status] = value; }
         }
 
         public bool IsActive => StartDate <= DateTime.Now && DueDate > DateTime.Now;

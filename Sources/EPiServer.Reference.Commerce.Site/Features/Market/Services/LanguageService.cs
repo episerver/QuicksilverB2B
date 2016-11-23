@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Routing;
 using EPiServer.Core;
 using EPiServer.Globalization;
+using EPiServer.Reference.Commerce.Site.B2B.Services;
 using Mediachase.Commerce;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Market.Services

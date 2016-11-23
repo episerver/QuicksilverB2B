@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using EPiServer.Reference.Commerce.Site.B2B.Services;
 using EPiServer.ServiceLocation;
 using Mediachase.Commerce;
 

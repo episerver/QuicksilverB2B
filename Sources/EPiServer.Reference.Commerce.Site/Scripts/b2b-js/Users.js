@@ -131,3 +131,29 @@ $("#select-role").change(function () {
     }  
 });
 
+$("#select-suborganization").change(function () {
+    var organizationId = this.value;
+    $.ajax({
+        url: "/UsersPage/GetAddresses",
+        type: 'get',
+        dataType: 'json',
+        data: {
+            id: organizationId
+        },
+        success: function (data) {
+            if (data) {
+                $('#select-location').empty();
+                var options = '';
+                for (var i = 0; i < data.length; i++) {
+                    options += '<option value="' + data[i].AddressId + '">' + data[i].Name + '</option>';
+                }
+                $('#select-location').append(options);
+            }
+        }
+    });
+});
+
+$(document).ready(function () {
+    $("#select-suborganization").change();
+});
+

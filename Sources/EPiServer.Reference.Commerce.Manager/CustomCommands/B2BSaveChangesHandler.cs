@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using EPiServer.Reference.Commerce.Site.B2B;
 using Mediachase.BusinessFoundation;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Engine;
@@ -26,7 +27,8 @@ namespace EPiServer.Reference.Commerce.Manager.CustomCommands
                     {
                         "PreventProcessPayment",
                         !string.IsNullOrEmpty(order["QuoteStatus"] as string) &&
-                        order["QuoteStatus"].ToString() == "RequestQuotation"
+                        (order["QuoteStatus"].ToString() == Constants.Quote.RequestQuotation||
+                        order["QuoteStatus"].ToString() == Constants.Quote.RequestQuotationFinished)
                     }
                 });
 

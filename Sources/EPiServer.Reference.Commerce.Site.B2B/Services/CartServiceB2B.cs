@@ -52,7 +52,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
                 }
                 
                 OrderReference orderReference = _orderRepository.SaveAsPurchaseOrder(cart);
-                PurchaseOrder purchaseOrder = _orderRepository.Load<IPurchaseOrder>(orderReference.OrderGroupId) as PurchaseOrder;
+                PurchaseOrder purchaseOrder = _orderRepository.Load<PurchaseOrder>(orderReference.OrderGroupId);
                 if (purchaseOrder != null)
                 {
                     int quoteExpireDays;
@@ -65,7 +65,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
                     purchaseOrder[Constants.Quote.PreQuoteTotal] = purchaseOrder.Total;
                     purchaseOrder[Constants.Quote.QuoteStatus] = Constants.Quote.RequestQuotation;
                     purchaseOrder.Status = OrderStatus.OnHold.ToString();
-                    if (string.IsNullOrEmpty(purchaseOrder[Constants.Customer.CustomerFullName].ToString()))
+                    if (string.IsNullOrEmpty(purchaseOrder[Constants.Customer.CustomerFullName]?.ToString()))
                     {
                         if (CustomerContext.Current != null && CustomerContext.Current.CurrentContact != null)
                         {

@@ -1,6 +1,6 @@
 ﻿.btn {
     border-radius: 3px;
-    
+
 
     &.btn-default {
         color: @brand-red;
@@ -10,6 +10,8 @@
         font-weight: bold;
         text-transform: uppercase;
         font-size: 12px;
+        padding: 9px 12px 8px 12px;
+
         &:hover,
         &:focus,
         &:active {
@@ -30,6 +32,7 @@
         text-transform: uppercase;
         font-weight: bold;
         font-size: 12px;
+        padding: 9px 12px 8px 12px;
 
         &:hover,
         &:active,
@@ -52,8 +55,9 @@
         transition: .1s ease all;
         text-transform: uppercase;
         font-weight: bold;
+
         &:hover {
-          background: #444;
+            background: #444;
         }
     }
 
@@ -71,6 +75,7 @@
             font-size: 12px;
             padding: 9px 12px 8px 12px;
             text-transform: uppercase;
+
             &:hover,
             &:active,
             &:focus {
@@ -79,11 +84,21 @@
             }
         }
     }
+
+    &.btn-sm {
+        padding: 5px 10px;
+    }
+
+    &.btn-xs {
+        padding: 1px 5px;
+    }
 }
 
-.btn-group{
-    .btn-default{
-        padding: 9px 12px 8px 12px;
+.input-group-btn {
+    .btn-default {
+        border-width: 1px;
+        font-size: 14px;
+        padding: 6px 12px;
     }
 }
 
@@ -122,7 +137,7 @@
     }
 }
 
-.delete-icon{
+.delete-icon {
     position: absolute;
     top: 50%;
     transform: translateY(calc(-50%));

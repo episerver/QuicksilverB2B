@@ -96,7 +96,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
                 Colors = variations
                     .Where(x => x.Size != null)
                     .GroupBy(x => x.Color)
-                    .Select(g => new SelectListItem                    
+                    .Select(g => new SelectListItem
                     {
                         Selected = false,
                         Text = g.First().Color,
@@ -115,7 +115,20 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
                 Color = variation.Color,
                 Size = variation.Size,
                 Images = variation.GetAssets<IContentImage>(_contentLoader, _urlResolver),
-                IsAvailable = defaultPrice != null
+                IsAvailable = defaultPrice != null,
+                Variants = variations.Select(variant =>
+                    {
+                        var variantImage = variant.GetAssets<IContentImage>(_contentLoader, _urlResolver).FirstOrDefault();
+                        var variantDefaultPrice = GetDefaultPrice(variant, market, currency);
+                        return new VariantViewModel
+                        {
+                            Sku = variant.Code,
+                            Size = $"{variant.Color} {variant.Size}",
+                            ImageUrl = string.IsNullOrEmpty(variantImage) ? "http://placehold.it/54x54/" : variantImage,
+                            DiscountedPrice = GetDiscountPrice(defaultPrice, market, currency),
+                            ListingPrice = variantDefaultPrice?.UnitPrice ?? new Money(0, currency)
+                        };
+                    }).ToList()
             };
 
             if (quickview)

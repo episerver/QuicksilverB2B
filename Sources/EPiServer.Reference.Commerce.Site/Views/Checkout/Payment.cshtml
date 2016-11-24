@@ -3,8 +3,18 @@
     Layout = null;
 }
 <div class="row">
-    <div class="col-xs-12">
-        <h3>@Html.Translate("/Checkout/Payment/Labels/ChoosePayment")</h3>
+    <div class="col-xs-12 col-md-6">
+        <div class="jsPaymentMethod">
+            @if (Model.Payment != null)
+            {
+                var controller = string.Format("_{0}PaymentMethod", Model.Payment.SystemName);
+
+                Html.RenderPartial(controller, Model.Payment);
+            }
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-6">
+        <h4>@Html.Translate("/Checkout/Payment/Labels/ChoosePayment")</h4>
         @foreach (var method in Model.PaymentMethodViewModels)
         {
             <div class="radio">
@@ -14,17 +24,5 @@
                 </label>
             </div>
         }
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-12">
-        <div class="jsPaymentMethod">
-            @if (Model.Payment != null)
-            {
-                var controller = string.Format("_{0}PaymentMethod", Model.Payment.SystemName);
-
-                Html.RenderPartial(controller, Model.Payment);
-            }
-        </div>
     </div>
 </div>

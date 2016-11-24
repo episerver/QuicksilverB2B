@@ -17,5 +17,19 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModels
         public string Size { get; set; }
         public IList<string> Images { get; set; }
         public bool IsAvailable { get; set; }
+
+        public Money SavePrice
+        {
+            get
+            {
+
+                if (DiscountedPrice.HasValue && DiscountedPrice.Value < ListingPrice)
+                {
+                    return ListingPrice - DiscountedPrice.Value;
+                }
+                return new Money(0, ListingPrice.Currency);
+            }
+        }
+        public List<VariantViewModel> Variants { get; set; }
     }
 }

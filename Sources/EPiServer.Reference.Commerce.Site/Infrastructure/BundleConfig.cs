@@ -30,6 +30,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                         "~/Scripts/b2b-js/Organization.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/pickaday").Include(
+                "~/Scripts/moment.min.js",
                 "~/Scripts/pickaday.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/autocomplete").Include(

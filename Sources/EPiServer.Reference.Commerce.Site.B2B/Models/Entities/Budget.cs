@@ -38,6 +38,12 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.Entities
             get { return BudgetEntity.GetDecimalValue(Constants.Fields.Amount); }
             set { BudgetEntity[Constants.Fields.Amount] = value; }
         }
+
+        public decimal SpentBudget
+        {
+            get { return BudgetEntity.GetDecimalValue(Constants.Fields.SpentBudget); }
+            set { BudgetEntity[Constants.Fields.SpentBudget] = value; }
+        }
         public string Currency
         {
             get { return BudgetEntity.GetStringValue(Constants.Fields.Currency); }

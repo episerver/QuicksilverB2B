@@ -8,8 +8,8 @@
         e.preventDefault();
         var form = $(this).closest('form');
         var data = {
-            startDateTime: $("#startDate").val(), finisDateTime: $("#dueDate").val(),
-            ammount: $("#ammount").val(), currency: $("#currencyBudget").val(), status: $("#statusBudget").val()
+            startDateTime: $("#startDate").val(), finishDateTime: $("#dueDate").val(),
+            amount: $("#amount").val(), currency: $("#currencyBudget").val(), status: $("#statusBudget").val()
         };
         console.log(form.serialize());
         $.ajax({
@@ -24,14 +24,23 @@
     },
     UpdateBudget: function (e) {
         e.preventDefault();
+        $("#BudgetWarningMessage").hide();
         var form = $(this).closest('form');
-
+        var data = {
+            startDateTime: $("#startDate").val(), finishDateTime: $("#dueDate").val(),
+            amount: $("#amount").val(), currency: $("#currencyBudget").val(),
+            status: $("#statusBudget").val(), budgetId : $(".jsUpdateBudget").attr("data-budget-id")
+        };
         $.ajax({
             type: "POST",
             url: form[0].action,
-            data: form.serialize(),
+            data: data,
             success: function (result) {
-
+                if (result.result === true)
+                    window.location = $(".cancelUpdateBudget").attr('href');
+                else {
+                    $("#BudgetWarningMessage").show();
+                }
             }
         });
 

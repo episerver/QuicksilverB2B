@@ -3,85 +3,50 @@
 
 <div class="container-fluid">
     <div class="row myPage">
-        <aside class="col-xs-12 col-sm-3 sidebar-nav">
-            <h2 class="h3">Account</h2>
-            <ul class="nav nav-stacked" role="tablist">
-                <li role="presentation" class="is-active">
-                    <a href="/en/my-pages/profile/" aria-expanded="True">Profile</a>
-                </li>
-                <li role="presentation" class="">
-                    <a href="/en/my-pages/address-book/" aria-expanded="False">Address book</a>
-                </li>
-                <li role="presentation" class="">
-                    <a href="/en/my-pages/order-history/" aria-expanded="False">Order history</a>
-                </li>
-                <li role="presentation" class="">
-                    <a href="/en/my-pages/wish-list/" aria-expanded="False">Wish list</a>
-                </li>
-                <li role="presentation" class="">
-                    <a href="/en/my-pages/reset-password/" aria-expanded="False">Reset password</a>
-                </li>
-            </ul>
-            <h2 class="h3">Organization</h2>
-            <ul class="nav nav-stacked" role="tablist">
-                <li role="presentation">
-                    <a href="@Url.Action("Index", "OrganizationPage")" class="" aria-expanded="">[Organization]</a>
-                    <ul class="nav nav-stacked" role="tablist">
-                        <li><a href="@Url.Action("Index", "SubOrganizationPage")" class="" aria-expanded="">[Sub-organization A]</a></li>
-                        <li><a href="@Url.Action("Index", "SubOrganizationPage")" class="" aria-expanded="">[Sub-organization B]</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </aside>
+        @Html.Partial("_CmsNavigation", Model.CurrentPage)
         <main class="col-xs-12 col-sm-9">
             <div class="spacer-left-l">
-                <div class="btn-group spacer-bottom-l" role="group" aria-label="">
-                    <a href="#" class="btn btn-default">Overview</a>
-                    <a href="#" class="btn btn-default">Users</a>
-                    <a href="#" class="btn btn-default">Orders</a>
-                    <a href="#" class="btn btn-default">Order Pad</a>
-                    <a href="#" class="btn btn-default active">Budgeting</a>
-                </div>
+                @{ Html.RenderAction("Index", "B2BNavigation");}
                 <section class="spacer-bottom-l">
                     <div class="section-title spacer-bottom-l">
                         <h2 class="h3">Edit organization budget</h2>
                     </div>
-                    <form class="form-horizontal">
+                    @using (Html.BeginForm("UpdateBudget", "BudgetingPage", FormMethod.Post))
+                    {
                         <div class="form-group">
                             <label class="col-sm-2">Currency</label>
                             <div class="custom-select">
                                 <span class="custom-select-split"></span>
                                 <span class="custom-select-arrow arrow-down"></span>
-                                <select disabled>
-                                    <option value="USD" selected>USD</option>
-                                    <option value="EUR">EUR</option>
+                                <select id="currencyBudget" @(Model.NewBudgetOption.IsCurrentBudget ? "disabled": "")>
+                                    <option value="@Model.NewBudgetOption.Currency" selected>@Model.NewBudgetOption.Currency</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2">Allocated</label>
-                            <input type="text" class="form-control" value="800,000"/>
+                            <input id="amount" type="text" class="form-control" value="@Model.NewBudgetOption.Amount"/>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2">Spent budget</label>
-                            <input type="text" class="form-control" value="350,000" disabled/>
+                            <input type="text" class="form-control" value="@Model.NewBudgetOption.SpentBudget" disabled/>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2">Remaining</label>
-                            <input type="text" class="form-control" value="450,000" disabled/>
+                            <input type="text" class="form-control" value="@(Model.NewBudgetOption.Amount - Model.NewBudgetOption.SpentBudget)" disabled/>
                             <small class="col-sm-offset-2">Calculated based on start date / end date.</small>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2">Start date</label>
                             <div class="custom-date-input">
-                                <input type="text" id="startDate" class="form-control" disabled />
+                                <input type="text" id="startDate" class="form-control" @(Model.NewBudgetOption.IsCurrentBudget ? "disabled": "")/>
                                 <span class="icon-calendar glyphicon glyphicon-calendar"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2">Due date</label>
                             <div class="custom-date-input">
-                                <input type="text" id="dueDate" class="form-control" />
+                                <input type="text" id="dueDate" class="form-control" @(Model.NewBudgetOption.IsCurrentBudget ? "disabled": "")/>
                                 <span class="icon-calendar glyphicon glyphicon-calendar"></span>
                             </div>
                         </div>
@@ -90,20 +55,30 @@
                             <div class="custom-select">
                                 <span class="custom-select-split"></span>
                                 <span class="custom-select-arrow arrow-down"></span>
-                                <select disabled>
-                                    <option value="active" selected>active</option>
-                                    <option value="hold">hold</option>
+                                <select id="statusBudget">
+                                    <option value="Active" selected="selected">Active</option>
+                                    <option value="OnHold">OnHold</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="spacer-top-l">
-                            <button type="submit" class="btn btn-primary">Save</button>
-                            <a href="@Url.Action("Index", "BudgetingPage")" class="btn btn-default">Cancel</a>
+                            <button type="button" data-budget-id="@Model.NewBudgetOption.BudgetId" class="btn btn-primary jsUpdateBudget">Save</button>
+                            <a href="@Url.Action("Index", "BudgetingPage")" class="btn btn-default cancelUpdateBudget">Cancel</a>
                         </div>
-                    </form>
+                        <div id="BudgetWarningMessage" class="col-md-5 col-xs-12 alert alert-danger pull-right" hidden>
+                            <button type="button" class="close" data-hide="alert">&times;</button>
+                            <span class="warning-message">Invalid Input Data</span>
+                        </div>
+                    }
                 </section>
             </div>
         </main>
     </div>
 </div>
+
+<script src="~/Scripts/jquery-1.11.1.js"></script>
+<script>
+    $("#dueDate").val("@Model.NewBudgetOption.DueDate.ToShortDateString()");
+    $("#startDate").val("@Model.NewBudgetOption.StartDate.ToShortDateString()");
+</script>

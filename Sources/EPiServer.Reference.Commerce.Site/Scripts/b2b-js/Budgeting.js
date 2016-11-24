@@ -8,7 +8,7 @@
 
     function updateStartDate(piker) {
         var currentDate = piker.getDate();
-        endDatePiker.setMaxDate(currentDate);
+        startDatePiker.setMaxDate(currentDate);
     }
 
     function init(startDateId, endDateId) {

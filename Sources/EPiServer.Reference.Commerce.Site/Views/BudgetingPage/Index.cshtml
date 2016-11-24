@@ -7,61 +7,64 @@
             <div class="spacer-left-l">
                  @{Html.RenderAction("Index", "B2BNavigation");}
                 <section class="spacer-bottom-l">
-                    <div class="section-title spacer-bottom-m">
-                        <h2 class="h3">Current organization budget</h2>
-                        <a href="@Url.Action("EditBudget","BudgetingPage")" class="btn btn-primary btn-sm spacer-left-s">Edit</a>
-                    </div>
+                    @if (@Model.CurrentBudgetViewModel != null)
+                    {
+                        <div class="section-title spacer-bottom-m">
+                            <h2 class="h3">Current organization budget</h2>
+                            <a href="@Url.Action("EditBudget", "BudgetingPage", new {budgetId = @Model.CurrentBudgetViewModel.BudgetId})" class="btn btn-primary btn-sm spacer-left-s">Edit</a>
+                        </div>
 
-                    <div class="max-width">
-                        <div class="row spacer-bottom-m">
-                            <div class="col-xs-6 col-sm-4">
-                                Allocated budget
+                        <div class="max-width">
+                            <div class="row spacer-bottom-m">
+                                <div class="col-xs-6 col-sm-4">
+                                    Allocated budget
+                                </div>
+                                <div class="col-xs-6">
+                                    <strong>@Model.CurrentBudgetViewModel.Amount @Model.CurrentBudgetViewModel.Currency</strong>
+                                </div>
                             </div>
-                            <div class="col-xs-6">
-                                <strong>$20,000</strong>
+                            <div class="row spacer-bottom-m">
+                                <div class="col-xs-6 col-sm-4">
+                                    Spent budget
+                                </div>
+                                <div class="col-xs-6">
+                                    <strong>@Model.CurrentBudgetViewModel.SpentBudget @Model.CurrentBudgetViewModel.Currency</strong>
+                                </div>
+                            </div>
+                            <div class="row spacer-bottom-m">
+                                <div class="col-xs-6 col-sm-4">
+                                    Remaining
+                                </div>
+                                <div class="col-xs-6">
+                                    <strong class="text-success">@(Model.CurrentBudgetViewModel.Amount - Model.CurrentBudgetViewModel.SpentBudget) @Model.CurrentBudgetViewModel.Currency</strong>
+                                </div>
+                            </div>
+                            <div class="row spacer-bottom-m">
+                                <div class="col-xs-6 col-sm-4">
+                                    Start date
+                                </div>
+                                <div class="col-xs-6">
+                                    <strong>@Model.CurrentBudgetViewModel.StartDate.ToString("MMMM dd, yyyy")</strong>
+                                </div>
+                            </div>
+                            <div class="row spacer-bottom-m">
+                                <div class="col-xs-6 col-sm-4">
+                                    Due date
+                                </div>
+                                <div class="col-xs-6">
+                                    <strong>@Model.CurrentBudgetViewModel.DueDate.ToString("MMMM dd, yyyy")</strong>
+                                </div>
+                            </div>
+                            <div class="row spacer-bottom-m">
+                                <div class="col-xs-6 col-sm-4">
+                                    Status
+                                </div>
+                                <div class="col-xs-6">
+                                    <strong>@Model.CurrentBudgetViewModel.Status</strong>
+                                </div>
                             </div>
                         </div>
-                        <div class="row spacer-bottom-m">
-                            <div class="col-xs-6 col-sm-4">
-                                Spent budget
-                            </div>
-                            <div class="col-xs-6">
-                                <strong>$5,000</strong>
-                            </div>
-                        </div>
-                        <div class="row spacer-bottom-m">
-                            <div class="col-xs-6 col-sm-4">
-                                Remaining
-                            </div>
-                            <div class="col-xs-6">
-                                <strong class="text-success">$15,000</strong>
-                            </div>
-                        </div>
-                        <div class="row spacer-bottom-m">
-                            <div class="col-xs-6 col-sm-4">
-                                Start date
-                            </div>
-                            <div class="col-xs-6">
-                                <strong>September 1st, 2016</strong>
-                            </div>
-                        </div>
-                        <div class="row spacer-bottom-m">
-                            <div class="col-xs-6 col-sm-4">
-                                Due date
-                            </div>
-                            <div class="col-xs-6">
-                                <strong>February 2nd, 2017</strong>
-                            </div>
-                        </div>
-                        <div class="row spacer-bottom-m">
-                            <div class="col-xs-6 col-sm-4">
-                                Status
-                            </div>
-                            <div class="col-xs-6">
-                                <strong>active</strong>
-                            </div>
-                        </div>
-                    </div>
+                    }
                 </section>
                 <section class="spacer-bottom-l">
                     <div class="section-title spacer-bottom-m">
@@ -80,7 +83,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var suborganizationBudget in Model.SubOrganizationsBudgets)
+                        @if (@Model.SubOrganizationsBudgets != null)
+                        {
+                            foreach (var suborganizationBudget in Model.SubOrganizationsBudgets)
                             {
                                 <tr>
                                     <td><a href="#">@suborganizationBudget.OrganizationName</a></td>
@@ -90,31 +95,42 @@
                                     <td>@suborganizationBudget.DueDate.ToString("MMMM dd, yyyy")</td>
                                     <td>@suborganizationBudget.Status</td>
                                     <td class="text-center" data-budget-id="@suborganizationBudget.BudgetId">
-                                        <a href="#" class="btn btn-primary btn-xs spacer-left-s">
+                                        <a href="@Url.Action("EditBudget", "BudgetingPage", new {budgetId = @suborganizationBudget.BudgetId})" class="btn btn-primary btn-xs spacer-left-s">
                                             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                                         </a>
                                     </td>
                                 </tr>
                             }
+                        }
                         </tbody>
                     </table>
                 </section>
                 <section class="spacer-bottom-l">
-                    <div class="section-title spacer-bottom-m">
-                        <h2 class="h3">Organization budget timeline</h2>
-                        <a href="@Url.Action("AddBudget","BudgetingPage")" class="btn btn-primary btn-sm spacer-left-s">New budget</a>
-                    </div>
+                    @if (Model.IsSubOrganization)
+                    {
+                        <div class="section-title spacer-bottom-m">
+                            <h2 class="h3">Organization budget timeline</h2>
+                            <a href="@Url.Action("AddBudget", "BudgetingPage")" class="btn btn-primary btn-sm spacer-left-s">Add User</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="section-title spacer-bottom-m">
+                            <h2 class="h3">Organization budget timeline</h2>
+                            <a href="@Url.Action("AddBudget", "BudgetingPage")" class="btn btn-primary btn-sm spacer-left-s">New budget</a>
+                        </div>
+                    }
                     <table class="table table-striped">
                         <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Allocated Budget</th>
-                                <th>Spent Budget</th>
-                                <th>Start Date</th>
-                                <th>End Date</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
+                        <tr>
+                            <th>Name</th>
+                            <th>Allocated Budget</th>
+                            <th>Spent Budget</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
                         </thead>
                         <tbody>
                         @foreach (var organizationBudget in Model.OrganizationBudgets)
@@ -127,7 +143,7 @@
                                 <td>@organizationBudget.DueDate.ToString("MMMM dd, yyyy")</td>
                                 <td>@organizationBudget.Status</td>
                                 <td class="text-center" data-budget-id="@organizationBudget.BudgetId">
-                                    <a href="#" class="btn btn-primary btn-xs spacer-left-s updateBudget">
+                                    <a href="@Url.Action("EditBudget", "BudgetingPage", new {budgetId = @organizationBudget.BudgetId})" class="btn btn-primary btn-xs spacer-left-s updateBudget">
                                         <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                                     </a>
                                 </td>

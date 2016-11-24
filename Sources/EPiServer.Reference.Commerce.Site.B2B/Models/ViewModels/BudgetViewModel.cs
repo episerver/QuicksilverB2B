@@ -29,6 +29,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels
         public string Currency { get; set; }
         public string Status { get; set; }
         public bool IsActive { get; set; }
+        public bool IsCurrentBudget { get; set; }
         public Guid OrganizationId { get; set; }
         public string OrganizationName { get; set; }
         public Guid ContactId { get; set; }

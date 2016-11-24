@@ -91,5 +91,10 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
 
             return (currentBudget.Amount - currentBudget.SpentBudget - amount) >=0 ;
         }
+
+        public Budget GetUserActiveBudget(Guid customerId)
+        {
+            return _budgetDomainService.GetAllBudgets().FirstOrDefault();
+        }
     }
 }

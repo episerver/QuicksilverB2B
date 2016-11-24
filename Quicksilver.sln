@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Reference.Commerc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Reference.Commerce.Site.B2B", "Sources\EPiServer.Reference.Commerce.Site.B2B\EPiServer.Reference.Commerce.Site.B2B.csproj", "{3E1439F1-F51E-47D6-BEA4-D7AFF1881745}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Reference.Commerce.BudgetPayment", "Sources\EPiServer.Reference.Commerce.BudgetPayment\EPiServer.Reference.Commerce.BudgetPayment.csproj", "{6054C28C-3EED-4BF3-883E-F477AB4182E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{3E1439F1-F51E-47D6-BEA4-D7AFF1881745}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E1439F1-F51E-47D6-BEA4-D7AFF1881745}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E1439F1-F51E-47D6-BEA4-D7AFF1881745}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6054C28C-3EED-4BF3-883E-F477AB4182E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6054C28C-3EED-4BF3-883E-F477AB4182E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6054C28C-3EED-4BF3-883E-F477AB4182E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6054C28C-3EED-4BF3-883E-F477AB4182E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

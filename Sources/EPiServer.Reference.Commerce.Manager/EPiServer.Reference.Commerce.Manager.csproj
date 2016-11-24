@@ -338,6 +338,10 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EPiServer.Reference.Commerce.BudgetPayment\EPiServer.Reference.Commerce.BudgetPayment.csproj">
+      <Project>{6054c28c-3eed-4bf3-883e-f477ab4182e1}</Project>
+      <Name>EPiServer.Reference.Commerce.BudgetPayment</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EPiServer.Reference.Commerce.Shared\EPiServer.Reference.Commerce.Shared.csproj">
       <Project>{341c8e14-4eae-4946-9841-45f9818265a8}</Project>
       <Name>EPiServer.Reference.Commerce.Shared</Name>

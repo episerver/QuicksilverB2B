@@ -15,5 +15,6 @@ namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
         bool IsValidTimeLine(DateTime startDate, DateTime dueDateTime, Guid organizationGuid);
         Budget GetCurrentOrganizationBudget(Guid organizationId);
         bool IsValidBudgetAmount(Guid organizationGuid, decimal amount);
+        Budget GetUserActiveBudget(Guid customerId);
     }
 }

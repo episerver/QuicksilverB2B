@@ -9,6 +9,18 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModels
         public Money ListingPrice { get; set; }
         public string Size { get; set; }
         public string Sku { get; set; }
+        public Money YourPrice
+        {
+            get
+            {
+
+                if (DiscountedPrice.HasValue && DiscountedPrice.Value < ListingPrice)
+                {
+                    return DiscountedPrice.Value;
+                }
+                return ListingPrice;
+            }
+        }
 
         public Money SavePrice
         {

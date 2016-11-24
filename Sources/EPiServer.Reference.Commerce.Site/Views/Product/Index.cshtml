@@ -170,25 +170,22 @@
                             <tbody>
                                 @foreach (var variant in Model.Variants)
                                 {
-                                    <tr>
+                                    var isDiscountedPrice = variant.DiscountedPrice.HasValue && variant.DiscountedPrice.Value < variant.ListingPrice;
+                                    <tr data-sku="@variant.Sku">
                                         <td><img class="product-image" src="@variant.ImageUrl" /></td>
                                         <td>@variant.Size</td>
                                         <td>@variant.Sku</td>
                                         <td>
-                                            @if (variant.DiscountedPrice.HasValue && variant.DiscountedPrice.Value < variant.ListingPrice)
-                                            {
-
-                                                <div class="product-price spacer-bottom-s">
+                                            <div class="product-price spacer-bottom-s">
+                                                @if(isDiscountedPrice)
+                                                {
                                                     <span class="product-price__amount text-line-through">@Helpers.RenderMoney(variant.ListingPrice)</span>
-                                                    <span class="product-price__discounted-amount spacer-left-m">@Helpers.RenderMoney(variant.DiscountedPrice.Value)</span>
-                                                </div>
-                                                <p class="product-price__save-amount">You save @Helpers.RenderMoney(variant.SavePrice)</p>
-                                            }
-                                            else
+                                                }
+                                                <span class="product-price__discounted-amount spacer-left-m">@Helpers.RenderMoney(variant.YourPrice)</span>
+                                            </div>
+                                            @if (isDiscountedPrice)
                                             {
-                                                <div class="product-price spacer-bottom-s">
-                                                    <span class="product-price__discounted-amount spacer-left-m">@Helpers.RenderMoney(variant.ListingPrice)</span>
-                                                </div>
+                                                <p class="product-price__save-amount">You save @Helpers.RenderMoney(variant.SavePrice)</p>
                                             }
                                         </td>
                                         <td><input type="text" value="0" /></td>

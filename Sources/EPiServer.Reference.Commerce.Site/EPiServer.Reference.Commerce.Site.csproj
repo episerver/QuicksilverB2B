@@ -436,6 +436,7 @@
     <Compile Include="Features\Navigation\ViewModels\OrgNavigationViewModel.cs" />
     <Compile Include="Features\Orders\Controllers\OrdersPageController.cs" />
     <Compile Include="Features\Orders\ViewModels\OrdersPageViewModel.cs" />
+    <Compile Include="Features\Product\ViewModels\VariantViewModel.cs" />
     <Compile Include="Features\QuickOrder\Controllers\QuickOrderPageController.cs" />
     <Compile Include="Features\QuickOrder\Pages\QuickOrderPage.cs" />
     <Compile Include="Features\Orders\Pages\OrdersPage.cs" />

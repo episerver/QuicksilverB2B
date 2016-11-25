@@ -17,6 +17,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels
             Currency = budget.Currency;
             Status = budget.Status;
             PurchaserName = budget.PurchaserName;
+            SpentBudget = budget.SpentBudget;
         }
 
         public BudgetViewModel()

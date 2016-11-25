@@ -845,6 +845,8 @@
     <Content Include="Styles\b2b\components\_product.less" />
     <Content Include="Views\BudgetingPage\AddBudgetToUser.cshtml" />
     <Content Include="Views\BudgetingPage\EditUserBudget.cshtml" />
+    <Content Include="Views\Shared\_BudgetPaymentConfirmation.cshtml" />
+    <Content Include="Views\Shared\_BudgetPaymentPaymentMethod.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

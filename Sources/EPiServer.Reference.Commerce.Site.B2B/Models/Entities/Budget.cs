@@ -72,6 +72,8 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.Entities
 
         public bool IsActive => StartDate <= DateTime.Now && DueDate > DateTime.Now;
 
+        public decimal RemainingBudget => Amount - SpentBudget;
+
         public void SaveChanges()
         {
             BusinessManager.Update(BudgetEntity);

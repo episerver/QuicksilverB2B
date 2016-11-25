@@ -18,7 +18,6 @@ namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
         List<Budget> GetOrganizationPurchasersBudgets(Guid organizationId);
         List<Budget> GetOrganizationBudgetsWithoutPurchasers(Guid organizationId);
         Budget GetCustomerCurrentBudget(Guid organizationId, string purchaserName);
-        bool IsValidBudgetAmount(Guid organizationGuid, decimal amount);
         Budget GetUserActiveBudget(Guid customerId);
     }
 }

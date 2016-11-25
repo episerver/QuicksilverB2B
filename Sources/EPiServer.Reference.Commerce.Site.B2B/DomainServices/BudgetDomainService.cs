@@ -93,7 +93,9 @@ namespace EPiServer.Reference.Commerce.Site.B2B.DomainServices
             var budgets = GetAllBudgets();
             if (budgets == null || !budgets.Any()) return null;
 
-            return budgets.First(budget => budget.OrganizationId == organizationId && budget.ContactId == purchaserGuid && (DateTime.Compare(budget.StartDate, DateTime.Now) <= 0) && (DateTime.Compare(DateTime.Now, budget.DueDate) <= 0));
+            var returnedBudgets = budgets.Where(budget => budget.OrganizationId == organizationId && budget.ContactId == purchaserGuid && (DateTime.Compare(budget.StartDate, DateTime.Now) <= 0) && (DateTime.Compare(DateTime.Now, budget.DueDate) <= 0));
+            if (returnedBudgets != null && returnedBudgets.Any()) return returnedBudgets.First();
+            return null;
         }
     }
 }

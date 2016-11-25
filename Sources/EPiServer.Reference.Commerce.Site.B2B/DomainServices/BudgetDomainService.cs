@@ -40,7 +40,15 @@ namespace EPiServer.Reference.Commerce.Site.B2B.DomainServices
             var budgets = GetAllBudgets();
             if (budgets == null || !budgets.Any()) return null;
 
-            return budgets.Where(budget => budget.OrganizationId == organizationId).ToList();
+            return budgets.Where(budget => budget.OrganizationId == organizationId && budget.PurchaserName == string.Empty).ToList();
+        }
+
+        public List<Budget> GetOrganizationBudgetsWithoutPurchasers(Guid organizationId)
+        {
+            var budgets = GetAllBudgets();
+            if (budgets == null || !budgets.Any()) return null;
+
+            return budgets.Where(budget => budget.OrganizationId == organizationId && budget.PurchaserName == string.Empty).ToList();
         }
 
         public List<Budget> GetAllBudgets()
@@ -69,7 +77,23 @@ namespace EPiServer.Reference.Commerce.Site.B2B.DomainServices
             var budgets = GetAllBudgets();
             if (budgets == null || !budgets.Any()) return null;
 
-           return budgets.FirstOrDefault(budget => budget.OrganizationId == organizationId && (DateTime.Compare(budget.StartDate, DateTime.Now) <= 0) && (DateTime.Compare(DateTime.Now,budget.DueDate) <= 0));
+           return budgets.FirstOrDefault(budget => budget.OrganizationId == organizationId && budget.PurchaserName == string.Empty && (DateTime.Compare(budget.StartDate, DateTime.Now) <= 0) && (DateTime.Compare(DateTime.Now,budget.DueDate) <= 0));
+        }
+
+        public List<Budget> GetOrganizationPurchasersBudgets(Guid organizationId)
+        {
+            var budgets = GetAllBudgets();
+            if (budgets == null || !budgets.Any()) return null;
+
+            return budgets.Where(budget => budget.OrganizationId == organizationId && budget.PurchaserName != string.Empty).ToList();
+        }
+
+        public Budget GetCustomerCurrentBudget(Guid organizationId, string purchaserName)
+        {
+            var budgets = GetAllBudgets();
+            if (budgets == null || !budgets.Any()) return null;
+
+            return budgets.First(budget => budget.OrganizationId == organizationId && budget.PurchaserName == purchaserName && (DateTime.Compare(budget.StartDate, DateTime.Now) <= 0) && (DateTime.Compare(DateTime.Now, budget.DueDate) <= 0));
         }
     }
 }

@@ -21,10 +21,12 @@ namespace EPiServer.Reference.Commerce.Site.B2B
             public static string SpentBudget = "SpentBudget";
             public static string Currency = "Currency";
             public static string Status = "Status";
+            public static string PurchaserName = "PurchaserName";
             public static string UserRole = "UserRole";
             public static string UserRoleFriendly = "User Role";
             public static string UserLocation = "UserLocation";
             public static string UserLocationFriendly = "User Location";
+            public static string SelectedSuborganization = "SelectedSuborganization";
         }
 
         public static class Forms

@@ -64,6 +64,11 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.Entities
             get { return BudgetEntity.GetStringValue(Constants.Fields.Status); }
             set { BudgetEntity[Constants.Fields.Status] = value; }
         }
+        public string PurchaserName
+        {
+            get { return BudgetEntity.GetStringValue(Constants.Fields.PurchaserName); }
+            set { BudgetEntity[Constants.Fields.PurchaserName] = value; }
+        }
 
         public bool IsActive => StartDate <= DateTime.Now && DueDate > DateTime.Now;
 

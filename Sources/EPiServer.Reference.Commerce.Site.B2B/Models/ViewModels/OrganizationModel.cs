@@ -33,5 +33,6 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels
         public List<OrganizationModel> SubOrganizations { get; set; }
         public Guid ParentOrganizationId { get; set; }
         public OrganizationModel ParentOrganization { get; set; }
+        public BudgetViewModel CurrentBudgetViewModel { get; set; }
     }
 }

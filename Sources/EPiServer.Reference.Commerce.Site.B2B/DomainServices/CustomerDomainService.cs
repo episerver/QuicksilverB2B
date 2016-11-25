@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Security;
 using EPiServer.Reference.Commerce.Site.B2B.DomainServiceContracts;
 using EPiServer.Reference.Commerce.Site.B2B.Enums;
 using EPiServer.Reference.Commerce.Site.B2B.Models.Contact;
@@ -48,6 +49,11 @@ namespace EPiServer.Reference.Commerce.Site.B2B.DomainServices
             var contact = new B2BContact(CustomerContact.CreateInstance());
             contact.ContactId = BusinessManager.Create(contact.Contact);
             return contact;
+        }
+
+        public CustomerContact GetCustomerByEmail(string email)
+        {
+            return CustomerContext.Current.GetContacts().FirstOrDefault(user => user.Email == email);
         }
     }
 }

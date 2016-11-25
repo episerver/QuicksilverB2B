@@ -30,6 +30,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.InitializationModules
             CreateMetaField(budgetMetaClass, Constants.Fields.Currency, Constants.Fields.Currency, MetaFieldType.Text);
             CreateMetaField(budgetMetaClass, Constants.Fields.Status, Constants.Fields.Status, MetaFieldType.Text);
             CreateMetaField(budgetMetaClass, Constants.Fields.SpentBudget, Constants.Fields.SpentBudget, MetaFieldType.Currency);
+            CreateMetaField(budgetMetaClass, Constants.Fields.PurchaserName, Constants.Fields.PurchaserName, MetaFieldType.Text);
 
             var contactMetaClass = GetOrCreateMetaClass(Constants.Classes.Contact, Constants.Classes.Contact);
             CreateMetaField(contactMetaClass, Constants.Fields.UserRole, Constants.Fields.UserRoleFriendly, MetaFieldType.Text);

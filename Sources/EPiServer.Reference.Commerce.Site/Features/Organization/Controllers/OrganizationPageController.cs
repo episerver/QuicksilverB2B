@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using EPiServer.Reference.Commerce.Site.B2B.Filters;
 using EPiServer.Reference.Commerce.Site.B2B.Models.Pages;
@@ -7,6 +8,7 @@ using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using EPiServer.Reference.Commerce.Site.Features.Organization.ViewModels;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Web.Mvc;
+using EPiServer.Reference.Commerce.Site.B2B;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
 {
@@ -15,16 +17,19 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
     {
         private readonly IOrganizationService _organizationService;
         private readonly IAddressService _addressService;
-        public OrganizationPageController(IOrganizationService organizationService, IAddressService addressService)
+        private readonly IBudgetService _budgetService;
+
+        public OrganizationPageController(IOrganizationService organizationService, IAddressService addressService, IBudgetService budgetService)
         {
             _organizationService = organizationService;
             _addressService = addressService;
+            _budgetService = budgetService;
         }
 
         public ActionResult Index(OrganizationPage currentPage)
         {
             //Clear selected suborganization
-            Session["SelectedSuborganization"] = "";
+            Session[Constants.Fields.SelectedSuborganization] = "";
 
             if (Request.QueryString["showForm"] != null && bool.Parse(Request.QueryString["showForm"]))
             {
@@ -44,6 +49,20 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
                 return RedirectToAction("Edit");
             }
 
+            if (viewModel.Organization?.SubOrganizations != null)
+            {
+                var suborganizations = viewModel.Organization.SubOrganizations;
+                var organizationIndex = 0;
+                foreach (var suborganization in suborganizations)
+                {
+                    var budget = _budgetService.GetCurrentOrganizationBudget(suborganization.OrganizationId);
+                    if (budget != null)
+                    viewModel.Organization.SubOrganizations.ElementAt(organizationIndex).CurrentBudgetViewModel = 
+                        new BudgetViewModel(budget);
+                    organizationIndex ++;
+                }
+            }
+            
             return View(viewModel);
         }
 

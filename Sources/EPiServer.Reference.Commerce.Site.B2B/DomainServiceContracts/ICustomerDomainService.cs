@@ -13,5 +13,6 @@ namespace EPiServer.Reference.Commerce.Site.B2B.DomainServiceContracts
         void AddContactToOrganization(B2BOrganization organization, B2BContact contact, B2BUserRoles userRole);
         B2BContact GetNewContact();
         B2BContact GetContactById(string contactId);
+        CustomerContact GetCustomerByEmail(string email);
     }
 }

@@ -46,11 +46,22 @@
                             {
                                 <tr>
                                     <td><a href="#">@subOrganization.Name</a></td>
-                                    <td>$200,000</td>
-                                    <td>$600,000</td>
-                                    <td>September 1st, 2016</td>
-                                    <td>February 2nd, 2017</td>
-                                    <td>active</td>
+                                    @if (subOrganization.CurrentBudgetViewModel != null)
+                                    {
+                                        <td>@subOrganization.CurrentBudgetViewModel.SpentBudget @subOrganization.CurrentBudgetViewModel.Currency</td>
+                                        <td>@subOrganization.CurrentBudgetViewModel.Amount @subOrganization.CurrentBudgetViewModel.Currency</td>
+                                        <td>@subOrganization.CurrentBudgetViewModel.StartDate.ToString("MMMM dd, yyyy")</td>
+                                        <td>@subOrganization.CurrentBudgetViewModel.DueDate.ToString("MMMM dd, yyyy")</td>
+                                        <td>@subOrganization.CurrentBudgetViewModel.Status</td>
+                                    }
+                                    else
+                                    {
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                    }
                                 </tr>
                             }
                         }

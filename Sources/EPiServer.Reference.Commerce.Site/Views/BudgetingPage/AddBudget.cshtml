@@ -10,7 +10,14 @@
                 @{ Html.RenderAction("Index", "B2BNavigation");}
                 <section class="spacer-bottom-l">
                     <div class="section-title spacer-bottom-l">
-                        <h2 class="h3">Edit organization budget</h2>
+                        @if (@Model.IsSubOrganization)
+                        {
+                            <h2 class="h3">New Suborganization budget</h2>
+                        }
+                        else
+                        {
+                            <h2 class="h3">New organization budget</h2>
+                        }
                     </div>
                     @using (Html.BeginForm("NewBudget", "BudgetingPage", FormMethod.Post))
                     {
@@ -19,11 +26,19 @@
                             <div class="custom-select">
                                 <span class="custom-select-split"></span>
                                 <span class="custom-select-arrow arrow-down"></span>
-                                <select id="currencyBudget">
-                                    @foreach (var option in Model.AvailableCurrencies)
+                                <select id="currencyBudget" @(Model.IsSubOrganization ? "disabled" : "")>
+                                    @if (Model.IsSubOrganization)
                                     {
-                                        <option value="@option">@option</option>
+                                        <option value="@Model.AvailableCurrencies.FirstOrDefault()">@Model.AvailableCurrencies.FirstOrDefault()</option>
                                     }
+                                    else
+                                    {
+                                        foreach (var option in Model.AvailableCurrencies)
+                                        {
+                                            <option value="@option">@option</option>
+                                        }
+                                    }
+
                                 </select>
                             </div>
                         </div>

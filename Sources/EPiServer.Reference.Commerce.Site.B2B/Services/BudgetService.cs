@@ -45,6 +45,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             budgetEntity.StartDate = budgetModel.StartDate;
             budgetEntity.DueDate = budgetModel.DueDate;
             budgetEntity.Status = budgetModel.Status;
+            budgetEntity.PurchaserName = budgetModel.PurchaserName;
             if (budgetModel.OrganizationId != Guid.Empty)
             {
                 budgetEntity.OrganizationId = budgetModel.OrganizationId;
@@ -66,10 +67,10 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             return _budgetDomainService.GetBudgetById(budgetId);
         }
 
-        public bool IsValidTimeLine(DateTime startDate, DateTime dueDateTime, Guid organizationGuid)
+        public bool IsTimeOverlapped(DateTime startDate, DateTime dueDateTime, Guid organizationGuid)
         {
             var budgets = _budgetDomainService.GetOrganizationBudgets(organizationGuid);
-            if (budgets == null) return true;
+            if (budgets == null || budgets.Count == 0) return true;
             if (budgets.Any(budget => (DateTime.Compare(budget.StartDate, dueDateTime) <= 0) &&
                                       (DateTime.Compare(startDate, budget.DueDate) <= 0)))
             {
@@ -84,12 +85,27 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             return _budgetDomainService.GetCurrentOrganizationBudget(organizationId);
         }
 
-        public bool IsValidBudgetAmount(Guid organizationGuid, decimal amount)
+        public bool HasEnoughAmount(Guid organizationGuid, decimal amount)
         {
             var currentBudget = _budgetDomainService.GetCurrentOrganizationBudget(organizationGuid);
             if (currentBudget == null) return false;
 
             return (currentBudget.Amount - currentBudget.SpentBudget - amount) >=0 ;
+        }
+
+        public List<Budget> GetOrganizationPurchasersBudgets(Guid organizationId)
+        {
+            return _budgetDomainService.GetOrganizationPurchasersBudgets(organizationId);
+        }
+
+        public List<Budget> GetOrganizationBudgetsWithoutPurchasers(Guid organizationId)
+        {
+            return _budgetDomainService.GetOrganizationBudgets(organizationId);
+        }
+
+       public  Budget GetCustomerCurrentBudget(Guid organizationId, string purchaserName)
+        {
+            return _budgetDomainService.GetCustomerCurrentBudget(organizationId, purchaserName);
         }
     }
 }

@@ -843,6 +843,8 @@
     <Content Include="Views\B2BNavigation\Index.cshtml" />
     <Content Include="Views\OrderDetails\Index.cshtml" />
     <Content Include="Styles\b2b\components\_product.less" />
+    <Content Include="Views\BudgetingPage\AddBudgetToUser.cshtml" />
+    <Content Include="Views\BudgetingPage\EditUserBudget.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

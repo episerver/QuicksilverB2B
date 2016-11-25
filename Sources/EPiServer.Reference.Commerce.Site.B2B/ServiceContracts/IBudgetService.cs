@@ -12,8 +12,11 @@ namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
         List<Budget> GetOrganizationBudgets(Guid organizationId);
         void UpdateBudget(BudgetViewModel budgetModel);
         Budget GetBudgetById(int budgetId);
-        bool IsValidTimeLine(DateTime startDate, DateTime dueDateTime, Guid organizationGuid);
+        bool IsTimeOverlapped(DateTime startDate, DateTime dueDateTime, Guid organizationGuid);
         Budget GetCurrentOrganizationBudget(Guid organizationId);
-        bool IsValidBudgetAmount(Guid organizationGuid, decimal amount);
+        bool HasEnoughAmount(Guid organizationGuid, decimal amount);
+        List<Budget> GetOrganizationPurchasersBudgets(Guid organizationId);
+        List<Budget> GetOrganizationBudgetsWithoutPurchasers(Guid organizationId);
+        Budget GetCustomerCurrentBudget(Guid organizationId, string purchaserName);
     }
 }

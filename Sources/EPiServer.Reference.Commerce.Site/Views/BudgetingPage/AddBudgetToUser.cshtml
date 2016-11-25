@@ -1,4 +1,5 @@
-﻿@using System.Web.Optimization
+﻿@using System.Web.Mvc.Html
+@using System.Web.Optimization
 @model EPiServer.Reference.Commerce.Site.Features.Budgeting.ViewModels.BudgetingPageViewModel
 
 <div class="container-fluid">
@@ -9,44 +10,41 @@
                 @{ Html.RenderAction("Index", "B2BNavigation");}
                 <section class="spacer-bottom-l">
                     <div class="section-title spacer-bottom-l">
-                        <h2 class="h3">Edit budget</h2>
+                        <h2 class="h3">Edit organization budget</h2>
                     </div>
-                    @using (Html.BeginForm("UpdateBudget", "BudgetingPage", FormMethod.Post))
+                    @using (Html.BeginForm("NewBudgetToUser", "BudgetingPage", FormMethod.Post))
                     {
+                        <div class="form-group">
+                            <label class="col-sm-2">User Email</label>
+                            <input id="userEmail" type="text" class="form-control" />
+                        </div>
+
                         <div class="form-group">
                             <label class="col-sm-2">Currency</label>
                             <div class="custom-select">
                                 <span class="custom-select-split"></span>
                                 <span class="custom-select-arrow arrow-down"></span>
-                                <select id="currencyBudget" @(Model.NewBudgetOption.IsCurrentBudget ? "disabled": "")>
-                                    <option value="@Model.NewBudgetOption.Currency" selected>@Model.NewBudgetOption.Currency</option>
+                                <select id="currencyBudget" disabled>
+                                    <option value="@Model.NewBudgetOption.Currency">@Model.NewBudgetOption.Currency</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2">Allocated</label>
-                            <input id="amount" type="text" class="form-control" value="@Model.NewBudgetOption.Amount"/>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2">Spent budget</label>
-                            <input type="text" class="form-control" value="@Model.NewBudgetOption.SpentBudget" disabled/>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2">Remaining</label>
-                            <input type="text" class="form-control" value="@(Model.NewBudgetOption.Amount - Model.NewBudgetOption.SpentBudget)" disabled/>
-                            <small class="col-sm-offset-2">Calculated based on start date / end date.</small>
+                            <input id="amount" type="text" class="form-control"/>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2">Start date</label>
                             <div class="custom-date-input">
-                                <input type="text" id="startDate" class="form-control" @(Model.NewBudgetOption.IsCurrentBudget ? "disabled": "")/>
+                                <input type="text" id="startDate" class="form-control" disabled/>
                                 <span class="icon-calendar glyphicon glyphicon-calendar"></span>
                             </div>
+
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2">Due date</label>
                             <div class="custom-date-input">
-                                <input type="text" id="dueDate" class="form-control" @(Model.NewBudgetOption.IsCurrentBudget ? "disabled": "")/>
+                                <input type="text" id="dueDate" class="form-control" disabled/>
                                 <span class="icon-calendar glyphicon glyphicon-calendar"></span>
                             </div>
                         </div>
@@ -63,12 +61,8 @@
                         </div>
 
                         <div class="spacer-top-l">
-                            <button type="button" data-budget-id="@Model.NewBudgetOption.BudgetId" class="btn btn-primary jsUpdateBudget">Save</button>
-                            <a href="@Url.Action("Index", "BudgetingPage")" class="btn btn-default cancelUpdateBudget">Cancel</a>
-                        </div>
-                        <div id="BudgetWarningMessage" class="col-md-5 col-xs-12 alert alert-danger pull-right" hidden>
-                            <button type="button" class="close" data-hide="alert">&times;</button>
-                            <span class="warning-message">Invalid Input Data</span>
+                            <button type="button" class="btn btn-primary jsNewUserBudget">Save</button>
+                            <a href="@Url.Action("Index", "BudgetingPage")" class="btn btn-default cancelNewBudget">Cancel</a>
                         </div>
                     }
                 </section>

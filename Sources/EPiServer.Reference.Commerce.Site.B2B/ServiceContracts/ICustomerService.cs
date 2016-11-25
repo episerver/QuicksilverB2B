@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using EPiServer.Reference.Commerce.Site.B2B.Enums;
 using EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels;
+using Mediachase.Commerce.Customers;
 
 namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
 {
@@ -13,5 +14,6 @@ namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
         void EditContact(ContactViewModel model);
         void RemoveContact(string id);
         bool CanSeeOrganizationNav();
+        CustomerContact GetCustomerByEmail(string email);
     }
 }

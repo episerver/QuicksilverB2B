@@ -30,6 +30,11 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             return new ContactViewModel(_customerDomainService.GetCurrentContact());
         }
 
+        public CustomerContact GetCustomerByEmail(string email)
+        {
+           return _customerDomainService.GetCustomerByEmail(email);
+        }
+
         public ContactViewModel GetContactById(string id)
         {
             return new ContactViewModel(_customerDomainService.GetContactById(id));

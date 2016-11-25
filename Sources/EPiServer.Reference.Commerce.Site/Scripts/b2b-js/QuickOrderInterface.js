@@ -19,6 +19,7 @@
                 var parent = $deleteIcon.closest('.order-row');
                 parent.hide();
                 parent.find('input[name*=ProductName]').val("removed");
+                parent.removeClass('order-row').addClass('order-row-removed');
             }
         });
     }

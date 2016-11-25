@@ -49,7 +49,7 @@
         var data = {
             startDateTime: $("#startDate").val(), finishDateTime: $("#dueDate").val(),
             amount: $("#amount").val(), currency: $("#currencyBudget").val(),
-            status: $("#statusBudget").val(), budgetId : $(".jsUpdateUserBudget").attr("data-budget-id")
+            status: $("#statusBudget").val(), budgetId: $(".jsUpdateBudget").attr("data-budget-id")
         };
         $.ajax({
             type: "POST",

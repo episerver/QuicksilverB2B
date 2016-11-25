@@ -83,18 +83,25 @@
 
                         if (Model.ReturnedMessages != null && Model.ReturnedMessages.Count > 0)
                         {
-                            <div class="text-danger bg-danger padded-m spacer-top-m">
-                                @foreach (var message in Model.ReturnedMessages)
-                                {
-                                <p>* @message</p>
-                                }
-                            </div>
+                            if (Model.ReturnedMessages.Count == 1 && Model.ReturnedMessages.ElementAt(0).Equals("All items were added to cart."))
+                            {
+                                <div class="text-success bg-success padded-m spacer-top-m">
+                                        <p>@Model.ReturnedMessages.ElementAt(0)</p>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="text-danger bg-danger padded-m spacer-top-m">
+                                    @foreach (var message in Model.ReturnedMessages)
+                                    {
+                                        <p>* @message</p>
+                                    }
+                                </div>
+                            }
                         }
 
-
-
                         <div class="spacer-top-l">
-                            <input type="file" data-interface="lattice" data-label="Upload CSV" id="fileUploaded">
+                            <input type="file" class="hidden" data-interface="lattice" data-label="Upload CSV" id="fileUploaded">
 
                             <button type="submit" class="btn btn-primary">Import</button>
                         </div>

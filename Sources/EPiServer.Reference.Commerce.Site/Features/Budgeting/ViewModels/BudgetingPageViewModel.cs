@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using EPiServer.Reference.Commerce.Site.B2B.Models.Entities;
 using EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Budgeting.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Shared.ViewModels;
-using Mediachase.Commerce;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.ViewModels
 {
@@ -16,5 +14,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.ViewModels
         public List<string> AvailableCurrencies { get; set; } 
         public BudgetViewModel CurrentBudgetViewModel { get; set; }
         public bool IsSubOrganization { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

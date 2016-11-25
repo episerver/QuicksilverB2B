@@ -11,6 +11,7 @@ using EPiServer.Reference.Commerce.Site.Features.Budgeting.ViewModels;
 using EPiServer.Web.Mvc;
 using Mediachase.Commerce;
 using EPiServer.Reference.Commerce.Site.B2B;
+using Mediachase.Commerce.Customers;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
 {
@@ -30,7 +31,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
             _customerService = customerService;
         }
 
-        [NavigationAuthorize("Admin,Approver")]
+        [NavigationAuthorize("Admin,Approver,Purchaser")]
         public ActionResult Index(BudgetingPage currentPage)
         {
            List<BudgetViewModel> organizationBudgets = new List<BudgetViewModel>();
@@ -77,6 +78,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
                 purchasersBudgetsViewModel.AddRange(purchasersBudgets.Select(purchaserBudget => new BudgetViewModel(purchaserBudget)));
             }
             viewModel.PurchasersSpendingLimits = purchasersBudgetsViewModel;
+
+            viewModel.IsAdmin = CustomerContext.Current.CurrentContact.Properties[Constants.Fields.UserRole].Value.ToString() == "Admin";
 
             return View(viewModel);
         }
@@ -218,7 +221,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
             var currentOrganization = !string.IsNullOrEmpty(Session[Constants.Fields.SelectedSuborganization]?.ToString())
                ? _organizationService.GetSubOrganizationById(Session[Constants.Fields.SelectedSuborganization].ToString())
                : _organizationService.GetCurrentUserOrganization();
-            viewModel.NewBudgetOption = new BudgetViewModel(_budgetService.GetCurrentOrganizationBudget(currentOrganization.OrganizationId));
+            var budget =_budgetService.GetCurrentOrganizationBudget(currentOrganization.OrganizationId);
+            if (budget == null)
+            {
+                return RedirectToAction("Index");
+            }
+            viewModel.NewBudgetOption = new BudgetViewModel(budget);
 
             return View(viewModel);
         }

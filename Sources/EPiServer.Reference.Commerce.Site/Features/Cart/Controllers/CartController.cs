@@ -1,11 +1,16 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using EPiServer.Commerce.Order;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using System.Web.Mvc;
+using Castle.Core.Internal;
+using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
-using EPiServer.Reference.Commerce.Site.B2B;
+using Mediachase.Commerce.Catalog;
+using Constants = EPiServer.Reference.Commerce.Site.B2B.Constants;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
 {
@@ -16,17 +21,23 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         private readonly IOrderRepository _orderRepository;
         readonly CartViewModelFactory _cartViewModelFactory;
         private readonly ICartServiceB2B _cartServiceB2B;
+        private readonly IQuickOrderService _quickOrderService;
+        private readonly ReferenceConverter _referenceConverter;
 
         public CartController(
             ICartService cartService,
             IOrderRepository orderRepository,
             CartViewModelFactory cartViewModelFactory,
-            ICartServiceB2B cartServiceB2B)
+            ICartServiceB2B cartServiceB2B,
+            IQuickOrderService quickOrderService,
+            ReferenceConverter referenceConverter)
         {
             _cartService = cartService;
             _orderRepository = orderRepository;
             _cartViewModelFactory = cartViewModelFactory;
             _cartServiceB2B = cartServiceB2B;
+            _quickOrderService = quickOrderService;
+            _referenceConverter = referenceConverter;
         }
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
@@ -76,6 +87,49 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
             warningMessage = warningMessage.Length < 512 ? warningMessage : warningMessage.Substring(512);
 
             return new HttpStatusCodeResult(500, warningMessage);
+        }
+
+        [HttpPost]
+        [AllowDBWrite]
+        public JsonResult AddVariantsToCart(List<string> variants)
+        {
+            var returnedMessages = new List<string>();
+
+            ModelState.Clear();
+
+            if (Cart == null)
+            {
+                _cart = _cartService.LoadOrCreateCart(_cartService.DefaultCartName);
+            }
+
+            foreach (var product in variants)
+            {
+                var sku = product.Split(';')[0];
+                var quantity = Convert.ToInt32(product.Split(';')[1]);
+                
+                ContentReference variationReference = _referenceConverter.GetContentLink(sku);
+
+                var responseMessage = _quickOrderService.ValidateProduct(variationReference, Convert.ToDecimal(quantity), sku);
+                    if (responseMessage.IsNullOrEmpty())
+                    {
+                        string warningMessage;
+                        if (_cartService.AddToCart(Cart, sku, out warningMessage))
+                        {
+                            _cartService.ChangeCartItem(Cart, 0, sku, quantity, "", "");
+                            _orderRepository.Save(Cart);
+                        }
+                    }
+                    else
+                    {
+                        returnedMessages.Add(responseMessage);
+                    }
+            }
+            if (returnedMessages.Count == 0)
+            {
+                returnedMessages.Add("All items were added to cart.");
+            }
+
+            return Json(returnedMessages, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

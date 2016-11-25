@@ -136,13 +136,13 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                     "Mediachase.Commerce.Plugins.Payment.GenericPaymentGateway, Mediachase.Commerce.Plugins.Payment",
                     false, 2, allMarkets, language, paymentMethodDto);
 
-                //AddPaymentMethod(Guid.NewGuid(),
-                //    "Personal Budget",
-                //    "PersonalBudget",
-                //    "The payment is settled as part of the order delivery.",
-                //    "Mediachase.Commerce.Orders.OtherPayment, Mediachase.Commerce",
-                //    "Mediachase.Commerce.Plugins.Payment.GenericPaymentGateway, Mediachase.Commerce.Plugins.Payment",
-                //    false, 2, allMarkets, language, paymentMethodDto);
+                AddPaymentMethod(Guid.NewGuid(),
+                    "Budget Payment",
+                    "BudgetPayment",
+                    "The payment is settled as part of the organization budget.",
+                    "Mediachase.Commerce.Orders.OtherPayment, Mediachase.Commerce",
+                    "EPiServer.Reference.Commerce.BudgetPayment.BudgetPaymentGateway, EPiServer.Reference.Commerce.BudgetPayment",
+                    false, 2, allMarkets, language, paymentMethodDto);
             }
         }
 

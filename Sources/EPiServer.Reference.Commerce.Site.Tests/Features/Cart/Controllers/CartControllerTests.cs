@@ -3,6 +3,7 @@ using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Controllers;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
+using Mediachase.Commerce.Catalog;
 using Moq;
 using Xunit;
 
@@ -67,6 +68,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Controllers
         private readonly Mock<IOrderRepository> _orderRepositoryMock;
         private readonly Mock<CartViewModelFactory> _cartViewModelFactoryMock;
         private readonly Mock<ICartServiceB2B> _cartServiceB2BMock;
+        private readonly Mock<IQuickOrderService> _quickOrderService;
+        private readonly Mock<ReferenceConverter> _referenceConverter;
 
         public CartControllerTests()
         {
@@ -76,7 +79,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Controllers
             _cartViewModelFactoryMock = new Mock<CartViewModelFactory>(null, null, null, null, null);
             _orderRepositoryMock = new Mock<IOrderRepository>();
             _cartServiceMock.Setup(x => x.AddToCart(It.IsAny<ICart>(), "Code 1", out warningMessage)).Returns(true).Verifiable();
-            _subject = new CartController(_cartServiceMock.Object, _orderRepositoryMock.Object, _cartViewModelFactoryMock.Object, _cartServiceB2BMock.Object);
+            _quickOrderService = new Mock<IQuickOrderService>();
+            _referenceConverter = new Mock<ReferenceConverter>();
+            _subject = new CartController(_cartServiceMock.Object, _orderRepositoryMock.Object, _cartViewModelFactoryMock.Object, _cartServiceB2BMock.Object, _quickOrderService.Object, _referenceConverter.Object);
         }
     }
 }

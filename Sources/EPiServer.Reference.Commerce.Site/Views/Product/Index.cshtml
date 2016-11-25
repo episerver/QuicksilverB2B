@@ -1,18 +1,18 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.Product.ViewModels.FashionProductViewModel
-<div class="product-component">
+<div class="product-component jsProductDetails" >
     <div class="row spacer-bottom-l">
         <div class="col-xs-12">
             <ul class="breadcrumb">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Category</a></li>
-                <li><a href="#">Subcategory</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="@Url.ContentUrl(Model.CategoryPage.ContentLink)">@Model.CategoryPage.DisplayName</a></li>
+                <li><a href="@Url.ContentUrl(Model.SubcategoryPage.ContentLink)">@Model.SubcategoryPage.DisplayName</a></li>
             </ul>
             <h1>@Html.PropertyFor(x => x.Variation.DisplayName)</h1>
             <span class="item-data">brand <strong>@Html.PropertyFor(x => x.Product.Brand)</strong></span>
             <span class="item-data">item no. <strong>@Html.PropertyFor(x => x.Variation.Code)</strong></span>
         </div>
     </div>
-    <div class="row spacer-bottom-l jsProductDetails">
+    <div class="row spacer-bottom-l">
         <div class="col-xs-12 col-sm-4 col--leading">
             <div id="product-carousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner" role="listbox">
@@ -171,24 +171,25 @@
                                 @foreach (var variant in Model.Variants)
                                 {
                                     var isDiscountedPrice = variant.DiscountedPrice.HasValue && variant.DiscountedPrice.Value < variant.ListingPrice;
-                                    <tr data-sku="@variant.Sku">
+                                    <tr class="variant-row">
                                         <td><img class="product-image" src="@variant.ImageUrl" /></td>
                                         <td>@variant.Size</td>
-                                        <td>@variant.Sku</td>
+                                        <td class="product-sku">@variant.Sku</td>
                                         <td>
                                             <div class="product-price spacer-bottom-s">
-                                                @if(isDiscountedPrice)
+                                                @if (isDiscountedPrice)
                                                 {
-                                                    <span class="product-price__amount text-line-through">@Helpers.RenderMoney(variant.ListingPrice)</span>
+                                                    <span name="ListingPrice" class="product-price__amount text-line-through">@Helpers.RenderMoney(variant.ListingPrice)</span>
                                                 }
-                                                <span class="product-price__discounted-amount spacer-left-m">@Helpers.RenderMoney(variant.YourPrice)</span>
+                                                <span name="DiscountedPrice" class="product-price__discounted-amount spacer-left-m">@Helpers.RenderMoney(variant.YourPrice)</span>
                                             </div>
                                             @if (isDiscountedPrice)
                                             {
                                                 <p class="product-price__save-amount">You save @Helpers.RenderMoney(variant.SavePrice)</p>
                                             }
                                         </td>
-                                        <td><input type="text" value="0" /></td>
+                                        <td><input type="text" name="item-quantity" class="item-quantity" value=@variant.Quantity></td>
+                                        @Html.Hidden("CurrentCurrency", variant.YourPrice.Currency.Format.CurrencySymbol)
                                     </tr>
                                 }
                             </tbody>
@@ -198,18 +199,21 @@
                         <div class="product-table-summary spacer-left-m">
                             <div class="spacer-bottom-l">
                                 <p class="product-price text-right text-line-through">
-                                    <span class="product-price__amount">$24.00</span>
+                                    <span name="TotalListingPrice" class="product-price__amount"></span>
                                 </p>
                                 <p class="product-price large-text">
                                     <span class="product-price__label">TOTAL PRICE</span>
-                                    <span class="product-price__discounted-amount float-right">@Helpers.RenderMoney(Model.DiscountedPrice.Value)</span>
+                                    <span name="TotalDiscountedPrice" class="product-price__discounted-amount float-right">$0.00</span>
                                 </p>
-                                <p class="text-right">
-                                    You save $10.00
+                                <p name="YouSave" class="text-right">
+                                    <span class="you-save"></span>
                                 </p>
                             </div>
-                            <button type="submit" role="button" class="btn btn-danger btn-empty text-left full-width spacer-bottom-s" data-container="MiniCart"><span class="fa fa-shopping-cart fa-2x v-align-middle spacer-right-m"></span> @Html.Translate("/Product/Button/AddToCart")</button>
-                            <button type="submit" role="button" class="btn btn-default full-width text-left" data-container="WishListMiniCart"><span class="fa fa-star fa-2x v-align-middle spacer-right-m"></span> @Html.Translate("/Product/Button/AddToWishList")</button>
+                            <button id="AddToCartButton" type="submit" role="button" class="btn btn-danger btn-empty text-left full-width spacer-bottom-s" data-container="MiniCart"><span class="fa fa-shopping-cart fa-2x v-align-middle spacer-right-m"></span> @Html.Translate("/Product/Button/AddToCart")</button>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <button id="AddToOrderPadButton" type="submit" role="button" class="btn btn-default full-width text-left" data-container="WishListMiniCart"><span class="fa fa-star fa-2x v-align-middle spacer-right-m"></span> @Html.Translate("/Product/Button/AddToWishList")</button>
+                            }
                         </div>
                     </div>
                 </div>

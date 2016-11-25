@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using Mediachase.Commerce;
 
@@ -17,6 +18,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModels
         public string Size { get; set; }
         public IList<string> Images { get; set; }
         public bool IsAvailable { get; set; }
+
+        public NodeContent CategoryPage { get; set; }
+        public NodeContent SubcategoryPage { get; set; }
 
         public Money SavePrice
         {

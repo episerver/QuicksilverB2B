@@ -70,7 +70,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
                 var productWithoutVariation = new FashionProductViewModel
                 {
                     Product = currentContent,
-                    Images = currentContent.GetAssets<IContentImage>(_contentLoader, _urlResolver)
+                    Images = currentContent.GetAssets<IContentImage>(_contentLoader, _urlResolver),
+                    CategoryPage = _contentLoader.Get<NodeContent>(_contentLoader.Get<NodeContent>(currentContent.ParentLink).ParentLink),
+                    SubcategoryPage = _contentLoader.Get<NodeContent>(currentContent.ParentLink)
                 };
                 return Request.IsAjaxRequest() ? PartialView("ProductWithoutVariation", productWithoutVariation) : (ActionResult)View("ProductWithoutVariation", productWithoutVariation);
             }
@@ -128,7 +130,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
                             DiscountedPrice = GetDiscountPrice(defaultPrice, market, currency),
                             ListingPrice = variantDefaultPrice?.UnitPrice ?? new Money(0, currency)
                         };
-                    }).ToList()
+                    }).ToList(),
+                CategoryPage = _contentLoader.Get<NodeContent>(_contentLoader.Get<NodeContent>(currentContent.ParentLink).ParentLink),
+                SubcategoryPage = _contentLoader.Get<NodeContent>(currentContent.ParentLink)
             };
 
             if (quickview)

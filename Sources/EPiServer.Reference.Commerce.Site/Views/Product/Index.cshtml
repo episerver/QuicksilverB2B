@@ -3,9 +3,9 @@
     <div class="row spacer-bottom-l">
         <div class="col-xs-12">
             <ul class="breadcrumb">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Category</a></li>
-                <li><a href="#">Subcategory</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="@Url.ContentUrl(Model.CategoryPage.ContentLink)">@Model.CategoryPage.DisplayName</a></li>
+                <li><a href="@Url.ContentUrl(Model.SubcategoryPage.ContentLink)">@Model.SubcategoryPage.DisplayName</a></li>
             </ul>
             <h1>@Html.PropertyFor(x => x.Variation.DisplayName)</h1>
             <span class="item-data">brand <strong>@Html.PropertyFor(x => x.Product.Brand)</strong></span>

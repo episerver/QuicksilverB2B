@@ -7,8 +7,12 @@ using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Web.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Castle.Core.Internal;
+using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
+using Mediachase.Commerce.Catalog;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
 {
@@ -20,17 +24,23 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         private ICart _wishlist;
         private readonly IOrderRepository _orderRepository;
         readonly CartViewModelFactory _cartViewModelFactory;
+        private readonly IQuickOrderService _quickOrderService;
+        private readonly ReferenceConverter _referenceConverter;
 
         public WishListController(
             IContentLoader contentLoader,
             ICartService cartService,
             IOrderRepository orderRepository,
-            CartViewModelFactory cartViewModelFactory)
+            CartViewModelFactory cartViewModelFactory,
+            IQuickOrderService quickOrderService,
+            ReferenceConverter referenceConverter)
         {
             _contentLoader = contentLoader;
             _cartService = cartService;
             _orderRepository = orderRepository;
             _cartViewModelFactory = cartViewModelFactory;
+            _quickOrderService = quickOrderService;
+            _referenceConverter = referenceConverter;
         }
 
         [HttpGet]
@@ -76,6 +86,48 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
             // HttpStatusMessage can't be longer than 512 characters.
             warningMessage = warningMessage.Length < 512 ? warningMessage : warningMessage.Substring(512);
             return new HttpStatusCodeResult(500, warningMessage);
+        }
+
+        [HttpPost]
+        [AllowDBWrite]
+        public JsonResult AddVariantsToOrderPad(List<string> variants)
+        {
+            var returnedMessages = new List<string>();
+
+            ModelState.Clear();
+
+            if (WishList == null)
+            {
+                _wishlist = _cartService.LoadOrCreateCart(_cartService.DefaultWishListName);
+            }
+
+            foreach (var product in variants)
+            {
+                var sku = product.Split(';')[0];
+                var quantity = Convert.ToInt32(product.Split(';')[1]);
+
+                ContentReference variationReference = _referenceConverter.GetContentLink(sku);
+
+                var responseMessage = _quickOrderService.ValidateProduct(variationReference, Convert.ToDecimal(quantity), sku);
+                if (responseMessage.IsNullOrEmpty())
+                {
+                    string warningMessage;
+                    if (_cartService.AddToCart(WishList, sku, out warningMessage))
+                    {
+                        _orderRepository.Save(WishList);
+                    }
+                }
+                else
+                {
+                    returnedMessages.Add(responseMessage);
+                }
+            }
+            if (returnedMessages.Count == 0)
+            {
+                returnedMessages.Add("All items were added to cart.");
+            }
+
+            return Json(returnedMessages, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

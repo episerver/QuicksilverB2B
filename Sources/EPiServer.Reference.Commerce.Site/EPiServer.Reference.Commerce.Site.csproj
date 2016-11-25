@@ -437,8 +437,8 @@
     <Compile Include="Features\Orders\Controllers\OrdersPageController.cs" />
     <Compile Include="Features\Orders\ViewModels\OrdersPageViewModel.cs" />
     <Compile Include="Features\Product\ViewModels\VariantViewModel.cs" />
-    <Compile Include="Features\Payment\PaymentMethods\PersonalBudgetPaymentMethod.cs" />
-    <Compile Include="Features\Payment\ViewModels\PersonalBudgetViewModel.cs" />
+    <Compile Include="Features\Payment\PaymentMethods\BudgetPaymentMethod.cs" />
+    <Compile Include="Features\Payment\ViewModels\BudgetPaymentViewModel.cs" />
     <Compile Include="Features\QuickOrder\Controllers\QuickOrderPageController.cs" />
     <Compile Include="Features\QuickOrder\Pages\QuickOrderPage.cs" />
     <Compile Include="Features\Orders\Pages\OrdersPage.cs" />
@@ -972,6 +972,10 @@
     <Content Include="Views\Shared\_Facet.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EPiServer.Reference.Commerce.BudgetPayment\EPiServer.Reference.Commerce.BudgetPayment.csproj">
+      <Project>{6054c28c-3eed-4bf3-883e-f477ab4182e1}</Project>
+      <Name>EPiServer.Reference.Commerce.BudgetPayment</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EPiServer.Reference.Commerce.Shared\EPiServer.Reference.Commerce.Shared.csproj">
       <Project>{341c8e14-4eae-4946-9841-45f9818265a8}</Project>
       <Name>EPiServer.Reference.Commerce.Shared</Name>

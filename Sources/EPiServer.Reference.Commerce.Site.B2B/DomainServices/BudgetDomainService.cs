@@ -63,5 +63,13 @@ namespace EPiServer.Reference.Commerce.Site.B2B.DomainServices
             budget.SaveChanges();
             return budget;
         }
+
+        public Budget GetCurrentOrganizationBudget(Guid organizationId)
+        {
+            var budgets = GetAllBudgets();
+            if (budgets == null || !budgets.Any()) return null;
+
+           return budgets.FirstOrDefault(budget => budget.OrganizationId == organizationId && (DateTime.Compare(budget.StartDate, DateTime.Now) <= 0) && (DateTime.Compare(DateTime.Now,budget.DueDate) <= 0));
+        }
     }
 }

@@ -13,5 +13,6 @@ namespace EPiServer.Reference.Commerce.Site.B2B.DomainServiceContracts
         List<Budget> GetAllBudgets();
         Budget GetNewBudget();
         Budget GetBudgetById(int budgetId);
+        Budget GetCurrentOrganizationBudget(Guid organizationId);
     }
 }

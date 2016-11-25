@@ -17,8 +17,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.ViewModels
                     return new CashOnDeliveryViewModel { PaymentMethod = new CashOnDeliveryPaymentMethod(orderFactory)};
                 case "GenericCreditCard":
                     return new GenericCreditCardViewModel { PaymentMethod = new GenericCreditCardPaymentMethod(orderFactory) };
-                //case "PersonalBudget":
-                //    return new PersonalBudgetViewModel{ PaymentMethod = new PersonalBudgetPaymentMethod(orderFactory) };
+                case "BudgetPayment":
+                    return new BudgetPaymentViewModel { PaymentMethod = new BudgetPaymentMethod(orderFactory) };
             }
 
             throw new ArgumentException("No view model has been implemented for the method " + paymentMethodName, "paymentMethodName");

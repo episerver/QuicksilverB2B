@@ -13,5 +13,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.ViewModels
         public List<BudgetViewModel> SubOrganizationsBudgets { get; set; }
         public BudgetViewModel NewBudgetOption { get; set; }
         public List<string> AvailableCurrencies { get; set; } 
+        public BudgetViewModel CurrentBudgetViewModel { get; set; }
+        public bool IsSubOrganization { get; set; }
     }
 }

@@ -31,6 +31,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Suborganization.Controllers
                 CurrentPage = currentPage,
                 SubOrganizationModel = _organizationService.GetSubOrganizationById(Request["suborg"])
             };
+            //Set selected suborganization
+            Session["SelectedSuborganization"] = Request["suborg"];
 
             if (viewModel.SubOrganizationModel == null)
             {

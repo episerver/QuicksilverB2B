@@ -60,5 +60,41 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
         {
             return _budgetDomainService.GetOrganizationBudgets(organizationId);
         }
+
+        public Budget GetBudgetById(int budgetId)
+        {
+            return _budgetDomainService.GetBudgetById(budgetId);
+        }
+
+        public bool IsValidTimeLine(DateTime startDate, DateTime dueDateTime, Guid organizationGuid)
+        {
+            var budgets = _budgetDomainService.GetOrganizationBudgets(organizationGuid);
+            if (budgets == null) return true;
+            if (budgets.Any(budget => (DateTime.Compare(budget.StartDate, dueDateTime) <= 0) &&
+                                      (DateTime.Compare(startDate, budget.DueDate) <= 0)))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public Budget GetCurrentOrganizationBudget(Guid organizationId)
+        {
+            return _budgetDomainService.GetCurrentOrganizationBudget(organizationId);
+        }
+
+        public bool IsValidBudgetAmount(Guid organizationGuid, decimal amount)
+        {
+            var currentBudget = _budgetDomainService.GetCurrentOrganizationBudget(organizationGuid);
+            if (currentBudget == null) return false;
+
+            return (currentBudget.Amount - currentBudget.SpentBudget - amount) >=0 ;
+        }
+
+        public Budget GetUserActiveBudget(Guid customerId)
+        {
+            return _budgetDomainService.GetAllBudgets().FirstOrDefault();
+        }
     }
 }

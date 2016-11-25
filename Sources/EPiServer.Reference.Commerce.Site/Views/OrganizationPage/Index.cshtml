@@ -45,7 +45,7 @@
                             foreach (var subOrganization in Model.Organization.SubOrganizations)
                             {
                                 <tr>
-                                    <td><a href="#">@subOrganization.Name</a></td>
+                                    <td><a href="@(Url.ContentUrl(Model.SubOrganizationPage))?suborg=@(subOrganization.OrganizationId)">@subOrganization.Name</a></td>
                                     @if (subOrganization.CurrentBudgetViewModel != null)
                                     {
                                         <td>@subOrganization.CurrentBudgetViewModel.SpentBudget @subOrganization.CurrentBudgetViewModel.Currency</td>

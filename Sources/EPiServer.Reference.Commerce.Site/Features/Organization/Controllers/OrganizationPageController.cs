@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.B2B.Filters;
 using EPiServer.Reference.Commerce.Site.B2B.Models.Pages;
 using EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels;
@@ -9,6 +10,7 @@ using EPiServer.Reference.Commerce.Site.Features.Organization.ViewModels;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Web.Mvc;
 using EPiServer.Reference.Commerce.Site.B2B;
+using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
 {
@@ -18,12 +20,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
         private readonly IOrganizationService _organizationService;
         private readonly IAddressService _addressService;
         private readonly IBudgetService _budgetService;
+        private readonly IContentLoader _contentLoader;
 
-        public OrganizationPageController(IOrganizationService organizationService, IAddressService addressService, IBudgetService budgetService)
+        public OrganizationPageController(IOrganizationService organizationService, IAddressService addressService, IBudgetService budgetService, IContentLoader contentLoader)
         {
             _organizationService = organizationService;
             _addressService = addressService;
             _budgetService = budgetService;
+            _contentLoader = contentLoader;
         }
 
         public ActionResult Index(OrganizationPage currentPage)
@@ -40,6 +44,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
                 CurrentPage = currentPage,
                 Organization = _organizationService.GetCurrentUserOrganization()
             };
+
+            StartPage startPage = _contentLoader.Get<StartPage>(ContentReference.StartPage);
+            if (startPage != null)
+            {
+                viewModel.SubOrganizationPage = startPage.SubOrganizationPage;
+            }
+
             if (viewModel.Organization != null && viewModel.Organization?.Address == null)
             {
                 viewModel.Organization.Address = new B2BAddressViewModel();

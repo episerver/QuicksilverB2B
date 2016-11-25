@@ -245,7 +245,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
                     return Json(new { success = false });
 
                 // Can have only one active budget per purchaser per current period
-                if (_budgetService.GetCustomerCurrentBudget(organizationId,user.FullName) != null)
+                if (_budgetService.GetCustomerCurrentBudget(organizationId,userGuid) != null)
                     return Json(new { success = false });
 
                 _budgetService.CreateNewBudget(new BudgetViewModel

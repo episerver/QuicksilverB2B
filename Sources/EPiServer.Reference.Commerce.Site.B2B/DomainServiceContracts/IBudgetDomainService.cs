@@ -16,6 +16,6 @@ namespace EPiServer.Reference.Commerce.Site.B2B.DomainServiceContracts
         Budget GetCurrentOrganizationBudget(Guid organizationId);
         List<Budget> GetOrganizationPurchasersBudgets(Guid organizationId);
         List<Budget> GetOrganizationBudgetsWithoutPurchasers(Guid organizationId);
-        Budget GetCustomerCurrentBudget(Guid organizationId, string purchaserName);
+        Budget GetCustomerCurrentBudget(Guid organizationId, Guid purchaserGuid);
     }
 }

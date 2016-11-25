@@ -103,9 +103,9 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             return _budgetDomainService.GetOrganizationBudgets(organizationId);
         }
 
-       public  Budget GetCustomerCurrentBudget(Guid organizationId, string purchaserName)
+       public  Budget GetCustomerCurrentBudget(Guid organizationId, Guid purchaserGuid)
         {
-            return _budgetDomainService.GetCustomerCurrentBudget(organizationId, purchaserName);
+            return _budgetDomainService.GetCustomerCurrentBudget(organizationId, purchaserGuid);
         }
 
         public Budget GetUserActiveBudget(Guid customerId)

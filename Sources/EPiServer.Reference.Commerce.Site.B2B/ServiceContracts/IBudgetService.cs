@@ -17,7 +17,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
         bool HasEnoughAmount(Guid organizationGuid, decimal amount);
         List<Budget> GetOrganizationPurchasersBudgets(Guid organizationId);
         List<Budget> GetOrganizationBudgetsWithoutPurchasers(Guid organizationId);
-        Budget GetCustomerCurrentBudget(Guid organizationId, string purchaserName);
+        Budget GetCustomerCurrentBudget(Guid organizationId, Guid purchaserGuid);
         Budget GetUserActiveBudget(Guid customerId);
     }
 }

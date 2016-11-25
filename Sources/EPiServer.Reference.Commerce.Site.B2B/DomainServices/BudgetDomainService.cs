@@ -88,12 +88,12 @@ namespace EPiServer.Reference.Commerce.Site.B2B.DomainServices
             return budgets.Where(budget => budget.OrganizationId == organizationId && budget.PurchaserName != string.Empty).ToList();
         }
 
-        public Budget GetCustomerCurrentBudget(Guid organizationId, string purchaserName)
+        public Budget GetCustomerCurrentBudget(Guid organizationId, Guid purchaserGuid)
         {
             var budgets = GetAllBudgets();
             if (budgets == null || !budgets.Any()) return null;
 
-            return budgets.First(budget => budget.OrganizationId == organizationId && budget.PurchaserName == purchaserName && (DateTime.Compare(budget.StartDate, DateTime.Now) <= 0) && (DateTime.Compare(DateTime.Now, budget.DueDate) <= 0));
+            return budgets.First(budget => budget.OrganizationId == organizationId && budget.ContactId == purchaserGuid && (DateTime.Compare(budget.StartDate, DateTime.Now) <= 0) && (DateTime.Compare(DateTime.Now, budget.DueDate) <= 0));
         }
     }
 }

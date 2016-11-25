@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using EPiServer.Commerce.Order;
-using EPiServer.Core;
-using EPiServer.Reference.Commerce.Site.B2B;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.OrderDetails.Pages;
 using EPiServer.Reference.Commerce.Site.Features.OrderDetails.ViewModels;
-using EPiServer.Reference.Commerce.Site.Features.OrderHistory.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
-using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
-using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Web.Mvc;
 using Mediachase.Commerce.Orders;
 
@@ -22,14 +15,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderDetails.Controllers
     public class OrderDetailsController : PageController<OrderDetailsPage>
     {
         private readonly IAddressBookService _addressBookService;
-        private readonly IOrderRepository _orderRepository;
         private readonly IOrdersService _ordersService;
 
-        public OrderDetailsController(IAddressBookService addressBookService, IOrderRepository orderRepository,
-            IOrdersService ordersService)
+        public OrderDetailsController(IAddressBookService addressBookService, IOrdersService ordersService)
         {
             _addressBookService = addressBookService;
-            _orderRepository = orderRepository;
             _ordersService = ordersService;
         }
 

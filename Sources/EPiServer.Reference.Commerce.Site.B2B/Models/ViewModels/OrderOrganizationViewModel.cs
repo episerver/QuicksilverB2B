@@ -12,5 +12,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels
         public string PlacedOrderDate { get; set; }
         public string Currency { get; set; }
         public int OrderGroupId { get; set; }
+        public bool IsOrganizationOrder { get; set; }
+        public bool IsPaymentApproved { get; set; }
     }
 }

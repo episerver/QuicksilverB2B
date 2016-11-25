@@ -63,7 +63,7 @@ function InputTypeFile() {
                     contentType: false,
                     processData: false,
                     error: function (data) {
-                        alert("Eroare:" + data);
+                        alert("Error:" + data);
                     },
                     success: function (result) {
                         window.location.href = result.data;

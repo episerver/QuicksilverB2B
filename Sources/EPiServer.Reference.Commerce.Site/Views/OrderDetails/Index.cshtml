@@ -35,34 +35,40 @@
             @*<h3 class="h4">@Html.Translate("/OrderHistory/Labels/ObjectsOrdered")</h3>*@
             <table class="table table-stripped no-border">
                 <thead>
-                    <tr>
-                        <th>
-                            Product
-                        </th>
-                        <th>
-                            Title
-                        </th>
-                    </tr>
+                <tr>
+                    <th>
+                        Product
+                    </th>
+                    <th>
+                        Title
+                    </th>
+                </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.Items)
+                @foreach (var item in Model.Items)
                 {
-                        <tr>
-                            <td><a href="@item.LineItem.GetUrl()" class="link--black"><img src="@item.LineItem.GetThumbnailUrl()" /></a></td>
-                            <td><a href="@item.LineItem.GetUrl()" class="link--black">@item.LineItem.GetEntryContent().DisplayName</a></td>
-                        </tr>
-                    }
+                    <tr>
+                        <td><a href="@item.LineItem.GetUrl()" class="link--black"><img src="@item.LineItem.GetThumbnailUrl()"/></a></td>
+                        <td><a href="@item.LineItem.GetUrl()" class="link--black">@item.LineItem.GetEntryContent().DisplayName</a></td>
+                    </tr>
+                }
                 </tbody>
             </table>
-            @if (Model.QuoteStatus != null && Model.QuoteStatus.Equals("RequestQuotationFinished"))
+            @if (Model.IsOrganizationOrder)
             {
-                using (Html.BeginForm("LoadOrder", "Checkout", FormMethod.Post))
-                {
-                    <button type="button" class="btn btn-danger btn-empty jsCartLoadOrder" aria-expanded="false" data-order-link="@Model.OrderGroupId">@Html.Translate("/Header/MiniCart/Button/GoToCheckout")</button>
-                }
-            }
+                 if (Model.QuoteStatus != null && Model.QuoteStatus.Equals("RequestQuotationFinished"))
+                 {
+                     using (Html.BeginForm("LoadOrder", "Checkout", FormMethod.Post))
+                     {
+                         <button type="button" class="btn btn-danger btn-empty jsCartLoadOrder" aria-expanded="false" data-order-link="@Model.OrderGroupId">@Html.Translate("/Header/MiniCart/Button/GoToCheckout")</button>
+                     }
+                 }
 
-            <button type="button" class="btn btn-danger btn-empty" aria-expanded="false">Approve</button>
+                 if (!Model.IsPaymentApproved)
+                 {
+                     <a href="@Url.Action("ApproveOrder", "OrderDetails", new { orderGroupId = Model.OrderGroupId})" class="btn btn-danger btn-empty" aria-expanded="false">Approve</a>
+                 }
+            }
         </div>
     </div>
 }

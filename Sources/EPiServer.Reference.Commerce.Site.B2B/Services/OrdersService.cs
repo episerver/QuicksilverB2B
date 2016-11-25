@@ -17,12 +17,12 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
         {
             _orderRepository = orderRepository;
         }
-        public void GetUserOrders(Guid userGuid, out List<OrderOrganizationViewModel> ordersOrganization)
+        public List<OrderOrganizationViewModel> GetUserOrders(Guid userGuid)
         {
             var iPurchaseOrders = _orderRepository.Load<IPurchaseOrder>(userGuid)
                                  .OrderByDescending(x => x.Created)
                                  .ToList();
-            ordersOrganization = new List<OrderOrganizationViewModel>();
+            var ordersOrganization = new List<OrderOrganizationViewModel>();
 
             foreach (var purchaseOrder in iPurchaseOrders)
             {
@@ -35,7 +35,8 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
                     Currency = purchaseOrder.Currency.CurrencyCode,
                     User = "",
                     Status = purchaseOrder.OrderStatus.ToString(),
-                    SubOrganization = ""
+                    SubOrganization = "",
+                    IsPaymentApproved = false
                 };
 
                 if (purchaseOrder.Properties[Constants.Customer.CurrentCustomerOrganization] != null)
@@ -48,6 +49,11 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
                     orderViewModel.User =
                         purchaseOrder.Properties[Constants.Customer.CustomerFullName].ToString();
                 }
+                var budgetPayment = GetOrderBudgetPayment(purchaseOrder);
+                orderViewModel.IsOrganizationOrder = budgetPayment != null;
+                if (budgetPayment != null)
+                    orderViewModel.IsPaymentApproved = orderViewModel.IsOrganizationOrder && budgetPayment.TransactionType.Equals(TransactionType.Capture.ToString());
+
                 if (!string.IsNullOrEmpty(purchaseOrder.Properties[Constants.Quote.QuoteStatus]?.ToString()) &&
                         (purchaseOrder.OrderStatus == OrderStatus.InProgress || purchaseOrder.OrderStatus == OrderStatus.OnHold))
                 {
@@ -62,8 +68,34 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
 
                 ordersOrganization.Add(orderViewModel);
             }
+            return ordersOrganization.Where(order => order.IsOrganizationOrder).ToList();
         }
 
-    }
+        public IPayment GetOrderBudgetPayment(IPurchaseOrder purchaseOrder)
+        {
+            if (purchaseOrder?.Forms == null || !purchaseOrder.Forms.Any())
+            {
+                return null;
+            }
 
+            return
+                purchaseOrder.Forms.Where(orderForm => orderForm.Payments != null && orderForm.Payments.Any())
+                    .SelectMany(orderForm => orderForm.Payments)
+                    .FirstOrDefault(payment => payment.PaymentMethodName.Equals(Constants.Order.BudgetPayment));
+        }
+
+        public void ApproveOrder(int orderGroupId)
+        {
+            var purchaseOrder = _orderRepository.Load<PurchaseOrder>(orderGroupId);
+            if (purchaseOrder == null) return;
+
+            var budgetPayment = GetOrderBudgetPayment(purchaseOrder) as Payment;
+            if (budgetPayment == null) return;
+
+            budgetPayment.TransactionType = TransactionType.Capture.ToString();
+            budgetPayment.Status = PaymentStatus.Pending.ToString();
+            budgetPayment.AcceptChanges();
+            purchaseOrder.ProcessPayments();
+        }
+    }
 }

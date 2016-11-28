@@ -80,6 +80,23 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             return true;
         }
 
+        public bool IsSuborganizationValidTimeSlice(DateTime startDateTime, DateTime finishDateTime, Guid organizationGuid)
+        {
+            var budgets = _budgetDomainService.GetOrganizationBudgets(organizationGuid);
+            if (budgets == null || budgets.Count == 0) return false;
+            if (budgets.Any(budget => (DateTime.Compare(budget.StartDate, startDateTime) <= 0) &&
+                                      (DateTime.Compare(finishDateTime, budget.DueDate) <= 0) && 
+                                      (DateTime.Compare(budget.StartDate, finishDateTime) <= 0) &&
+                                      (DateTime.Compare(startDateTime, budget.DueDate) <= 0)
+                                      ))
+            {
+                return true;
+            }
+
+            return false;
+
+        }
+
         public Budget GetCurrentOrganizationBudget(Guid organizationId)
         {
             return _budgetDomainService.GetCurrentOrganizationBudget(organizationId);

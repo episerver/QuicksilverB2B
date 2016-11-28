@@ -88,26 +88,34 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
         public ActionResult AddBudget(BudgetingPage currentPage)
         {
             var viewModel = new BudgetingPageViewModel { CurrentPage = currentPage };
-            if (!string.IsNullOrEmpty(Session[Constants.Fields.SelectedSuborganization]?.ToString()))
+            try
             {
-                var suborganization =_organizationService.GetSubOrganizationById(Session[Constants.Fields.SelectedSuborganization].ToString());
-                var organizationCurrentBudget =_budgetService.GetCurrentOrganizationBudget(suborganization.ParentOrganization.OrganizationId);
-                viewModel.AvailableCurrencies = new List<string> { organizationCurrentBudget.Currency};
-                viewModel.IsSubOrganization = true;
-                viewModel.NewBudgetOption = new BudgetViewModel(organizationCurrentBudget);
-            }
-            else
-            {
-                var availableCurrencies = _currentMarket.GetCurrentMarket().Currencies as List<Currency>;
-                if (availableCurrencies != null)
+                if (!string.IsNullOrEmpty(Session[Constants.Fields.SelectedSuborganization]?.ToString()))
                 {
-                    var currencies = new List<string>();
-                    currencies.AddRange(availableCurrencies.Select(currency => currency.CurrencyCode));
-                    viewModel.AvailableCurrencies = currencies;
+                    var suborganization = _organizationService.GetSubOrganizationById(Session[Constants.Fields.SelectedSuborganization].ToString());
+                    var organizationCurrentBudget = _budgetService.GetCurrentOrganizationBudget(suborganization.ParentOrganization.OrganizationId);
+                    viewModel.AvailableCurrencies = new List<string> { organizationCurrentBudget.Currency };
+                    viewModel.IsSubOrganization = true;
+                    viewModel.NewBudgetOption = new BudgetViewModel(organizationCurrentBudget);
                 }
-            }
-           
+                else
+                {
+                    var availableCurrencies = _currentMarket.GetCurrentMarket().Currencies as List<Currency>;
+                    if (availableCurrencies != null)
+                    {
+                        var currencies = new List<string>();
+                        currencies.AddRange(availableCurrencies.Select(currency => currency.CurrencyCode));
+                        viewModel.AvailableCurrencies = currencies;
+                    }
+                }
 
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetLogger(GetType()).Error(ex.Message, ex.StackTrace);
+                return RedirectToAction("Index");
+            }
+          
             return View(viewModel);
         }
 
@@ -127,7 +135,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
                     if (!_budgetService.HasEnoughAmount(currentOrganization.OrganizationId, amount))
                         return Json(new {success = false});
                     // It should overlap with another budget of the parent organization
-                    if (_budgetService.IsTimeOverlapped(startDateTime, finishDateTime, currentOrganization.OrganizationId))
+                    if (!_budgetService.IsSuborganizationValidTimeSlice(startDateTime, finishDateTime, currentOrganization.OrganizationId))
                         return Json(new { success = false });
                     // Validate for existing current budget. Avoid duplicate current budget since the budgets of suborg. must fit org. date times. 
                     if (_budgetService.GetCurrentOrganizationBudget(organizationId) != null)
@@ -139,8 +147,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
                     if (!_budgetService.IsTimeOverlapped(startDateTime, finishDateTime, organizationId))
                         return Json(new { success = false });
                 }
-               
-
+                
                 _budgetService.CreateNewBudget(new BudgetViewModel
                 {
                     Amount = amount,
@@ -249,7 +256,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
                     return Json(new { success = false });
 
                 // It should overlap with another budget of the parent organization
-                if (_budgetService.IsTimeOverlapped(startDateTime, finishDateTime, organizationId))
+                if (!_budgetService.IsSuborganizationValidTimeSlice(startDateTime, finishDateTime, organizationId))
                     return Json(new { success = false });
 
                 // Can have only one active budget per purchaser per current period

@@ -67,6 +67,11 @@ namespace EPiServer.Reference.Commerce.Site.B2B
             public static List<string> Approver = new List<string> { "Overview", "Orders", "Order Pad", "Budgeting" };
         }
 
+        public static class Order
+        {
+            public static string BudgetPayment = "BudgetPayment";
+        }
+
         public static string SectionName = "InfoBlock";
         public static string DefaultDisplayOrder = "10000";
     }

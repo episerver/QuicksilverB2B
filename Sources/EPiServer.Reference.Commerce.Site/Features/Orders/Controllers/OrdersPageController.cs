@@ -38,7 +38,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Orders.Controllers
             var ordersOrganization = new List<OrderOrganizationViewModel>();
             foreach (var user in organizationUsersList)
             {
-               _ordersService.GetUserOrders(user.ContactId, out ordersOrganization);
+                ordersOrganization.AddRange(_ordersService.GetUserOrders(user.ContactId));
             }
             viewModel.OrdersOrganization = ordersOrganization;
 

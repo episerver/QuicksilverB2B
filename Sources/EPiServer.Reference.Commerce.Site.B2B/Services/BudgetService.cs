@@ -195,12 +195,20 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             return _budgetDomainService.GetCurrentOrganizationBudget(organizationId);
         }
 
-        public bool HasEnoughAmount(Guid organizationGuid, decimal amount)
+        public bool HasEnoughAmount(Guid organizationGuid, decimal amount, DateTime startDateTime, DateTime finishDateTime)
+        {
+            var currentBudget = GetBudgetByTimeLine(organizationGuid,startDateTime,finishDateTime);
+            if (currentBudget == null) return false;
+
+            return (currentBudget.Amount - currentBudget.SpentBudget - currentBudget.LockAmount - amount) >=0 ;
+        }
+
+        public bool HasEnoughAmountOnCurrentBudget(Guid organizationGuid, decimal amount)
         {
             var currentBudget = _budgetDomainService.GetCurrentOrganizationBudget(organizationGuid);
             if (currentBudget == null) return false;
 
-            return (currentBudget.Amount - currentBudget.SpentBudget - currentBudget.LockAmount - amount) >=0 ;
+            return (currentBudget.Amount - currentBudget.SpentBudget - currentBudget.LockAmount - amount) >= 0;
         }
 
         public bool CheckAmount(Guid organizationGuid, decimal newLockAmount, decimal unlockAmount)

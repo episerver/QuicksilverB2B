@@ -25,7 +25,7 @@
                         <div class="max-width">
                             <div class="row spacer-bottom-m">
                                 <div class="col-xs-6 col-sm-4">
-                                    Allocated budget
+                                    Budget
                                 </div>
                                 <div class="col-xs-6">
                                     <strong>@Model.CurrentBudgetViewModel.Amount.ToString("F") @Model.CurrentBudgetViewModel.Currency</strong>
@@ -33,7 +33,15 @@
                             </div>
                             <div class="row spacer-bottom-m">
                                 <div class="col-xs-6 col-sm-4">
-                                    Spent budget
+                                    Unallocated
+                                </div>
+                                <div class="col-xs-6">
+                                    <strong>@Model.CurrentBudgetViewModel.UnAllocatedAmount.ToString("F") @Model.CurrentBudgetViewModel.Currency</strong>
+                                </div>
+                            </div>
+                            <div class="row spacer-bottom-m">
+                                <div class="col-xs-6 col-sm-4">
+                                    Spent
                                 </div>
                                 <div class="col-xs-6">
                                     <strong>@Model.CurrentBudgetViewModel.SpentBudget.ToString("F") @Model.CurrentBudgetViewModel.Currency</strong>
@@ -87,8 +95,8 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Allocated Budget</th>
-                                        <th>Spent Budget</th>
+                                        <th>Budget</th>
+                                        <th>Spent</th>
                                         <th>Start Date</th>
                                         <th>End Date</th>
                                         <th>Status</th>
@@ -106,7 +114,7 @@
                                                 <td>@purchaser.SpentBudget.ToString("F") @purchaser.Currency</td>
                                                 <td>@purchaser.StartDate.ToString("MMMM dd, yyyy")</td>
                                                 <td>@purchaser.DueDate.ToString("MMMM dd, yyyy")</td>
-                                                <td>@purchaser.Status</td>
+                                                <td>@(purchaser.Status == "Planned" ? "Current" : purchaser.Status)</td>
                                                 <td class="text-center" data-budget-id="@purchaser.BudgetId">
                                                     <a href="@Url.Action("EditUserBudget", "BudgetingPage", new {budgetId = @purchaser.BudgetId})" class="btn btn-primary btn-xs spacer-left-s">
                                                         <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
@@ -127,8 +135,9 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Allocated Budget</th>
-                                        <th>Spent Budget</th>
+                                        <th>Budget</th>
+                                        <th>Unallocated</th>
+                                        <th>Spent</th>
                                         <th>Start Date</th>
                                         <th>End Date</th>
                                         <th>Status</th>
@@ -143,10 +152,11 @@
                                             <tr>
                                                 <td><a href="#">@suborganizationBudget.OrganizationName</a></td>
                                                 <td>@suborganizationBudget.Amount.ToString("F") @suborganizationBudget.Currency</td>
+                                                <td>@suborganizationBudget.UnAllocatedAmount.ToString("F") @suborganizationBudget.Currency</td>
                                                 <td>@suborganizationBudget.SpentBudget.ToString("F") @suborganizationBudget.Currency</td>
                                                 <td>@suborganizationBudget.StartDate.ToString("MMMM dd, yyyy")</td>
                                                 <td>@suborganizationBudget.DueDate.ToString("MMMM dd, yyyy")</td>
-                                                <td>@suborganizationBudget.Status</td>
+                                                <td>@(suborganizationBudget.Status == "Planned" ? "Current" : @suborganizationBudget.Status)</td>
                                                 <td class="text-center" data-budget-id="@suborganizationBudget.BudgetId">
                                                     <a href="@Url.Action("EditBudget", "BudgetingPage", new {budgetId = @suborganizationBudget.BudgetId})" class="btn btn-primary btn-xs spacer-left-s">
                                                         <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
@@ -176,8 +186,9 @@
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Allocated Budget</th>
-                                    <th>Spent Budget</th>
+                                    <th>Budget</th>
+                                    <th>Unallocated</th>
+                                    <th>Spent</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
                                     <th>Status</th>
@@ -190,6 +201,7 @@
                                     <tr>
                                         <td><a href="#">@organizationBudget.OrganizationName</a></td>
                                         <td>@organizationBudget.Amount.ToString("F") @organizationBudget.Currency</td>
+                                        <td>@organizationBudget.UnAllocatedAmount.ToString("F") @organizationBudget.Currency</td>
                                         <td>@organizationBudget.SpentBudget.ToString("F") @organizationBudget.Currency</td>
                                         <td>@organizationBudget.StartDate.ToString("MMMM dd, yyyy")</td>
                                         <td>@organizationBudget.DueDate.ToString("MMMM dd, yyyy")</td>

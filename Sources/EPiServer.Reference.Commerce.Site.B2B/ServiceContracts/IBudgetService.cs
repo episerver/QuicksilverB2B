@@ -14,7 +14,8 @@ namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
         Budget GetBudgetById(int budgetId);
         bool IsTimeOverlapped(DateTime startDate, DateTime dueDateTime, Guid organizationGuid);
         Budget GetCurrentOrganizationBudget(Guid organizationId);
-        bool HasEnoughAmount(Guid organizationGuid, decimal amount);
+        bool HasEnoughAmount(Guid organizationGuid, decimal amount, DateTime startDateTime, DateTime finishDateTime);
+        bool HasEnoughAmountOnCurrentBudget(Guid organizationGuid, decimal amount);
         List<Budget> GetOrganizationPurchasersBudgets(Guid organizationId);
         List<Budget> GetOrganizationBudgetsWithoutPurchasers(Guid organizationId);
         Budget GetCustomerCurrentBudget(Guid organizationId, Guid purchaserGuid);

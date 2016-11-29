@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using EPiServer.Reference.Commerce.Site.B2B.Enums;
+using EPiServer.Reference.Commerce.Site.B2B.Models.Contact;
 using EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels;
 
 namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
@@ -13,5 +13,9 @@ namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
         void EditContact(ContactViewModel model);
         void RemoveContact(string id);
         bool CanSeeOrganizationNav();
+        void AddContactToOrganization(string contactId, string organizationId = null);
+        void AddContactToOrganization(B2BContact contact, string organizationId = null);
+        void UpdateContact(string contactId, string userRole, string location = null);
+        bool HasOrganization(string contactId);
     }
 }

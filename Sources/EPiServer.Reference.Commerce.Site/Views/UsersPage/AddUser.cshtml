@@ -78,10 +78,10 @@
                             @Html.ValidationMessageFor(model => model.Contact.Location)
                         </div>
 
-                        if (Model.Contact.ExistingUser)
+                        if (Model.Contact.ShowOrganizationError)
                         {
                             <div class="form-group">
-                                <p class="text-danger">The email address you have entered is already registered.</p>
+                                <p class="text-danger">This user is already part of an organization.</p>
                             </div>
                         }
 

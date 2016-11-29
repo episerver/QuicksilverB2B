@@ -49,5 +49,8 @@ namespace EPiServer.Reference.Commerce.Site.B2B.DomainServices
             contact.ContactId = BusinessManager.Create(contact.Contact);
             return contact;
         }
+
+        public IEnumerable<B2BContact> GetContacts()
+            => CustomerContext.Current.GetContacts().Select(c => new B2BContact(c));
     }
 }

@@ -18,6 +18,8 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels
             Status = budget.Status;
             PurchaserName = budget.PurchaserName;
             SpentBudget = budget.SpentBudget;
+            LockAmount = budget.LockAmount;
+            RemainingBudget = budget.RemainingBudget;
         }
 
         public BudgetViewModel()
@@ -27,7 +29,9 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels
         public DateTime StartDate { get; set; }
         public DateTime DueDate { get; set; }
         public decimal Amount { get; set; }
+        public decimal LockAmount { get; set; }
         public decimal SpentBudget { get; set; }
+        public decimal RemainingBudget { get; set; }
         public string Currency { get; set; }
         public string Status { get; set; }
         public bool IsActive { get; set; }

@@ -26,19 +26,11 @@
                             <div class="custom-select">
                                 <span class="custom-select-split"></span>
                                 <span class="custom-select-arrow arrow-down"></span>
-                                <select id="currencyBudget" @(Model.IsSubOrganization ? "disabled" : "")>
-                                    @if (Model.IsSubOrganization)
+                                <select id="currencyBudget">
+                                    @foreach (var option in Model.AvailableCurrencies)
                                     {
-                                        <option value="@Model.AvailableCurrencies.FirstOrDefault()">@Model.AvailableCurrencies.FirstOrDefault()</option>
+                                    <option value="@option">@option</option>
                                     }
-                                    else
-                                    {
-                                        foreach (var option in Model.AvailableCurrencies)
-                                        {
-                                            <option value="@option">@option</option>
-                                        }
-                                    }
-
                                 </select>
                             </div>
                         </div>

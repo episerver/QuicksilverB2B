@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using EPiServer.Logging;
 using EPiServer.Reference.Commerce.Site.B2B.DomainServiceContracts;
 using EPiServer.Reference.Commerce.Site.B2B.Models.Entities;
 using EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels;
@@ -37,6 +38,97 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             UpdateBudgetEntity(budget, budgetModel);
         }
 
+        public bool LockOrganizationAmount(DateTime startDate, DateTime endDate, Guid guid, decimal amount)
+        {
+            try
+            {
+                var deductBudget = GetBudgetByTimeLine(guid, startDate, endDate);
+                UpdateBudget(new BudgetViewModel
+                {
+                    Amount = deductBudget.Amount,
+                    OrganizationId = deductBudget.OrganizationId,
+                    Currency = deductBudget.Currency,
+                    SpentBudget = deductBudget.SpentBudget,
+                    DueDate = deductBudget.DueDate,
+                    StartDate = deductBudget.StartDate,
+                    Status = deductBudget.Status,
+                    IsActive = deductBudget.IsActive,
+                    BudgetId = deductBudget.BudgetId,
+                    ContactId = deductBudget.ContactId,
+                    PurchaserName = deductBudget.PurchaserName,
+                    LockAmount = deductBudget.LockAmount + amount
+                });
+
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetLogger(GetType()).Error(ex.Message, ex.StackTrace);
+                return false;
+            }
+            return true;
+        }
+
+
+        public bool LockUserAmount(DateTime startDate, DateTime endDate, Guid organizationGuid,Guid userGuid, decimal amount)
+        {
+            try
+            {
+                var deductBudget = GetCustomerCurrentBudget(organizationGuid, userGuid);
+                UpdateBudget(new BudgetViewModel
+                {
+                    Amount = deductBudget.Amount,
+                    OrganizationId = deductBudget.OrganizationId,
+                    Currency = deductBudget.Currency,
+                    SpentBudget = deductBudget.SpentBudget,
+                    DueDate = deductBudget.DueDate,
+                    StartDate = deductBudget.StartDate,
+                    Status = deductBudget.Status,
+                    IsActive = deductBudget.IsActive,
+                    BudgetId = deductBudget.BudgetId,
+                    ContactId = deductBudget.ContactId,
+                    PurchaserName = deductBudget.PurchaserName,
+                    LockAmount = deductBudget.LockAmount + amount
+                });
+
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetLogger(GetType()).Error(ex.Message, ex.StackTrace);
+                return false;
+            }
+            return true;
+        }
+
+
+        public bool UnLockOrganizationAmount(DateTime startDate, DateTime endDate, Guid guid, decimal amount)
+        {
+            try
+            {
+                var deductBudget = GetBudgetByTimeLine(guid, startDate, endDate);
+                UpdateBudget(new BudgetViewModel
+                {
+                    Amount = deductBudget.Amount,
+                    OrganizationId = deductBudget.OrganizationId,
+                    Currency = deductBudget.Currency,
+                    SpentBudget = deductBudget.SpentBudget,
+                    DueDate = deductBudget.DueDate,
+                    StartDate = deductBudget.StartDate,
+                    Status = deductBudget.Status,
+                    IsActive = deductBudget.IsActive,
+                    BudgetId = deductBudget.BudgetId,
+                    ContactId = deductBudget.ContactId,
+                    PurchaserName = deductBudget.PurchaserName,
+                    LockAmount = deductBudget.LockAmount - amount
+                });
+
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetLogger(GetType()).Error(ex.Message, ex.StackTrace);
+                return false;
+            }
+            return true;
+        }
 
         private void UpdateBudgetEntity(Budget budgetEntity, BudgetViewModel budgetModel)
         {
@@ -46,6 +138,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             budgetEntity.DueDate = budgetModel.DueDate;
             budgetEntity.Status = budgetModel.Status;
             budgetEntity.PurchaserName = budgetModel.PurchaserName;
+            budgetEntity.LockAmount = budgetModel.LockAmount;
             if (budgetModel.OrganizationId != Guid.Empty)
             {
                 budgetEntity.OrganizationId = budgetModel.OrganizationId;
@@ -107,7 +200,15 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             var currentBudget = _budgetDomainService.GetCurrentOrganizationBudget(organizationGuid);
             if (currentBudget == null) return false;
 
-            return (currentBudget.Amount - currentBudget.SpentBudget - amount) >=0 ;
+            return (currentBudget.Amount - currentBudget.SpentBudget - currentBudget.LockAmount - amount) >=0 ;
+        }
+
+        public bool CheckAmount(Guid organizationGuid, decimal newLockAmount, decimal unlockAmount)
+        {
+            var currentBudget = _budgetDomainService.GetCurrentOrganizationBudget(organizationGuid);
+            if (currentBudget == null) return false;
+
+            return (currentBudget.Amount + unlockAmount - currentBudget.SpentBudget - currentBudget.LockAmount - newLockAmount) >= 0;
         }
 
         public List<Budget> GetOrganizationPurchasersBudgets(Guid organizationId)
@@ -123,6 +224,16 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
        public  Budget GetCustomerCurrentBudget(Guid organizationId, Guid purchaserGuid)
         {
             return _budgetDomainService.GetCustomerCurrentBudget(organizationId, purchaserGuid);
+        }
+
+        public Budget GetBudgetByTimeLine(Guid organizationId, DateTime startDate, DateTime endDate)
+        {
+            var organizationBudgets = _budgetDomainService.GetOrganizationBudgets(organizationId);
+            if (!organizationBudgets.Any()) return null;
+            var returnBudget = organizationBudgets.Where(budget => (DateTime.Compare(budget.StartDate, endDate) <= 0) &&
+                                      (DateTime.Compare(startDate, budget.DueDate) <= 0));
+            if (!returnBudget.Any()) return null;
+            return returnBudget.FirstOrDefault();
         }
     }
 }

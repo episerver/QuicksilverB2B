@@ -49,6 +49,13 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.Entities
             get { return BudgetEntity.GetStringValue(Constants.Fields.Currency); }
             set { BudgetEntity[Constants.Fields.Currency] = value; }
         }
+
+        public decimal LockAmount
+        {
+            get { return BudgetEntity.GetDecimalValue(Constants.Fields.LockAmount); }
+            set { BudgetEntity[Constants.Fields.LockAmount] = value; }
+        }
+
         public Guid OrganizationId
         {
             get { return BudgetEntity.GetGuidValue(MetaClassManager.GetPrimaryKeyName(Constants.Classes.Organization)); }
@@ -72,7 +79,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.Entities
 
         public bool IsActive => StartDate <= DateTime.Now && DueDate > DateTime.Now;
 
-        public decimal RemainingBudget => Amount - SpentBudget;
+        public decimal RemainingBudget => Amount - SpentBudget- LockAmount;
 
         public void SaveChanges()
         {

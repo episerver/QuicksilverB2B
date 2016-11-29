@@ -27,6 +27,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B
             public static string UserLocation = "UserLocation";
             public static string UserLocationFriendly = "User Location";
             public static string SelectedSuborganization = "SelectedSuborganization";
+            public static string LockAmount = "LockOrganizationAmount";
         }
 
         public static class Forms
@@ -70,6 +71,14 @@ namespace EPiServer.Reference.Commerce.Site.B2B
         public static class Order
         {
             public static string BudgetPayment = "BudgetPayment";
+        }
+        
+        public static class UserRoles
+        {
+            public static string Admin = "Admin";
+            public static string Purchaser = "Purchaser";
+            public static string Approver = "Approver";
+            public static string None = "None";
         }
 
         public static string SectionName = "InfoBlock";

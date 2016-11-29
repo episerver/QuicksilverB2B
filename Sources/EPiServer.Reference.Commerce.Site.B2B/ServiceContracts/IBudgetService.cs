@@ -20,5 +20,10 @@ namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
         Budget GetCustomerCurrentBudget(Guid organizationId, Guid purchaserGuid);
 
         bool IsSuborganizationValidTimeSlice(DateTime startDateTime, DateTime finishDateTime, Guid organizationGuid);
+        Budget GetBudgetByTimeLine(Guid organizationId, DateTime startDate, DateTime endDate);
+        bool LockOrganizationAmount(DateTime startDate, DateTime endDate, Guid guid, decimal amount);
+        bool UnLockOrganizationAmount(DateTime startDate, DateTime endDate, Guid guid, decimal amount);
+        bool CheckAmount(Guid organizationGuid, decimal newLockAmount, decimal unlockAmount);
+        bool LockUserAmount(DateTime startDate, DateTime endDate, Guid organizationGuid, Guid userGuid, decimal amount);
     }
 }

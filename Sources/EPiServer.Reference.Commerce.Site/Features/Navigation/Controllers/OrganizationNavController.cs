@@ -26,7 +26,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Navigation.Controllers
             if (Request["suborg"] == null)
             {
                 //Clear selected suborganization
-                Session[Constants.Fields.SelectedSuborganization] = "";
+                Session[Constants.Fields.SelectedNavSuborganization] = "";
             }
 
             var model = new OrgNavigationViewModel
@@ -34,8 +34,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Navigation.Controllers
                 Organization = _customerService.CanSeeOrganizationNav()
                     ? _organizationService.GetCurrentUserOrganization()
                     : null,
-                CurrentOrganization = !string.IsNullOrEmpty(Session[Constants.Fields.SelectedSuborganization]?.ToString())
-                    ? _organizationService.GetSubOrganizationById(Session[Constants.Fields.SelectedSuborganization].ToString())
+                CurrentOrganization = !string.IsNullOrEmpty(Session[Constants.Fields.SelectedNavSuborganization]?.ToString())
+                    ? _organizationService.GetSubOrganizationById(Session[Constants.Fields.SelectedNavSuborganization].ToString())
                     : _organizationService.GetCurrentUserOrganization()
             };
 

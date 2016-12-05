@@ -27,6 +27,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B
             public static string UserLocation = "UserLocation";
             public static string UserLocationFriendly = "User Location";
             public static string SelectedSuborganization = "SelectedSuborganization";
+            public static string SelectedNavSuborganization = "SelectedNavSuborganization";
             public static string LockAmount = "LockOrganizationAmount";
             public static string OverwritedMarket = "OverwritedMarket";
         }

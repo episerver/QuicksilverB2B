@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using EPiServer.Find.Helpers.Text;
 using EPiServer.Reference.Commerce.Site.B2B.DomainServiceContracts;
 using EPiServer.Reference.Commerce.Site.B2B.Enums;
 using EPiServer.Reference.Commerce.Site.B2B.Models.Contact;
@@ -74,20 +75,15 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             };
             contact.SaveChanges();
 
-            var organization = contactModel.UserRole == B2BUserRoles.Admin.ToString() ? 
-                _organizationDomainService.GetCurrentUserOrganizationEntity() : 
-                _organizationDomainService.GetOrganizationEntityById(contactModel.OrganizationId);
-
-            contact.B2BOrganization = organization;
-            contact.SaveChanges();
+            if (contactModel.UserRole == B2BUserRoles.Admin.ToString())
+                AddContactToOrganization(contact);
+            else
+                AddContactToOrganization(contact, contactModel.OrganizationId);
         }
 
         public void EditContact(ContactViewModel model)
         {
-            var contact = _customerDomainService.GetContactById(model.ContactId.ToString());
-            contact.UserRole = model.UserRole;
-            contact.UserLocationId = model.Location;
-            contact.SaveChanges();
+            UpdateContact(model.ContactId.ToString(), model.UserRole, model.Location);
         }
 
         public void RemoveContact(string id)
@@ -97,10 +93,40 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             contact.SaveChanges();
         }
 
+        public void AddContactToOrganization(string contactId, string organizationId = null)
+        {
+            var contact = _customerDomainService.GetContactById(contactId);
+            contact.B2BOrganization = organizationId.IsNullOrEmpty()
+                ? _organizationDomainService.GetCurrentUserOrganizationEntity()
+                : _organizationDomainService.GetOrganizationEntityById(organizationId);
+            contact.SaveChanges();
+        }
+        public void AddContactToOrganization(B2BContact contact, string organizationId = null)
+        {
+            contact.B2BOrganization = organizationId.IsNullOrEmpty()
+                ? _organizationDomainService.GetCurrentUserOrganizationEntity()
+                : _organizationDomainService.GetOrganizationEntityById(organizationId);
+            contact.SaveChanges();
+        }
+
+        public void UpdateContact(string contactId, string userRole, string location = null)
+        {
+            var contact = _customerDomainService.GetContactById(contactId);
+            contact.UserRole = userRole;
+            contact.UserLocationId = location;
+            contact.SaveChanges();
+        }
+
         public bool CanSeeOrganizationNav()
         {
             var currentRole = _customerDomainService.GetCurrentContact().B2BUserRole;
             return currentRole == B2BUserRoles.Admin || currentRole == B2BUserRoles.Approver;
+        }
+
+        public bool HasOrganization(string contactId)
+        {
+            var contact = _customerDomainService.GetContactById(contactId);
+            return contact.B2BOrganization != null;
         }
     }
 }

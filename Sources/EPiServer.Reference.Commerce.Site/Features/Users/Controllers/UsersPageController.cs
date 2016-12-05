@@ -30,8 +30,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
         private readonly IMailService _mailService;
         private readonly ApplicationUserManager _userManager;
         private readonly LocalizationService _localizationService;
+        private readonly IEPiFindSearchService _ePiFindSearchService;
 
-        public UsersPageController(ICustomerService customerService, IOrganizationService organizationService, ApplicationUserManager applicationUserManager, IContentLoader contentLoader, IMailService mailService, LocalizationService localizationService)
+        public UsersPageController(ICustomerService customerService, IOrganizationService organizationService,
+            ApplicationUserManager applicationUserManager, IContentLoader contentLoader, IMailService mailService,
+            LocalizationService localizationService, IEPiFindSearchService ePiFindSearchService)
         {
             _customerService = customerService;
             _organizationService = organizationService;
@@ -39,9 +42,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
             _contentLoader = contentLoader;
             _mailService = mailService;
             _localizationService = localizationService;
+            _ePiFindSearchService = ePiFindSearchService;
         }
 
-       [NavigationAuthorize("Admin")]
+        [NavigationAuthorize("Admin")]
         public ActionResult Index(UsersPage currentPage)
         {
             var organization = _organizationService.GetCurrentUserOrganization();
@@ -116,15 +120,19 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
             ApplicationUser user = _userManager.FindByEmail(viewModel.Contact.Email);
             if (user != null)
             {
-                viewModel.Contact.ExistingUser = true;
+                if (_customerService.HasOrganization(user.Id))
+                {
+                    viewModel.Contact.ShowOrganizationError = true;
+                    var organization = _organizationService.GetCurrentUserOrganization();
+                    viewModel.Organizations = organization.SubOrganizations ?? new List<OrganizationModel>();
+                    return View(viewModel);
+                }
 
-                var organization = _organizationService.GetCurrentUserOrganization();
-                viewModel.Organizations = organization.SubOrganizations ?? new List<OrganizationModel>();
-
-                return View(viewModel);
+                _customerService.AddContactToOrganization(user.Id);
+                _customerService.UpdateContact(user.Id, viewModel.Contact.UserRole, viewModel.Contact.Location);
             }
-            
-            SaveUser(viewModel);
+            else
+                SaveUser(viewModel);
 
             return RedirectToAction("Index");
         }
@@ -132,16 +140,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
         [NavigationAuthorize("Admin")]
         public JsonResult GetUsers(string phrase)
         {
-
-            var data = new[] {
-              new { fullname= "admin", firstname = "admin", lastname = "admin", email = "admin@yahoo.ro" },
-              new { fullname= "Marius Lazar", firstname = "Marius", lastname = "Lazar", email = "mariuslazar@yahoo.ro" },
-              new { fullname= "Alex Tiponut", firstname = "Alex", lastname = "Tiponut", email = "alex@yahoo.ro" },
-              new { fullname= "Simona Danciu", firstname = "Simona", lastname = "Danciu", email = "simona@yahoo.ro" },
-              new { fullname= "Ionut Iancau", firstname = "Ionut", lastname = "Iancau", email = "ionut@yahoo.ro" },
-              new { fullname= "Mihai Runcan", firstname = "Mihai", lastname = "Runcan", email = "mihai@yahoo.ro" }
-           };
-
+            var data = _ePiFindSearchService.SearchUsers(phrase);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 

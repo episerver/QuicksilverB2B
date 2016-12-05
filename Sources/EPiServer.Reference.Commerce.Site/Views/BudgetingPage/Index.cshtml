@@ -76,7 +76,7 @@
                                     Status
                                 </div>
                                 <div class="col-xs-6">
-                                    <strong>@Model.CurrentBudgetViewModel.Status</strong>
+                                    <strong>@(Model.CurrentBudgetViewModel.Status == "Planned" ? "Active" : Model.CurrentBudgetViewModel.Status)</strong>
                                 </div>
                             </div>
                         </div>

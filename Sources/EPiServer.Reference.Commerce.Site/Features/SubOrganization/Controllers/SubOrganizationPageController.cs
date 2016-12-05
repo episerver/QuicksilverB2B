@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using EPiServer.Core;
+using EPiServer.Reference.Commerce.Site.B2B;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Suborganization.Pages;
@@ -32,7 +33,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Suborganization.Controllers
                 SubOrganizationModel = _organizationService.GetSubOrganizationById(Request["suborg"])
             };
             //Set selected suborganization
-            Session["SelectedSuborganization"] = Request["suborg"];
+            Session[Constants.Fields.SelectedSuborganization] = Request["suborg"];
+            Session[Constants.Fields.SelectedNavSuborganization] = Request["suborg"];
 
             if (viewModel.SubOrganizationModel == null)
             {

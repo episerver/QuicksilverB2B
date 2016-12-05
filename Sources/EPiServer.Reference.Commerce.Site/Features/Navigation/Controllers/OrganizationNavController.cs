@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 using EPiServer.Core;
-using EPiServer.Reference.Commerce.Site.B2B.Enums;
+using EPiServer.Reference.Commerce.Site.B2B;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using EPiServer.Reference.Commerce.Site.Features.Navigation.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
@@ -23,11 +23,20 @@ namespace EPiServer.Reference.Commerce.Site.Features.Navigation.Controllers
         // GET: OrganizationNav
         public ActionResult OrgNavigation()
         {
+            if (Request["suborg"] == null)
+            {
+                //Clear selected suborganization
+                Session[Constants.Fields.SelectedSuborganization] = "";
+            }
+
             var model = new OrgNavigationViewModel
             {
                 Organization = _customerService.CanSeeOrganizationNav()
                     ? _organizationService.GetCurrentUserOrganization()
-                    : null
+                    : null,
+                CurrentOrganization = !string.IsNullOrEmpty(Session[Constants.Fields.SelectedSuborganization]?.ToString())
+                    ? _organizationService.GetSubOrganizationById(Session[Constants.Fields.SelectedSuborganization].ToString())
+                    : _organizationService.GetCurrentUserOrganization()
             };
 
             StartPage startPage = _contentLoader.Get<StartPage>(ContentReference.StartPage);

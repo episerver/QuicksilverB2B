@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using EPiServer.Reference.Commerce.Site.B2B;
+using EPiServer.Commerce.Order;
 using EPiServer.Reference.Commerce.Site.B2B.Enums;
+using EPiServer.Reference.Commerce.Site.B2B.Extensions;
 using EPiServer.Reference.Commerce.Site.B2B.Models.Entities;
 using EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
@@ -15,6 +16,7 @@ namespace EPiServer.Reference.Commerce.BudgetPayment
     {
         private static Injected<IBudgetService> _budgetService;
         private static Injected<ICustomerService> _customerService;
+        private static Injected<IOrdersService> _ordersService;
         public override bool ProcessPayment(Payment payment, ref string message)
         {
             if (payment?.Parent?.Parent == null)
@@ -23,14 +25,30 @@ namespace EPiServer.Reference.Commerce.BudgetPayment
                 return false;
             }
 
-            var customer = _customerService.Service.GetContactById(payment.Parent.Parent.CustomerId.ToString());
-            if (customer == null || customer.Role != B2BUserRoles.Purchaser)
+            var currentOrder = payment.Parent.Parent;
+            var customer = _customerService.Service.GetContactById(currentOrder.CustomerId.ToString());
+            if (customer == null)
+            {
+                message = "Failed to process your payment.";
+                return false;
+            }
+            var isQuoteOrder = currentOrder.IsQuoteCart();
+            if (isQuoteOrder)
+            {
+                if (customer.Role != B2BUserRoles.Approver)
+                {
+                    message = "Failed to process your payment.";
+                    return false;
+                }
+            }
+            else if (customer.Role != B2BUserRoles.Purchaser)
             {
                 message = "Failed to process your payment.";
                 return false;
             }
 
-            var budget = _budgetService.Service.GetCustomerCurrentBudget(customer.Organization.OrganizationId, customer.ContactId);
+            var purchaserCustomer = !isQuoteOrder ? customer : _ordersService.Service.GetPurchaserCustomer(currentOrder);
+            var budget = _budgetService.Service.GetCustomerCurrentBudget(purchaserCustomer.Organization.OrganizationId, purchaserCustomer.ContactId);
             if (budget == null || budget.RemainingBudget < payment.Amount)
             {
                 message = "Insufficient budget.";
@@ -39,7 +57,7 @@ namespace EPiServer.Reference.Commerce.BudgetPayment
 
             if (payment.TransactionType == TransactionType.Capture.ToString())
             {
-                UpdateUserBudgets(customer, payment.Amount);
+                UpdateUserBudgets(purchaserCustomer, payment.Amount);
             }
             return true;
         }

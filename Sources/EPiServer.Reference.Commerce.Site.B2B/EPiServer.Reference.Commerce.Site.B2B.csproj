@@ -312,6 +312,7 @@
     <Compile Include="DomainServices\OrganizationDomainService.cs" />
     <Compile Include="Enums\UserRoles.cs" />
     <Compile Include="Extensions\EntityObjectExtensions.cs" />
+    <Compile Include="Extensions\OrderGroupExtensions.cs" />
     <Compile Include="Filters\NavigationAuthorize.cs" />
     <Compile Include="Jobs\UsersIndexJob.cs" />
     <Compile Include="Models\Contact\B2BAddress.cs" />

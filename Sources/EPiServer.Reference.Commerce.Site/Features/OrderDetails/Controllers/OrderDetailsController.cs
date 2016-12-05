@@ -16,11 +16,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderDetails.Controllers
     {
         private readonly IAddressBookService _addressBookService;
         private readonly IOrdersService _ordersService;
+        private readonly ICustomerService _customerService;
 
-        public OrderDetailsController(IAddressBookService addressBookService, IOrdersService ordersService)
+        public OrderDetailsController(IAddressBookService addressBookService, IOrdersService ordersService, ICustomerService customerService)
         {
             _addressBookService = addressBookService;
             _ordersService = ordersService;
+            _customerService = customerService;
         }
 
         [HttpGet]
@@ -28,7 +30,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderDetails.Controllers
         {
             var orderViewModel = new OrderDetailsViewModel
             {
-                CurrentPage = currentPage
+                CurrentPage = currentPage,
+                CurrentCustomer = _customerService.GetCurrentContact()
             };
 
             var purchaseOrder = OrderContext.Current.GetPurchaseOrderById(orderGroupId);

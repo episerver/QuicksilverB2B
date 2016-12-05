@@ -65,13 +65,6 @@
 
                                 </tbody>
                             </table>
-                            @if (order.QuoteStatus != null && order.QuoteStatus.Equals("RequestQuotationFinished"))
-                            {
-                                using (@Html.BeginForm("LoadOrder", "Checkout", FormMethod.Post))
-                                {
-                                    <button type="button" class="btn btn-danger btn-empty jsCartLoadOrder" aria-expanded="false" data-order-link="@order.OrderGroupId">@Html.Translate("/Header/MiniCart/Button/GoToCheckout")</button>
-                                }
-                            }
                         </div>
 
                     </div>

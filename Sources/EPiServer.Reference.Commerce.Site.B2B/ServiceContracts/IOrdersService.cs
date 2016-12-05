@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using EPiServer.Commerce.Order;
 using EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels;
+using Mediachase.Commerce.Orders;
 
 namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
 {
@@ -10,5 +11,6 @@ namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
         List<OrderOrganizationViewModel> GetUserOrders(Guid userGuid);
         IPayment GetOrderBudgetPayment(IPurchaseOrder purchaseOrder);
         void ApproveOrder(int orderGroupId);
+        ContactViewModel GetPurchaserCustomer(OrderGroup order);
     }
 }

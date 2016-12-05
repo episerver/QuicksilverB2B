@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using EPiServer.Commerce.Order;
+using EPiServer.Reference.Commerce.Site.B2B.DomainServiceContracts;
+using EPiServer.Reference.Commerce.Site.B2B.Extensions;
 using EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using EPiServer.ServiceLocation;
@@ -13,57 +15,66 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
     public class OrdersService : IOrdersService
     {
         private readonly IOrderRepository _orderRepository;
-        public OrdersService(IOrderRepository orderRepository)
+        private readonly ICustomerDomainService _customerDomainService;
+
+        public OrdersService(IOrderRepository orderRepository, ICustomerDomainService customerDomainService)
         {
             _orderRepository = orderRepository;
+            _customerDomainService = customerDomainService;
         }
+
         public List<OrderOrganizationViewModel> GetUserOrders(Guid userGuid)
         {
-            var iPurchaseOrders = _orderRepository.Load<IPurchaseOrder>(userGuid)
-                                 .OrderByDescending(x => x.Created)
-                                 .ToList();
+            var purchaseOrders = OrderContext.Current.GetPurchaseOrders(userGuid)
+                                             .OrderByDescending(x => x.Created)
+                                             .ToList();
             var ordersOrganization = new List<OrderOrganizationViewModel>();
 
-            foreach (var purchaseOrder in iPurchaseOrders)
+            foreach (var purchaseOrder in purchaseOrders)
             {
                 var orderViewModel = new OrderOrganizationViewModel
                 {
-                    OrderNumber = purchaseOrder.OrderNumber,
-                    OrderGroupId = purchaseOrder.OrderLink.OrderGroupId,
+                    OrderNumber = purchaseOrder.TrackingNumber,
+                    OrderGroupId = purchaseOrder.OrderGroupId,
                     PlacedOrderDate = purchaseOrder.Created.ToString("yyyy MMMM dd"),
                     Ammount = purchaseOrder.GetTotal().Amount.ToString("F"),
-                    Currency = purchaseOrder.Currency.CurrencyCode,
+                    Currency = purchaseOrder.BillingCurrency,
                     User = "",
-                    Status = purchaseOrder.OrderStatus.ToString(),
+                    Status = purchaseOrder.Status,
                     SubOrganization = "",
                     IsPaymentApproved = false
                 };
-
-                if (purchaseOrder.Properties[Constants.Customer.CurrentCustomerOrganization] != null)
+                if (purchaseOrder[Constants.Customer.CurrentCustomerOrganization] != null)
                 {
                     orderViewModel.SubOrganization =
-                        purchaseOrder.Properties[Constants.Customer.CurrentCustomerOrganization].ToString();
+                        purchaseOrder[Constants.Customer.CurrentCustomerOrganization].ToString();
                 }
-                if (purchaseOrder.Properties[Constants.Customer.CustomerFullName] != null)
+                if (purchaseOrder[Constants.Customer.CustomerFullName] != null)
                 {
                     orderViewModel.User =
-                        purchaseOrder.Properties[Constants.Customer.CustomerFullName].ToString();
+                        purchaseOrder[Constants.Customer.CustomerFullName].ToString();
                 }
-                var budgetPayment = GetOrderBudgetPayment(purchaseOrder);
-                orderViewModel.IsOrganizationOrder = budgetPayment != null;
-                if (budgetPayment != null)
-                    orderViewModel.IsPaymentApproved = orderViewModel.IsOrganizationOrder && budgetPayment.TransactionType.Equals(TransactionType.Capture.ToString());
 
-                if (!string.IsNullOrEmpty(purchaseOrder.Properties[Constants.Quote.QuoteStatus]?.ToString()) &&
-                        (purchaseOrder.OrderStatus == OrderStatus.InProgress || purchaseOrder.OrderStatus == OrderStatus.OnHold))
+                if (!string.IsNullOrEmpty(purchaseOrder[Constants.Quote.QuoteStatus]?.ToString()) &&
+                        (purchaseOrder.Status == OrderStatus.InProgress.ToString() || purchaseOrder.Status == OrderStatus.OnHold.ToString()))
                 {
-                    orderViewModel.Status = purchaseOrder.Properties[Constants.Quote.QuoteStatus].ToString();
+                    orderViewModel.Status = purchaseOrder[Constants.Quote.QuoteStatus].ToString();
                     DateTime quoteExpireDate;
-                    DateTime.TryParse(purchaseOrder.Properties[Constants.Quote.QuoteExpireDate].ToString(), out quoteExpireDate);
+                    DateTime.TryParse(purchaseOrder[Constants.Quote.QuoteExpireDate].ToString(), out quoteExpireDate);
                     if (DateTime.Compare(DateTime.Now, quoteExpireDate) > 0)
                     {
                         orderViewModel.Status = Constants.Quote.QuoteExpired;
                     }
+                    orderViewModel.IsQuoteOrder = true;
+                }
+                var budgetPayment = GetOrderBudgetPayment(purchaseOrder);
+                orderViewModel.IsOrganizationOrder = budgetPayment != null || orderViewModel.IsQuoteOrder;
+                if (budgetPayment != null)
+                {
+                    orderViewModel.IsPaymentApproved = orderViewModel.IsOrganizationOrder && budgetPayment.TransactionType.Equals(TransactionType.Capture.ToString());
+                    orderViewModel.Status = orderViewModel.IsPaymentApproved
+                        ? orderViewModel.Status
+                        : Constants.Order.PendingApproval;
                 }
 
                 ordersOrganization.Add(orderViewModel);
@@ -97,5 +108,23 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             budgetPayment.AcceptChanges();
             purchaseOrder.ProcessPayments();
         }
+
+        public ContactViewModel GetPurchaserCustomer(OrderGroup order)
+        {
+            if (order == null)
+            {
+                return null;
+            }
+            if (!order.IsQuoteCart())
+            {
+                return new ContactViewModel(_customerDomainService.GetContactById(order.CustomerId.ToString()));
+            }
+
+            var parentOrder = _orderRepository.Load<PurchaseOrder>(order.GetParentOrderId());
+            return parentOrder != null
+                ? new ContactViewModel(_customerDomainService.GetContactById(parentOrder.CustomerId.ToString()))
+                : null;
+        }
+
     }
 }

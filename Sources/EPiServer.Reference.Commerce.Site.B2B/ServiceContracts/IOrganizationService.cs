@@ -10,5 +10,6 @@ namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
         void CreateSubOrganization(SubOrganizationModel newSubOrganization);
         SubOrganizationModel GetSubOrganizationById(string subOrganizationId);
         void UpdateSubOrganization(SubOrganizationModel subOrganizationModel);
+        string GetUserCurrentOrganizationLocation();
     }
 }

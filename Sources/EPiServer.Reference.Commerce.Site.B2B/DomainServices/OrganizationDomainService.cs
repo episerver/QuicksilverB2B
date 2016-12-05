@@ -11,7 +11,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.DomainServices
     {
         public B2BOrganization GetCurrentUserOrganizationEntity()
         {
-            return CustomerContext.Current.CurrentContact.ContactOrganization != null
+            return CustomerContext.Current.CurrentContact != null && CustomerContext.Current.CurrentContact.ContactOrganization != null
                 ? new B2BOrganization(CustomerContext.Current.CurrentContact.ContactOrganization)
                 : null;
         }

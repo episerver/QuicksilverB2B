@@ -9,6 +9,8 @@ using Mediachase.Commerce;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
+using EPiServer.Reference.Commerce.Site.B2B;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Start.Controllers
 {
@@ -16,17 +18,18 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Controllers
     {
         private readonly IContentLoader _contentLoader;
         private readonly ICurrentMarket _currentMarket;
-
+        private readonly IOrganizationService _organizationService;
         private readonly MarketContentLoader _marketContentFilter;
 
         public StartController(
             IContentLoader contentLoader,
             ICurrentMarket currentMarket,
+            IOrganizationService organizationService,
             MarketContentLoader marketContentFilter)
         {
             _contentLoader = contentLoader;
             _currentMarket = currentMarket;
-
+            _organizationService = organizationService;
             _marketContentFilter = marketContentFilter;
         }
 
@@ -37,6 +40,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Controllers
                 StartPage = currentPage,
                 Promotions = GetActivePromotions()
             };
+            var marketId = _organizationService.GetUserCurrentOrganizationLocation();
+            bool isMarketOverwrited;
+            bool.TryParse(Session[Constants.Fields.OverwritedMarket]?.ToString(),out isMarketOverwrited);
+            if (!string.IsNullOrEmpty(marketId) && !isMarketOverwrited)
+                _currentMarket.SetCurrentMarket(marketId);
 
             return View(model);
         }
@@ -51,7 +59,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Controllers
             var promotions = new List<PromotionViewModel>();
 
             var promotionItemGroups = _marketContentFilter.GetPromotionItemsForMarket(_currentMarket.GetCurrentMarket()).GroupBy(x => x.Promotion);
-
+            var curentMarketCode = _currentMarket.GetCurrentMarket().MarketId;
             foreach (var promotionGroup in promotionItemGroups)
             {
                 var promotionItems = promotionGroup.First();
@@ -60,7 +68,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Controllers
                     Name = promotionGroup.Key.Name,
                     BannerImage = promotionGroup.Key.Banner,
                     SelectionType = promotionItems.Condition.Type,
-                    Items = GetProductsForPromotion(promotionItems).Take(3)
+                    Items = GetProductsForPromotion(promotionItems).Take(3).Where(item => item.GetPropertyValue("MarketFilter") != curentMarketCode)
                 });
             }
 

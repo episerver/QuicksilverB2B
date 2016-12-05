@@ -244,6 +244,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapters\B2BAdapters.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="CustomerProcessors\B2BPlacedPriceProcessor.cs" />
     <Compile Include="DomainServiceContracts\IBudgetDomainService.cs" />

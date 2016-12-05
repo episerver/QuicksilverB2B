@@ -545,7 +545,6 @@
     <Compile Include="Features\Product\Services\IProductService.cs" />
     <Compile Include="Features\Product\Models\FashionProduct.cs" />
     <Compile Include="Features\Market\Controllers\MarketController.cs" />
-    <Compile Include="Features\Market\Services\CurrentMarket.cs" />
     <Compile Include="Features\Market\ViewModels\MarketViewModel.cs" />
     <Compile Include="Features\Product\ViewModels\ProductViewModel.cs" />
     <Compile Include="Features\Product\Services\ProductService.cs" />

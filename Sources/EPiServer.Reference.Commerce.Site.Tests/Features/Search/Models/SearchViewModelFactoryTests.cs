@@ -9,6 +9,7 @@ using Mediachase.Search;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;
+using Mediachase.Commerce;
 using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
@@ -126,6 +127,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
         SearchViewModelFactory _subject;
         Mock<ISearchService> _searchServiceMock;
         Mock<ISearchResults> _searchResultsMock;
+        Mock<ICurrentMarket> _marketServiceMock;
         IEnumerable<ProductViewModel> _productViewModels = Enumerable.Empty<ProductViewModel>();
         ISearchFacetGroup[] _facetGroups = new ISearchFacetGroup[0];
 
@@ -133,6 +135,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
         {
             _searchServiceMock = new Mock<ISearchService>();
             _searchResultsMock = new Mock<ISearchResults>();
+            _marketServiceMock = new Mock<ICurrentMarket>();
 
             _searchResultsMock
                 .Setup(s => s.FacetGroups)
@@ -145,7 +148,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
                     ProductViewModels = _productViewModels,
                     SearchResult = _searchResultsMock.Object});
 
-            _subject = new SearchViewModelFactory(new MemoryLocalizationService(), _searchServiceMock.Object);
+            _subject = new SearchViewModelFactory(new MemoryLocalizationService(), _searchServiceMock.Object, _marketServiceMock.Object);
         }
     }
 }

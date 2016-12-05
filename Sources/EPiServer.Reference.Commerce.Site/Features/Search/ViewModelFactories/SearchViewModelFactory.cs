@@ -5,6 +5,7 @@ using EPiServer.Framework.Localization;
 using Mediachase.Search;
 using EPiServer.Reference.Commerce.Site.Features.Search.Services;
 using EPiServer.Reference.Commerce.Site.Features.Search.ViewModels;
+using Mediachase.Commerce;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories
 {
@@ -12,11 +13,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories
     {
         private readonly ISearchService _searchService;
         private readonly LocalizationService _localizationService;
+        private readonly ICurrentMarket _currentMarket;
 
-        public SearchViewModelFactory(LocalizationService localizationService, ISearchService searchService)
+        public SearchViewModelFactory(LocalizationService localizationService, ISearchService searchService, ICurrentMarket currentMarket)
         {
             _searchService = searchService;
             _localizationService = localizationService;
+            _currentMarket = currentMarket;
         }
 
         public virtual SearchViewModel<T> Create<T>(T currentContent, FilterOptionViewModel viewModel) where T : IContent
@@ -43,6 +46,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories
                 Value = x.Name.ToString(),
                 Selected = string.Equals(x.Name.ToString(), viewModel.Sort)
             });
+            var currentMarketCode = _currentMarket.GetCurrentMarket().MarketId;
+            customSearchResult.ProductViewModels =
+                customSearchResult.ProductViewModels.Where(item => item.IsAvailable);
 
             return new SearchViewModel<T>
             {

@@ -9,5 +9,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Profile.ViewModels
     {
         public ContactViewModel Contact { get; set; }
         public ContentReference OrganizationPage { get; set; }
+        public BudgetViewModel CurrentPersonalBudget { get; set; }
     }
 }

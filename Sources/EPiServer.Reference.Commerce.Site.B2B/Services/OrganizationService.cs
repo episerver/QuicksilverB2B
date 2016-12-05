@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using EPiServer.Reference.Commerce.Site.B2B.Adapters;
 using EPiServer.Reference.Commerce.Site.B2B.DomainServiceContracts;
 using EPiServer.Reference.Commerce.Site.B2B.Enums;
 using EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels;
@@ -99,5 +101,14 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
                 _addressService.UpdateOrganizationAddress(organization, location);
             }
         }
+
+        public string GetUserCurrentOrganizationLocation()
+        {
+            var currentOrganization = _organizationDomainService.GetCurrentUserOrganizationEntity();
+            if (currentOrganization == null) return string.Empty;
+
+            return B2BAdapters.MarketCodeAdapter(currentOrganization.Addresses.FirstOrDefault().CountryCode);
+        }
+
     }
 }

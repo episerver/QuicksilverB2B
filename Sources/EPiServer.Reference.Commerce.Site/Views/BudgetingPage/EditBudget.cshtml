@@ -25,15 +25,15 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2">Allocated</label>
-                            <input id="amount" type="text" class="form-control" value="@Model.NewBudgetOption.Amount"/>
+                            <input id="amount" type="text" class="form-control" value="@Model.NewBudgetOption.Amount.ToString("F")"/>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2">Spent budget</label>
-                            <input type="text" class="form-control" value="@Model.NewBudgetOption.SpentBudget" disabled/>
+                            <input type="text" class="form-control" value="@Model.NewBudgetOption.SpentBudget.ToString("F")" disabled/>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2">Remaining</label>
-                            <input type="text" class="form-control" value="@(Model.NewBudgetOption.Amount - Model.NewBudgetOption.SpentBudget)" disabled/>
+                            <input type="text" class="form-control" value="@Model.NewBudgetOption.RemainingBudget.ToString("F")" disabled/>
                             <small class="col-sm-offset-2">Calculated based on start date / end date.</small>
                         </div>
                         <div class="form-group">

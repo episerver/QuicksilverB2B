@@ -54,7 +54,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
         {
             var services = context.Services;
 
-            services.AddSingleton<ICurrentMarket, CurrentMarket>();
+            services.AddSingleton<ICurrentMarket, B2BCurrentMarket>();
 
             //Register for auto injection of edit mode check, should be default life cycle (per request to service locator)
             services.AddTransient<IsInEditModeAccessor>(locator => () => PageEditing.PageIsInEditMode);

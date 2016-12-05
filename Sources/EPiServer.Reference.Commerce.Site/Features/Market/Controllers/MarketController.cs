@@ -8,6 +8,7 @@ using Mediachase.Commerce;
 using Mediachase.Commerce.Markets;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Market.ViewModels;
+using EPiServer.Reference.Commerce.Site.B2B;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Market.Controllers
 {
@@ -61,7 +62,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Controllers
             _currentMarket.SetCurrentMarket(newMarketId);
             var currentMarket = _marketService.GetMarket(newMarketId);
             var cart = _cartService.LoadCart(_cartService.DefaultCartName);
-
+            Session[Constants.Fields.OverwritedMarket] = true;
             if (cart != null && cart.Currency != null)
             {
                 _currencyService.SetCurrentCurrency(cart.Currency);

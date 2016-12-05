@@ -8,7 +8,7 @@ using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using Mediachase.Commerce;
 using Moq;
 using System.Linq;
-using EPiServer.Framework.Localization;
+using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
@@ -58,6 +58,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
 
         private Mock<IContentLoader> _contentLoaderMock;
         private Mock<ICurrentMarket> _currentMarketMock;
+        private Mock<IOrganizationService> _organizationServiceMock;
 
         private Mock<MarketContentLoader> _marketContentLoaderMock;
         private Mock<PromotionProcessorResolver> _promotionProcessorResolverMock;
@@ -66,11 +67,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
         {
             _contentLoaderMock = new Mock<IContentLoader>();
             _currentMarketMock = new Mock<ICurrentMarket>();
+            _organizationServiceMock = new Mock<IOrganizationService>();
 
             _promotionProcessorResolverMock = new Mock<PromotionProcessorResolver>(null, null, null);
             _marketContentLoaderMock = new Mock<MarketContentLoader>(_contentLoaderMock.Object, It.IsAny<CampaignInfoExtractor>(), _promotionProcessorResolverMock.Object);
 
-            return new StartControllerForTest(_contentLoaderMock.Object, _currentMarketMock.Object, _marketContentLoaderMock.Object);
+            return new StartControllerForTest(_contentLoaderMock.Object, _currentMarketMock.Object, _organizationServiceMock.Object, _marketContentLoaderMock.Object);
         }
 
         private class StartControllerForTest : StartController
@@ -78,8 +80,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Start.Controllers
             public StartControllerForTest(
                 IContentLoader contentLoader,
                 ICurrentMarket currentMarket,
+                IOrganizationService organizationService,
                 MarketContentLoader marketContentLoader)
-                : base(contentLoader, currentMarket, marketContentLoader)
+                : base(contentLoader, currentMarket, organizationService, marketContentLoader)
             { }
 
             protected override ContentReference GetCampaignRoot()

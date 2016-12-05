@@ -1,6 +1,4 @@
-﻿using EPiServer.Commerce.Order;
-
-namespace EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels
+﻿namespace EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels
 {
     public class OrderOrganizationViewModel
     {
@@ -14,5 +12,6 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels
         public int OrderGroupId { get; set; }
         public bool IsOrganizationOrder { get; set; }
         public bool IsPaymentApproved { get; set; }
+        public bool IsQuoteOrder { get; set; }
     }
 }

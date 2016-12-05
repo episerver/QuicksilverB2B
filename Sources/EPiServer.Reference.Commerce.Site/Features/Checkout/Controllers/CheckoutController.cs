@@ -32,6 +32,7 @@ using System.Web.Mvc;
 using EPiServer.Logging;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using EPiServer.Reference.Commerce.Site.B2B;
+using EPiServer.Reference.Commerce.Site.B2B.Extensions;
 using Mediachase.Commerce.Customers;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
@@ -521,6 +522,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             var payment = paymentViewModel.PaymentMethod.CreatePayment(total.Amount);
             Cart.AddPayment(payment, _orderFactory);
             payment.BillingAddress = address;
+
+            if (Cart.IsQuoteCart())
+            {
+                payment.TransactionType = TransactionType.Capture.ToString();
+            }
         }
 
         private ViewResult View(CheckoutViewModel checkoutViewModel, IPaymentMethodViewModel<PaymentMethodBase> paymentViewModel)

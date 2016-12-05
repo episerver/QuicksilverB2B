@@ -1,5 +1,6 @@
 ﻿@using System.Web.Mvc.Html
 @using EPiServer.Commerce.Order
+@using EPiServer.Reference.Commerce.Site.B2B.Enums
 @using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 @model EPiServer.Reference.Commerce.Site.Features.OrderDetails.ViewModels.OrderDetailsViewModel
 @if (Model.PurchaseOrder != null)
@@ -12,7 +13,7 @@
             <p>
                 @Html.Translate("/OrderHistory/Labels/OrderDate") @Model.PurchaseOrder.Created.ToLongDateString()
                 <br/>
-                @Html.Translate("/OrderHistory/Labels/Status") <strong>@(Model.QuoteStatus ?? Model.PurchaseOrder.OrderStatus.ToString())</strong>
+                @Html.Translate("/OrderHistory/Labels/Status") <strong>@(Model.OrderStatus)</strong>
                 <br/>
                 @Html.Translate("/OrderHistory/Labels/Payment")
                 @if (orderForm.Payments.Any())
@@ -54,7 +55,7 @@
                 }
                 </tbody>
             </table>
-            @if (Model.IsOrganizationOrder)
+            @if (Model.IsOrganizationOrder && Model.CurrentCustomer.Role == B2BUserRoles.Approver)
             {
                  if (Model.QuoteStatus != null && Model.QuoteStatus.Equals("RequestQuotationFinished"))
                  {

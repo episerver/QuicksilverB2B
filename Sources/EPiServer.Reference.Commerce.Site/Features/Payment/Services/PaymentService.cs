@@ -4,9 +4,12 @@ using Mediachase.Commerce.Orders.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EPiServer.Commerce.Order;
 using EPiServer.Reference.Commerce.Site.B2B;
 using EPiServer.Reference.Commerce.Site.B2B.Enums;
+using EPiServer.Reference.Commerce.Site.B2B.Extensions;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
+using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Payment.Services
 {
@@ -14,9 +17,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.Services
     public class PaymentService : IPaymentService
     {
         private readonly ICustomerService _customerService;
-        public PaymentService(ICustomerService customerService)
+        private readonly ICartService _cartService;
+        public PaymentService(ICustomerService customerService, ICartService cartService)
         {
             _customerService = customerService;
+            _cartService = cartService;
         }
 
         public IEnumerable<PaymentMethodModel> GetPaymentMethodsByMarketIdAndLanguageCode(string marketId, string languageCode)
@@ -35,6 +40,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.Services
                 });
 
             var currentContact = _customerService.GetCurrentContact();
+            ICart cart = _cartService.LoadCart(_cartService.DefaultCartName);
+            if (cart.IsQuoteCart() && currentContact.Role == B2BUserRoles.Approver)
+            {
+                return methods.Where(payment => payment.SystemName.Equals(Constants.Order.BudgetPayment));
+            }
             if (currentContact != null && currentContact.Role == B2BUserRoles.Purchaser)
             {
                 return methods;

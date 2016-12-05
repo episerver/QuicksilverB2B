@@ -10,9 +10,9 @@
 
     function onChooseEvent() {
         var selectedItem = $autocompleteInput.getSelectedItemData();
-        $firstName.val(selectedItem.firstname);
-        $lastName.val(selectedItem.lastname);
-        $userEmail.val(selectedItem.email);
+        $firstName.val(selectedItem.FirstName);
+        $lastName.val(selectedItem.LastName);
+        $userEmail.val(selectedItem.Email);
         $searchIcon.hide();
         $resetIcon.show();
     }
@@ -43,7 +43,7 @@
             url: function (phrase) {
                 return "/UsersPage/GetUsers?query=" + phrase;
             },
-            getValue: "fullname",
+            getValue: "FullName",
             list: {
                 match: {
                     enabled: true
@@ -73,7 +73,7 @@ var viewUsersAutocompleteComponent = function () {
 
     function onChooseEvent() {
         var selectedItem = $autocompleteInput.getSelectedItemData();
-        var $rowToHide = $usersTable.find('a[data-user="' + selectedItem.fullname + '"]');
+        var $rowToHide = $usersTable.find('a[data-user="' + selectedItem.FullName + '"]');
         $rowToHide.parents('tr').siblings().hide();
         $searchIcon.hide();
         $resetIcon.show();
@@ -100,7 +100,7 @@ var viewUsersAutocompleteComponent = function () {
             url: function (phrase) {
                 return "/UsersPage/GetUsers?query=" + phrase;
             },
-            getValue: "fullname",
+            getValue: "FullName",
             list: {
                 match: {
                     enabled: true
@@ -154,6 +154,7 @@ $("#select-suborganization").change(function () {
 });
 
 $(document).ready(function () {
+    $("#select-role").change();
     $("#select-suborganization").change();
 });
 

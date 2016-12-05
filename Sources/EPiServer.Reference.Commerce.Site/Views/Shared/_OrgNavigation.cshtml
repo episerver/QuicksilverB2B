@@ -9,18 +9,18 @@
         <li role="presentation">
             @if (Model.Organization.ParentOrganizationId != Guid.Empty)
             {
-                <a href="@(Url.ContentUrl(Model.OrganizationPage))" class="" aria-expanded="">@Model.Organization.ParentOrganization.Name</a>
+                <a href="@(Url.ContentUrl(Model.OrganizationPage))" class="@(Model.CurrentOrganization.Name == Model.Organization.ParentOrganization.Name ? "highlighted":"")" aria-expanded="">@Model.Organization.ParentOrganization.Name</a>
                 <ul class="nav nav-stacked" role="tablist">
-                    <li><a href="@(Url.ContentUrl(Model.SubOrganizationPage))?suborg=@(Model.Organization.OrganizationId)" class="" aria-expanded="">@Model.Organization.Name</a></li>
+                    <li><a href="@(Url.ContentUrl(Model.SubOrganizationPage))?suborg=@(Model.Organization.OrganizationId)" class="@(Model.CurrentOrganization.Name == Model.Organization.Name ? "highlighted":"")" aria-expanded="">@Model.Organization.Name</a></li>
                 </ul>
             }
             else
             {
-                <a href="@(Url.ContentUrl(Model.OrganizationPage))" class="" aria-expanded="">@Model.Organization.Name</a>
+                <a href="@(Url.ContentUrl(Model.OrganizationPage))" class="@(Model.CurrentOrganization.Name == Model.Organization.Name ? "highlighted":"")" aria-expanded="">@Model.Organization.Name</a>
                 <ul class="nav nav-stacked" role="tablist">
                     @foreach (var subOrganization in Model.Organization.SubOrganizations)
                     {
-                        <li><a href="@(Url.ContentUrl(Model.SubOrganizationPage))?suborg=@(subOrganization.OrganizationId)" class="" aria-expanded="">@subOrganization.Name</a></li>
+                        <li><a href="@(Url.ContentUrl(Model.SubOrganizationPage))?suborg=@(subOrganization.OrganizationId)" class="@(Model.CurrentOrganization.Name == @subOrganization.Name ? "highlighted":"")" aria-expanded="">@subOrganization.Name</a></li>
                     }
                 </ul>
             }

@@ -13,6 +13,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Facades
     {
         public enum SearchProviderType
         {
+            Find,
             Lucene,
             Unknown
         }
@@ -65,14 +66,22 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Facades
             }
 
             var providerType = Type.GetType(element.Providers[element.DefaultProvider].Type);
-            var baseType = Type.GetType("Mediachase.Search.Providers.Lucene.LuceneSearchProvider, Mediachase.Search.LuceneSearchProvider");
-            if (providerType == null || baseType == null)
+            var luceneType = Type.GetType("Mediachase.Search.Providers.Lucene.LuceneSearchProvider, Mediachase.Search.LuceneSearchProvider");
+            var findType = Type.GetType("EPiServer.Commerce.FindSearchProvider.FindSearchProvider, EPiServer.Commerce.FindSearchProvider");
+            
+            if (providerType == null || luceneType == null || findType == null)
             {
                 return SearchProviderType.Unknown;
             }
-            if (providerType == baseType || providerType.IsSubclassOf(baseType))
+
+            if (providerType == luceneType || providerType.IsSubclassOf(luceneType))
             {
                 return SearchProviderType.Lucene;
+            }
+
+            if (providerType == findType || providerType.IsSubclassOf(findType))
+            {
+                return SearchProviderType.Find;
             }
 
             return SearchProviderType.Unknown;

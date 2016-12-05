@@ -51,6 +51,9 @@ namespace EPiServer.Reference.Commerce.Site.B2B.DomainServices
             return contact;
         }
 
+        public IEnumerable<B2BContact> GetContacts()
+            => CustomerContext.Current.GetContacts().Select(c => new B2BContact(c));
+
         public CustomerContact GetCustomerByEmail(string email)
         {
             return CustomerContext.Current.GetContacts().FirstOrDefault(user => user.Email == email);

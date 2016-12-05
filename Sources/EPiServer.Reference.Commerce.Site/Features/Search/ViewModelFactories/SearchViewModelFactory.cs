@@ -48,7 +48,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories
             });
             var currentMarketCode = _currentMarket.GetCurrentMarket().MarketId;
             customSearchResult.ProductViewModels =
-                customSearchResult.ProductViewModels.Where(item => item.IsAvailable);
+                customSearchResult.ProductViewModels.Where(item => item.MarketFilter != currentMarketCode);
 
             return new SearchViewModel<T>
             {

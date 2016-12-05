@@ -258,7 +258,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
         {
             var market = _currentMarket.GetCurrentMarket();
             var currency = _currencyService.GetCurrentCurrency();
-            
             return searchResult.Documents.Select(document => new ProductViewModel
             {
                 Brand = GetString(document, "brand"),
@@ -268,8 +267,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
                 DiscountedPrice = new Money(GetDecimal(document, IndexingHelper.GetPriceField(market.MarketId, currency)), currency),
                 ImageUrl = GetString(document, "image_url"),
                 Url = _urlResolver.GetUrl(ContentReference.Parse(GetString(document, "content_link"))),
-                IsAvailable = GetDecimal(document, IndexingHelper.GetOriginalPriceField(market.MarketId, currency)) > 0               
-            });
+                IsAvailable = GetDecimal(document, IndexingHelper.GetOriginalPriceField(market.MarketId, currency)) > 0,
+                MarketFilter = GetString(searchResult.Documents.ElementAt(0), "MarketFilter")
+        });
         }
         
         private static string GetString(ISearchDocument document, string name)

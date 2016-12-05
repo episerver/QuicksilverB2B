@@ -13,6 +13,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModels
         public Money PlacedPrice { get; set; }
         public string Code { get; set; }
         public bool IsAvailable { get; set; }
-        //public string MarketFilter { get; set; }
+        public string MarketFilter { get; set; }
     }
 }

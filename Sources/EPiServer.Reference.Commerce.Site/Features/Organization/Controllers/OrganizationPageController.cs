@@ -34,6 +34,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
         {
             //Clear selected suborganization
             Session[Constants.Fields.SelectedSuborganization] = "";
+            Session[Constants.Fields.SelectedNavSuborganization] = "";
 
             if (Request.QueryString["showForm"] != null && bool.Parse(Request.QueryString["showForm"]))
             {

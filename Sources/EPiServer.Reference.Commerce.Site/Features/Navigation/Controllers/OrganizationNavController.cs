@@ -23,12 +23,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Navigation.Controllers
         // GET: OrganizationNav
         public ActionResult OrgNavigation()
         {
-            if (Request["suborg"] == null)
-            {
-                //Clear selected suborganization
-                Session[Constants.Fields.SelectedNavSuborganization] = "";
-            }
-
             var model = new OrgNavigationViewModel
             {
                 Organization = _customerService.CanSeeOrganizationNav()

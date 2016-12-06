@@ -14,8 +14,34 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Adapters
             {
                 case "USA":
                     return "US";
-                case "ES":
+                case "GBR":
+                    return "UK";
+                case "ESP":
                     return "ESP";
+                case "AFG":
+                    return "AF";
+                case "ALB":
+                    return "AL";
+                case "AUS":
+                    return "AUS";
+                case "BRA":
+                    return "BRA";
+                case "CAN":
+                    return "CA";
+                case "CHL":
+                    return "CHL";
+                case "DEU":
+                    return "DEU";
+                case "JPN":
+                    return "JPN";
+                case "NLD":
+                    return "NLD";
+                case "NOR":
+                    return "NOR";
+                case "SAU":
+                    return "SAU";
+                case "SWE":
+                    return "SWE";
                 default:
                     return "US";
             }

@@ -204,8 +204,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
             //Can update bugdets of same organization as request user organization
             if (budget.OrganizationId != currentOrganization.OrganizationId && currentOrganization.SubOrganizations.All(suborg => suborg.OrganizationId != budget.OrganizationId))
                 return Json(new { success = false });
-            // Amount cannot be lower then spent amount.
-            if (budget != null && budget.SpentBudget > amount)
+            // Amount cannot be lower then spent and locked amount.
+            if (budget != null && (budget.SpentBudget + budget.LockAmount > amount))
                 return Json(new { success = false });
             try
             {
@@ -227,6 +227,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
                 _budgetService.UpdateBudget( new BudgetViewModel
                     {
                         Amount = amount,
+                        LockAmount = budget.LockAmount,
+                        RemainingBudget = budget.RemainingBudget,
+                        SpentBudget = budget.SpentBudget,
                         StartDate = startDateTime,
                         DueDate = finishDateTime,
                         Status = status,
@@ -362,6 +365,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
                 _budgetService.UpdateBudget(new BudgetViewModel
                 {
                     Amount = amount,
+                    LockAmount = budget.LockAmount,
+                    RemainingBudget = budget.RemainingBudget,
+                    SpentBudget = budget.SpentBudget,
                     StartDate = startDateTime,
                     DueDate = finishDateTime,
                     Status = status,

@@ -127,7 +127,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
                             Sku = variant.Code,
                             Size = $"{variant.Color} {variant.Size}",
                             ImageUrl = string.IsNullOrEmpty(variantImage) ? "http://placehold.it/54x54/" : variantImage,
-                            DiscountedPrice = GetDiscountPrice(defaultPrice, market, currency),
+                            DiscountedPrice = GetDiscountPrice(variantDefaultPrice, market, currency),
                             ListingPrice = variantDefaultPrice?.UnitPrice ?? new Money(0, currency)
                         };
                     }).ToList(),

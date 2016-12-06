@@ -7,29 +7,38 @@
                 @{ Html.RenderAction("Index", "B2BNavigation");}
                 <section class="spacer-bottom-l">
                     <div class="section-title spacer-bottom-l">
-                        <h2 class="h3">Organization Info</h2>
+                        @if (Model.Organization.ParentOrganizationId == Guid.Empty)
+                        {
+                            <h2 class="h3">Organization Info</h2>
+                        }
+                        else
+                        {
+                            <h2 class="h3">Suborganization Info</h2>
+                        }
                         <a href="@Url.Action("Edit", "OrganizationPage")" class="btn btn-primary btn-sm spacer-left-m">Edit</a>
                     </div>
                     <form>
                         <div class="form-group">
                             <label>Name</label>
-                            <br />
-                            <input type="text" disabled value="@Model.Organization.Name" />
+                            <br/>
+                            <input type="text" disabled value="@Model.Organization.Name"/>
                         </div>
                         <div class="form-group">
                             <label>Address</label>
-                            <br />
+                            <br/>
                             <textarea disabled>@Model.Organization.Address.Name : @Model.Organization.Address.AddressString</textarea>
                         </div>
                     </form>
                 </section>
-                <section>
-                    <div class="section-title spacer-bottom-l">
-                        <h2 class="h3">Suborganizations</h2>
-                        <a href="@Url.Action("AddSub", "OrganizationPage")" class="btn btn-primary btn-sm spacer-left-m">Add New</a>
-                    </div>
-                    <table class="table table-striped">
-                        <thead>
+                @if (Model.Organization.ParentOrganizationId == Guid.Empty)
+                {
+                    <section>
+                        <div class="section-title spacer-bottom-l">
+                            <h2 class="h3">Suborganizations</h2>
+                            <a href="@Url.Action("AddSub", "OrganizationPage")" class="btn btn-primary btn-sm spacer-left-m">Add New</a>
+                        </div>
+                        <table class="table table-striped">
+                            <thead>
                             <tr>
                                 <th>name</th>
                                 <th>spent budget</th>
@@ -38,36 +47,37 @@
                                 <th>end date</th>
                                 <th>status</th>
                             </tr>
-                        </thead>
-                        <tbody>
-                        @if (Model.Organization != null && Model.Organization.SubOrganizations != null && Model.Organization.SubOrganizations.Any())
-                        {
-                            foreach (var subOrganization in Model.Organization.SubOrganizations)
+                            </thead>
+                            <tbody>
+                            @if (Model.Organization != null && Model.Organization.SubOrganizations != null && Model.Organization.SubOrganizations.Any())
                             {
-                                <tr>
-                                    <td><a href="@(Url.ContentUrl(Model.SubOrganizationPage))?suborg=@(subOrganization.OrganizationId)">@subOrganization.Name</a></td>
-                                    @if (subOrganization.CurrentBudgetViewModel != null)
-                                    {
-                                        <td>@subOrganization.CurrentBudgetViewModel.SpentBudget @subOrganization.CurrentBudgetViewModel.Currency</td>
-                                        <td>@subOrganization.CurrentBudgetViewModel.Amount @subOrganization.CurrentBudgetViewModel.Currency</td>
-                                        <td>@subOrganization.CurrentBudgetViewModel.StartDate.ToString("MMMM dd, yyyy")</td>
-                                        <td>@subOrganization.CurrentBudgetViewModel.DueDate.ToString("MMMM dd, yyyy")</td>
-                                        <td>@subOrganization.CurrentBudgetViewModel.Status</td>
-                                    }
-                                    else
-                                    {
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                    }
-                                </tr>
+                                foreach (var subOrganization in Model.Organization.SubOrganizations)
+                                {
+                                    <tr>
+                                        <td><a href="@(Url.ContentUrl(Model.SubOrganizationPage))?suborg=@(subOrganization.OrganizationId)">@subOrganization.Name</a></td>
+                                        @if (subOrganization.CurrentBudgetViewModel != null)
+                                        {
+                                            <td>@subOrganization.CurrentBudgetViewModel.SpentBudget @subOrganization.CurrentBudgetViewModel.Currency</td>
+                                            <td>@subOrganization.CurrentBudgetViewModel.Amount @subOrganization.CurrentBudgetViewModel.Currency</td>
+                                            <td>@subOrganization.CurrentBudgetViewModel.StartDate.ToString("MMMM dd, yyyy")</td>
+                                            <td>@subOrganization.CurrentBudgetViewModel.DueDate.ToString("MMMM dd, yyyy")</td>
+                                            <td>@subOrganization.CurrentBudgetViewModel.Status</td>
+                                        }
+                                        else
+                                        {
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                        }
+                                    </tr>
+                                }
                             }
-                        }
-                        </tbody>
-                    </table>
-                </section>
+                            </tbody>
+                        </table>
+                    </section>
+                }
             </div>
         </main>
     </div>

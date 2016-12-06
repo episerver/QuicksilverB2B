@@ -26,5 +26,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
         bool UnLockOrganizationAmount(DateTime startDate, DateTime endDate, Guid guid, decimal amount);
         bool CheckAmount(Guid organizationGuid, decimal newLockAmount, decimal unlockAmount);
         bool LockUserAmount(DateTime startDate, DateTime endDate, Guid organizationGuid, Guid userGuid, decimal amount);
+
+        bool CheckAmountByTimeLine(Guid organizationGuid, decimal newLockAmount, DateTime startDateTime, DateTime finishDateTime);
     }
 }

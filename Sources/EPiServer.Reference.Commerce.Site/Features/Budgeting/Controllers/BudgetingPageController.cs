@@ -132,7 +132,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
                 {
                     organizationId = Guid.Parse(Session[Constants.Fields.SelectedSuborganization].ToString());
                     // Validate Ammount of available budget.
-                    if (!_budgetService.HasEnoughAmount(currentOrganization.OrganizationId, amount, startDateTime, finishDateTime))
+                    if (!_budgetService.CheckAmountByTimeLine(currentOrganization.OrganizationId, amount, startDateTime, finishDateTime))
                         return Json(new {success = false});
                     // It should overlap with another budget of the parent organization
                     if (!_budgetService.IsSuborganizationValidTimeSlice(startDateTime, finishDateTime, currentOrganization.OrganizationId))
@@ -204,9 +204,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
             //Can update bugdets of same organization as request user organization
             if (budget.OrganizationId != currentOrganization.OrganizationId && currentOrganization.SubOrganizations.All(suborg => suborg.OrganizationId != budget.OrganizationId))
                 return Json(new { success = false });
-            // Amount cannot be lower then spent and locked amount.
-            if (budget != null && (budget.SpentBudget + budget.LockAmount > amount))
+            // Check budget lock ammount.
+            if (budget.LockAmount > amount)
                 return Json(new { success = false });
+
             try
             {
                 var isSuborganizationBudget = _organizationService.GetSubOrganizationById(budget.OrganizationId.ToString()).ParentOrganization != null;

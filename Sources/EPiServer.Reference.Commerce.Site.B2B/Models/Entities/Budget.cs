@@ -80,7 +80,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.Entities
         public bool IsActive => StartDate <= DateTime.Now && DueDate > DateTime.Now;
 
         public decimal RemainingBudget => Amount - SpentBudget;
-        public decimal UnallocatedBudget => Amount - SpentBudget - LockAmount;
+        public decimal UnallocatedBudget => Amount - LockAmount;
 
         public void SaveChanges()
         {

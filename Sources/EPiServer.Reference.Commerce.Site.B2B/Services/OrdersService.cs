@@ -37,7 +37,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
                     OrderNumber = purchaseOrder.TrackingNumber,
                     OrderGroupId = purchaseOrder.OrderGroupId,
                     PlacedOrderDate = purchaseOrder.Created.ToString("yyyy MMMM dd"),
-                    Ammount = purchaseOrder.GetTotal().Amount.ToString("F"),
+                    Ammount = purchaseOrder.GetTotal().Amount.ToString("N"),
                     Currency = purchaseOrder.BillingCurrency,
                     User = "",
                     Status = purchaseOrder.Status,

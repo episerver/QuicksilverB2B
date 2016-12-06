@@ -219,6 +219,14 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             return (currentBudget.Amount + unlockAmount - currentBudget.SpentBudget - currentBudget.LockAmount - newLockAmount) >= 0;
         }
 
+        public bool CheckAmountByTimeLine(Guid organizationGuid, decimal newLockAmount, DateTime startDateTime, DateTime finishDateTime)
+        {
+            var currentBudget = GetBudgetByTimeLine(organizationGuid, startDateTime, finishDateTime);
+            if (currentBudget == null) return false;
+
+            return (currentBudget.Amount - currentBudget.LockAmount - newLockAmount) >= 0;
+        }
+
         public List<Budget> GetOrganizationPurchasersBudgets(Guid organizationId)
         {
             return _budgetDomainService.GetOrganizationPurchasersBudgets(organizationId);

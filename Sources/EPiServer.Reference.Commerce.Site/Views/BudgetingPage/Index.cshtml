@@ -28,7 +28,7 @@
                                     Budget
                                 </div>
                                 <div class="col-xs-6">
-                                    <strong>@Model.CurrentBudgetViewModel.Amount.ToString("F") @Model.CurrentBudgetViewModel.Currency</strong>
+                                    <strong>@Model.CurrentBudgetViewModel.Amount.ToString("N") @Model.CurrentBudgetViewModel.Currency</strong>
                                 </div>
                             </div>
                             <div class="row spacer-bottom-m">
@@ -36,7 +36,7 @@
                                     Unallocated
                                 </div>
                                 <div class="col-xs-6">
-                                    <strong>@Model.CurrentBudgetViewModel.UnAllocatedAmount.ToString("F") @Model.CurrentBudgetViewModel.Currency</strong>
+                                    <strong>@Model.CurrentBudgetViewModel.UnAllocatedAmount.ToString("N") @Model.CurrentBudgetViewModel.Currency</strong>
                                 </div>
                             </div>
                             <div class="row spacer-bottom-m">
@@ -44,7 +44,7 @@
                                     Spent
                                 </div>
                                 <div class="col-xs-6">
-                                    <strong>@Model.CurrentBudgetViewModel.SpentBudget.ToString("F") @Model.CurrentBudgetViewModel.Currency</strong>
+                                    <strong>@Model.CurrentBudgetViewModel.SpentBudget.ToString("N") @Model.CurrentBudgetViewModel.Currency</strong>
                                 </div>
                             </div>
                             <div class="row spacer-bottom-m">
@@ -52,7 +52,7 @@
                                     Remaining
                                 </div>
                                 <div class="col-xs-6">
-                                    <strong class="text-success">@Model.CurrentBudgetViewModel.RemainingBudget.ToString("F") @Model.CurrentBudgetViewModel.Currency</strong>
+                                    <strong class="text-success">@Model.CurrentBudgetViewModel.RemainingBudget.ToString("N") @Model.CurrentBudgetViewModel.Currency</strong>
                                 </div>
                             </div>
                             <div class="row spacer-bottom-m">
@@ -110,8 +110,8 @@
                                         {
                                             <tr>
                                                 <td><a href="#">@purchaser.PurchaserName</a></td>
-                                                <td>@purchaser.Amount.ToString("F") @purchaser.Currency</td>
-                                                <td>@purchaser.SpentBudget.ToString("F") @purchaser.Currency</td>
+                                                <td>@purchaser.Amount.ToString("N") @purchaser.Currency</td>
+                                                <td>@purchaser.SpentBudget.ToString("N") @purchaser.Currency</td>
                                                 <td>@purchaser.StartDate.ToString("MMMM dd, yyyy")</td>
                                                 <td>@purchaser.DueDate.ToString("MMMM dd, yyyy")</td>
                                                 <td>@(purchaser.Status == "Planned" ? "Current" : purchaser.Status)</td>
@@ -151,9 +151,9 @@
                                         {
                                             <tr>
                                                 <td><a href="#">@suborganizationBudget.OrganizationName</a></td>
-                                                <td>@suborganizationBudget.Amount.ToString("F") @suborganizationBudget.Currency</td>
-                                                <td>@suborganizationBudget.UnAllocatedAmount.ToString("F") @suborganizationBudget.Currency</td>
-                                                <td>@suborganizationBudget.SpentBudget.ToString("F") @suborganizationBudget.Currency</td>
+                                                <td>@suborganizationBudget.Amount.ToString("N") @suborganizationBudget.Currency</td>
+                                                <td>@suborganizationBudget.UnAllocatedAmount.ToString("N") @suborganizationBudget.Currency</td>
+                                                <td>@suborganizationBudget.SpentBudget.ToString("N") @suborganizationBudget.Currency</td>
                                                 <td>@suborganizationBudget.StartDate.ToString("MMMM dd, yyyy")</td>
                                                 <td>@suborganizationBudget.DueDate.ToString("MMMM dd, yyyy")</td>
                                                 <td>@(suborganizationBudget.Status == "Planned" ? "Current" : @suborganizationBudget.Status)</td>
@@ -200,9 +200,9 @@
                                 {
                                     <tr>
                                         <td><a href="#">@organizationBudget.OrganizationName</a></td>
-                                        <td>@organizationBudget.Amount.ToString("F") @organizationBudget.Currency</td>
-                                        <td>@organizationBudget.UnAllocatedAmount.ToString("F") @organizationBudget.Currency</td>
-                                        <td>@organizationBudget.SpentBudget.ToString("F") @organizationBudget.Currency</td>
+                                        <td>@organizationBudget.Amount.ToString("N") @organizationBudget.Currency</td>
+                                        <td>@organizationBudget.UnAllocatedAmount.ToString("N") @organizationBudget.Currency</td>
+                                        <td>@organizationBudget.SpentBudget.ToString("N") @organizationBudget.Currency</td>
                                         <td>@organizationBudget.StartDate.ToString("MMMM dd, yyyy")</td>
                                         <td>@organizationBudget.DueDate.ToString("MMMM dd, yyyy")</td>
                                         <td>@(organizationBudget.IsCurrentBudget ? "Current" : @organizationBudget.Status)</td>

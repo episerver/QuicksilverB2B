@@ -19,6 +19,10 @@
                 var parent = $deleteIcon.closest('.order-row');
                 parent.hide();
                 parent.find('input[name*=ProductName]').val("removed");
+                parent.find('input[name*=Sku]').val("removed");
+                parent.find('input[name*=UnitPrice]').val("0");
+                parent.find('input[name*=Quantity]').val("0");
+                parent.find('input[name*=TotalPrice]').val("0");
                 parent.removeClass('order-row').addClass('order-row-removed');
             }
         });
@@ -31,7 +35,6 @@
             var $clone = $rowToClone.clone();
             $clone.find('input').each(function () {
                 var $this = $(this);
-                
 
                 // update name
                 var nameAttr = $this.attr('name');
@@ -41,8 +44,6 @@
                 var endStr = nameAttr.substring(nameAttr.indexOf(nr) + 1, nameAttr.length);
                 var newString = substr + (++nr) + endStr;
                 $this.attr('name', newString);
-
-                
 
                 // update id
                 var idAttr = $this.attr('id');
@@ -54,8 +55,6 @@
                 $this.attr('id', newString);
 
                 $this.val('');
-
-                
             });
             $clone.insertBefore($this);
 

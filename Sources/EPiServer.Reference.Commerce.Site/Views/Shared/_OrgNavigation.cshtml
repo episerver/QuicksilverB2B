@@ -9,7 +9,7 @@
         <li role="presentation">
             @if (Model.Organization.ParentOrganizationId != Guid.Empty)
             {
-                <a href="@(Url.ContentUrl(Model.OrganizationPage))" class="@(Model.CurrentOrganization.Name == Model.Organization.ParentOrganization.Name ? "highlighted":"")" aria-expanded="">@Model.Organization.ParentOrganization.Name</a>
+                <a href="@(Url.ContentUrl(Model.OrganizationPage))" class="@(Model.CurrentOrganization.Name == Model.Organization.ParentOrganization.Name ? "highlighted":"")" aria-expanded="" style="pointer-events:none;">@Model.Organization.ParentOrganization.Name</a>
                 <ul class="nav nav-stacked" role="tablist">
                     <li><a href="@(Url.ContentUrl(Model.SubOrganizationPage))?suborg=@(Model.Organization.OrganizationId)" class="@(Model.CurrentOrganization.Name == Model.Organization.Name ? "highlighted":"")" aria-expanded="">@Model.Organization.Name</a></li>
                 </ul>

@@ -7,5 +7,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Suborganization.ViewModels
     public class SubOrganizationPageViewModel : PageViewModel<SubOrganizationPage>
     {
         public SubOrganizationModel SubOrganizationModel { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

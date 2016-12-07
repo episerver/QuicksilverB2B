@@ -5,7 +5,7 @@
         @Html.Partial("_CmsNavigation", Model.CurrentPage)
         <main class="col-xs-12 col-sm-9">
             <div class="spacer-left-l">
-                 @{Html.RenderAction("Index", "B2BNavigation");}
+                @{Html.RenderAction("Index", "B2BNavigation");}
                 <section class="spacer-bottom-l">
                     @if (@Model.CurrentBudgetViewModel != null)
                     {
@@ -18,8 +18,10 @@
                             {
                                 <h2 class="h3">Current organization budget</h2>
                             }
-
-                            <a href="@Url.Action("EditBudget", "BudgetingPage", new {budgetId = @Model.CurrentBudgetViewModel.BudgetId})" class="btn btn-primary btn-sm spacer-left-s">Edit</a>
+                            @if (Model.IsAdmin)
+                            {
+                                <a href="@Url.Action("EditBudget", "BudgetingPage", new {budgetId = @Model.CurrentBudgetViewModel.BudgetId})" class="btn btn-primary btn-sm spacer-left-s">Edit</a>
+                            }
                         </div>
 
                         <div class="max-width">

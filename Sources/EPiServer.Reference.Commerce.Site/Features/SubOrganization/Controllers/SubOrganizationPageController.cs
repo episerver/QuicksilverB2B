@@ -9,6 +9,7 @@ using EPiServer.Reference.Commerce.Site.Features.Suborganization.ViewModels;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Web.Mvc;
 using EPiServer.Web.Routing;
+using Mediachase.Commerce.Customers;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Suborganization.Controllers
 {
@@ -41,6 +42,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Suborganization.Controllers
                 var startPage = _contentLoader.Get<StartPage>(ContentReference.StartPage);
                 return Redirect(UrlResolver.Current.GetUrl(startPage.OrganizationMainPage));
             }
+            viewModel.IsAdmin = CustomerContext.Current.CurrentContact.Properties[Constants.Fields.UserRole].Value.ToString() == Constants.UserRoles.Admin;
 
             return View(viewModel);
         }

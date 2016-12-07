@@ -30,6 +30,21 @@
         });
     });
 
+    $('#suborg-form').on('click', '.delete-address-icon', function (e) {
+        e.preventDefault();
+
+        var $deleteIcon = $(this);
+        if ($('#suborg-form').find('.location-row').length > 1) {
+            var parent = $deleteIcon.closest('.location-row');
+            parent.hide();
+            parent.find('input[name*=Name]').val("removed");
+            parent.find('input[name*=Street]').val("0");
+            parent.find('input[name*=City]').val("0");
+            parent.find('input[name*=PostalCode]').val("0");
+            parent.find('input[name*=Country]').val("0");
+            parent.removeClass('location-row').addClass('location-row-removed');
+        }
+    });
 
     var $productTableSummary = $('.product-table-summary');
     var productTableSummaryOffset = ($productTableSummary.length > 0) ? $productTableSummary.offset().top : 0;

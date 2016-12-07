@@ -6,7 +6,7 @@
             <div class="spacer-left-l">
                 @{ Html.RenderAction("Index", "B2BNavigation");}
 
-                @using (Html.BeginForm("Save", "SubOrganizationPage", FormMethod.Post, new { @class = "suborg-form" }))
+                @using (Html.BeginForm("Save", "SubOrganizationPage", FormMethod.Post, new { @class = "suborg-form", @id = "suborg-form" }))
                 {
                     @Html.HiddenFor(x => x.SubOrganizationModel.OrganizationId)
                     <section class="spacer-bottom-l">
@@ -91,7 +91,7 @@
                                     @Html.ValidationMessageFor(x => x.SubOrganizationModel.Locations[i].CountryCode)
                                 </div>
                                 <div class="col-sm-1 spacer-top-xs text-right">
-                                    <a href="@Url.Action("DeleteAddress", "SubOrganizationPage", new { suborg = Model.SubOrganizationModel.OrganizationId, addressId = Model.SubOrganizationModel.Locations[i].AddressId })" class="btn btn-danger btn-xs">
+                                    <a href="#" class="btn btn-danger btn-xs delete-address-icon">
                                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                     </a>
                                 </div>

@@ -85,6 +85,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B
         }
 
         public static string SectionName = "InfoBlock";
+        public static string ErrorMesages = "ErrorMesages";
         public static string DefaultDisplayOrder = "10000";
     }
 }

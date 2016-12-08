@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using Mediachase.Commerce;
 
@@ -35,5 +36,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModels
             }
         }
         public List<VariantViewModel> Variants { get; set; }
+        public List<string> ReturnedMessages { get; set; }
+        public ContentArea ContentArea { get; set; }
     }
 }

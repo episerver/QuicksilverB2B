@@ -1,5 +1,5 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.Product.ViewModels.FashionProductViewModel
-<div class="product-component jsProductDetails" >
+<div class="product-component jsProductDetails">
     <div class="row spacer-bottom-l">
         <div class="col-xs-12">
             <ul class="breadcrumb">
@@ -150,6 +150,9 @@
             </div>
         </div>
     </div>
+
+    @Html.PropertyFor(m => m.ContentArea, new { CssClass = "row" })
+
     @if (Model.Variants != null && Model.Variants.Any())
     {
         <div class="row">
@@ -163,6 +166,7 @@
                                     <th>item</th>
                                     <th>size</th>
                                     <th>sku</th>
+                                    <th>stock</th>
                                     <th class="price-column">your price / unit</th>
                                     <th class="quantity-column">quantity</th>
                                 </tr>
@@ -175,6 +179,7 @@
                                         <td><img class="product-image" src="@variant.ImageUrl" /></td>
                                         <td>@variant.Size</td>
                                         <td class="product-sku">@variant.Sku</td>
+                                        <td>@variant.StockQuantity</td>
                                         <td>
                                             <div class="product-price spacer-bottom-s">
                                                 @if (isDiscountedPrice)
@@ -213,6 +218,15 @@
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <button id="AddToOrderPadButton" type="submit" role="button" class="btn btn-default full-width text-left" data-container="WishListMiniCart"><span class="fa fa-star fa-2x v-align-middle spacer-right-m"></span> @Html.Translate("/Product/Button/AddToWishList")</button>
+                            }
+                            @if (Model.ReturnedMessages != null && Model.ReturnedMessages.Count > 0)
+                            {
+                                <div class="text-danger bg-danger padded-m spacer-top-m">
+                                    @foreach (var message in Model.ReturnedMessages)
+                                    {
+                                        <p>* @message</p>
+                                    }
+                                </div>
                             }
                         </div>
                     </div>

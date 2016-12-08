@@ -48,7 +48,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             return product;
         }
 
-        private decimal GetTotalInventoryByEntry(string code)
+        public decimal GetTotalInventoryByEntry(string code)
         {
             var inventoryService = ServiceLocator.Current.GetInstance<IInventoryService>();
             return inventoryService.QueryByEntry(new[] { code }).Sum(x => x.PurchaseAvailableQuantity);

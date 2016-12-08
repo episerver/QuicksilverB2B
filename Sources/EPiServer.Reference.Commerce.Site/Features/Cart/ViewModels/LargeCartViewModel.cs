@@ -10,5 +10,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels
         public Money TotalDiscount { get; set; }
 
         public Money Total { get; set; }
+        public bool IsQuotedCart { get; set; }
     }
 }

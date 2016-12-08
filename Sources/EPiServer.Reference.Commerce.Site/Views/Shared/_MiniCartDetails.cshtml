@@ -88,7 +88,7 @@
                 <li class="cart-item">
                     <button type="button" class="btn btn-block btn-primary" aria-expanded="false" onclick="window.location.href = '@Url.ContentUrl(Model.CheckoutPage)'">@Html.Translate("/Header/MiniCart/Button/GoToCheckout")</button>
                 </li>
-                @if (Request.IsAuthenticated && !Model.IsQuotedCart && Model.CurrentCustomer.Role == B2BUserRoles.Purchaser)
+                @if (Request.IsAuthenticated && !Model.IsQuotedCart && Model.CurrentCustomer != null && Model.CurrentCustomer.Role == B2BUserRoles.Purchaser)
                 {
                     using (@Html.BeginForm("RequestQuote", "Cart", FormMethod.Post))
                     {

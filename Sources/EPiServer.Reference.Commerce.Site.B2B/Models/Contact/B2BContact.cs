@@ -18,7 +18,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.Contact
 
         public Guid ContactId
         {
-            get { return Contact.PrimaryKeyId ?? Guid.Empty; }
+            get { return Contact?.PrimaryKeyId ?? Guid.Empty; }
             set { Contact.PrimaryKeyId = new PrimaryKeyId(value); }
         }
         public string FirstName { get { return Contact.FirstName; } set { Contact.FirstName = value; } }

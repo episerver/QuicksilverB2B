@@ -28,7 +28,8 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
 
         public ContactViewModel GetCurrentContact()
         {
-            return new ContactViewModel(_customerDomainService.GetCurrentContact());
+            var currentContact = _customerDomainService.GetCurrentContact();
+            return currentContact?.Contact != null ? new ContactViewModel(currentContact) : new ContactViewModel();
         }
 
         public CustomerContact GetCustomerByEmail(string email)

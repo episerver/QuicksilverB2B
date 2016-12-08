@@ -690,7 +690,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         private bool CheckForOnHoldBudgets()
         {
             var currentCustomer = _customerContext.GetContactById(_customerContext.CurrentContactId);
-            if (currentCustomer.ContactOrganization != null)
+            if (currentCustomer?.ContactOrganization != null)
             {
                 var subOrganizationId = new Guid(currentCustomer.ContactOrganization.PrimaryKeyId.Value.ToString());
 

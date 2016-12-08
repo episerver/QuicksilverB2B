@@ -59,6 +59,7 @@
                                 <li class="cart-dropdown">
                                     <button type="button" class="btn btn-favorites" data-toggle="dropdown" aria-expanded="false">
                                         <span class="fa fa-star-o"></span> <span class="counter counter--small cartItemCountLabel">@Model.WishListMiniCart.ItemCount.ToString("F0")</span>
+                                        Order Pad
                                     </button>
                                     <div id="WishListMiniCart" class="dropdown-menu product-dropdown-container cart-dropdown-container jsCartDropdown">@{ Html.RenderPartial("_WishListMiniCartDetails", Model.WishListMiniCart); }</div>
                                 </li>

@@ -13,6 +13,7 @@ using System.Web.Mvc;
 using Castle.Core.Internal;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using Mediachase.Commerce.Catalog;
+using Constants = EPiServer.Reference.Commerce.Site.B2B.Constants;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
 {
@@ -122,10 +123,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
                     returnedMessages.Add(responseMessage);
                 }
             }
-            if (returnedMessages.Count == 0)
-            {
-                returnedMessages.Add("All items were added to cart.");
-            }
+            Session[Constants.ErrorMesages] = returnedMessages;
 
             return Json(returnedMessages, JsonRequestBehavior.AllowGet);
         }

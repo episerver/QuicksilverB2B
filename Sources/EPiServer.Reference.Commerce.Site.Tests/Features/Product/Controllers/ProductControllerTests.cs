@@ -22,6 +22,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using EPiServer.Reference.Commerce.Site.B2B.Services;
 using Xunit;
 
@@ -1068,6 +1069,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
         private readonly Mock<IContentLoader> _contentLoaderMock;
         private readonly Mock<IPriceService> _priceServiceMock;
         private readonly Mock<ICurrentMarket> _currentMarketMock;
+        private readonly Mock<IQuickOrderService> _quickOrderServiceMock;
         private readonly FilterPublished _filterPublished;
         private readonly Mock<CurrencyService> _currencyserviceMock;
         private readonly Mock<IRelationRepository> _relationRepositoryMock;
@@ -1091,6 +1093,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
             _priceServiceMock = new Mock<IPriceService>();
             _relationRepositoryMock = new Mock<IRelationRepository>();
             _promotionServiceMock = new Mock<IPromotionService>();
+            _quickOrderServiceMock = new Mock<IQuickOrderService>();
 
             var mockPublishedStateAssessor = new Mock<IPublishedStateAssessor>();
             mockPublishedStateAssessor.Setup(x => x.IsPublished(It.IsAny<IContent>(), It.IsAny<PublishedStateCondition>()))
@@ -1159,7 +1162,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Product.Controllers
                 _urlResolverMock.Object,
                 _filterPublished,
                 () => _preferredCulture,
-                () => _isInEditMode);
+                () => _isInEditMode,
+                _quickOrderServiceMock.Object);
 
             controller.ControllerContext = new ControllerContext(_httpContextBaseMock.Object, new RouteData(), controller);
 

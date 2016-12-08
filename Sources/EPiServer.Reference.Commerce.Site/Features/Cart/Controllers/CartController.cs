@@ -128,10 +128,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
                         returnedMessages.Add(responseMessage);
                     }
             }
-            if (returnedMessages.Count == 0)
-            {
-                returnedMessages.Add("All items were added to cart.");
-            }
+            Session[Constants.ErrorMesages] = returnedMessages;
 
             return Json(returnedMessages, JsonRequestBehavior.AllowGet);
         }

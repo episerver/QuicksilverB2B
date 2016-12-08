@@ -10,6 +10,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModels
         public string Size { get; set; }
         public string Sku { get; set; }
         public int Quantity { get; set; }
+        public decimal StockQuantity { get; set; }
         public Money YourPrice
         {
             get

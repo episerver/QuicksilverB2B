@@ -18,6 +18,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using EPiServer.Reference.Commerce.Site.B2B;
+using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
 {
@@ -29,6 +31,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
         private readonly ICurrentMarket _currentMarket;
         private readonly ICurrencyService _currencyservice;
         private readonly IRelationRepository _relationRepository;
+        private readonly IQuickOrderService _quickOrderService;
         private readonly AppContextFacade _appContext;
         private readonly UrlResolver _urlResolver;
         private readonly FilterPublished _filterPublished;
@@ -46,7 +49,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             UrlResolver urlResolver,
             FilterPublished filterPublished,
             PreferredCultureAccessor preferredCultureAccessor,
-            IsInEditModeAccessor isInEditModeAccessor)
+            IsInEditModeAccessor isInEditModeAccessor,
+            IQuickOrderService quickOrderService)
         {
             _promotionService = promotionService;
             _contentLoader = contentLoader;
@@ -59,6 +63,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             _preferredCulture = preferredCultureAccessor();
             _isInEditMode = isInEditModeAccessor();
             _filterPublished = filterPublished;
+            _quickOrderService = quickOrderService;
         }
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
@@ -128,12 +133,20 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
                             Size = $"{variant.Color} {variant.Size}",
                             ImageUrl = string.IsNullOrEmpty(variantImage) ? "http://placehold.it/54x54/" : variantImage,
                             DiscountedPrice = GetDiscountPrice(variantDefaultPrice, market, currency),
-                            ListingPrice = variantDefaultPrice?.UnitPrice ?? new Money(0, currency)
+                            ListingPrice = variantDefaultPrice?.UnitPrice ?? new Money(0, currency),
+                            StockQuantity = _quickOrderService.GetTotalInventoryByEntry(variant.Code)
                         };
                     }).ToList(),
                 CategoryPage = _contentLoader.Get<NodeContent>(_contentLoader.Get<NodeContent>(currentContent.ParentLink).ParentLink),
                 SubcategoryPage = _contentLoader.Get<NodeContent>(currentContent.ParentLink)
             };
+
+            if (Session[Constants.ErrorMesages] != null)
+            {
+                var messages = Session[Constants.ErrorMesages] as List<string>;
+                viewModel.ReturnedMessages = messages;
+                Session[Constants.ErrorMesages] = "";
+            }
 
             if (quickview)
             {

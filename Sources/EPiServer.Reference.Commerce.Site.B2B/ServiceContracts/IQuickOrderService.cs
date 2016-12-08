@@ -7,5 +7,6 @@ namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
     {
         string ValidateProduct(ContentReference variationReference, decimal quantity, string code);
         ProductViewModel GetProductByCode(ContentReference productReference);
+        decimal GetTotalInventoryByEntry(string code);
     }
 }

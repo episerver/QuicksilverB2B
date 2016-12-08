@@ -61,21 +61,21 @@
                             @Html.HiddenFor(x => x.SubOrganizationModel.Locations[i].AddressId)
                             <div class="row location-row">
                                 <div class="form-group col-sm-2">
-                                    @Html.TextBoxFor(x => x.SubOrganizationModel.Locations[i].Name)
+                                    @Html.TextBoxFor(x => x.SubOrganizationModel.Locations[i].Name, new { required = "required" })
                                     @Html.ValidationMessageFor(x => x.SubOrganizationModel.Locations[i].Name)
                                 </div>
                                 <div class="form-group col-sm-3">
-                                    @Html.TextBoxFor(x => x.SubOrganizationModel.Locations[i].Street)
+                                    @Html.TextBoxFor(x => x.SubOrganizationModel.Locations[i].Street, new { required = "required" })
                                     @Html.ValidationMessageFor(x => x.SubOrganizationModel.Locations[i].Street)
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            @Html.TextBoxFor(x => x.SubOrganizationModel.Locations[i].City)
+                                            @Html.TextBoxFor(x => x.SubOrganizationModel.Locations[i].City, new { required = "required" })
                                             @Html.ValidationMessageFor(x => x.SubOrganizationModel.Locations[i].City)
                                         </div>
                                         <div class="col-sm-6">
-                                            @Html.TextBoxFor(x => x.SubOrganizationModel.Locations[i].PostalCode)
+                                            @Html.TextBoxFor(x => x.SubOrganizationModel.Locations[i].PostalCode, new { required = "required" })
                                             @Html.ValidationMessageFor(x => x.SubOrganizationModel.Locations[i].PostalCode)
                                         </div>
                                     </div>

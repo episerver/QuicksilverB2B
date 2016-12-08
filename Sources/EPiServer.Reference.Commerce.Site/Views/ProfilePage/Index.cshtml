@@ -1,9 +1,10 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.Profile.ViewModels.ProfilePageViewModel
+﻿@using EPiServer.Reference.Commerce.Site.B2B.Enums
+@model EPiServer.Reference.Commerce.Site.Features.Profile.ViewModels.ProfilePageViewModel
 <div class="container-fluid">
     <div class="row myPage">
         @Html.Partial("_CmsNavigation", Model.CurrentPage)
-
-        <main class="col-xs-12 col-md-9">
+       
+         <main class="col-xs-12 col-md-9">
             <div class="spacer-left-l">
                 <h2>@Html.PropertyFor(x => x.CurrentPage.Name)</h2>
                 @Html.PropertyFor(x => x.CurrentPage.MainBody)
@@ -31,7 +32,13 @@
                                 Organization
                             </div>
                             <div class="col-xs-6">
-                                <strong>@Model.Contact.Organization.Name</strong> <a class="btn btn-primary btn-xs mypages-new-address-btn" href="@(Url.ContentUrl(Model.OrganizationPage))?showForm=true"><span class="fa fa-pencil"></span></a>
+                                <strong>@Model.Contact.Organization.Name</strong>
+                                @if (Model.Contact.UserRole == B2BUserRoles.Admin.ToString())
+                                {
+                                    <a class="btn btn-primary btn-xs mypages-new-address-btn" href="@(Url.ContentUrl(Model.OrganizationPage))?showForm=true">
+                                        <span class="fa fa-pencil"></span>
+                                    </a>
+                                }
                             </div>
                         </div>
                     }
@@ -51,33 +58,33 @@
                 @if(Model.CurrentPersonalBudget != null)
                 {
                 <!-- Wireframe 5.0 starts here -->
-                <h2 class="h3">Personal Budget</h2>
-                    <div class="max-width">
-                        <div class="row spacer-top-l spacer-bottom-l">
-                            <div class="col-xs-6 col-sm-3">
-                                Budget
-                            </div>
-                            <div class="col-xs-6">
-                                <strong>@Model.CurrentPersonalBudget.Amount.ToString("N")</strong>
-                            </div>
-                        </div>
-                        <div class="row spacer-bottom-l">
-                            <div class="col-xs-6 col-sm-3">
-                                Spent
-                            </div>
-                            <div class="col-xs-6">
-                                <strong>@Model.CurrentPersonalBudget.SpentBudget.ToString("N") </strong>
-                            </div>
-                        </div>
-                        <div class="row spacer-bottom-l">
-                            <div class="col-xs-6 col-sm-3">
-                                Remaining
-                            </div>
-                            <div class="col-xs-6">
-                                <strong class="text-success">@Model.CurrentPersonalBudget.RemainingBudget.ToString("N")</strong>
-                            </div>
-                        </div>
-                    </div>
+                    <h2 class="h3">Personal Budget</h2>
+                                <div class="max-width">
+                                    <div class="row spacer-top-l spacer-bottom-l">
+                                        <div class="col-xs-6 col-sm-3">
+                                            Budget
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <strong>@Model.CurrentPersonalBudget.Amount.ToString("N")</strong>
+                                        </div>
+                                    </div>
+                                    <div class="row spacer-bottom-l">
+                                        <div class="col-xs-6 col-sm-3">
+                                            Spent
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <strong>@Model.CurrentPersonalBudget.SpentBudget.ToString("N") </strong>
+                                        </div>
+                                    </div>
+                                    <div class="row spacer-bottom-l">
+                                        <div class="col-xs-6 col-sm-3">
+                                            Remaining
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <strong class="text-success">@Model.CurrentPersonalBudget.RemainingBudget.ToString("N")</strong>
+                                        </div>
+                                    </div>
+                                </div>
                 }
             </div>
         </main>

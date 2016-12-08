@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using EPiServer.Commerce.Order;
 using EPiServer.Core;
+using EPiServer.Reference.Commerce.Site.B2B;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
@@ -44,12 +45,24 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
                     Total = new Money(0, _currencyService.GetCurrentCurrency()),
                 };
             }
+
+            // If order comes from a quoted order.
+            var quotedCart = false;
+            if (cart.Properties[Constants.Quote.ParentOrderGroupId] != null)
+            {
+                int orderLink = int.Parse(cart.Properties[Constants.Quote.ParentOrderGroupId].ToString());
+                if (orderLink != 0)
+                {
+                    quotedCart = true;
+                }
+            }
             return new MiniCartViewModel
             {
                 ItemCount = GetLineItemsTotalQuantity(cart),
                 CheckoutPage = _contentLoader.Get<StartPage>(ContentReference.StartPage).CheckoutPage,
                 Shipments = _shipmentViewModelFactory.CreateShipmentsViewModel(cart),
                 Total = _orderGroupCalculator.GetSubTotal(cart),
+                IsQuotedCart = quotedCart
             };
         }
 
@@ -66,12 +79,22 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
                     Total = zeroAmount,
                 };
             }
-
+            // If order comes from a quoted order.
+            var quotedCart = false;
+            if (cart.Properties[Constants.Quote.ParentOrderGroupId] != null)
+            {
+                int orderLink = int.Parse(cart.Properties[Constants.Quote.ParentOrderGroupId].ToString());
+                if (orderLink != 0)
+                {
+                    quotedCart = true;
+                }
+            }
             return new LargeCartViewModel
             {
                Shipments = _shipmentViewModelFactory.CreateShipmentsViewModel(cart),
                TotalDiscount = new Money(cart.GetAllLineItems().Sum(x => x.GetEntryDiscount()), cart.Currency),
                Total = _orderGroupCalculator.GetSubTotal(cart),
+               IsQuotedCart = quotedCart
             };
         }
 

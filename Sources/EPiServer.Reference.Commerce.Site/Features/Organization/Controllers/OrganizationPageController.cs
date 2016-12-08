@@ -11,6 +11,7 @@ using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Web.Mvc;
 using EPiServer.Reference.Commerce.Site.B2B;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
+using Mediachase.Commerce.Customers;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
 {
@@ -74,7 +75,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
                     organizationIndex ++;
                 }
             }
-            
+
+            viewModel.IsAdmin = CustomerContext.Current.CurrentContact.Properties[Constants.Fields.UserRole].Value.ToString() == Constants.UserRoles.Admin;
+
             return View(viewModel);
         }
 

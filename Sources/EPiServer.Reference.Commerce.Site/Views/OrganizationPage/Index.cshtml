@@ -15,11 +15,14 @@
                         {
                             <h2 class="h3">Suborganization Info</h2>
                         }
-                        <a href="@Url.Action("Edit", "OrganizationPage")" class="btn btn-primary btn-sm spacer-left-m">Edit</a>
+                        @if (Model.IsAdmin)
+                        {
+                            <a href="@Url.Action("Edit", "OrganizationPage")" class="btn btn-primary btn-sm spacer-left-m">Edit</a>
+                        }
                     </div>
                     <form>
                         <div class="form-group">
-                            <label>Name</label>
+                            <label>@(Model.Organization.ParentOrganizationId == Guid.Empty ? "Name" : "Sub-organization name")</label>
                             <br/>
                             <input type="text" disabled value="@Model.Organization.Name"/>
                         </div>

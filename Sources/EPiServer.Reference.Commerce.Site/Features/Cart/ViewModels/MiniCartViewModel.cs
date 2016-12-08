@@ -13,5 +13,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels
         public IEnumerable<ShipmentViewModel> Shipments { get; set; }
 
         public Money Total { get; set; }
+        public bool IsQuotedCart { get; set; }
     }
 }

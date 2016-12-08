@@ -19,7 +19,7 @@
                         @Html.Hidden("shipmentId", shipment.ShipmentId)
                         <div class="row cart-row @productLevelClass">
                             <div class="col-xs-4 col-sm-2">
-                                <a href="@cartItem.Url "><img src="@cartItem.ImageUrl" class="product-image"/></a>
+                                <a href="@cartItem.Url "><img src="@cartItem.ImageUrl" class="product-image" /></a>
                             </div>
                             <div class="col-xs-8 col-sm-10">
                                 <div class="row">
@@ -41,8 +41,8 @@
 
                                         <div class="row">
                                             <div class="col-xs-6 xs-vertical-margin">
-                                                <strong>@Html.Translate("/ProductPage/Size")</strong><br/>
-                                                @if ((bool) ViewData["IsReadOnly"])
+                                                <strong>@Html.Translate("/ProductPage/Size")</strong><br />
+                                                @if ((bool)ViewData["IsReadOnly"] || Model.IsQuotedCart)
                                                 {
                                                     @Helpers.RenderSize(cartItem.Variant)
                                                     ;
@@ -54,14 +54,14 @@
                                                 }
                                             </div>
                                             <div class="col-xs-6 xs-vertical-margin">
-                                                <strong>@Html.Translate("/Cart/Labels/Quantity")</strong><br/>
-                                                @if ((bool) ViewData["IsReadOnly"])
+                                                <strong>@Html.Translate("/Cart/Labels/Quantity")</strong><br />
+                                                @if ((bool)ViewData["IsReadOnly"] || Model.IsQuotedCart)
                                                 {
-                                                    @Html.TextBox("quantity", cartItem.Quantity.ToString("0"), new {@class = "form-control form-inline form-field--narrow jsChangeCartItem", disabled = "disabled"})
+                                                    @Html.TextBox("quantity", cartItem.Quantity.ToString("0"), new { @class = "form-control form-inline form-field--narrow jsChangeCartItem", disabled = "disabled" })
                                                 }
                                                 else
                                                 {
-                                                    @Html.TextBox("quantity", cartItem.Quantity.ToString("0"), new {@class = "form-control form-inline form-field--narrow jsChangeCartItem"})
+                                                    @Html.TextBox("quantity", cartItem.Quantity.ToString("0"), new { @class = "form-control form-inline form-field--narrow jsChangeCartItem" })
                                                 }
                                                 @Html.Hidden("code", cartItem.Code)
 
@@ -69,7 +69,7 @@
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-1 product-col-remove">
-                                        @if (!(bool) ViewData["IsReadOnly"])
+                                        @if (!(bool)ViewData["IsReadOnly"])
                                         {
                                             <button role="button" class="btn btn-gray-lighter btn-sm jsRemoveCartItem"><i class="glyphicon glyphicon-remove"></i></button>
                                         }

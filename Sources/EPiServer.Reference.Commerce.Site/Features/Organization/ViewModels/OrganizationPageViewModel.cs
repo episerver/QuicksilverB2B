@@ -10,5 +10,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.ViewModels
         public OrganizationModel Organization { get; set; }
         public SubOrganizationModel NewSubOrganization { get; set; }
         public ContentReference SubOrganizationPage { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

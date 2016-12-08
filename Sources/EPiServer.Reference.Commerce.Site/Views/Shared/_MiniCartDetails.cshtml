@@ -44,7 +44,7 @@
                                             <div class="row">
                                                 <div class="col-md-5">
                                                     <strong>@Html.Translate("/ProductPage/Size")</strong>
-                                                    @if ((bool)ViewData["IsReadOnly"])
+                                                    @if ((bool)ViewData["IsReadOnly"] || Model.IsQuotedCart)
                                                     {
                                                         @Helpers.RenderSize(cartItem.Variant);
                                                     }
@@ -55,7 +55,7 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <strong>@Html.Translate("/Cart/Labels/Quantity")</strong>
-                                                    @if ((bool)ViewData["IsReadOnly"])
+                                                    @if ((bool)ViewData["IsReadOnly"] || Model.IsQuotedCart)
                                                     {
                                                         <input type="number" id="quantity" name="quantity" min="1" value="@cartItem.Quantity.ToString("0")" class="form-control cart-control form-quantity jsChangeCartItem" disabled="disabled" />
                                                     }

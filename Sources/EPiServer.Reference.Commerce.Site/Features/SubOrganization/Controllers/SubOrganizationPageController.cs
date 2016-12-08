@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.B2B;
+using EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Suborganization.Pages;
@@ -9,6 +11,7 @@ using EPiServer.Reference.Commerce.Site.Features.Suborganization.ViewModels;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Web.Mvc;
 using EPiServer.Web.Routing;
+using Mediachase.Commerce.Customers;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Suborganization.Controllers
 {
@@ -41,6 +44,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Suborganization.Controllers
                 var startPage = _contentLoader.Get<StartPage>(ContentReference.StartPage);
                 return Redirect(UrlResolver.Current.GetUrl(startPage.OrganizationMainPage));
             }
+            viewModel.IsAdmin = CustomerContext.Current.CurrentContact.Properties[Constants.Fields.UserRole].Value.ToString() == Constants.UserRoles.Admin;
 
             return View(viewModel);
         }
@@ -71,6 +75,23 @@ namespace EPiServer.Reference.Commerce.Site.Features.Suborganization.Controllers
 
             if (viewModel.SubOrganizationModel.OrganizationId != Guid.Empty)
             {
+                //update the locations list
+                var updatedLocations = new List<B2BAddressViewModel>();
+                foreach (var location in viewModel.SubOrganizationModel.Locations)
+                {
+                    if (location.Name != "removed")
+                    {
+                        updatedLocations.Add(location);
+                    }
+                    else
+                    {
+                        if (location.AddressId != Guid.Empty)
+                        {
+                            _addressService.DeleteAddress(viewModel.SubOrganizationModel.OrganizationId.ToString(), location.AddressId.ToString());
+                        }
+                    }
+                }
+                viewModel.SubOrganizationModel.Locations = updatedLocations;
                 _organizationService.UpdateSubOrganization(viewModel.SubOrganizationModel);
             }
             return RedirectToAction("Index", new { suborg = viewModel.SubOrganizationModel.OrganizationId });

@@ -73,7 +73,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B
         public static class Order
         {
             public static string BudgetPayment = "BudgetPayment";
-            public static string PendingApproval = "Pending Approval";
+            public static string PendingApproval = "PendingApproval";
         }
         
         public static class UserRoles

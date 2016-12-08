@@ -72,6 +72,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels
 
         public ContactViewModel CurrentCustomer { get; set; }
         public string QuoteStatus { get; set; } = "";
+        public bool IsOnHoldBudget { get; set; }
 
     }
 }

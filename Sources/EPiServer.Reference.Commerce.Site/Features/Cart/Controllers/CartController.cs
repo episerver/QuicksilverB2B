@@ -8,6 +8,7 @@ using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using System.Web.Mvc;
 using Castle.Core.Internal;
 using EPiServer.Core;
+using EPiServer.Reference.Commerce.Site.B2B.Enums;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using Mediachase.Commerce.Catalog;
 using Constants = EPiServer.Reference.Commerce.Site.B2B.Constants;
@@ -23,14 +24,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         private readonly ICartServiceB2B _cartServiceB2B;
         private readonly IQuickOrderService _quickOrderService;
         private readonly ReferenceConverter _referenceConverter;
-
+        private readonly ICustomerService _customerService;
+        
         public CartController(
             ICartService cartService,
             IOrderRepository orderRepository,
             CartViewModelFactory cartViewModelFactory,
             ICartServiceB2B cartServiceB2B,
             IQuickOrderService quickOrderService,
-            ReferenceConverter referenceConverter)
+            ReferenceConverter referenceConverter,
+            ICustomerService customerService)
         {
             _cartService = cartService;
             _orderRepository = orderRepository;
@@ -38,6 +41,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
             _cartServiceB2B = cartServiceB2B;
             _quickOrderService = quickOrderService;
             _referenceConverter = referenceConverter;
+            _customerService = customerService;
         }
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
@@ -166,6 +170,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         public ActionResult RequestQuote()
         {
             bool succesRequest;
+
+            var currentCustomer = _customerService.GetCurrentContact();
+            if (currentCustomer.Role != B2BUserRoles.Purchaser)
+                return Json(new { result = false });
+
             if (Cart == null)
             {
                 _cart = _cartService.LoadOrCreateCart(_cartService.DefaultCartName);

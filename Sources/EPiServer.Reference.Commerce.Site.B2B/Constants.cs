@@ -84,6 +84,13 @@ namespace EPiServer.Reference.Commerce.Site.B2B
             public static string None = "None";
         }
 
+        public static class BudgetStatus
+        {
+            public static string OnHold = "OnHold";
+            public static string Active = "Active";
+            public static string Planned = "Planned";
+        }
+
         public static string SectionName = "InfoBlock";
         public static string DefaultDisplayOrder = "10000";
     }

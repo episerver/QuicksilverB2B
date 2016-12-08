@@ -63,24 +63,28 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderDetails.Controllers
                 orderViewModel.ShippingAddresses.Add(shippingAddress);
                 orderViewModel.OrderGroupId = purchaseOrder.OrderGroupId;
             }
-
-            DateTime quoteExpireDate;
-            DateTime.TryParse(purchaseOrder[Constants.Quote.QuoteExpireDate].ToString(), out quoteExpireDate);
-            if (DateTime.Compare(DateTime.Now, quoteExpireDate) > 0)
+            if (purchaseOrder[Constants.Quote.QuoteExpireDate] != null &&
+                !string.IsNullOrEmpty(purchaseOrder[Constants.Quote.QuoteExpireDate].ToString()))
             {
-                orderViewModel.QuoteStatus = Constants.Quote.QuoteExpired;
-                try
+                DateTime quoteExpireDate;
+                DateTime.TryParse(purchaseOrder[Constants.Quote.QuoteExpireDate].ToString(), out quoteExpireDate);
+                if (DateTime.Compare(DateTime.Now, quoteExpireDate) > 0)
                 {
-                    // Update order quote status to expired
-                    purchaseOrder[Constants.Quote.QuoteStatus] = Constants.Quote.QuoteExpired;
-                    _orderRepository.Save(purchaseOrder);
-                }
-                catch (Exception ex)
-                {
-                    LogManager.GetLogger(GetType()).Error("Failed to update order status to Quote Expired.", ex.StackTrace);
-                }
+                    orderViewModel.QuoteStatus = Constants.Quote.QuoteExpired;
+                    try
+                    {
+                        // Update order quote status to expired
+                        purchaseOrder[Constants.Quote.QuoteStatus] = Constants.Quote.QuoteExpired;
+                        _orderRepository.Save(purchaseOrder);
+                    }
+                    catch (Exception ex)
+                    {
+                        LogManager.GetLogger(GetType()).Error("Failed to update order status to Quote Expired.", ex.StackTrace);
+                    }
 
+                }
             }
+
             if (!string.IsNullOrEmpty(purchaseOrder["QuoteStatus"]?.ToString()) &&
                 (purchaseOrder.Status == OrderStatus.InProgress.ToString() ||
                  purchaseOrder.Status == OrderStatus.OnHold.ToString()))

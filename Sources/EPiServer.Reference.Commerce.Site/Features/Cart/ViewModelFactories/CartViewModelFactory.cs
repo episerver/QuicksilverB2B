@@ -2,6 +2,7 @@
 using EPiServer.Commerce.Order;
 using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.B2B;
+using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
@@ -17,13 +18,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
         private readonly ICurrencyService _currencyService;
         readonly IOrderGroupTotalsCalculator _orderGroupTotalsCalculator;
         readonly IOrderGroupCalculator _orderGroupCalculator;
+        readonly ICustomerService _customerService;
         readonly ShipmentViewModelFactory _shipmentViewModelFactory;
 
         public CartViewModelFactory(
             IContentLoader contentLoader, 
             ICurrencyService currencyService, 
             IOrderGroupTotalsCalculator orderGroupTotalsCalculator, 
-            IOrderGroupCalculator orderGroupCalculator, 
+            IOrderGroupCalculator orderGroupCalculator,
+            ICustomerService customerService,
             ShipmentViewModelFactory shipmentViewModelFactory)
         {
             _contentLoader = contentLoader;
@@ -31,6 +34,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
             _orderGroupTotalsCalculator = orderGroupTotalsCalculator;
             _orderGroupCalculator = orderGroupCalculator;
             _shipmentViewModelFactory = shipmentViewModelFactory;
+            _customerService = customerService;
         }
 
         public virtual MiniCartViewModel CreateMiniCartViewModel(ICart cart)
@@ -43,6 +47,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
                     CheckoutPage = _contentLoader.Get<StartPage>(ContentReference.StartPage).CheckoutPage,
                     Shipments = Enumerable.Empty<ShipmentViewModel>(),
                     Total = new Money(0, _currencyService.GetCurrentCurrency()),
+                    CurrentCustomer = _customerService.GetCurrentContact(),
+                    IsQuotedCart = false
                 };
             }
 
@@ -62,7 +68,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
                 CheckoutPage = _contentLoader.Get<StartPage>(ContentReference.StartPage).CheckoutPage,
                 Shipments = _shipmentViewModelFactory.CreateShipmentsViewModel(cart),
                 Total = _orderGroupCalculator.GetSubTotal(cart),
-                IsQuotedCart = quotedCart
+                IsQuotedCart = quotedCart,
+                CurrentCustomer = _customerService.GetCurrentContact()
             };
         }
 

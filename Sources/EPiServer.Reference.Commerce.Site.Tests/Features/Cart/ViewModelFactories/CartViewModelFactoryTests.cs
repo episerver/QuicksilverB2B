@@ -14,6 +14,7 @@ using Moq;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactories
@@ -30,7 +31,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
                 ItemCount = 1,
                 CheckoutPage = _startPage.CheckoutPage,
                 Shipments = new[] { new ShipmentViewModel { CartItems = _cartItems } },
-                Total = _totals.SubTotal,
+                Total = _totals.SubTotal
             };
 
             viewModel.ShouldBeEquivalentTo(expectedViewModel);
@@ -185,13 +186,15 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.ViewModelFactori
                 .Returns(_orderDiscountTotal);
 
             orderGroupCalculatorMock.Setup(x => x.GetSubTotal(_cart)).Returns(new Money(_cart.GetAllLineItems().Sum(x => x.PlacedPrice * x.Quantity - ((ILineItemDiscountAmount)x).EntryAmount), _cart.Currency));
-
+            var customerService = new Mock<ICustomerService>();
             _subject = new CartViewModelFactory(
                 contentLoaderMock.Object,
                 currencyServiceMock.Object,
                 orderGroupTotalsCalculatorMock.Object,
                 orderGroupCalculatorMock.Object,
-                shipmentViewModelFactoryMock.Object);
+                customerService.Object,
+                shipmentViewModelFactoryMock.Object
+                );
         }
     }
 }

@@ -319,6 +319,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                         quoteOrder = _orderRepository.Load<IPurchaseOrder>(orderLink);
                         if (quoteOrder.Properties[Constants.Quote.QuoteStatus] != null)
                         {
+                            checkoutViewModel.QuoteStatus = quoteOrder.Properties[Constants.Quote.QuoteStatus].ToString();
                             if (quoteOrder.Properties[Constants.Quote.QuoteStatus].ToString().Equals(Constants.Quote.RequestQuotationFinished))
                             {
                                 DateTime quoteExpireDate;

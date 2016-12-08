@@ -2,6 +2,7 @@
 @using EPiServer.Commerce.Order
 @using EPiServer.Reference.Commerce.Site.B2B.Enums
 @using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
+@using Microsoft.SqlServer.Server
 @model EPiServer.Reference.Commerce.Site.Features.OrderDetails.ViewModels.OrderDetailsViewModel
 @if (Model.PurchaseOrder != null)
 {
@@ -21,7 +22,16 @@
                     string.Join(", ", orderForm.Payments.Select(x => x.PaymentMethodName));
                 }
                 <br/>
-                @Html.Translate("/OrderHistory/Labels/TotalPrice") <strong>@Model.PurchaseOrder.GetTotal().ToString()</strong>
+                @if (Model.QuoteStatus != null && Model.QuoteStatus.Equals("RequestQuotationFinished"))
+                {
+                    @Html.DisplayName("Old Total") <strong> @Model.PurchaseOrder.GetTotal().ToString() </strong> <br />
+                    @Html.DisplayName("New Total") <strong>@Model.PurchaseOrder.Currency.Format.CurrencySymbol@Model.PurchaseOrder.Properties["PreQuoteTotal"].ToString().AsDecimal().ToString("N") </strong>
+                }
+                else
+                {
+                   @Html.Translate("/OrderHistory/Labels/TotalPrice") <strong>@Model.PurchaseOrder.GetTotal().ToString()</strong> <br />
+                }
+                
             </p>
         </div>
         <div class="col-xs-12 col-sm-6">
@@ -69,6 +79,15 @@
                  {
                      <a href="@Url.Action("ApproveOrder", "OrderDetails", new { orderGroupId = Model.OrderGroupId})" class="btn btn-danger btn-empty" aria-expanded="false">Approve</a>
                  }
+            }
+            @if (Request.IsAuthenticated && string.IsNullOrEmpty(Model.QuoteStatus) && Model.CurrentCustomer.Role == B2BUserRoles.Purchaser)
+            {
+                using (@Html.BeginForm("RequestQuote", "Cart", FormMethod.Post))
+                {
+                    <div class="cart-item">
+                        <button type="button" class="btn btn-block btn-warning jsCartRequestQuote" aria-expanded="false">@Html.Translate("/Header/MiniCart/Button/RequestQuotation")</button>
+                    </div>
+                }
             }
         </div>
     </div>

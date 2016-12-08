@@ -204,25 +204,34 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
             //Can update bugdets of same organization as request user organization
             if (budget.OrganizationId != currentOrganization.OrganizationId && currentOrganization.SubOrganizations.All(suborg => suborg.OrganizationId != budget.OrganizationId))
                 return Json(new { success = false });
-            // Check budget lock ammount.
-            if (budget.LockAmount > amount)
-                return Json(new { success = false });
 
             try
             {
                 var isSuborganizationBudget = _organizationService.GetSubOrganizationById(budget.OrganizationId.ToString()).ParentOrganization != null;
 
-                if (!string.IsNullOrEmpty(Session[Constants.Fields.SelectedSuborganization]?.ToString()) || isSuborganizationBudget)
+                if (!string.IsNullOrEmpty(Session[Constants.Fields.SelectedSuborganization]?.ToString()) ||
+                    isSuborganizationBudget)
                 {
-                   currentOrganization = _organizationService.GetCurrentUserOrganization();
-                   // Check budget ballance.
-                   if(!_budgetService.CheckAmount(currentOrganization.OrganizationId, amount, budget.Amount))
-                       return Json(new { success = false });
-                   // Have to unlock the old amount and to lock the new amount from the organization correpondent budget.
-                   if (!_budgetService.UnLockOrganizationAmount(startDateTime, finishDateTime, currentOrganization.OrganizationId, budget.Amount))
-                   return Json(new { success = false });
-                   if (!_budgetService.LockOrganizationAmount(startDateTime, finishDateTime, currentOrganization.OrganizationId, amount))
-                       return Json(new { success = false });
+                    // Foe editing from organization timeline
+                    currentOrganization =_organizationService.GetSubOrganizationById(budget.OrganizationId.ToString());
+                    // Check budget ballance.
+                    if (!_budgetService.ValidateSuborganizationNewAmount(currentOrganization.OrganizationId, currentOrganization.ParentOrganization.OrganizationId, amount))
+                        return Json(new {success = false});
+                    // Have to unlock the old amount and to lock the new amount from the organization correpondent budget.
+                    if (
+                        !_budgetService.UnLockOrganizationAmount(startDateTime, finishDateTime,
+                            currentOrganization.ParentOrganization.OrganizationId, budget.Amount))
+                        return Json(new {success = false});
+                    if (
+                        !_budgetService.LockOrganizationAmount(startDateTime, finishDateTime,
+                            currentOrganization.ParentOrganization.OrganizationId, amount))
+                        return Json(new {success = false});
+                }
+                else
+                {
+                    // Check budget lock ammount.
+                    if (budget.LockAmount > amount)
+                        return Json(new { success = false });
                 }
 
                 _budgetService.UpdateBudget( new BudgetViewModel

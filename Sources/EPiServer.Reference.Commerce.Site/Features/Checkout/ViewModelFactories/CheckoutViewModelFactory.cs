@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
 {
@@ -31,6 +32,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
         readonly UrlResolver _urlResolver;
         readonly ServiceAccessor<HttpContextBase> _httpContextAccessor;
         readonly ShipmentViewModelFactory _shipmentViewModelFactory;
+        private readonly ICustomerService _customerService;
 
         public CheckoutViewModelFactory(
             LocalizationService localizationService,
@@ -40,7 +42,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
             IOrderFactory orderFactory,
             UrlResolver urlResolver,
             ServiceAccessor<HttpContextBase> httpContextAccessor,
-            ShipmentViewModelFactory shipmentViewModelFactory)
+            ShipmentViewModelFactory shipmentViewModelFactory,
+            ICustomerService customerService)
         {
             _localizationService = localizationService;
             _paymentMethodViewModelFactory = paymentMethodViewModelFactory;
@@ -50,6 +53,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
             _urlResolver = urlResolver;
             _httpContextAccessor = httpContextAccessor;
             _shipmentViewModelFactory = shipmentViewModelFactory;
+            _customerService = customerService;
         }
 
         public virtual CheckoutViewModel CreateCheckoutViewModel(ICart cart, CheckoutPage currentPage, IPaymentMethodViewModel<PaymentMethodBase> paymentViewModel = null)
@@ -72,6 +76,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
                 AvailableAddresses = new List<AddressModel>(),
                 ReferrerUrl = GetReferrerUrl(),
                 Payment = paymentViewModel,
+                CurrentCustomer = _customerService.GetCurrentContact()
             };
 
             UpdatePayment(viewModel);

@@ -27,7 +27,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Adapters
                 case "BRA":
                     return "BRA";
                 case "CAN":
-                    return "CA";
+                    return "CAN";
                 case "CHL":
                     return "CHL";
                 case "DEU":

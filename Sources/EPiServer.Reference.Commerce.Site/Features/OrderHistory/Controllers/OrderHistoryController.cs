@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web.Mvc;
 using EPiServer.Commerce.Order;
 using EPiServer.Core;
+using EPiServer.Logging;
 using EPiServer.Reference.Commerce.Site.Features.OrderHistory.ViewModels;
 using Mediachase.Commerce.Orders;
 using EPiServer.Reference.Commerce.Site.B2B;
@@ -80,6 +81,17 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.Controllers
                     if (DateTime.Compare(DateTime.Now, quoteExpireDate) > 0)
                     {
                         orderViewModel.QuoteStatus = Constants.Quote.QuoteExpired;
+                        try
+                        {
+                            // Update order quote status to expired
+                            purchaseOrder[Constants.Quote.QuoteStatus] = Constants.Quote.QuoteExpired;
+                            _orderRepository.Save(purchaseOrder);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogManager.GetLogger(GetType()).Error("Failed to update order status to Quote Expired.", ex.StackTrace);
+                        }
+                        
                     }
                 }
 

@@ -1,4 +1,5 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.OrderPads.ViewModels.OrderPadsPageViewModel
+﻿@using EPiServer.Reference.Commerce.Site.B2B.Enums
+@model EPiServer.Reference.Commerce.Site.Features.OrderPads.ViewModels.OrderPadsPageViewModel
 
 <div class="container-fluid">
     <div class="row myPage">
@@ -297,6 +298,17 @@
                                     <a href="#" class="btn btn-danger btn-xs">
                                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                     </a>
+                                </td>
+                                <td>
+                                    @if (Request.IsAuthenticated && string.IsNullOrEmpty(Model.QuoteStatus) && Model.CurrentCustomer.Role == B2BUserRoles.Purchaser)
+                                    {
+                                        using (@Html.BeginForm("RequestQuote", "Cart", FormMethod.Post))
+                                        {
+                                            <div class="cart-item">
+                                                <button type="button" class="btn btn-block btn-warning jsCartRequestQuote" aria-expanded="false">@Html.Translate("/Header/MiniCart/Button/RequestQuotation")</button>
+                                            </div>
+                                        }
+                                    }
                                 </td>
                             </tr>
                         </tbody>

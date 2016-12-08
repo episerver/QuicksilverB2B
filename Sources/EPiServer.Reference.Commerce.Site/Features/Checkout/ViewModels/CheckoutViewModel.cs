@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods;
@@ -68,5 +69,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels
                 return Shipments.Count() > 1 ? MultiShipmentCheckoutViewName : SingleShipmentCheckoutViewName;
             }
         }
+
+        public ContactViewModel CurrentCustomer { get; set; }
+        public string QuoteStatus { get; set; } = "";
+
     }
 }

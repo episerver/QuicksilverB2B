@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFactories
@@ -127,6 +128,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
             var urlResolverMock = new Mock<UrlResolver>();
             var httpcontextMock = new Mock<HttpContextBase>();
             var requestMock = new Mock<HttpRequestBase>();
+            var serviceCustomer = new Mock<ICustomerService>();
 
             requestMock.Setup(x => x.Url).Returns(new Uri("http://site.com"));
             requestMock.Setup(x => x.UrlReferrer).Returns(new Uri("http://site.com"));
@@ -152,7 +154,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
                 orderFactoryMock.Object,
                 urlResolverMock.Object,
                 (() => httpcontextMock.Object),
-                shipmentViewModelFactoryMock.Object);
+                shipmentViewModelFactoryMock.Object,
+                serviceCustomer.Object);
         }
     }
 }

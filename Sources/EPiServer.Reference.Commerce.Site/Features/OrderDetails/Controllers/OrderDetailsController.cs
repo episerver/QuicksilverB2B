@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using EPiServer.Commerce.Order;
+using EPiServer.Logging;
+using EPiServer.Reference.Commerce.Site.B2B;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.OrderDetails.Pages;
@@ -17,12 +20,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderDetails.Controllers
         private readonly IAddressBookService _addressBookService;
         private readonly IOrdersService _ordersService;
         private readonly ICustomerService _customerService;
+        private readonly IOrderRepository _orderRepository;
 
-        public OrderDetailsController(IAddressBookService addressBookService, IOrdersService ordersService, ICustomerService customerService)
+        public OrderDetailsController(IAddressBookService addressBookService, IOrdersService ordersService, ICustomerService customerService, IOrderRepository orderRepository)
         {
             _addressBookService = addressBookService;
             _ordersService = ordersService;
             _customerService = customerService;
+            _orderRepository = orderRepository;
         }
 
         [HttpGet]
@@ -59,6 +64,23 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderDetails.Controllers
                 orderViewModel.OrderGroupId = purchaseOrder.OrderGroupId;
             }
 
+            DateTime quoteExpireDate;
+            DateTime.TryParse(purchaseOrder[Constants.Quote.QuoteExpireDate].ToString(), out quoteExpireDate);
+            if (DateTime.Compare(DateTime.Now, quoteExpireDate) > 0)
+            {
+                orderViewModel.QuoteStatus = Constants.Quote.QuoteExpired;
+                try
+                {
+                    // Update order quote status to expired
+                    purchaseOrder[Constants.Quote.QuoteStatus] = Constants.Quote.QuoteExpired;
+                    _orderRepository.Save(purchaseOrder);
+                }
+                catch (Exception ex)
+                {
+                    LogManager.GetLogger(GetType()).Error("Failed to update order status to Quote Expired.", ex.StackTrace);
+                }
+
+            }
             if (!string.IsNullOrEmpty(purchaseOrder["QuoteStatus"]?.ToString()) &&
                 (purchaseOrder.Status == OrderStatus.InProgress.ToString() ||
                  purchaseOrder.Status == OrderStatus.OnHold.ToString()))

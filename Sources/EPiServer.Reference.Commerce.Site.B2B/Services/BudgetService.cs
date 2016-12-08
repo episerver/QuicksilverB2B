@@ -219,6 +219,16 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             return (currentBudget.Amount + unlockAmount - currentBudget.SpentBudget - currentBudget.LockAmount - newLockAmount) >= 0;
         }
 
+        public bool ValidateSuborganizationNewAmount(Guid organizationGuid, Guid parentOrganizationId, decimal newLockAmount)
+        {
+            var currentBudget = _budgetDomainService.GetCurrentOrganizationBudget(organizationGuid);
+            if (currentBudget == null) return false;
+            var parentCurrentBudget = _budgetDomainService.GetCurrentOrganizationBudget(parentOrganizationId);
+            if (parentCurrentBudget == null) return false;
+
+            return (newLockAmount <= parentCurrentBudget.UnallocatedBudget + currentBudget.Amount) && (newLockAmount >= currentBudget.LockAmount);
+        }
+
         public bool CheckAmountByTimeLine(Guid organizationGuid, decimal newLockAmount, DateTime startDateTime, DateTime finishDateTime)
         {
             var currentBudget = GetBudgetByTimeLine(organizationGuid, startDateTime, finishDateTime);

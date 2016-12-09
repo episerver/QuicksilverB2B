@@ -98,14 +98,14 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
 
         public void ApproveOrder(int orderGroupId)
         {
+            var purchaseOrder = _orderRepository.Load<PurchaseOrder>(orderGroupId);
+            if (purchaseOrder == null) return;
+
+            var budgetPayment = GetOrderBudgetPayment(purchaseOrder) as Payment;
+            if (budgetPayment == null) return;
+
             try
             {
-                var purchaseOrder = _orderRepository.Load<PurchaseOrder>(orderGroupId);
-                if (purchaseOrder == null) return;
-
-                var budgetPayment = GetOrderBudgetPayment(purchaseOrder) as Payment;
-                if (budgetPayment == null) return;
-
                 budgetPayment.TransactionType = TransactionType.Capture.ToString();
                 budgetPayment.Status = PaymentStatus.Pending.ToString();
                 budgetPayment.AcceptChanges();
@@ -113,6 +113,9 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             }
             catch (Exception ex)
             {
+                budgetPayment.TransactionType = TransactionType.Authorization.ToString();
+                budgetPayment.Status = PaymentStatus.Processed.ToString();
+                budgetPayment.AcceptChanges();
                 LogManager.GetLogger(GetType()).Error("Failed processs on approve order.", ex);
             }
 

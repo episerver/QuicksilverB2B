@@ -3,7 +3,15 @@
 @{
     Layout = null;
 }
-
+@if (Model.IsQuotedCart)
+{
+    using (@Html.BeginForm("ClearQuotedCart", "Cart", FormMethod.Post))
+    {
+        <button role="button" class="btn btn-default btn--blue jsClearQuotedCart">CLEAR QUOTED CART</button>
+        <br/>
+        <br/>
+    }
+}
 <h3>@Html.Translate("/Cart/Heading")</h3>
 
 <div class="checkout-cart jsLargeCart">
@@ -19,7 +27,7 @@
                         @Html.Hidden("shipmentId", shipment.ShipmentId)
                         <div class="row cart-row @productLevelClass">
                             <div class="col-xs-4 col-sm-2">
-                                <a href="@cartItem.Url "><img src="@cartItem.ImageUrl" class="product-image" /></a>
+                                <a href="@cartItem.Url"><img src="@cartItem.ImageUrl" class="product-image" /></a>
                             </div>
                             <div class="col-xs-8 col-sm-10">
                                 <div class="row">
@@ -69,9 +77,12 @@
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-1 product-col-remove">
-                                        @if (!(bool)ViewData["IsReadOnly"])
+                                        @if (!Model.IsQuotedCart)
                                         {
-                                            <button role="button" class="btn btn-gray-lighter btn-sm jsRemoveCartItem"><i class="glyphicon glyphicon-remove"></i></button>
+                                            if (!(bool)ViewData["IsReadOnly"])
+                                            {
+                                                <button role="button" class="btn btn-gray-lighter btn-sm jsRemoveCartItem"><i class="glyphicon glyphicon-remove"></i></button>
+                                            }
                                         }
                                     </div>
                                     <div class="col-xs-6 col-sm-2 product-col-price text-right">

@@ -204,7 +204,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
             var service = CreateService();
             service.SetCurrentLanguage(English);
 
-            _cookieServiceMock.Verify(x => x.Set("Language", English), Times.Once);
+            _cookieServiceMock.Verify(x => x.Set("Language", English, false), Times.Once);
         }
 
         [Fact]
@@ -215,7 +215,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Market
             var service = CreateService();
             service.SetCurrentLanguage(English);
 
-            _cookieServiceMock.Verify(x => x.Set("Language", English), Times.Never);
+            _cookieServiceMock.Verify(x => x.Set("Language", English, false), Times.Never);
         }
 
         [Fact]

@@ -9,6 +9,7 @@ using Microsoft.Owin.Security;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using EPiServer.Reference.Commerce.Site.B2B.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
 {
@@ -19,18 +20,21 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
         private readonly IAuthenticationManager _authenticationManager;
         private readonly LocalizationService _localizationService;
         private readonly CustomerContextFacade _customerContext;
-        
+        private readonly CookieService _cookieService;
+
         public UserService(ApplicationUserManager userManager, 
             ApplicationSignInManager signInManager, 
             IAuthenticationManager authenticationManager,
             LocalizationService localizationService,
-            CustomerContextFacade customerContextFacade)
+            CustomerContextFacade customerContextFacade,
+            CookieService cookieService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _authenticationManager = authenticationManager;
             _localizationService = localizationService;
-            _customerContext = customerContextFacade; 
+            _customerContext = customerContextFacade;
+            _cookieService = cookieService;
         }
 
         public virtual CustomerContact GetCustomerContact(string email)
@@ -219,6 +223,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Login.Services
         public void SignOut()
         {
             _authenticationManager.SignOut();
+            _cookieService.Remove(B2B.Constants.Cookies.B2BImpersonatingAdmin);
         }
 
         public void Dispose()

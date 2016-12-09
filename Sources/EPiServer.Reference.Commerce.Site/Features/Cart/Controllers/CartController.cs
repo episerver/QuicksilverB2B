@@ -135,6 +135,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
 
         [HttpPost]
         [AllowDBWrite]
+        public JsonResult ClearQuotedCart()
+        {
+            _cartServiceB2B.DeleteCart(Cart);
+            _cart = _cartServiceB2B.CreateNewCart();
+
+            return Json("success", JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [AllowDBWrite]
         public ActionResult ChangeCartItem(int shipmentId, string code, decimal quantity, string size, string newSize)
         {
             ModelState.Clear();

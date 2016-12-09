@@ -69,7 +69,8 @@ var viewUsersAutocompleteComponent = function () {
     var $autocompleteInput,
         $usersTable,
         $resetIcon,
-        $searchIcon;
+        $searchIcon,
+        $activeImpersonateUserButtons;
 
     function onChooseEvent() {
         var selectedItem = $autocompleteInput.getSelectedItemData();
@@ -87,6 +88,30 @@ var viewUsersAutocompleteComponent = function () {
             $searchIcon.show();
             $autocompleteInput.val('');
         });
+
+        $activeImpersonateUserButtons.click(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: '/UsersPage/ImpersonateUser',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    username: $(e.currentTarget).parent().siblings('.user-email').text()
+                },
+                success: function(data) {
+                    if (data) {
+                        if (data.success)
+                            location.href = '/';
+                        else {
+                            //show some message
+                        }
+                    }
+                },
+                error: function(a, b) {
+                    alert(a);
+                }
+            });
+        });
     }
 
     function init() {
@@ -94,7 +119,7 @@ var viewUsersAutocompleteComponent = function () {
         $usersTable = $('.js-users-table-body');
         $resetIcon = $('.js-reset-icon');
         $searchIcon = $('.js-search-icon');
-
+        $activeImpersonateUserButtons = $('.js-users-table-body a[Title="Impersonate"]:not([disabled])');
 
         var options = {
             url: function (phrase) {

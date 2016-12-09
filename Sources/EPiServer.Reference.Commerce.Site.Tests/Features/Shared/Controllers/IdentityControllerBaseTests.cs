@@ -11,6 +11,7 @@ using System;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using EPiServer.Reference.Commerce.Site.B2B.Services;
 using Xunit;
 
 
@@ -54,9 +55,11 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Shared.Controllers
             var userManager = new Mock<ApplicationUserManager>(userStore.Object);
             var customercontextFacadeMock = new Mock<CustomerContextFacade>();
             var signInManager = new Mock<ApplicationSignInManager>(userManager.Object, authenticationManager.Object);
+            var cookieService = new Mock<CookieService>();
             var request = new Mock<HttpRequestBase>();
             var httpContext = new Mock<HttpContextBase>();
-            var userService = new UserService(userManager.Object, signInManager.Object, authenticationManager.Object, null, customercontextFacadeMock.Object);
+            var userService = new UserService(userManager.Object, signInManager.Object, authenticationManager.Object,
+                null, customercontextFacadeMock.Object, cookieService.Object);
             
             request.Setup(
                 x => x.Url)

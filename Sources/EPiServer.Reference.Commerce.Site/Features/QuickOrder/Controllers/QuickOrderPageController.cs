@@ -14,6 +14,7 @@ using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Folder.Pages;
 using EPiServer.Reference.Commerce.Site.Features.QuickOrder.Pages;
 using EPiServer.Reference.Commerce.Site.Features.QuickOrder.ViewModels;
+using EPiServer.Reference.Commerce.Site.Features.Search.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Web.Mvc;
 using Mediachase.Commerce.Catalog;

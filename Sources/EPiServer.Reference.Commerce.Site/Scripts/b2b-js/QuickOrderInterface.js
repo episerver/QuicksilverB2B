@@ -6,8 +6,8 @@
     function onChooseEvent() {
         var selectedItemData = this.getSelectedItemData();
         var parent = this.closest('.order-row');
-        parent.find('input[name*=ProductName]').val(selectedItemData.productName);
-        parent.find('input[name*=UnitPrice]').val(selectedItemData.unitPrice);
+        parent.find('input[name*=ProductName]').val(selectedItemData.ProductName);
+        parent.find('input[name*=UnitPrice]').val(selectedItemData.UnitPrice);
     }
 
     function onDeleteIcon() {
@@ -64,7 +64,7 @@
                 url: function (phrase) {
                     return "/QuickOrderPage/GetSku?query=" + phrase;
                 },
-                getValue: "sku",
+                getValue: "Sku",
                 list: {
                     match: {
                         enabled: true
@@ -113,7 +113,7 @@
                     url: function (phrase) {
                         return "/QuickOrderPage/GetSku?query=" + phrase;
                     },
-                    getValue: "sku",
+                    getValue: "Sku",
                     list: {
                         match: {
                             enabled: true

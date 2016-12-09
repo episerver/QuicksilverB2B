@@ -29,19 +29,22 @@ namespace EPiServer.Reference.Commerce.Site.Features.QuickOrder.Controllers
         private ICart _cart;
         private readonly IOrderRepository _orderRepository;
         private readonly ReferenceConverter _referenceConverter;
+        private readonly IEPiFindSearchService _ePiFindSearchService;
 
         public QuickOrderPageController(
             IQuickOrderService quickOrderService,
             ICartService cartService,
             IFileHelperService fileHelperService,
             IOrderRepository orderRepository,
-            ReferenceConverter referenceConverter)
+            ReferenceConverter referenceConverter,
+            IEPiFindSearchService ePiFindSearchService)
         {
             _quickOrderService = quickOrderService;
             _cartService = cartService;
             _fileHelperService = fileHelperService;
             _orderRepository = orderRepository;
             _referenceConverter = referenceConverter;
+            _ePiFindSearchService = ePiFindSearchService;
         }
 
         public ActionResult Index(QuickOrderPage currentPage)
@@ -145,12 +148,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.QuickOrder.Controllers
 
         public JsonResult GetSku(string query)
         {
-            var data = new[] {
-              new { sku = "1111", productName = "product1", unitPrice = "5"},
-              new { sku = "222", productName = "product2", unitPrice = "15"},
-              new { sku = "312", productName = "product3", unitPrice = "25"}
-           };
-
+            var data = _ePiFindSearchService.SearchSkus(query);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 

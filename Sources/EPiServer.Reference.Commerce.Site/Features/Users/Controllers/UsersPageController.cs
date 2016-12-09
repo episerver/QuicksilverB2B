@@ -13,11 +13,13 @@ using EPiServer.Reference.Commerce.Site.B2B.Filters;
 using EPiServer.Reference.Commerce.Site.B2B.Models.Pages;
 using EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
+using EPiServer.Reference.Commerce.Site.B2B.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Users.ViewModels;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
 {
@@ -29,20 +31,25 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
         private readonly IContentLoader _contentLoader;
         private readonly IMailService _mailService;
         private readonly ApplicationUserManager _userManager;
+        private readonly ApplicationSignInManager _signInManager;
         private readonly LocalizationService _localizationService;
         private readonly IEPiFindSearchService _ePiFindSearchService;
+        private readonly CookieService _cookieService;
 
         public UsersPageController(ICustomerService customerService, IOrganizationService organizationService,
-            ApplicationUserManager applicationUserManager, IContentLoader contentLoader, IMailService mailService,
-            LocalizationService localizationService, IEPiFindSearchService ePiFindSearchService)
+            ApplicationUserManager applicationUserManager, ApplicationSignInManager applicationSignInManager, 
+            IContentLoader contentLoader, IMailService mailService, LocalizationService localizationService, 
+            IEPiFindSearchService ePiFindSearchService, CookieService cookieService)
         {
             _customerService = customerService;
             _organizationService = organizationService;
             _userManager = applicationUserManager;
+            _signInManager = applicationSignInManager;
             _contentLoader = contentLoader;
             _mailService = mailService;
             _localizationService = localizationService;
             _ePiFindSearchService = ePiFindSearchService;
+            _cookieService = cookieService;
         }
 
         [NavigationAuthorize("Admin")]
@@ -138,9 +145,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
         }
 
         [NavigationAuthorize("Admin")]
-        public JsonResult GetUsers(string phrase)
+        public JsonResult GetUsers(string query)
         {
-            var data = _ePiFindSearchService.SearchUsers(phrase);
+            var data = _ePiFindSearchService.SearchUsers(query);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
@@ -150,6 +157,34 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
             var addresses = organization.Locations;
 
             return Json(addresses, JsonRequestBehavior.AllowGet);
+        }
+
+        [NavigationAuthorize("Admin")]
+        public JsonResult ImpersonateUser(string username)
+        {
+            var success = false;
+            var user = _userManager.FindByEmail(username);
+            if (user != null)
+            {
+                _cookieService.Set(B2B.Constants.Cookies.B2BImpersonatingAdmin, User.Identity.GetUserName(), true);
+                _signInManager.SignIn(user, false, false);
+                success = true;
+            }
+            return Json(new {success});
+        }
+
+        public ActionResult BackAsAdmin()
+        {
+            var adminUsername = _cookieService.Get(B2B.Constants.Cookies.B2BImpersonatingAdmin);
+            if (!string.IsNullOrEmpty(adminUsername))
+            {
+                var adminUser = _userManager.FindByEmail(adminUsername);
+                if (adminUser != null)
+                    _signInManager.SignIn(adminUser, false, false);
+
+                _cookieService.Remove(B2B.Constants.Cookies.B2BImpersonatingAdmin);
+            }
+            return Redirect(Request.UrlReferrer?.AbsoluteUri ?? "/");
         }
 
         #region Helpers

@@ -102,5 +102,10 @@ namespace EPiServer.Reference.Commerce.Site.B2B
         public static string SectionName = "InfoBlock";
         public static string ErrorMesages = "ErrorMesages";
         public static string DefaultDisplayOrder = "10000";
+
+        public static class Cookies
+        {
+            public static string B2BImpersonatingAdmin = "B2B_Impersonating_Admin";
+        }
     }
 }

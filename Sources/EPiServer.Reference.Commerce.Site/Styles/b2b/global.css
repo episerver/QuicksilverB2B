@@ -945,6 +945,13 @@ http://nicolasgallagher.com/micro-clearfix-hack/
   top: 10px;
   width: 236.5px;
 }
+
+.back-as-admin-banner {
+    width: 100%;
+    text-align: center;
+    background-color: #ddd;
+}
+
 .margin-bottom-5 {
     margin-bottom: 5%;
 }

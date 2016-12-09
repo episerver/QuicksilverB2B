@@ -243,6 +243,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
         private readonly Mock<IOrderFactory> _orderFactoryMock;
         private readonly Mock<IContentLoader> _contentLoaderMock;
         private readonly Mock<IOrganizationService> _organizationServiceMock;
+        private readonly Mock<IBudgetService> _budgetService;
         private readonly ICart _cart;
 
         public CheckoutControllerTests()
@@ -269,6 +270,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
             _orderFactoryMock = new Mock<IOrderFactory>();
             _contentLoaderMock = new Mock<IContentLoader>();
             _cart = new FakeCart(null, new Currency("USD"));
+            _budgetService = new Mock<IBudgetService>();
             _exceptionContext = new ExceptionContext
             {
                 HttpContext = _httpContextBaseMock.Object,
@@ -288,7 +290,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
                 _currencyServiceMock.Object, _controllerExceptionHandlerMock.Object, _customerContextFacadeMock.Object, _orderRepositoryMock.Object,
                 _checkoutViewModelFactoryMock.Object, _orderGroupCalculatorMock.Object, _paymentProcessorMock.Object, _promotionEngineMock.Object,
                 _cartServiceMock.Object, _addressBookServiceMock.Object, _orderSummaryViewModelFactoryMock.Object, _orderFactoryMock.Object,
-                _cartServiceB2BMock.Object, _contentLoaderMock.Object,_organizationServiceMock.Object);
+                _cartServiceB2BMock.Object, _contentLoaderMock.Object,_organizationServiceMock.Object,_budgetService.Object);
 
             _checkoutViewModelFactoryMock
                 .Setup(x => x.CreateCheckoutViewModel(It.IsAny<ICart>(), It.IsAny<CheckoutPage>(), It.IsAny<PaymentMethodViewModel<PaymentMethodBase>>()))
@@ -401,7 +403,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
                 IOrderFactory orderFactory,
                 ICartServiceB2B cartServiceB2B,
                 IContentLoader contentLoader,
-                IOrganizationService organizationService
+                IOrganizationService organizationService,
+                IBudgetService budgetService
                 )
                 : base(contentRepository,
                       mailService,
@@ -420,7 +423,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
                       orderFactory,
                       cartServiceB2B,
                       contentLoader,
-                      organizationService)
+                      organizationService,
+                      budgetService)
             {
             }
 

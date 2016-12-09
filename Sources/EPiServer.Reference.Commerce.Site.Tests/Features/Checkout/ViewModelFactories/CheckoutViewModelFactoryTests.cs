@@ -129,7 +129,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
             var httpcontextMock = new Mock<HttpContextBase>();
             var requestMock = new Mock<HttpRequestBase>();
             var serviceCustomer = new Mock<ICustomerService>();
-
+            var organizationService = new Mock<IOrganizationService>();
+            var budgetService = new Mock<IBudgetService>();
+            var customerContext = new Mock<CustomerContextFacade>();
             requestMock.Setup(x => x.Url).Returns(new Uri("http://site.com"));
             requestMock.Setup(x => x.UrlReferrer).Returns(new Uri("http://site.com"));
             httpcontextMock.Setup(x => x.Request).Returns(requestMock.Object);
@@ -155,7 +157,10 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
                 urlResolverMock.Object,
                 (() => httpcontextMock.Object),
                 shipmentViewModelFactoryMock.Object,
-                serviceCustomer.Object);
+                serviceCustomer.Object,
+                organizationService.Object,
+                budgetService.Object,
+                customerContext.Object);
         }
     }
 }

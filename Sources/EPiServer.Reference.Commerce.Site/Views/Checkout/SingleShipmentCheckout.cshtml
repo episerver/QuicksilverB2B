@@ -1,4 +1,5 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels.CheckoutViewModel
+﻿@using EPiServer.Reference.Commerce.Site.B2B.Enums
+@model EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels.CheckoutViewModel
 @{
     if (Request.IsAjaxRequest())
     {
@@ -82,6 +83,17 @@
             }
         </div>
     }
+    <div class="col-xs-12 col-sm-12 margin-bottom-5" id="onHoldBudgetErrorMessage" data-onHold="@Model.IsOnHoldBudget">
+        @if (Request.IsAuthenticated && string.IsNullOrEmpty(Model.QuoteStatus) && Model.CurrentCustomer.Role == B2BUserRoles.Purchaser)
+        {
+            using (@Html.BeginForm("RequestQuote", "Cart", FormMethod.Post))
+            {
+                <div class="cart-item">
+                    <button type="button" class="btn btn-block btn-warning jsCartRequestQuote" aria-expanded="false">@Html.Translate("/Header/MiniCart/Button/RequestQuotation")</button>
+                </div>
+            }
+        }
+    </div>
 
     <form class="jsCheckoutForm" action="@Url.Action("Purchase", "Checkout")" method="post" novalidate data-updateurl="@Url.Action("Update", null, null)">
 
@@ -103,9 +115,15 @@
                     @{ Html.RenderPartial("Payment", Model); }
                 </div>
             </div>
+            <br/>
+            if(Model.IsOnHoldBudget && Model.CurrentCustomer.Role == B2BUserRoles.Purchaser)
+            {
+                <div class="col-md-12 col-xs-12 alert alert-info pull-right">
+                    <button type="button" class="close" data-hide="alert">&times;</button>
+                    <span class="warning-message">The current Organization or User allocated budget is On Hold. Budget Payment will be on hold as well.</span>
+                </div>
+            }
         }
-
-        <div class="row section-box">
             <div class="col-xs-12">
                 @{ Html.RenderAction("OrderSummary"); }
                 @if (!(bool)ViewData["IsReadOnly"])
@@ -113,6 +131,5 @@
                     <button type="submit" class="btn btn-primary btn--blue pull-right">@Html.Translate("/Checkout/PlaceOrder")</button>
                 }
             </div>
-        </div>
     </form>
 </div>

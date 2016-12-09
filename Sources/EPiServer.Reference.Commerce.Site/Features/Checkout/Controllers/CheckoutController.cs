@@ -57,6 +57,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         private readonly IOrderFactory _orderFactory;
         private readonly IContentLoader _contentLoader;
         private readonly IOrganizationService _organizationService;
+        private readonly IBudgetService _budgetService;
         private ICart _cart;
 
         public CheckoutController(IContentRepository contentRepository,
@@ -76,7 +77,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             IOrderFactory orderFactory,
             ICartServiceB2B cartServiceB2B,
             IContentLoader contentLoader,
-            IOrganizationService organizationService)
+            IOrganizationService organizationService,
+            IBudgetService budgetService)
         {
             _contentRepository = contentRepository;
             _mailService = mailService;
@@ -96,6 +98,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             _cartServiceB2B = cartServiceB2B;
             _contentLoader = contentLoader;
             _organizationService = organizationService;
+            _budgetService = budgetService;
         }
 
         [HttpGet]
@@ -288,6 +291,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             // Since the payment property is marked with an exclude binding attribute in the CheckoutViewModel
             // it needs to be manually re-added again.
             checkoutViewModel.Payment = paymentViewModel;
+
+            // Check for On Hold budgets on organizations
+            if (paymentViewModel.PaymentMethod is BudgetPaymentMethod)
+            {
+                if (CheckForOnHoldBudgets())
+                    checkoutViewModel.IsOnHoldBudget = true;
+                    return View(checkoutViewModel, paymentViewModel);
+            }
 
             ValidateShippingAddress(checkoutViewModel);
 
@@ -673,6 +684,30 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             }
 
             return viewModel;
+        }
+
+
+        private bool CheckForOnHoldBudgets()
+        {
+            var currentCustomer = _customerContext.GetContactById(_customerContext.CurrentContactId);
+            if (currentCustomer?.ContactOrganization != null)
+            {
+                var subOrganizationId = new Guid(currentCustomer.ContactOrganization.PrimaryKeyId.Value.ToString());
+
+                var purchaserBudget = _budgetService.GetCustomerCurrentBudget(subOrganizationId, _customerContext.CurrentContactId);
+                if (purchaserBudget != null)
+                    if (purchaserBudget.Status.Equals(Constants.BudgetStatus.OnHold)) return true;
+
+                var suborganizationCurrentBudget = _budgetService.GetCurrentOrganizationBudget(subOrganizationId);
+                if (suborganizationCurrentBudget != null)
+                    if (suborganizationCurrentBudget.Status.Equals(Constants.BudgetStatus.OnHold)) return true;
+
+                var organizationCurrentBudget = _budgetService.GetCurrentOrganizationBudget(_organizationService.GetSubOrganizationById(subOrganizationId.ToString()).ParentOrganizationId);
+                if (organizationCurrentBudget != null)
+                    if (organizationCurrentBudget.Status.Equals(Constants.BudgetStatus.OnHold)) return true;
+            }
+
+            return false;
         }
     }
 }

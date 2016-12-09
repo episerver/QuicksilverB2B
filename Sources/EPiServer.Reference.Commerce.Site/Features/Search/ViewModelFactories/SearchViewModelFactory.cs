@@ -14,12 +14,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories
         private readonly ISearchService _searchService;
         private readonly LocalizationService _localizationService;
         private readonly ICurrentMarket _currentMarket;
+        private readonly IFindProductSearchService _findProductSearchService;
 
-        public SearchViewModelFactory(LocalizationService localizationService, ISearchService searchService, ICurrentMarket currentMarket)
+        public SearchViewModelFactory(LocalizationService localizationService, ISearchService searchService, ICurrentMarket currentMarket, IFindProductSearchService findProductSearchService)
         {
             _searchService = searchService;
             _localizationService = localizationService;
             _currentMarket = currentMarket;
+            _findProductSearchService = findProductSearchService;
         }
 
         public virtual SearchViewModel<T> Create<T>(T currentContent, FilterOptionViewModel viewModel) where T : IContent
@@ -35,7 +37,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories
                 };
             }
 
-            var customSearchResult = _searchService.Search(currentContent, viewModel);
+            var customSearchResult = _findProductSearchService.SearchProducts(currentContent, viewModel);
 
             viewModel.TotalCount = customSearchResult.SearchResult != null ? customSearchResult.SearchResult.TotalCount : 0;
             viewModel.FacetGroups = customSearchResult.FacetGroups.ToList();
@@ -46,9 +48,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories
                 Value = x.Name.ToString(),
                 Selected = string.Equals(x.Name.ToString(), viewModel.Sort)
             });
-            var currentMarketCode = _currentMarket.GetCurrentMarket().MarketId;
-            customSearchResult.ProductViewModels =
-                customSearchResult.ProductViewModels.Where(item => item.MarketFilter != currentMarketCode);
+            //var currentMarketCode = _currentMarket.GetCurrentMarket().MarketId;
+            //customSearchResult.ProductViewModels =
+            //    customSearchResult.ProductViewModels.Where(item => item.MarketFilter != currentMarketCode);
 
             return new SearchViewModel<T>
             {

@@ -126,6 +126,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
 
         SearchViewModelFactory _subject;
         Mock<ISearchService> _searchServiceMock;
+        Mock<IFindProductSearchService> _findProductSearchServiceMock;
         Mock<ISearchResults> _searchResultsMock;
         Mock<ICurrentMarket> _marketServiceMock;
         IEnumerable<ProductViewModel> _productViewModels = Enumerable.Empty<ProductViewModel>();
@@ -136,6 +137,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
             _searchServiceMock = new Mock<ISearchService>();
             _searchResultsMock = new Mock<ISearchResults>();
             _marketServiceMock = new Mock<ICurrentMarket>();
+            _findProductSearchServiceMock = new Mock<IFindProductSearchService>();
 
             _searchResultsMock
                 .Setup(s => s.FacetGroups)
@@ -148,7 +150,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Models
                     ProductViewModels = _productViewModels,
                     SearchResult = _searchResultsMock.Object});
 
-            _subject = new SearchViewModelFactory(new MemoryLocalizationService(), _searchServiceMock.Object, _marketServiceMock.Object);
+            _subject = new SearchViewModelFactory(new MemoryLocalizationService(), _searchServiceMock.Object,
+                _marketServiceMock.Object, _findProductSearchServiceMock.Object);
         }
     }
 }

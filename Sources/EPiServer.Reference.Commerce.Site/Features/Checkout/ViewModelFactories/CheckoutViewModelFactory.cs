@@ -17,7 +17,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using EPiServer.Reference.Commerce.Site.B2B;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
 {
@@ -33,6 +35,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
         readonly ServiceAccessor<HttpContextBase> _httpContextAccessor;
         readonly ShipmentViewModelFactory _shipmentViewModelFactory;
         private readonly ICustomerService _customerService;
+        private readonly IOrganizationService _organizationService;
+        private readonly IBudgetService _budgetService;
+        private readonly CustomerContextFacade _customerContext;
 
         public CheckoutViewModelFactory(
             LocalizationService localizationService,
@@ -43,7 +48,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
             UrlResolver urlResolver,
             ServiceAccessor<HttpContextBase> httpContextAccessor,
             ShipmentViewModelFactory shipmentViewModelFactory,
-            ICustomerService customerService)
+            ICustomerService customerService,
+            IOrganizationService organizationService,
+            IBudgetService budgetService,
+            CustomerContextFacade customerContext)
         {
             _localizationService = localizationService;
             _paymentMethodViewModelFactory = paymentMethodViewModelFactory;
@@ -54,6 +62,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
             _httpContextAccessor = httpContextAccessor;
             _shipmentViewModelFactory = shipmentViewModelFactory;
             _customerService = customerService;
+            _budgetService = budgetService;
+            _organizationService = organizationService;
+            _customerContext = customerContext;
         }
 
         public virtual CheckoutViewModel CreateCheckoutViewModel(ICart cart, CheckoutPage currentPage, IPaymentMethodViewModel<PaymentMethodBase> paymentViewModel = null)
@@ -76,7 +87,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
                 AvailableAddresses = new List<AddressModel>(),
                 ReferrerUrl = GetReferrerUrl(),
                 Payment = paymentViewModel,
-                CurrentCustomer = _customerService.GetCurrentContact()
+                CurrentCustomer = _customerService.GetCurrentContact(),
+                IsOnHoldBudget = CheckForOnHoldBudgets()
             };
 
             UpdatePayment(viewModel);
@@ -178,6 +190,29 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
                 return httpContext.Request.UrlReferrer.ToString();
             }
             return _urlResolver.GetUrl(ContentReference.StartPage);
+        }
+
+        private bool CheckForOnHoldBudgets()
+        {
+            var currentCustomer = _customerContext.GetContactById(_customerContext.CurrentContactId);
+            if (currentCustomer?.ContactOrganization != null)
+            {
+                var subOrganizationId = new Guid(currentCustomer.ContactOrganization.PrimaryKeyId.Value.ToString());
+
+                var purchaserBudget = _budgetService.GetCustomerCurrentBudget(subOrganizationId, _customerContext.CurrentContactId);
+                if(purchaserBudget != null)
+                    if (purchaserBudget.Status.Equals(Constants.BudgetStatus.OnHold)) return true;
+
+                var suborganizationCurrentBudget = _budgetService.GetCurrentOrganizationBudget(subOrganizationId);
+                if (suborganizationCurrentBudget != null)
+                    if (suborganizationCurrentBudget.Status.Equals(Constants.BudgetStatus.OnHold)) return true;
+
+                var organizationCurrentBudget = _budgetService.GetCurrentOrganizationBudget(_organizationService.GetSubOrganizationById(subOrganizationId.ToString()).ParentOrganizationId);
+                if (organizationCurrentBudget != null)
+                    if (organizationCurrentBudget.Status.Equals(Constants.BudgetStatus.OnHold)) return true;
+            }
+
+            return false;
         }
     }
 }

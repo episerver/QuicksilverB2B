@@ -73,7 +73,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B
         public static class Order
         {
             public static string BudgetPayment = "BudgetPayment";
-            public static string PendingApproval = "Pending Approval";
+            public static string PendingApproval = "PendingApproval";
         }
         
         public static class UserRoles
@@ -82,6 +82,21 @@ namespace EPiServer.Reference.Commerce.Site.B2B
             public static string Purchaser = "Purchaser";
             public static string Approver = "Approver";
             public static string None = "None";
+        }
+        public static class Product
+        {
+            public const string Brand = "Brand";
+            public const string AvailableColors = "Color";
+            public const string AvailableSizes = "Size";
+            public const string TopCategory = "Top category";
+            public const string Categories = "Category";
+        }
+
+        public static class BudgetStatus
+        {
+            public static string OnHold = "OnHold";
+            public static string Active = "Active";
+            public static string Planned = "Planned";
         }
 
         public static string SectionName = "InfoBlock";

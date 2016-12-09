@@ -166,7 +166,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
             var user = _userManager.FindByEmail(username);
             if (user != null)
             {
-                _cookieService.Set(B2B.Constants.Cookies.B2BImpersonatingAdmin, User.Identity.GetUserName());
+                _cookieService.Set(B2B.Constants.Cookies.B2BImpersonatingAdmin, User.Identity.GetUserName(), true);
                 _signInManager.SignIn(user, false, false);
                 success = true;
             }

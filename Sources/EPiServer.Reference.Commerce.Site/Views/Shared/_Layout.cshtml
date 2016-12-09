@@ -3,6 +3,7 @@
 @using EPiServer.Security
 @using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 @using EPiServer.Framework.Web.Mvc.Html
+@using EPiServer.Reference.Commerce.Site.B2B
 @using EPiServer.Web.Routing
 <!DOCTYPE html>
 <html lang="en">
@@ -33,11 +34,15 @@
                 var requestContentLink = ViewContext.RequestContext.GetContentLink();
                 @Helpers.RenderHrefLangs(requestContentLink, defaultLanguage);
             }
+            var renderAdminBanner = Request.Cookies[Constants.Cookies.B2BImpersonatingAdmin] != null && !string.IsNullOrEmpty(Request.Cookies[Constants.Cookies.B2BImpersonatingAdmin].Value);
         }
         @Html.RequiredClientResources("Header")
     </head>
     <body>
-
+        @if (renderAdminBanner)
+        {
+            Html.RenderPartial("_AdminImpersonatorHeader");
+        }
         @Html.RenderEPiServerQuickNavigator()
 
         @Html.RenderReadonlyMessage()

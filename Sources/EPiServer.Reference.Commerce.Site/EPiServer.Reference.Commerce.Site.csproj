@@ -878,6 +878,7 @@
     <Content Include="Views\BudgetingPage\EditUserBudget.cshtml" />
     <Content Include="Views\Shared\_BudgetPaymentConfirmation.cshtml" />
     <Content Include="Views\Shared\_BudgetPaymentPaymentMethod.cshtml" />
+    <Content Include="Views\Shared\_AdminImpersonatorHeader.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

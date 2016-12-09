@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using EPiServer.Commerce.Order;
+using EPiServer.Reference.Commerce.Site.B2B;
 using EPiServer.Reference.Commerce.Site.B2B.Enums;
 using EPiServer.Reference.Commerce.Site.B2B.Extensions;
 using EPiServer.Reference.Commerce.Site.B2B.Models.Entities;
@@ -48,6 +49,12 @@ namespace EPiServer.Reference.Commerce.BudgetPayment
             }
 
             var purchaserCustomer = !isQuoteOrder ? customer : _ordersService.Service.GetPurchaserCustomer(currentOrder);
+            if (AreBudgetsOnHold(purchaserCustomer))
+            {
+                message = "Budget on hold.";
+                return false;
+            }
+
             var budget = _budgetService.Service.GetCustomerCurrentBudget(purchaserCustomer.Organization.OrganizationId, purchaserCustomer.ContactId);
             if (budget == null || budget.RemainingBudget < payment.Amount)
             {
@@ -78,6 +85,20 @@ namespace EPiServer.Reference.Commerce.BudgetPayment
                 budget.SpentBudget += amount;
                 budget.SaveChanges();
             }
+        }
+
+        private bool AreBudgetsOnHold(ContactViewModel customer)
+        {
+            if (customer?.Organization == null) return true;
+
+            var budgetsToCheck = new List<Budget>
+            {
+                _budgetService.Service.GetCurrentOrganizationBudget(customer.Organization.OrganizationId),
+                _budgetService.Service.GetCurrentOrganizationBudget(customer.Organization.ParentOrganizationId),
+                _budgetService.Service.GetCustomerCurrentBudget(customer.Organization.OrganizationId,
+                    customer.ContactId)
+            };
+            return budgetsToCheck.Any(budget => budget.Status.Equals(Constants.BudgetStatus.OnHold));
         }
     }
 }

@@ -423,8 +423,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
                       orderFactory,
                       cartServiceB2B,
                       contentLoader,
-                      organizationService,
-                      budgetService)
+                      organizationService)
             {
             }
 

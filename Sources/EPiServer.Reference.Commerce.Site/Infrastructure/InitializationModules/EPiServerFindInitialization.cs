@@ -18,7 +18,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.InitializationModules
             ContentIndexer.Instance.Conventions.ForInstancesOf<PageData>().ShouldIndex(x => false);
             ContentIndexer.Instance.Conventions.ForInstancesOf<BlockData>().ShouldIndex(x => false);
             ContentIndexer.Instance.Conventions.ForInstancesOf<MediaData>().ShouldIndex(x => false);
-            ContentIndexer.Instance.Conventions.ForInstancesOf<VariationContent>().ShouldIndex(x => false);
+            //ContentIndexer.Instance.Conventions.ForInstancesOf<VariationContent>().ShouldIndex(x => false);
 
             CatalogContentClientConventions instance2 = context.Locate.Advanced.GetInstance<B2BCatalogContentClientConventions>();
             CatalogContentClientConventions instance = context.Locate.Advanced.GetInstance<CatalogContentClientConventions>();

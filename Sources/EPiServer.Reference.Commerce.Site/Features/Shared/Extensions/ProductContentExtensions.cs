@@ -4,6 +4,8 @@ using System.Linq;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Commerce.SpecializedProperties;
+using EPiServer.Find.Cms;
+using EPiServer.Find.Commerce;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.ServiceLocation;
 using Mediachase.Commerce.Catalog;
@@ -20,6 +22,21 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
         private static Injected<IPriceService> _priceService;
         private static Injected<IPromotionService> _promotionService;
 #pragma warning restore 649
+
+        public static string ParentName(this ProductContent productContent)
+        {
+            var parent = _contentLoader.Service.Get<NodeContent>(productContent.ParentLink);
+            return parent?.DisplayName;
+        }
+
+        public static string TopCategory(this ProductContent productContent)
+        {
+            var parent = _contentLoader.Service.Get<NodeContent>(productContent.ParentLink);
+            if (parent == null) return null;
+
+            var topParent = _contentLoader.Service.Get<NodeContent>(parent.ParentLink);
+            return topParent?.DisplayName;
+        }
 
         public static List<Price> OriginalPrices(this ProductContent productContent)
         {

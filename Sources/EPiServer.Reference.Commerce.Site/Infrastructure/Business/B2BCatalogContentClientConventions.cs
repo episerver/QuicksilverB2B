@@ -5,7 +5,7 @@ using EPiServer.ServiceLocation;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure.Business
 {
-    [ServiceConfiguration(ServiceType = typeof(CatalogContentClientConventions))]
+    [ServiceConfiguration(ServiceType = typeof(CatalogContentClientConventions), Lifecycle = ServiceInstanceScope.Singleton)]
     public class B2BCatalogContentClientConventions : CatalogContentClientConventions
     {
         protected override void ApplyNestedConventions(NestedConventions nestedConventions)

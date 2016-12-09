@@ -83,6 +83,14 @@ namespace EPiServer.Reference.Commerce.Site.B2B
             public static string Approver = "Approver";
             public static string None = "None";
         }
+        public static class Product
+        {
+            public const string Brand = "Brand";
+            public const string AvailableColors = "Color";
+            public const string AvailableSizes = "Size";
+            public const string TopCategory = "Top category";
+            public const string Categories = "Category";
+        }
 
         public static string SectionName = "InfoBlock";
         public static string DefaultDisplayOrder = "10000";

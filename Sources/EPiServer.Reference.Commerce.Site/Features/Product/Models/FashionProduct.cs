@@ -61,6 +61,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Models
         public virtual ItemCollection<string> AvailableColors { get; set; }
 
         [Ignore]
+        public virtual string ParentName => this.ParentName();
+
+        [Ignore]
+        public virtual string TopCategory => this.TopCategory();
+
+        [Ignore]
         public virtual List<Price> OriginalPrices => this.OriginalPrices();
 
         [Ignore]

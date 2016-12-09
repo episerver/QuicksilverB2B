@@ -1,319 +1,92 @@
-﻿@using EPiServer.Reference.Commerce.Site.B2B.Enums
+﻿@using EPiServer.Commerce.Order
+@using EPiServer.Reference.Commerce.Site.B2B.Enums
 @model EPiServer.Reference.Commerce.Site.Features.OrderPads.ViewModels.OrderPadsPageViewModel
 
 <div class="container-fluid">
     <div class="row myPage">
-        <aside class="col-xs-12 col-sm-3 sidebar-nav">
-            <h2 class="h3">Account</h2>
-            <ul class="nav nav-stacked" role="tablist">
-                <li role="presentation" class="is-active">
-                    <a href="/en/my-pages/profile/" aria-expanded="True">Profile</a>
-                </li>
-                <li role="presentation" class="">
-                    <a href="/en/my-pages/address-book/" aria-expanded="False">Address book</a>
-                </li>
-                <li role="presentation" class="">
-                    <a href="/en/my-pages/order-history/" aria-expanded="False">Order history</a>
-                </li>
-                <li role="presentation" class="">
-                    <a href="/en/my-pages/wish-list/" aria-expanded="False">Wish list</a>
-                </li>
-                <li role="presentation" class="">
-                    <a href="/en/my-pages/reset-password/" aria-expanded="False">Reset password</a>
-                </li>
-            </ul>
-            <h2 class="h3">Organization</h2>
-            <ul class="nav nav-stacked" role="tablist">
-                <li role="presentation">
-                    <a href="#" class="" aria-expanded="">[Organization]</a>
-                    <ul class="nav nav-stacked" role="tablist">
-                        <li><a href="#" class="" aria-expanded="">[Suborganization A]</a></li>
-                        <li><a href="#" class="" aria-expanded="">[Suborganization B]</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </aside>
+        @Html.Partial("_CmsNavigation", Model.CurrentPage)
         <main class="col-xs-12 col-sm-9">
             <div class="spacer-left-l">
-                <div class="btn-group spacer-bottom-l" role="group" aria-label="">
-                    <a href="@Url.Action("Index", "OrganizationPage")" class="btn btn-default">Overview</a>
-                    <a href="#" class="btn btn-default">Users</a>
-                    <a href="#" class="btn btn-default">Orders</a>
-                    <a href="#" class="btn btn-default active">Order Pads</a>
-                    <a href="#" class="btn btn-default">Budgeting</a>
-                </div>
+                @{Html.RenderAction("Index", "B2BNavigation");}
                 <section>
                     <table id="firstTable" class="table table-striped expandable-table">
                         <thead>
                             <tr>
                                 <th class="empty"></th>
                                 <th class="empty"></th>
-                                <th>sku</th>
-                                <th>product title</th>
-                                <th>amount</th>
-                                <th>created on</th>
-                                <th>quantity</th>
-                                <th class="text-right">actions</th>
+                                <th>Sku</th>
+                                <th>Product Title</th>
+                                <th>Amount</th>
+                                <th>Created On</th>
+                                <th>Quantity</th>
+                                <th class="text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="first-row">
-                                <td colspan="8">
-                                    <a href="#" class="btn btn-primary btn-xs js-second-row-collapsed" data-expand="EpiserverEMEA">
-                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                    </a>
-                                    <span>Episerver EMEA</span>
-                                </td>
-                            </tr>
-                            <tr class="second-row EpiserverEMEA">
-                                <td></td>
-                                <td colspan="7">
-                                    <a href="#" class="btn btn-primary btn-xs js-third-row-collapsed" data-expand="TinaMayer">
-                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                    </a>
-                                    <span>Tina Mayer</span>
-                                </td>
-                            </tr>
-                            <tr class="third-row TinaMayer">
-                                <td></td>
-                                <td></td>
-                                <td><a href="#">#EPI7654</a></td>
-                                <td>Mici cu bere</td>
-                                <td>$3200</td>
-                                <td>08/16/2016</td>
-                                <td>1000</td>
-                                <td class="text-right">
-                                    <a href="#" class="btn btn-primary btn-xs">
-                                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
-                                    </a>
-                                    <a href="#" class="btn btn-danger btn-xs">
-                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="third-row TinaMayer">
-                                <td></td>
-                                <td></td>
-                                <td><a href="#">#EPI7654</a></td>
-                                <td>Mici cu bere</td>
-                                <td>$3200</td>
-                                <td>08/16/2016</td>
-                                <td>1000</td>
-                                <td class="text-right">
-                                    <a href="#" class="btn btn-primary btn-xs">
-                                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
-                                    </a>
-                                    <a href="#" class="btn btn-danger btn-xs">
-                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                    </a>
-                                </td>
-                            </tr>
-                            <!-- NEW ORG -->
-                            <tr class="first-row">
-                                <td colspan="8">
-                                    <a href="#" class="btn btn-primary btn-xs js-second-row-collapsed" data-expand="EpiserverAmericas">
-                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                    </a>
-                                    <span>Episerver Americas</span>
-                                </td>
-                            </tr>
-                            <tr class="second-row EpiserverAmericas">
-                                <td></td>
-                                <td colspan="7">
-                                    <a href="#" class="btn btn-primary btn-xs js-third-row-collapsed" data-expand="AshleySteward">
-                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                    </a>
-                                    <span>Ashley Steward</span>
-                                </td>
-                            </tr>
-                            <tr class="third-row AshleySteward">
-                                <td></td>
-                                <td></td>
-                                <td><a href="#">#EPI7654</a></td>
-                                <td>Mici cu bere</td>
-                                <td>$3200</td>
-                                <td>08/16/2016</td>
-                                <td>1000</td>
-                                <td class="text-right">
-                                    <a href="#" class="btn btn-primary btn-xs">
-                                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
-                                    </a>
-                                    <a href="#" class="btn btn-danger btn-xs">
-                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="third-row AshleySteward">
-                                <td></td>
-                                <td></td>
-                                <td><a href="#">#EPI7654</a></td>
-                                <td>Mici cu bere</td>
-                                <td>$3200</td>
-                                <td>08/16/2016</td>
-                                <td>1000</td>
-                                <td class="text-right">
-                                    <a href="#" class="btn btn-primary btn-xs">
-                                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
-                                    </a>
-                                    <a href="#" class="btn btn-danger btn-xs">
-                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="second-row EpiserverAmericas">
-                                <td></td>
-                                <td colspan="7">
-                                    <a href="#" class="btn btn-primary btn-xs js-third-row-collapsed" data-expand="MikePurchaser">
-                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                    </a>
-                                    <span>Mike Purchaser</span>
-                                </td>
-                            </tr>
-                            <tr class="third-row MikePurchaser">
-                                <td></td>
-                                <td></td>
-                                <td><a href="#">#EPI7654</a></td>
-                                <td>Mici cu bere</td>
-                                <td>$3200</td>
-                                <td>08/16/2016</td>
-                                <td>1000</td>
-                                <td class="text-right">
-                                    <a href="#" class="btn btn-primary btn-xs">
-                                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
-                                    </a>
-                                    <a href="#" class="btn btn-danger btn-xs">
-                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="third-row MikePurchaser">
-                                <td></td>
-                                <td></td>
-                                <td><a href="#">#EPI7654</a></td>
-                                <td>Mici cu bere</td>
-                                <td>$3200</td>
-                                <td>08/16/2016</td>
-                                <td>1000</td>
-                                <td class="text-right">
-                                    <a href="#" class="btn btn-primary btn-xs">
-                                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
-                                    </a>
-                                    <a href="#" class="btn btn-danger btn-xs">
-                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                    </a>
-                                </td>
-                            </tr>
-                            <!-- NEW ORG -->
-                        </tbody>
-                    </table>
-
-                    <table id="secondTable" class="table table-striped expandable-table">
-                        <thead>
-                            <tr>
-                                <th class="empty"></th>
-                                <th>sku</th>
-                                <th>product title</th>
-                                <th>amount</th>
-                                <th>created on</th>
-                                <th>quantity</th>
-                                <th class="text-right">actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="first-row">
-                                <td colspan="7">
-                                    <a href="#" class="btn btn-primary btn-xs js-second-row-collapsed" data-expand="TinaMayer">
-                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                    </a>
-                                    <span>Tina Mayer</span>
-                                </td>
-                            </tr>
-                            <tr class="second-row TinaMayer">
-                                <td></td>
-                                <td><a href="#">#EPI7654</a></td>
-                                <td>Mici cu bere</td>
-                                <td>$3200</td>
-                                <td>08/16/2016</td>
-                                <td>1000</td>
-                                <td class="text-right">
-                                    <a href="#" class="btn btn-primary btn-xs">
-                                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
-                                    </a>
-                                    <a href="#" class="btn btn-danger btn-xs">
-                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="second-row TinaMayer">
-                                <td></td>
-                                <td><a href="#">#EPI7654</a></td>
-                                <td>Mici cu bere</td>
-                                <td>$3200</td>
-                                <td>08/16/2016</td>
-                                <td>1000</td>
-                                <td class="text-right">
-                                    <a href="#" class="btn btn-primary btn-xs">
-                                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
-                                    </a>
-                                    <a href="#" class="btn btn-danger btn-xs">
-                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="first-row EpiserverAmericas">
-                                <td colspan="7">
-                                    <a href="#" class="btn btn-primary btn-xs js-second-row-collapsed" data-expand="MikePurchaser">
-                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                    </a>
-                                    <span>Mike Purchaser</span>
-                                </td>
-                            </tr>
-                            <tr class="second-row MikePurchaser">
-                                <td></td>
-                                <td><a href="#">#EPI7654</a></td>
-                                <td>Mici cu bere</td>
-                                <td>$3200</td>
-                                <td>08/16/2016</td>
-                                <td>1000</td>
-                                <td class="text-right">
-                                    <a href="#" class="btn btn-primary btn-xs">
-                                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
-                                    </a>
-                                    <a href="#" class="btn btn-danger btn-xs">
-                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="second-row MikePurchaser">
-                                <td></td>
-                                <td><a href="#">#EPI7654</a></td>
-                                <td>Mici cu bere</td>
-                                <td>$3200</td>
-                                <td>08/16/2016</td>
-                                <td>1000</td>
-                                <td class="text-right">
-                                    <a href="#" class="btn btn-primary btn-xs">
-                                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
-                                    </a>
-                                    <a href="#" class="btn btn-danger btn-xs">
-                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                    </a>
-                                </td>
-                                <td>
-                                    @if (Request.IsAuthenticated && string.IsNullOrEmpty(Model.QuoteStatus) && Model.CurrentCustomer.Role == B2BUserRoles.Purchaser)
+                            @if (Model.OrganizationOrderPadList != null && Model.OrganizationOrderPadList.Any())
+                            {
+                                foreach (var organization in Model.OrganizationOrderPadList)
+                                {
+                                    <tr class="first-row">
+                                        <td colspan="8">
+                                            <a href="#" class="btn btn-primary btn-xs js-second-row-collapsed" data-expand="@organization.OrganizationId">
+                                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                            </a>
+                                            <span>@organization.OrganizationName</span>
+                                        </td>
+                                    </tr>
+                                    if (organization.UsersOrderPad != null && organization.UsersOrderPad.Any())
                                     {
-                                        using (@Html.BeginForm("RequestQuote", "Cart", FormMethod.Post))
+                                        foreach (var user in organization.UsersOrderPad)
                                         {
-                                            <div class="cart-item">
-                                                <button type="button" class="btn btn-block btn-warning jsCartRequestQuote" aria-expanded="false">@Html.Translate("/Header/MiniCart/Button/RequestQuotation")</button>
-                                            </div>
+                                            <tr class="second-row @organization.OrganizationId">
+                                                <td></td>
+                                                <td colspan="7">
+                                                    <a href="#" class="btn btn-primary btn-xs js-third-row-collapsed" data-expand="@user.UserId">
+                                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                                    </a>
+                                                    <span>@user.UserName</span>
+                                                </td>
+                                            </tr>
+                                            if (user.WishCartList != null)
+                                            {
+                                                if (user.WishCartList.GetAllLineItems().Any())
+                                                {
+                                                    foreach (var lineItem in user.WishCartList.GetAllLineItems())
+                                                    {
+                                                        <tr class="third-row @user.UserId">
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td><a href="#">#@lineItem.Code</a></td>
+                                                            <td>@lineItem.DisplayName</td>
+                                                            <td>@lineItem.PlacedPrice.ToString("N") @user.WishCartList.Currency.CurrencyCode</td>
+                                                            <td>@user.WishCartList.Created.ToShortDateString()</td>
+                                                            <td>@lineItem.Quantity</td>
+                                                            <td class="text-right">
+                                                                <div class="action-buttons wishlist-actions">
+                                                                    @using (@Html.BeginForm("AddToCart", "Cart", FormMethod.Post, new { @class = "form-inline", data_container = "MiniCart" }))
+                                                                    {
+                                                                        @Html.Hidden("code", @lineItem.Code)
+                                                                        <button type="submit" role="button" class="btn btn-primary btn-xs jsAddToCart"><span class="glyphicon glyphicon-shopping-cart"></span></button>
+                                                                    }
+                                                                    @using (@Html.BeginForm("RemoveCartItem", "WishList", FormMethod.Post, new { @class = "form-inline", data_container = "WishListMiniCart" }))
+                                                                    {
+                                                                        @Html.Hidden("code", @lineItem.Code)
+                                                                        @Html.Hidden("userId", @user.UserId)
+                                                                       <button role="button" type="submit" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
+                                                                    }
+                                                                  </div>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
-                                </td>
-                            </tr>
+                                }
+                            }
                         </tbody>
                     </table>
-
                 </section>
             </div>
         </main>

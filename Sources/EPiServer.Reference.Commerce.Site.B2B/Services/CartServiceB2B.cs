@@ -101,5 +101,9 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             }
             return returnCart;
         }
+        public string DefaultWishListName
+        {
+            get { return "WishList"; }
+        }
     }
 }

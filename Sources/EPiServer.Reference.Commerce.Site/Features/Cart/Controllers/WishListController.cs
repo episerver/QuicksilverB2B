@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Castle.Core.Internal;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using Mediachase.Commerce.Catalog;
 using Constants = EPiServer.Reference.Commerce.Site.B2B.Constants;
@@ -110,7 +109,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
                 ContentReference variationReference = _referenceConverter.GetContentLink(sku);
 
                 var responseMessage = _quickOrderService.ValidateProduct(variationReference, Convert.ToDecimal(quantity), sku);
-                if (responseMessage.IsNullOrEmpty())
+                if (string.IsNullOrEmpty(responseMessage))
                 {
                     string warningMessage;
                     if (_cartService.AddToCart(WishList, sku, out warningMessage))
@@ -137,6 +136,29 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
             _cartService.ChangeCartItem(WishList, 0, code, quantity, size, newSize);
             _orderRepository.Save(WishList);
             return WishListMiniCartDetails();
+        }
+
+        [HttpPost]
+        [AllowDBWrite]
+        public ActionResult RemoveCartItem(string code, string userId)
+        {
+            ModelState.Clear();
+            var userWishCart = _cartService.LoadWishListCardByCustomerId(new Guid(userId));
+            if (userWishCart.GetAllLineItems().Count() == 1)
+            {
+                _orderRepository.Delete(userWishCart.OrderLink);
+            }
+            else
+            {
+                _cartService.ChangeQuantity(userWishCart, 0, code, 0);
+                _orderRepository.Save(userWishCart);
+            }
+           
+            var startPage = _contentLoader.Get<StartPage>(ContentReference.StartPage);
+            var urlResolver = ServiceLocation.ServiceLocator.Current.GetInstance<Web.Routing.UrlResolver>();
+            var pageUrl = urlResolver.GetUrl(startPage.OrderPadsPage);
+
+            return Redirect(pageUrl);
         }
 
         [HttpPost]

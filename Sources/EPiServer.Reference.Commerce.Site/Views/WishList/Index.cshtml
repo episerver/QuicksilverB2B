@@ -1,4 +1,5 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels.WishListViewModel
+﻿@using EPiServer.Reference.Commerce.Site.B2B.Enums
+@model EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels.WishListViewModel
 @{ ViewBag.IsWishList = true;
    string displayNoItemMsg = Model.CartItems.Any() ? "none" : string.Empty; 
 }
@@ -36,13 +37,23 @@
 
                 <div class="action-buttons delete-wishlist">
                     @using (Html.BeginForm("DeleteWishList", "WishList"))
-                {
-                    if (!(bool)ViewData["IsReadOnly"])
                     {
+                        if (!(bool) ViewData["IsReadOnly"])
+                        {
                             <button role="button" type="submit" class="btn btn-default btn--blue"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> <span class="wishlist-footer-text"></span>@Html.Translate("/WishList/DeleteButton")</button>
                         }
                     }
                 </div>
+                //TODO after finish with order pads
+                @*if (Request.IsAuthenticated && Model.CurrentCustomer != null && Model.CurrentCustomer.Role == B2BUserRoles.Purchaser)
+                {
+                    using (@Html.BeginForm("RequestQuote", "Cart", FormMethod.Post))
+                    {
+                        <div class="cart-item action-buttons btn-default" style="width: 26.5%">
+                            <button data-cart-id="@if (Model.CartId != null) { @Model.CartId }" type="button" class="btn btn-block btn-warning jsCartRequestWishQuote" aria-expanded="false">@Html.Translate("/Header/MiniCart/Button/RequestQuotation")</button>
+                        </div>
+                    }
+                }*@
             }
         </div>
     </div>

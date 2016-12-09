@@ -19,5 +19,6 @@ namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
         void UpdateContact(string contactId, string userRole, string location = null);
         bool HasOrganization(string contactId);
         CustomerContact GetCustomerByEmail(string email);
+        List<ContactViewModel> GetContactsByOrganizationId(string organizationId);
     }
 }

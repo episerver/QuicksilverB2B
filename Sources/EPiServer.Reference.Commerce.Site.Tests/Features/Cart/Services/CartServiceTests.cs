@@ -396,6 +396,9 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
         private readonly Mock<ICurrencyService> _currencyServiceMock;
         private readonly CartService _subject;
         private readonly ICart _cart;
+        private readonly Mock<AppContextFacade> _appContext;
+        private readonly Mock<ILineItemCalculator> _lineItemCalculator;
+        private readonly Mock<IPromotionService> _promotionService;
 
         public CartServiceTests()
         {
@@ -413,8 +416,13 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
             _marketMock = new Mock<IMarket>();
             _currentMarketMock = new Mock<ICurrentMarket>();
             _currencyServiceMock = new Mock<ICurrencyService>();
+            _promotionService = new Mock<IPromotionService>();
+            _appContext = new Mock<AppContextFacade>();
+            _lineItemCalculator = new Mock<ILineItemCalculator>();
+
             _subject = new CartService(_productServiceMock.Object, _pricingServiceMock.Object, _orderFactoryMock.Object, _customerContextFacaceMock.Object, _placedPriceProcessorMock.Object,
-                _inventoryProcessorMock.Object, _lineItemValidatorMock.Object, _orderRepositoryMock.Object, _promotionEngineMock.Object, _addressBookServiceMock.Object, _currentMarketMock.Object, _currencyServiceMock.Object);
+                _inventoryProcessorMock.Object, _lineItemValidatorMock.Object, _orderRepositoryMock.Object, _promotionEngineMock.Object, _addressBookServiceMock.Object, _currentMarketMock.Object,
+                _currencyServiceMock.Object,_appContext.Object, _promotionService.Object,_lineItemCalculator.Object);
             _cart = new FakeCart(new Mock<IMarket>().Object, new Currency("USD")) { Name = _subject.DefaultCartName };
 
             _orderRepositoryMock.Setup(x => x.Load<ICart>(It.IsAny<Guid>(), _subject.DefaultCartName)).Returns(new[] { _cart });

@@ -13,6 +13,7 @@ using Mediachase.Commerce;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mediachase.Commerce.Catalog;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
 {
@@ -31,6 +32,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         private readonly IAddressBookService _addressBookService;
         private readonly ICurrentMarket _currentMarket;
         private readonly ICurrencyService _currencyService;
+        private readonly AppContextFacade _appContext;
+        private readonly ILineItemCalculator _lineItemCalculator;
+        private readonly IPromotionService _promotionService;
 
         public CartService(
             IProductService productService,
@@ -44,7 +48,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             IPromotionEngine promotionEngine,
             IAddressBookService addressBookService,
             ICurrentMarket currentMarket,
-            ICurrencyService currencyService)
+            ICurrencyService currencyService,
+            AppContextFacade appContext,
+            IPromotionService promotionService,
+            ILineItemCalculator lineItemCalculator)
         {
             _productService = productService;
             _pricingService = pricingService;
@@ -58,6 +65,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             _addressBookService = addressBookService;
             _currentMarket = currentMarket;
             _currencyService = currencyService;
+            _appContext = appContext;
+            _promotionService = promotionService;
+            _lineItemCalculator = lineItemCalculator;
         }
 
         public void ChangeCartItem(ICart cart, int shipmentId, string code, decimal quantity, string size, string newSize)
@@ -254,6 +264,24 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             return cart;
         }
 
+        public ICart LoadWishListCardByCustomerId(Guid currentContactId)
+        {
+            var cart = _orderRepository.LoadCart<ICart>(currentContactId, DefaultWishListName, _currentMarket);
+            if (cart != null)
+            {
+                SetCartCurrency(cart, _currencyService.GetCurrentCurrency());
+
+                var validationIssues = ValidateCart(cart);
+                // After validate, if there is any change in cart, saving cart.
+                if (validationIssues.Any())
+                {
+                    _orderRepository.Save(cart);
+                }
+            }
+
+            return cart;
+        }
+
         public ICart LoadOrCreateCart(string name)
         {
             var cart = _orderRepository.LoadOrCreateCart<ICart>(_customerContext.CurrentContactId, name, _currentMarket);
@@ -288,6 +316,17 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         {
             cart.GetFirstForm().CouponCodes.Remove(couponCode);
             cart.ApplyDiscounts(_promotionEngine, new PromotionEngineSettings());
+        }
+        public Money? GetDiscountedPrice(ICart cart, ILineItem lineItem)
+        {
+            var marketId = _currentMarket.GetCurrentMarket().MarketId;
+            var currency = _currencyService.GetCurrentCurrency();
+            if (cart.Name.Equals(DefaultWishListName))
+            {
+                var discountedPrice = _promotionService.GetDiscountPrice(new CatalogKey(_appContext.ApplicationId, lineItem.Code), marketId, currency);
+                return discountedPrice != null ? discountedPrice.UnitPrice : (Money?)null;
+            }
+            return lineItem.GetDiscountedPrice(cart.Currency, _lineItemCalculator);
         }
 
         private void RemoveLineItem(ICart cart, int shipmentId, string code)
@@ -335,7 +374,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             ValidateCart(cart);
         }
 
-        private void ChangeQuantity(ICart cart, int shipmentId, string code, decimal quantity)
+        public void ChangeQuantity(ICart cart, int shipmentId, string code, decimal quantity)
         {
             if (quantity == 0)
             {

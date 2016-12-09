@@ -9,5 +9,6 @@ namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
         bool PlaceCartForQuote(ICart cart);
         ICart PlaceOrderToCart(IPurchaseOrder purchaseOrder, ICart cart);
         void RemoveQuoteNumber(ICart cart);
+        string DefaultWishListName { get; }
     }
 }

@@ -60,8 +60,8 @@
                                         <td><a href="@(Url.ContentUrl(Model.SubOrganizationPage))?suborg=@(subOrganization.OrganizationId)">@subOrganization.Name</a></td>
                                         @if (subOrganization.CurrentBudgetViewModel != null)
                                         {
-                                            <td>@subOrganization.CurrentBudgetViewModel.SpentBudget @subOrganization.CurrentBudgetViewModel.Currency</td>
-                                            <td>@subOrganization.CurrentBudgetViewModel.Amount @subOrganization.CurrentBudgetViewModel.Currency</td>
+                                            <td>@subOrganization.CurrentBudgetViewModel.SpentBudget.ToString("N") @subOrganization.CurrentBudgetViewModel.Currency</td>
+                                            <td>@subOrganization.CurrentBudgetViewModel.Amount.ToString("N") @subOrganization.CurrentBudgetViewModel.Currency</td>
                                             <td>@subOrganization.CurrentBudgetViewModel.StartDate.ToString("MMMM dd, yyyy")</td>
                                             <td>@subOrganization.CurrentBudgetViewModel.DueDate.ToString("MMMM dd, yyyy")</td>
                                             <td>@subOrganization.CurrentBudgetViewModel.Status</td>

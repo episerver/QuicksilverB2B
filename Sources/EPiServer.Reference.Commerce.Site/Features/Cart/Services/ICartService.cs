@@ -1,3 +1,4 @@
+using System;
 using EPiServer.Commerce.Order;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
 using Mediachase.Commerce;
@@ -21,5 +22,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         void RemoveCouponCode(ICart cart, string couponCode);
         void RecreateLineItemsBasedOnShipments(ICart cart, IEnumerable<CartItemViewModel> cartItems, IEnumerable<AddressModel> addresses);
         void MergeShipments(ICart cart);
+        ICart LoadWishListCardByCustomerId(Guid currentContactId);
+        void ChangeQuantity(ICart cart, int shipmentId, string code, decimal quantity);
+        Money? GetDiscountedPrice(ICart cart, ILineItem lineItem);
     }
 }

@@ -61,6 +61,25 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             return organizationUsers.Select(user => new ContactViewModel(user)).ToList();
         }
 
+        public List<ContactViewModel> GetContactsByOrganizationId(string organizationId)
+        {
+            var currentOrganization = _organizationDomainService.GetOrganizationEntityById(organizationId);
+            if (currentOrganization == null) return new List<ContactViewModel>();
+
+            var organizationUsers = _customerDomainService.GetContactsForOrganization(currentOrganization.OrganizationEntity);
+
+            if (currentOrganization.SubOrganizations.Count > 0)
+            {
+                foreach (var subOrg in currentOrganization.SubOrganizations)
+                {
+                    var contacts = _customerDomainService.GetContactsForOrganization(subOrg.OrganizationEntity);
+                    organizationUsers.AddRange(contacts);
+                }
+            }
+
+            return organizationUsers.Select(user => new ContactViewModel(user)).ToList();
+        }
+
         public void CreateUser(ContactViewModel contactModel, string contactId)
         {
             var contact = new B2BContact(CustomerContact.CreateInstance())

@@ -113,7 +113,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
                 {
                     ItemCount = 0,
                     CartItems = new CartItemViewModel[0],
-                    Total = new Money(0, _currencyService.GetCurrentCurrency())
+                    Total = new Money(0, _currencyService.GetCurrentCurrency()),
+                    CurrentCustomer = _customerService.GetCurrentContact(),
+                    //CartId = cart.OrderLink
                 };
             }
 
@@ -121,7 +123,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
             {
                 ItemCount = GetLineItemsTotalQuantity(cart),
                 CartItems = _shipmentViewModelFactory.CreateShipmentsViewModel(cart).SelectMany(x => x.CartItems),
-                Total = _orderGroupCalculator.GetSubTotal(cart)
+                Total = _orderGroupCalculator.GetSubTotal(cart),
+                CurrentCustomer = _customerService.GetCurrentContact(),
+                CartId = null
             };
         }
 
@@ -134,7 +138,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
                     ItemCount = 0,
                     WishListPage = _contentLoader.Get<StartPage>(ContentReference.StartPage).WishListPage,
                     CartItems = new CartItemViewModel[0],
-                    Total = new Money(0, _currencyService.GetCurrentCurrency())
+                    Total = new Money(0, _currencyService.GetCurrentCurrency()),
+                    CurrentCustomer = _customerService.GetCurrentContact(),
+                    //CartId = cart.OrderLink
                 };
             }
 
@@ -143,7 +149,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
                 ItemCount = GetLineItemsTotalQuantity(cart),
                 WishListPage = _contentLoader.Get<StartPage>(ContentReference.StartPage).WishListPage,
                 CartItems = _shipmentViewModelFactory.CreateShipmentsViewModel(cart).SelectMany(x => x.CartItems),
-                Total = _orderGroupCalculator.GetSubTotal(cart)
+                Total = _orderGroupCalculator.GetSubTotal(cart),
+                CurrentCustomer = _customerService.GetCurrentContact(),
+                CartId = null
             };
         }
 

@@ -9,5 +9,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Models
         public IEnumerable<ProductViewModel> ProductViewModels { get; set; }
         public ISearchResults SearchResult { get; set; }
         public IEnumerable<FacetGroupOption> FacetGroups { get; set; }
+        public int TotalCount { get; set; }
     }
 }

@@ -56,13 +56,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
                 {
                     var defaultPrice = _priceService.GetDefaultPrice(market.MarketId, DateTime.Now,
                         new CatalogKey(AppContext.Current.ApplicationId, variation.Code), currency);
-                    var discountedPrice = _promotionService.GetDiscountPrice(defaultPrice.CatalogKey, market.MarketId,
-                        currency);
+                    var discountedPrice = defaultPrice != null ? _promotionService.GetDiscountPrice(defaultPrice.CatalogKey, market.MarketId,
+                        currency) : null;
                     return new SkuSearchResultModel
                     {
                         Sku = variation.Code,
                         ProductName = variation.DisplayName,
-                        UnitPrice = discountedPrice.UnitPrice.Amount
+                        UnitPrice = discountedPrice?.UnitPrice.Amount ?? 0
                     };
                 });
             }

@@ -55,7 +55,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             return new CustomSearchResult
             {
                 FacetGroups = BuildFacetGroupList(currentContent, filterOptions),
-                ProductViewModels = CreateProductViewModels(searchResults)
+                ProductViewModels = CreateProductViewModels(searchResults),
+                TotalCount = searchResults.TotalMatching
             };
         }
 
@@ -121,7 +122,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             {
                 query = query.For(filterOptions.Q);
             }
-            query = query.FilterOnCurrentMarket().StaticallyCacheFor(TimeSpan.FromSeconds(1));
+            query = query.FilterOnCurrentMarket();
             query = query.FilterForVisitor();
 
             var nodeContent = currentContent as NodeContent;
@@ -165,11 +166,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
         {
             var query = BuildBaseQuery(currentContent, filterOptions);
             query = query.Take(0);
-            query = query.TermsFacetFor(p => p.ParentName);
-            query = query.TermsFacetFor(p => p.AvailableColors);
-            query = query.TermsFacetFor(p => p.AvailableSizes);
-            query = query.TermsFacetFor(p => p.Brand);
-            query = query.TermsFacetFor(p => p.TopCategory);
+            query = query.TermsFacetFor(p => p.ParentName, r => r.Size = MaxNumberOfFacets);
+            query = query.TermsFacetFor(p => p.AvailableColors, r => r.Size = MaxNumberOfFacets);
+            query = query.TermsFacetFor(p => p.AvailableSizes, r => r.Size = MaxNumberOfFacets);
+            query = query.TermsFacetFor(p => p.Brand, r => r.Size = MaxNumberOfFacets);
+            query = query.TermsFacetFor(p => p.TopCategory, r => r.Size = MaxNumberOfFacets);
             IContentResult<FashionProduct> results = query.GetContentResult();
 
             var facetGroups = new List<FacetGroupOption>();

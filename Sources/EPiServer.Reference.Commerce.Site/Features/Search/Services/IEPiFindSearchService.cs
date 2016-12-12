@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Reference.Commerce.Site.B2B.Models.Search;
 
-namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
+namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
 {
     public interface IEPiFindSearchService
     {

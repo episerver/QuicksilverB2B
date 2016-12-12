@@ -337,7 +337,6 @@
     <Compile Include="Models\ViewModels\OrderOrganizationViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceContracts\IBudgetService.cs" />
-    <Compile Include="ServiceContracts\IEPiFindSearchService.cs" />
     <Compile Include="ServiceContracts\IFileHelperService.cs" />
     <Compile Include="ServiceContracts\IQuickOrderService.cs" />
     <Compile Include="ServiceContracts\IB2BNavigationService.cs" />
@@ -348,7 +347,6 @@
     <Compile Include="Services\B2BCurrentMarket.cs" />
     <Compile Include="Services\BudgetService.cs" />
     <Compile Include="Services\CookieService.cs" />
-    <Compile Include="Services\EPiFindSearchService.cs" />
     <Compile Include="Services\FileHelperService.cs" />
     <Compile Include="Services\B2BNavigationService.cs" />
     <Compile Include="Services\OrdersService.cs" />

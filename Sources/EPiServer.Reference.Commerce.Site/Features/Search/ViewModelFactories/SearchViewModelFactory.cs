@@ -39,7 +39,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories
 
             var customSearchResult = _findProductSearchService.SearchProducts(currentContent, viewModel);
 
-            viewModel.TotalCount = customSearchResult.SearchResult != null ? customSearchResult.SearchResult.TotalCount : 0;
+            viewModel.TotalCount = customSearchResult.TotalCount;
             viewModel.FacetGroups = customSearchResult.FacetGroups.ToList();
 
             viewModel.Sorting = _searchService.GetSortOrder().Select(x => new SelectListItem
@@ -48,9 +48,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories
                 Value = x.Name.ToString(),
                 Selected = string.Equals(x.Name.ToString(), viewModel.Sort)
             });
-            //var currentMarketCode = _currentMarket.GetCurrentMarket().MarketId;
-            //customSearchResult.ProductViewModels =
-            //    customSearchResult.ProductViewModels.Where(item => item.MarketFilter != currentMarketCode);
 
             return new SearchViewModel<T>
             {

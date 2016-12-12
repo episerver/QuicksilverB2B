@@ -9,7 +9,6 @@ using EPiServer.Find.Api.Facets;
 using EPiServer.Find.Commerce;
 using EPiServer.Find.Cms;
 using EPiServer.Find.Framework;
-using EPiServer.Reference.Commerce.Site.B2B;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
@@ -18,6 +17,7 @@ using EPiServer.Reference.Commerce.Site.Features.Search.ViewModels;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
 using Mediachase.Commerce;
+using Constants = EPiServer.Reference.Commerce.Site.B2B.Constants;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
 {
@@ -52,12 +52,17 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             var query = BuildSearchQuery(currentContent, filterOptions);
             var searchResults = query.GetContentResult();
 
-            return new CustomSearchResult
+            CustomSearchResult returnedResults = new CustomSearchResult
             {
                 FacetGroups = BuildFacetGroupList(currentContent, filterOptions),
                 ProductViewModels = CreateProductViewModels(searchResults),
                 TotalCount = searchResults.TotalMatching
             };
+
+            // Products Market Filtering
+            var curentMarketCode = _currentMarket.GetCurrentMarket().MarketId;
+            returnedResults.ProductViewModels = returnedResults.ProductViewModels.Where(product => !product.MarketFilter.Contains(curentMarketCode.Value));
+            return  returnedResults;
         }
 
         private IEnumerable<ProductViewModel> CreateProductViewModels(IContentResult<FashionProduct> searchResult)
@@ -79,7 +84,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
                     DiscountedPrice = listingPrice?.UnitPrice ?? new Money(0, currency),
                     ImageUrl = _assetUrlResolver.GetAssetUrl<IContentImage>(product),
                     Url = _urlResolver.GetUrl(product.ContentLink),
-                    IsAvailable = originalPrice != null && originalPrice.UnitPrice.Amount > 0
+                    IsAvailable = originalPrice != null && originalPrice.UnitPrice.Amount > 0,
+                    MarketFilter = product.MarketFilter?.ToString() ?? string.Empty
                 };
             });
         }
@@ -158,7 +164,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
                         break;
                 }
             }
+
             query = query.Filter(filter);
+           
             return query;
         }
 

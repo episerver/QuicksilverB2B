@@ -68,7 +68,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Controllers
                     Name = promotionGroup.Key.Name,
                     BannerImage = promotionGroup.Key.Banner,
                     SelectionType = promotionItems.Condition.Type,
-                    Items = GetProductsForPromotion(promotionItems).Take(3).Where(item => item.GetPropertyValue("MarketFilter") != curentMarketCode)
+                    Items = GetProductsForPromotion(promotionItems).Take(3).Where(item => !item.GetPropertyValue("MarketFilter").Contains(curentMarketCode.Value))
                 });
             }
 

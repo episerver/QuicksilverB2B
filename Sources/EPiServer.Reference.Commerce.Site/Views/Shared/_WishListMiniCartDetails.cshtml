@@ -59,8 +59,14 @@
         <ul class="list-unstyled cart-dropdown__button-list">
 
             <li class="cart-item">
-                <button type="button" class="btn btn-block btn-primary" aria-expanded="false" onclick="window.location.href='@Url.ContentUrl(Model.WishListPage)'">@Html.Translate("/WishList/Button/GoToWishlistPage")</button>
+                <button type="button" class="btn btn-block btn-primary" aria-expanded="false" onclick="window.location.href = '@Url.ContentUrl(Model.WishListPage)'">@Html.Translate("/WishList/Button/GoToWishlistPage")</button>
             </li>
+            @using (Html.BeginForm("RequestWishListQuote", "WishList", FormMethod.Post))
+            {
+            <li class="cart-item">
+                <button type="button" class="btn btn-block btn-warning jsWishListQuote" aria-expanded="false">@Html.Translate("/WishList/Button/WishListQuote")</button>
+            </li>
+            }   
             <li class="cart-item">
                 <button type="button" class="btn btn-block btn-default jsWishListContinueShopping" aria-expanded="false">@Html.Translate("/Header/MiniCart/Button/Close")</button>
             </li>

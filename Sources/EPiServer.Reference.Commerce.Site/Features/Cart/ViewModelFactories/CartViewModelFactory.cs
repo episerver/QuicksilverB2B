@@ -115,7 +115,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
                     CartItems = new CartItemViewModel[0],
                     Total = new Money(0, _currencyService.GetCurrentCurrency()),
                     CurrentCustomer = _customerService.GetCurrentContact(),
-                    //CartId = cart.OrderLink
                 };
             }
 
@@ -125,7 +124,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
                 CartItems = _shipmentViewModelFactory.CreateShipmentsViewModel(cart).SelectMany(x => x.CartItems),
                 Total = _orderGroupCalculator.GetSubTotal(cart),
                 CurrentCustomer = _customerService.GetCurrentContact(),
-                CartId = null
             };
         }
 
@@ -140,7 +138,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
                     CartItems = new CartItemViewModel[0],
                     Total = new Money(0, _currencyService.GetCurrentCurrency()),
                     CurrentCustomer = _customerService.GetCurrentContact(),
-                    //CartId = cart.OrderLink
                 };
             }
 
@@ -151,7 +148,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
                 CartItems = _shipmentViewModelFactory.CreateShipmentsViewModel(cart).SelectMany(x => x.CartItems),
                 Total = _orderGroupCalculator.GetSubTotal(cart),
                 CurrentCustomer = _customerService.GetCurrentContact(),
-                CartId = null
             };
         }
 

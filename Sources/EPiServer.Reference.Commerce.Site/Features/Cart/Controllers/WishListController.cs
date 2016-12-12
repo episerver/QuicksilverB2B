@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using EPiServer.Reference.Commerce.Site.B2B.Enums;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using Mediachase.Commerce.Catalog;
 using Constants = EPiServer.Reference.Commerce.Site.B2B.Constants;
@@ -26,6 +27,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         readonly CartViewModelFactory _cartViewModelFactory;
         private readonly IQuickOrderService _quickOrderService;
         private readonly ReferenceConverter _referenceConverter;
+        private readonly ICustomerService _customerService;
+        private readonly ICartServiceB2B _cartServiceB2B;
 
         public WishListController(
             IContentLoader contentLoader,
@@ -33,7 +36,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
             IOrderRepository orderRepository,
             CartViewModelFactory cartViewModelFactory,
             IQuickOrderService quickOrderService,
-            ReferenceConverter referenceConverter)
+            ReferenceConverter referenceConverter,
+            ICustomerService customerService,
+            ICartServiceB2B cartServiceB2B)
         {
             _contentLoader = contentLoader;
             _cartService = cartService;
@@ -41,6 +46,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
             _cartViewModelFactory = cartViewModelFactory;
             _quickOrderService = quickOrderService;
             _referenceConverter = referenceConverter;
+            _customerService = customerService;
+            _cartServiceB2B = cartServiceB2B;
         }
 
         [HttpGet]
@@ -172,6 +179,35 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
             var startPage = _contentLoader.Get<StartPage>(ContentReference.StartPage);
 
             return RedirectToAction("Index", new { Node = startPage.WishListPage });
+        }
+
+        [HttpPost]
+        [AllowDBWrite]
+        public ActionResult RequestWishListQuote()
+        {
+            var currentCustomer = _customerService.GetCurrentContact();
+            if (currentCustomer.Role != B2BUserRoles.Purchaser)
+                return Json(new { result = false });
+
+            var startPage = _contentLoader.Get<StartPage>(ContentReference.StartPage);
+
+            var wishListCart = _cartService.LoadWishListCardByCustomerId(currentCustomer.ContactId);
+            if (wishListCart != null)
+            {
+                // Set price on line item.
+                foreach (var lineItem in wishListCart.GetAllLineItems())
+                {
+                    lineItem.PlacedPrice = _cartService.GetDiscountedPrice(wishListCart, lineItem).Value.Amount;
+                }
+
+                _cartServiceB2B.PlaceCartForQuote(wishListCart);
+                _cartServiceB2B.DeleteCart(wishListCart);
+                _cartService.LoadOrCreateCart(_cartService.DefaultWishListName);
+
+                return RedirectToAction("Index", new {Node = startPage.WishListPage});
+            }
+
+            return RedirectToAction("Index", new { Node = startPage.OrderHistoryPage });
         }
 
         private ICart WishList

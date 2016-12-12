@@ -469,6 +469,9 @@
       <Button>
         <GotoWishListPage>Gå till din önskelista</GotoWishListPage>
       </Button>
+      <Button>
+        <WishListQuote>önskelista Citat</WishListQuote>
+      </Button>
       <NoItems>Du har inga artiklar i din önskelista</NoItems>
       <DeleteButton>Radera hela önskelistan</DeleteButton>
       <RemoveItem>Ta bort från önskelista</RemoveItem>

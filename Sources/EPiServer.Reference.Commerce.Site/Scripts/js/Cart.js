@@ -9,6 +9,7 @@
             .on('click', '.jsCartRequestQuote', Cart.requestQuote)
             .on('click', '.jsCartLoadOrder', Cart.loadOrder)
             .on('click', '.jsClearQuotedCart', Cart.clearQuotedCart)
+            .on('click', '.jsWishListQuote', Cart.wishListQuote)
             .on('change', '#MiniCart', function () { $("#MiniCartResponsive").html($(this).html()); })
             .on('change', '#WishListMiniCart', function () { $("#WishListMiniCartResponsive").html($(this).html()); })
             .on('click', '.jsCartContinueShopping', function () {
@@ -121,6 +122,16 @@
             error: function (xhr, status, error) {
                 $(".warning-message", $("#CartWarningMessage")).html(xhr.statusText);
                 $("#CartWarningMessage").show();
+            }
+        });
+    },
+    wishListQuote: function (e) {
+        var form = $(this).closest("form");
+        $.ajax({
+            type: "POST",
+            url: form[0].action,
+            complete: function(result) {
+                window.location.reload();
             }
         });
     },

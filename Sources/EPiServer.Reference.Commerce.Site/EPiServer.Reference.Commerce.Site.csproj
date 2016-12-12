@@ -462,6 +462,7 @@
     <Compile Include="Features\Checkout\ViewModels\UpdateAddressViewModel.cs" />
     <Compile Include="Features\Checkout\ViewModels\UpdateShippingMethodViewModel.cs" />
     <Compile Include="Features\Market\Services\MarketContentLoader.cs" />
+    <Compile Include="Features\Media\Models\GenericImage.cs" />
     <Compile Include="Features\OrderDetails\Controllers\OrderDetailsController.cs" />
     <Compile Include="Features\OrderDetails\Pages\OrderDetailsPage.cs" />
     <Compile Include="Features\OrderDetails\ViewModels\OrderDetailsViewModel.cs" />
@@ -474,6 +475,11 @@
     <Compile Include="Features\OrderPads\ViewModels\UsersOrderPadViewModel.cs" />
     <Compile Include="Features\Orders\Controllers\OrdersPageController.cs" />
     <Compile Include="Features\Orders\ViewModels\OrdersPageViewModel.cs" />
+    <Compile Include="Features\Product\Models\BaseProduct.cs" />
+    <Compile Include="Features\Product\Models\BaseVariant.cs" />
+    <Compile Include="Features\Product\Models\GenericProduct.cs" />
+    <Compile Include="Features\Product\Models\GenericVariation.cs" />
+    <Compile Include="Features\Product\ViewModels\BaseProductViewModel.cs" />
     <Compile Include="Features\Product\ViewModels\VariantViewModel.cs" />
     <Compile Include="Features\Payment\PaymentMethods\BudgetPaymentMethod.cs" />
     <Compile Include="Features\Payment\ViewModels\BudgetPaymentViewModel.cs" />
@@ -493,6 +499,8 @@
     <Compile Include="Features\ResetPassword\ViewModels\ResetPasswordMailPageViewModel.cs" />
     <Compile Include="Features\Navigation\Controllers\OrganizationNavController.cs" />
     <Compile Include="Features\Navigation\Controllers\B2BNavigationController.cs" />
+    <Compile Include="Features\Search\Controllers\GenericNodeController.cs" />
+    <Compile Include="Features\Search\Models\GenericNode.cs" />
     <Compile Include="Features\Search\Services\EPiFindSearchService.cs" />
     <Compile Include="Features\Search\Services\FindProductSearchService.cs" />
     <Compile Include="Features\Search\Services\IEPiFindSearchService.cs" />
@@ -895,6 +903,7 @@
     <Content Include="Views\Shared\_BudgetPaymentPaymentMethod.cshtml" />
     <Content Include="Views\Shared\_AdminImpersonatorHeader.cshtml" />
     <Content Include="Views\QuickOrderBlock\Index.cshtml" />
+    <Content Include="Views\GenericNode\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

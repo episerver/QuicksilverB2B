@@ -11,8 +11,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Business
         protected override void ApplyNestedConventions(NestedConventions nestedConventions)
         {
             base.ApplyNestedConventions(nestedConventions);
-            nestedConventions.ForType<FashionProduct>().Add(p => p.ListingPrices);
-            nestedConventions.ForType<FashionProduct>().Add(p => p.OriginalPrices);
+            nestedConventions.ForType<BaseProduct>().Add(p => p.ListingPrices);
+            nestedConventions.ForType<BaseProduct>().Add(p => p.OriginalPrices);
         }
     }
 }

@@ -66,7 +66,7 @@
 
 @helper RenderSize(VariationContent content)
 {
-    var variant = content as FashionVariant;
+    var variant = content as BaseVariant;
     if (variant != null)
     {
         @page.Html.Hidden("size", variant.Size.Trim())
@@ -76,8 +76,8 @@
 
 @helper RenderSizeDropDown(CartItemViewModel cartItem)
 {
-    var variant = cartItem.Variant as FashionVariant;
-    if (variant != null)
+    var variant = cartItem.Variant as BaseVariant;
+    if (variant != null && variant.Size != null)
     {
         <span>
             @page.Html.Hidden("size", variant.Size.Trim())

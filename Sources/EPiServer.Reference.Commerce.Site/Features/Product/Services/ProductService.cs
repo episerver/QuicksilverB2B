@@ -59,11 +59,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             _referenceConverter = referenceConverter;
         }
 
-        public IEnumerable<FashionVariant> GetVariations(FashionProduct currentContent)
+        public IEnumerable<BaseVariant> GetVariations(BaseProduct currentContent)
         {
             return _contentLoader
                 .GetItems(currentContent.GetVariants(_relationRepository), _preferredCulture)
-                .Cast<FashionVariant>()
+                .Cast<BaseVariant>()
                 .Where(v => v.IsAvailableInCurrentMarket(_currentMarket));
         }
 
@@ -75,9 +75,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             IEnumerable<ContentReference> siblingsReferences = siblingsRelations.Select(x => x.Target);
             IEnumerable<IContent> siblingVariations = _contentLoader.GetItems(siblingsReferences, _preferredCulture);
 
-            var siblingVariant = siblingVariations.OfType<FashionVariant>().First(x => x.Code == siblingCode);
+            var siblingVariant = siblingVariations.OfType<BaseVariant>().First(x => x.Code == siblingCode);
 
-            foreach (var variant in siblingVariations.OfType<FashionVariant>())
+            foreach (var variant in siblingVariations.OfType<BaseVariant>())
             {
                 if (variant.Size.Equals(size, StringComparison.OrdinalIgnoreCase) && variant.Code != siblingCode
                     && variant.Color.Equals(siblingVariant.Color, StringComparison.OrdinalIgnoreCase))
@@ -99,7 +99,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
                 variationsToLoad.Add(relations.First().Target, product.ContentLink);
             }
 
-            var variations = _contentLoader.GetItems(variationsToLoad.Select(x => x.Key), _preferredCulture).Cast<FashionVariant>();
+            var variations = _contentLoader.GetItems(variationsToLoad.Select(x => x.Key), _preferredCulture).Cast<BaseVariant>();
 
             var productModels = new List<ProductViewModel>();
 
@@ -154,7 +154,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             var discountedPrice = originalPrice.HasValue ? GetDiscountPrice(variation, market, currency, originalPrice.Value) : (Money?)null;
 
             var image = variation.GetAssets<IContentImage>(_contentLoader, _urlResolver).FirstOrDefault() ?? "";
-            var brand = product is FashionProduct ? ((FashionProduct)product).Brand : string.Empty;
+            var brand = product is BaseProduct ? ((BaseProduct)product).Brand : string.Empty;
 
             return new ProductViewModel
             {

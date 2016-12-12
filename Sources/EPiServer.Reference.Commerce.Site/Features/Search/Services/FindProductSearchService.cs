@@ -5,6 +5,7 @@ using EPiServer.Commerce.Catalog;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.Find;
+using EPiServer.Find.Api;
 using EPiServer.Find.Api.Facets;
 using EPiServer.Find.Commerce;
 using EPiServer.Find.Cms;
@@ -65,7 +66,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             return  returnedResults;
         }
 
-        private IEnumerable<ProductViewModel> CreateProductViewModels(IContentResult<FashionProduct> searchResult)
+        private IEnumerable<ProductViewModel> CreateProductViewModels(IContentResult<BaseProduct> searchResult)
         {
             var market = _currentMarket.GetCurrentMarket();
             var currency = _currencyService.GetCurrentCurrency();
@@ -90,7 +91,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             });
         }
 
-        private ITypeSearch<FashionProduct> BuildSearchQuery(IContent currentContent, FilterOptionViewModel filterOptions)
+        private ITypeSearch<BaseProduct> BuildSearchQuery(IContent currentContent, FilterOptionViewModel filterOptions)
         {
             var query = BuildBaseQuery(currentContent, filterOptions);
 
@@ -108,7 +109,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
                         query.OrderBy(
                             x =>
                                 x.ListingPrices, p => p.UnitPrice.Amount,
-                            p => p.MarketId.Match(market.MarketId) & p.UnitPrice.Currency.Match(currency));
+                            p => p.MarketId.Match(market.MarketId) & p.UnitPrice.Currency.Match(currency),
+                            SortMissing.Last);
                     break;
                 case ProductSortOrder.NewestFirst:
                     query = query.OrderByDescending(x => x.Created);
@@ -121,9 +123,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             return query;
         }
 
-        private ITypeSearch<FashionProduct> BuildBaseQuery(IContent currentContent, FilterOptionViewModel filterOptions)
+        private ITypeSearch<BaseProduct> BuildBaseQuery(IContent currentContent, FilterOptionViewModel filterOptions)
         {
-            var query = SearchClient.Instance.Search<FashionProduct>();
+            var query = SearchClient.Instance.Search<BaseProduct>();
             if (!string.IsNullOrWhiteSpace(filterOptions.Q))
             {
                 query = query.For(filterOptions.Q);
@@ -141,7 +143,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
                                 .Match(nodeContent.ContentLink.ToReferenceWithoutVersion().ToString()));
             }
 
-            FilterBuilder<FashionProduct> filter = SearchClient.Instance.BuildFilter<FashionProduct>();
+            FilterBuilder<BaseProduct> filter = SearchClient.Instance.BuildFilter<BaseProduct>();
             foreach (var facetGroup in filterOptions.FacetGroups.Where(fg => fg.Facets.Any(fo => fo.Selected)))
             {
                 var selectedValues = facetGroup.Facets.Where(fo => fo.Selected).Select(fo => fo.Key);
@@ -151,10 +153,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
                         filter = filter.And(p => p.Brand.In(selectedValues));
                         break;
                     case Constants.Product.AvailableColors:
-                        filter = filter.And(p => p.AvailableColors.In(selectedValues));
+                        filter = filter.And(p => p.AvailableColorList.In(selectedValues));
                         break;
                     case Constants.Product.AvailableSizes:
-                        filter = filter.And(p => p.AvailableSizes.In(selectedValues));
+                        filter = filter.And(p => p.AvailableSizeList.In(selectedValues));
                         break;
                     case Constants.Product.TopCategory:
                         filter = filter.And(p => p.TopCategory.In(selectedValues));
@@ -175,21 +177,21 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             var query = BuildBaseQuery(currentContent, filterOptions);
             query = query.Take(0);
             query = query.TermsFacetFor(p => p.ParentName, r => r.Size = MaxNumberOfFacets);
-            query = query.TermsFacetFor(p => p.AvailableColors, r => r.Size = MaxNumberOfFacets);
-            query = query.TermsFacetFor(p => p.AvailableSizes, r => r.Size = MaxNumberOfFacets);
+            query = query.TermsFacetFor(p => p.AvailableColorList, r => r.Size = MaxNumberOfFacets);
+            query = query.TermsFacetFor(p => p.AvailableSizeList, r => r.Size = MaxNumberOfFacets);
             query = query.TermsFacetFor(p => p.Brand, r => r.Size = MaxNumberOfFacets);
             query = query.TermsFacetFor(p => p.TopCategory, r => r.Size = MaxNumberOfFacets);
-            IContentResult<FashionProduct> results = query.GetContentResult();
+            IContentResult<BaseProduct> results = query.GetContentResult();
 
             var facetGroups = new List<FacetGroupOption>();
 
             AddFacet(facetGroups, results.TermsFacetFor(p => p.ParentName),
                 filterOptions.FacetGroups.FirstOrDefault(fg => fg.GroupFieldName.Equals(Constants.Product.Categories)),
                 Constants.Product.Categories);
-            AddFacet(facetGroups, results.TermsFacetFor(p => p.AvailableColors),
+            AddFacet(facetGroups, results.TermsFacetFor(p => p.AvailableColorList),
                 filterOptions.FacetGroups.FirstOrDefault(fg => fg.GroupFieldName.Equals(Constants.Product.AvailableColors)),
                 Constants.Product.AvailableColors);
-            AddFacet(facetGroups, results.TermsFacetFor(p => p.AvailableSizes),
+            AddFacet(facetGroups, results.TermsFacetFor(p => p.AvailableSizeList),
                 filterOptions.FacetGroups.FirstOrDefault(fg => fg.GroupFieldName.Equals(Constants.Product.AvailableSizes)),
                 Constants.Product.AvailableSizes);
             AddFacet(facetGroups, results.TermsFacetFor(p => p.Brand),

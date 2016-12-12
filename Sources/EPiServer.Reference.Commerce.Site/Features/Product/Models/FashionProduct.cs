@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
-using EPiServer.Commerce.Catalog.ContentTypes;
-using EPiServer.Commerce.Catalog.DataAnnotations;
+﻿using EPiServer.Commerce.Catalog.DataAnnotations;
 using EPiServer.Commerce.SpecializedProperties;
 using EPiServer.Core;
 using System.ComponentModel.DataAnnotations;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
-using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Product.Models
 {
@@ -14,30 +11,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Models
         MetaClassName = "FashionProduct",
         DisplayName = "Fashion product",
         Description = "Display fashion product")]
-    public class FashionProduct : ProductContent
+    public class FashionProduct : BaseProduct
     {
-        [Searchable]
-        [CultureSpecific]
-        [Tokenize]
-        [IncludeInDefaultSearch]
-        [BackingType(typeof(PropertyString))]
-        [Display(Name = "Brand", Order = 1)]
-        public virtual string Brand { get; set; }
-
-        [Searchable]
-        [CultureSpecific]
-        [Tokenize]
-        [IncludeInDefaultSearch]
-        [Display(Name = "Description", Order = 2)]
-        public virtual XhtmlString Description { get; set; }
-
-        [Searchable]
-        [CultureSpecific]
-        [Tokenize]
-        [IncludeInDefaultSearch]
-        [Display(Name = "Long Description", Order = 3)]
-        public virtual XhtmlString LongDescription { get; set; }
-
         [Searchable]
         [CultureSpecific]
         [Tokenize]
@@ -66,17 +41,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Models
         GroupName = SystemTabNames.Content,
         Order = 20)]
         public virtual ContentArea ContentArea { get; set; }
-		
-		[Ignore]
-        public virtual string ParentName => this.ParentName();
 
         [Ignore]
-        public virtual string TopCategory => this.TopCategory();
+        public override ItemCollection<string> AvailableSizeList => AvailableSizes;
 
         [Ignore]
-        public virtual List<Price> OriginalPrices => this.OriginalPrices();
-
-        [Ignore]
-        public virtual List<Price> ListingPrices => this.ListingPrices();
+        public override ItemCollection<string> AvailableColorList => AvailableColors;
     }
 }

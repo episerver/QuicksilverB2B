@@ -64,7 +64,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
         public virtual CartItemViewModel CreateCartItemViewModel(ICart cart, ILineItem lineItem, VariationContent variant)
         {
             var productLink = variant.GetParentProducts(_relationRepository).FirstOrDefault();
-            var product = _contentLoader.Get<ProductContent>(productLink) as FashionProduct;
+            var product = _contentLoader.Get<ProductContent>(productLink) as BaseProduct;
 
             return new CartItemViewModel
             {
@@ -90,14 +90,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
             return discountedPrice.GetValueOrDefault().Amount < lineItem.PlacedPrice ? discountedPrice : null;
         }
 
-        private IEnumerable<string> GetAvailableSizes(FashionProduct product, VariationContent variant)
+        private IEnumerable<string> GetAvailableSizes(BaseProduct product, VariationContent variant)
         {
             return product != null ?
-                _productService.GetVariations(product).Where(x => x.Color.Equals(((FashionVariant)variant).Color, StringComparison.OrdinalIgnoreCase)).Select(x => x.Size)
+                _productService.GetVariations(product).Where(x => x.Color.Equals(((BaseVariant)variant).Color, StringComparison.OrdinalIgnoreCase)).Select(x => x.Size)
                 : Enumerable.Empty<string>();
         }
 
-        private string GetBrand(FashionProduct product)
+        private string GetBrand(BaseProduct product)
         {
             return product != null ? product.Brand : null;
         }

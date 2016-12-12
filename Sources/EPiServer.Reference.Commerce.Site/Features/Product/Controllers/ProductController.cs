@@ -23,7 +23,7 @@ using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
 {
-    public class ProductController : ContentController<FashionProduct>
+    public class ProductController : ContentController<BaseProduct>
     {
         private readonly IPromotionService _promotionService;
         private readonly IContentLoader _contentLoader;
@@ -67,12 +67,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
-        public ActionResult Index(FashionProduct currentContent, string variationCode = "", bool quickview = false)
+        public ActionResult Index(BaseProduct currentContent, string variationCode = "", bool quickview = false)
         {
             var variations = GetVariations(currentContent).ToList();
             if (_isInEditMode && !variations.Any())
             {
-                var productWithoutVariation = new FashionProductViewModel
+                var productWithoutVariation = new BaseProductViewModel
                 {
                     Product = currentContent,
                     Images = currentContent.GetAssets<IContentImage>(_contentLoader, _urlResolver),
@@ -82,8 +82,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
                 return Request.IsAjaxRequest() ? PartialView("ProductWithoutVariation", productWithoutVariation) : (ActionResult)View("ProductWithoutVariation", productWithoutVariation);
             }
 
-            FashionVariant variation;
-            if (!TryGetFashionVariant(variations, variationCode, out variation))
+            BaseVariant variation;
+            if (!TryGetVariant(variations, variationCode, out variation))
             {
                 return HttpNotFound();
             }
@@ -94,7 +94,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             var defaultPrice = GetDefaultPrice(variation, market, currency);
             var discountedPrice = GetDiscountPrice(defaultPrice, market, currency);
 
-            var viewModel = new FashionProductViewModel
+            var viewModel = new BaseProductViewModel
             {
                 Product = currentContent,
                 Variation = variation,
@@ -157,13 +157,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
         }
 
         [HttpPost]
-        public ActionResult SelectVariant(FashionProduct currentContent, string color, string size, bool quickview = false)
+        public ActionResult SelectVariant(BaseProduct currentContent, string color, string size, bool quickview = false)
         {
             var variations = GetVariations(currentContent);
 
-            FashionVariant variation;
-            if (TryGetFashionVariantByColorAndSize(variations, color, size, out variation)
-                || TryGetFashionVariantByColorAndSize(variations, color, string.Empty, out variation))//if we cannot find variation with exactly both color and size then we will try to get variation by color only
+            BaseVariant variation;
+            if (TryGetVariantByColorAndSize(variations, color, size, out variation)
+                || TryGetVariantByColorAndSize(variations, color, string.Empty, out variation))//if we cannot find variation with exactly both color and size then we will try to get variation by color only
             {
                 return RedirectToAction("Index", new { variationCode = variation.Code, quickview });
             }
@@ -171,15 +171,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             return HttpNotFound();
         }
 
-        private IEnumerable<FashionVariant> GetVariations(FashionProduct currentContent)
+        private IEnumerable<BaseVariant> GetVariations(BaseProduct currentContent)
         {
             return _contentLoader
                 .GetItems(currentContent.GetVariants(_relationRepository), _preferredCulture)
-                .Cast<FashionVariant>()
+                .Cast<BaseVariant>()
                 .Where(v => v.IsAvailableInCurrentMarket(_currentMarket) && !_filterPublished.ShouldFilter(v));
         }
 
-        private static bool TryGetFashionVariant(IEnumerable<FashionVariant> variations, string variationCode, out FashionVariant variation)
+        private static bool TryGetVariant(IEnumerable<BaseVariant> variations, string variationCode, out BaseVariant variation)
         {
             variation = !string.IsNullOrEmpty(variationCode) ?
                 variations.FirstOrDefault(x => x.Code == variationCode) :
@@ -188,7 +188,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             return variation != null;
         }
 
-        private static bool TryGetFashionVariantByColorAndSize(IEnumerable<FashionVariant> variations, string color, string size, out FashionVariant variation)
+        private static bool TryGetVariantByColorAndSize(IEnumerable<BaseVariant> variations, string color, string size, out BaseVariant variation)
         {
             variation = variations.FirstOrDefault(x =>
                 (string.IsNullOrEmpty(color) || x.Color.Equals(color, StringComparison.OrdinalIgnoreCase)) &&
@@ -197,7 +197,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             return variation != null;
         }
 
-        private IPriceValue GetDefaultPrice(FashionVariant variation, IMarket market, Currency currency)
+        private IPriceValue GetDefaultPrice(BaseVariant variation, IMarket market, Currency currency)
         {
             return _priceService.GetDefaultPrice(
                 market.MarketId,

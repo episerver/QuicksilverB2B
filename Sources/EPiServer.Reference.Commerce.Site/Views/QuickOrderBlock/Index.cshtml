@@ -1,0 +1,106 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.QuickOrder.Blocks.QuickOrderBlock
+
+<div class="spacer-left-l">
+    <section>
+        <div class="section-title spacer-bottom-l">
+            <h2 class="h3">Quick Order Interface</h2>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <label>Product name</label>
+            </div>
+            <div class="col-sm-2">
+                <label>SKU</label>
+            </div>
+            <div class="col-sm-2">
+                <label>Unit Price</label>
+            </div>
+            <div class="col-sm-2">
+                <label>Quantity</label>
+            </div>
+            <div class="col-sm-2">
+                <label>Total Price</label>
+            </div>
+        </div>
+        @using (Html.BeginForm("Import", "QuickOrderBlock", FormMethod.Post, new { @id = "quickOrderForm", @enctype = "multipart/form-data" }))
+        {
+            if (Model.ProductsList != null && Model.ProductsList.Count > 0)
+            {
+                for (int i = 0; i < Model.ProductsList.Count; i++)
+                {
+                    <div class="row order-row">
+                        <div class="form-group col-sm-4">
+                            @Html.TextBoxFor(x => x.ProductsList[i].ProductName)
+                        </div>
+                        <div class="form-group col-sm-2">
+                            @Html.TextBoxFor(x => x.ProductsList[i].Sku)
+                        </div>
+                        <div class="form-group col-sm-2">
+                            @Html.TextBoxFor(x => x.ProductsList[i].UnitPrice, "{0:0.00}", new { @readonly = "readonly" })
+                        </div>
+                        <div class="form-group col-sm-2">
+                            @Html.TextBoxFor(x => x.ProductsList[i].Quantity)
+                        </div>
+                        <div class="form-group col-sm-2">
+                            @Html.TextBoxFor(x => x.ProductsList[i].TotalPrice, "{0:0.00}", new { @readonly = "readonly" })
+                        </div>
+                        <a href="#" class="btn btn-danger btn-xs delete-icon">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="row order-row">
+                    <div class="form-group col-sm-4">
+                        @Html.TextBoxFor(x => x.ProductsList[0].ProductName)
+                    </div>
+                    <div class="form-group col-sm-2">
+                        @Html.TextBoxFor(x => x.ProductsList[0].Sku)
+                    </div>
+                    <div class="form-group col-sm-2">
+                        @Html.TextBoxFor(x => x.ProductsList[0].UnitPrice, "{0:0.00}", new { @readonly = "readonly" })
+                    </div>
+                    <div class="form-group col-sm-2">
+                        @Html.TextBoxFor(x => x.ProductsList[0].Quantity)
+                    </div>
+                    <div class="form-group col-sm-2">
+                        @Html.TextBoxFor(x => x.ProductsList[0].TotalPrice, "{0:0.00}", new { @readonly = "readonly" })
+                    </div>
+                    <a href="#" class="btn btn-danger btn-xs delete-icon">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    </a>
+                </div>
+            }
+            <a class="btn btn-sm btn-primary js-add-row-btn">Add row</a>
+
+
+            if (Model.ReturnedMessages != null && Model.ReturnedMessages.Count > 0)
+            {
+                if (Model.ReturnedMessages.Count == 1 && Model.ReturnedMessages.ElementAt(0).Equals("All items were added to cart."))
+                {
+                    <div class="text-success bg-success padded-m spacer-top-m">
+                        <p>@Model.ReturnedMessages.ElementAt(0)</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="text-danger bg-danger padded-m spacer-top-m">
+                        @foreach (var message in Model.ReturnedMessages)
+                        {
+                            <p>* @message</p>
+                        }
+                    </div>
+                }
+            }
+
+            <div class="spacer-top-l">
+                <input type="file" class="hidden" data-interface="lattice" data-label="Upload CSV" id="fileUploaded">
+
+                <button type="submit" class="btn btn-primary">Add to cart</button>
+            </div>
+        }
+    </section>
+</div>

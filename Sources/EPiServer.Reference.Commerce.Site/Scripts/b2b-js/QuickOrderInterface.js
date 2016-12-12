@@ -62,7 +62,7 @@
             var $parentOfSku = $skuInput.parent();
             var options = {
                 url: function (phrase) {
-                    return "/QuickOrderPage/GetSku?query=" + phrase;
+                    return "/QuickOrderBlock/GetSku?query=" + phrase;
                 },
                 getValue: "Sku",
                 list: {
@@ -111,7 +111,7 @@
 
                 var options = {
                     url: function (phrase) {
-                        return "/QuickOrderPage/GetSku?query=" + phrase;
+                        return "/QuickOrderBlock/GetSku?query=" + phrase;
                     },
                     getValue: "Sku",
                     list: {

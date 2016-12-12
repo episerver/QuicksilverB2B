@@ -56,7 +56,7 @@ function InputTypeFile() {
                 formData.append('file', file);
 
                 $.ajax({
-                    url: "/QuickOrderPage/AddFromFile",
+                    url: "/QuickOrderBlock/AddFromFile",
                     type: "POST",
                     dataType: "json",
                     data: formData,

@@ -2,6 +2,7 @@
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
+using EPiServer.Reference.Commerce.Site.Features.QuickOrder.Blocks;
 
 namespace EPiServer.Reference.Commerce.Site.Features.QuickOrder.Pages
 {
@@ -15,5 +16,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.QuickOrder.Pages
             GroupName = SystemTabNames.Content,
             Order = 1)]
         public virtual XhtmlString MainBody { get; set; }
+
+        [CultureSpecific]
+        [Display(
+            Name = "Quick Order Block Content Area",
+            Description = "",
+            GroupName = SystemTabNames.Content,
+            Order = 2)]
+        [AllowedTypes(typeof(QuickOrderBlock))]
+        public virtual ContentArea QuickOrderBlockContentArea { get; set; }
     }
 }

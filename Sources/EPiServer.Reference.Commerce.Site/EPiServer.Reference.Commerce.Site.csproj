@@ -477,6 +477,8 @@
     <Compile Include="Features\Product\ViewModels\VariantViewModel.cs" />
     <Compile Include="Features\Payment\PaymentMethods\BudgetPaymentMethod.cs" />
     <Compile Include="Features\Payment\ViewModels\BudgetPaymentViewModel.cs" />
+    <Compile Include="Features\QuickOrder\Blocks\QuickOrderBlock.cs" />
+    <Compile Include="Features\QuickOrder\Controllers\QuickOrderBlockController.cs" />
     <Compile Include="Features\QuickOrder\Controllers\QuickOrderPageController.cs" />
     <Compile Include="Features\QuickOrder\Pages\QuickOrderPage.cs" />
     <Compile Include="Features\Orders\Pages\OrdersPage.cs" />
@@ -892,6 +894,7 @@
     <Content Include="Views\Shared\_BudgetPaymentConfirmation.cshtml" />
     <Content Include="Views\Shared\_BudgetPaymentPaymentMethod.cshtml" />
     <Content Include="Views\Shared\_AdminImpersonatorHeader.cshtml" />
+    <Content Include="Views\QuickOrderBlock\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -900,7 +903,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="connectionStrings.config" />
+    <Content Include="connectionStrings.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="episerver.config" />
     <Content Include="EPiServerFramework.config" />
     <Content Include="EPiServerLog.config" />

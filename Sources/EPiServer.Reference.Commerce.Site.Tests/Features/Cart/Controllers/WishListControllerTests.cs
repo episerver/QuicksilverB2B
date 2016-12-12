@@ -82,6 +82,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Controllers
         private readonly Mock<IContentLoader> _contentLoaderMock;
         private readonly Mock<IQuickOrderService> _quickOrderService;
         private readonly Mock<ReferenceConverter> _referenceConverter;
+        private readonly Mock<ICustomerService> _customerService;
+        private readonly Mock<ICartServiceB2B> _cartServiceB2B;
 
         public WishListControllerTests()
         {
@@ -93,6 +95,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Controllers
             _contentLoaderMock = new Mock<IContentLoader>();
             _quickOrderService = new Mock<IQuickOrderService>();
             _referenceConverter = new Mock<ReferenceConverter>();
+            _customerService = new Mock<ICustomerService>();
+            _cartServiceB2B = new Mock<ICartServiceB2B>();
 
             _cartViewModelFactoryMock.Setup(x => x.CreateWishListMiniCartViewModel(It.IsAny<ICart>())).Returns(new WishListMiniCartViewModel());
             _cartViewModelFactoryMock.Setup(x => x.CreateWishListViewModel(It.IsAny<ICart>())).Returns(new WishListViewModel());
@@ -100,7 +104,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Controllers
             _cartServiceMock.Setup(x => x.LoadOrCreateCart(It.IsAny<string>())).Returns(new FakeCart(_marketMock.Object, new Currency("USD")));
             _contentLoaderMock.Setup(x => x.Get<StartPage>(ContentReference.StartPage)).Returns(new StartPage());
 
-            _subject = new WishListController(_contentLoaderMock.Object, _cartServiceMock.Object, _orderRepositoryMock.Object, _cartViewModelFactoryMock.Object, _quickOrderService.Object, _referenceConverter.Object);
+            _subject = new WishListController(_contentLoaderMock.Object, _cartServiceMock.Object, _orderRepositoryMock.Object, _cartViewModelFactoryMock.Object, _quickOrderService.Object, _referenceConverter.Object, _customerService.Object, _cartServiceB2B.Object);
         }
     }
 }

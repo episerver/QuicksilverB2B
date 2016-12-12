@@ -9,6 +9,7 @@ using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Pages;
 using EPiServer.Reference.Commerce.Site.Features.OrderDetails.Pages;
+using EPiServer.Reference.Commerce.Site.Features.OrderHistory.Pages;
 using EPiServer.Reference.Commerce.Site.Features.OrderPads.Pages;
 using EPiServer.Reference.Commerce.Site.Features.ResetPassword.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Search.Pages;
@@ -152,6 +153,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
             Order = 15)]
         [AllowedTypes(typeof(OrderDetailsPage))]
         public virtual ContentReference OrderDetailsPage { get; set; }
+
+        [Display(
+            Name = "Order history page",
+            Description = "",
+            GroupName = SiteTabs.SiteStructure,
+            Order = 20)]
+                [AllowedTypes(typeof(OrderHistoryPage))]
+        public virtual ContentReference OrderHistoryPage { get; set; }
 
         [Display(
             Name = "Organization Pads Page",

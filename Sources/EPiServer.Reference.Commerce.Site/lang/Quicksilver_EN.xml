@@ -461,6 +461,9 @@
       <Button>
         <GotoWishListPage>Go to order pad</GotoWishListPage>
       </Button>
+      <Button>
+        <WishListQuote>Request Order Pad Quote</WishListQuote>
+      </Button>
       <NoItems>You don't have any items in your order pad.</NoItems>
       <DeleteButton>Delete entire order pad</DeleteButton>
       <RemoveItem>Remove from order pad</RemoveItem>

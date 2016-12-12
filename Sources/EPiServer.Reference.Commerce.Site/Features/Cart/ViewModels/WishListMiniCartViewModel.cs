@@ -8,6 +8,5 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels
     {
         public ContentReference WishListPage { get; set; }
         public ContactViewModel CurrentCustomer { get; set; }
-        public OrderReference CartId { get; set; }
     }
 }

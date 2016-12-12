@@ -24,23 +24,23 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels
 
         public Guid AddressId { get; set; }
 
-        [Display(Name = "Address name *:")]
+        [Display(Name = "Address name")]
         [Required(ErrorMessage = "Address name is required")]
         public string Name { get; set; }
 
-        [Display(Name = "Street *:")]
+        [Display(Name = "Street")]
         [Required(ErrorMessage = "Street is required")]
         public string Street { get; set; }
 
-        [Display(Name = "City *:")]
+        [Display(Name = "City")]
         [Required(ErrorMessage = "City is required")]
         public string City { get; set; }
 
-        [Display(Name = "Zip code *:")]
+        [Display(Name = "Zip code")]
         [Required(ErrorMessage = "Zip code is required")]
         public string PostalCode { get; set; }
 
-        [Display(Name = "Country *:")]
+        [Display(Name = "Country")]
         [Required(ErrorMessage = "Country is required")]
         public string CountryCode { get; set; }
         public string CountryName { get; set; }

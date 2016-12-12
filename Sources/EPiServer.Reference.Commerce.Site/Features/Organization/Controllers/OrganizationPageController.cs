@@ -169,6 +169,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Organization.Controllers
                 ModelState.AddModelError("NewSubOrganization.Name", "Sub organization Name is requried");
             }
 
+            //update the locations list
+            var updatedLocations = viewModel.NewSubOrganization.Locations.Where(location => location.Name != "removed").ToList();
+            viewModel.NewSubOrganization.Locations = updatedLocations;
+
             _organizationService.CreateSubOrganization(viewModel.NewSubOrganization);
             return RedirectToAction("Index");
         }

@@ -48,7 +48,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
         {
             var market = _currentMarket.GetCurrentMarket();
             var currency = _currencyservice.GetCurrentCurrency();
-            var searchResults = SearchClient.Instance.Search<VariationContent>().For(query).GetContentResult();
+            
+            var searchQuery = SearchClient.Instance.Search<VariationContent>();
+            searchQuery = searchQuery.For(query).FilterForVisitor();
+            var searchResults = searchQuery.GetContentResult();
+
             if (searchResults != null && searchResults.Any())
             {
                 var searchResult = searchResults.Items;

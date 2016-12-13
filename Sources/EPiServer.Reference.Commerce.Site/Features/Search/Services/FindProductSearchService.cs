@@ -10,6 +10,8 @@ using EPiServer.Find.Api.Facets;
 using EPiServer.Find.Commerce;
 using EPiServer.Find.Cms;
 using EPiServer.Find.Framework;
+using EPiServer.Logging;
+using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
@@ -27,17 +29,19 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
     {
         private readonly ICurrentMarket _currentMarket;
         private readonly ICurrencyService _currencyService;
+        private readonly IOrganizationService _organizationService;
         private readonly AssetUrlResolver _assetUrlResolver;
         private readonly UrlResolver _urlResolver;
         private static readonly int _defaultPageSize = 18;
         protected const int MaxNumberOfFacets = 50;
 
-        public FindProductSearchService(ICurrentMarket currentMarket, ICurrencyService currencyService, AssetUrlResolver assetUrlResolver, UrlResolver urlResolver)
+        public FindProductSearchService(ICurrentMarket currentMarket, ICurrencyService currencyService, IOrganizationService organizationService, AssetUrlResolver assetUrlResolver, UrlResolver urlResolver)
         {
             _currentMarket = currentMarket;
             _currencyService = currencyService;
             _assetUrlResolver = assetUrlResolver;
             _urlResolver = urlResolver;
+            _organizationService = organizationService;
         }
 
         public CustomSearchResult SearchProducts(IContent currentContent, FilterOptionViewModel filterOptions)
@@ -70,6 +74,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
         {
             var market = _currentMarket.GetCurrentMarket();
             var currency = _currencyService.GetCurrentCurrency();
+
             return searchResult.Select(product =>
             {
                 var originalPrice = product.OriginalPrices.FirstOrDefault(
@@ -120,6 +125,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             var pageSize = filterOptions.PageSize > 0 ? filterOptions.PageSize : _defaultPageSize;
             var page = filterOptions.Page > 0 ? filterOptions.Page - 1 : 0;
             query = query.Skip(page * pageSize).Take(pageSize);
+
             return query;
         }
 
@@ -134,14 +140,26 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             query = query.FilterForVisitor();
 
             var nodeContent = currentContent as NodeContent;
-            if (nodeContent != null)
+            try
             {
-                query =
-                    query.Filter(
-                        p =>
-                            p.Ancestors()
-                                .Match(nodeContent.ContentLink.ToReferenceWithoutVersion().ToString()));
+                if (nodeContent != null)
+                {
+                    query =
+                        query.Filter(
+                            p =>
+                                p.Ancestors()
+                                    .Match(nodeContent.ContentLink.ToReferenceWithoutVersion().ToString()));
+                }
             }
+            catch (AccessDeniedException ex)
+            {
+                LogManager.GetLogger(GetType()).Error(ex.Message, ex.StackTrace);
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetLogger(GetType()).Error(ex.Message, ex.StackTrace);
+            }
+
 
             FilterBuilder<BaseProduct> filter = SearchClient.Instance.BuildFilter<BaseProduct>();
             foreach (var facetGroup in filterOptions.FacetGroups.Where(fg => fg.Facets.Any(fo => fo.Selected)))
@@ -166,9 +184,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
                         break;
                 }
             }
-
-            query = query.Filter(filter);
+            if (_organizationService.GetCurrentUserOrganization() != null)
+            {
+                List<string> organizationName = new List<string> { _organizationService.GetCurrentUserOrganization().Name };
+                query = query.Filter(prod => !prod.ExplicitACLProductBlackList.In(organizationName) & !prod.ExplicitACLParentBlackList.In(organizationName));
+            }
            
+            query = query.Filter(filter);
+
             return query;
         }
 
@@ -200,7 +223,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             AddFacet(facetGroups, results.TermsFacetFor(p => p.TopCategory),
                 filterOptions.FacetGroups.FirstOrDefault(fg => fg.GroupFieldName.Equals(Constants.Product.TopCategory)),
                 Constants.Product.TopCategory);
-            
+
             return facetGroups;
         }
 

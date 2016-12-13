@@ -4,8 +4,8 @@ using System.Linq;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Commerce.SpecializedProperties;
-using EPiServer.Find.Cms;
 using EPiServer.Find.Commerce;
+using EPiServer.Reference.Commerce.Site.Features.Search.Models;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.ServiceLocation;
 using Mediachase.Commerce.Catalog;
@@ -105,6 +105,20 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
             return
                 contentLoader.GetItems(productContent.GetVariants(relationRepository), productContent.Language)
                     .OfType<VariationContent>();
+        }
+
+        public static IEnumerable<string> GetParentBlackListACL(this ProductContent productContent)
+        {
+            var parents = productContent.ParentNodeRelations();
+            if (parents == null || !parents.Any()) return Enumerable.Empty<string>();
+
+            return parents.SelectMany(p =>
+            {
+                var parent = _contentLoader.Service.Get<BaseNode>(p);
+                if (parent == null) return Enumerable.Empty<string>();
+
+                return parent.ACLBlackList?.Split(',') ?? Enumerable.Empty<string>();
+            });
         }
     }
 }

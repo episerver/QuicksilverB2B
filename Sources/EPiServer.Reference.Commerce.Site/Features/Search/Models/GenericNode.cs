@@ -1,14 +1,14 @@
-﻿using EPiServer.Commerce.Catalog.ContentTypes;
-using EPiServer.Commerce.Catalog.DataAnnotations;
+﻿using EPiServer.Commerce.Catalog.DataAnnotations;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using System.ComponentModel.DataAnnotations;
+using EPiServer.Reference.Commerce.Site.Features.Search.Models;
 
 namespace Episerver.DataImporter.Models
 {
     [CatalogContentType(DisplayName = "GenericNode", GUID = "4ac27ad4-bf60-4ea0-9a77-28a89d38d3fd", Description = "")]
-    public class GenericNode : NodeContent
+    public class GenericNode : BaseNode
     {
         [CultureSpecific]
         [Display(Name = "LongName", GroupName = SystemTabNames.Content)]

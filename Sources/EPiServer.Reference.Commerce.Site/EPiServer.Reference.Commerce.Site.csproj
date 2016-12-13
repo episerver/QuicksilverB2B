@@ -500,6 +500,7 @@
     <Compile Include="Features\Navigation\Controllers\OrganizationNavController.cs" />
     <Compile Include="Features\Navigation\Controllers\B2BNavigationController.cs" />
     <Compile Include="Features\Search\Controllers\GenericNodeController.cs" />
+    <Compile Include="Features\Search\Models\BaseNode.cs" />
     <Compile Include="Features\Search\Models\GenericNode.cs" />
     <Compile Include="Features\Search\Services\EPiFindSearchService.cs" />
     <Compile Include="Features\Search\Services\FindProductSearchService.cs" />

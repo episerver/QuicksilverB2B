@@ -666,6 +666,7 @@
     <Compile Include="Infrastructure\Indexing\IndexingHelper.cs" />
     <Compile Include="Infrastructure\Indexing\SearchDocumentController.cs" />
     <Compile Include="Features\Shared\ModelBinders\DecimalModelBinder.cs" />
+    <Compile Include="Infrastructure\InitializationModules\EPiServerFindCommerceInitializationModule.cs" />
     <Compile Include="Infrastructure\InitializationModules\EPiServerFindInitialization.cs" />
     <Compile Include="Infrastructure\InitializationModules\MetadataInitialization.cs" />
     <Compile Include="Infrastructure\InitializationModules\MetaDataPlusInitialization.cs" />

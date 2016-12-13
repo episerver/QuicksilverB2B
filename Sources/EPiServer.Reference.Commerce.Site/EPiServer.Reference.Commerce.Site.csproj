@@ -394,6 +394,8 @@
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\pickaday.min.js" />
     <Content Include="Styles\b2b\components\_autocomplete.less" />
+    <Content Include="App_Data\B2BProductAssets.episerverdata" />
+    <Content Include="App_Data\CatalogExport_QuicksilverB2B_20161212-183053.zip" />
     <None Include="Properties\PublishProfiles\Quick.pubxml" />
     <None Include="Styles\b2b\components\_file.less" />
     <Content Include="Styles\b2b\components\_expandableTable.less" />
@@ -646,6 +648,7 @@
     <Compile Include="Infrastructure\Facades\SearchFacade.cs" />
     <Compile Include="Infrastructure\Facades\UrlAuthorizationFacade.cs" />
     <Compile Include="Features\Shared\Extensions\HtmlHelperExtensions.cs" />
+    <Compile Include="Infrastructure\ImportSiteB2BContent.cs" />
     <Compile Include="Infrastructure\ImportSiteContent.cs" />
     <Compile Include="Features\Cart\ViewModels\MiniCartViewModel.cs" />
     <Compile Include="Features\Checkout\Controllers\CheckoutController.cs" />

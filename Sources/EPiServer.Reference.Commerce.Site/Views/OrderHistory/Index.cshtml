@@ -1,6 +1,6 @@
 ﻿@using EPiServer.Commerce.Order
+@using EPiServer.Reference.Commerce.Site.B2B
 @using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
-@using Mediachase.Commerce.Orders
 @model EPiServer.Reference.Commerce.Site.Features.OrderHistory.ViewModels.OrderHistoryViewModel
 
 
@@ -25,16 +25,24 @@
                             {
                                 <p class="text-success"><strong>This is an organization order</strong></p>
                             }
-                            <p>                            
+                            <p>
                                 @Html.Translate("/OrderHistory/Labels/OrderDate") @order.PurchaseOrder.Created.ToLongDateString()<br>@Html.Translate("/OrderHistory/Labels/Status") <strong>@(order.QuoteStatus ?? order.PurchaseOrder.OrderStatus.ToString())</strong>
-                                <br/>
+                                <br />
                                 @Html.Translate("/OrderHistory/Labels/Payment")
                                 @if (orderForm.Payments.Any())
                                 {
                                     @String.Join(", ", orderForm.Payments.Select(x => x.PaymentMethodName))
                                 }
                                 <br>
-                                @Html.Translate("/OrderHistory/Labels/TotalPrice") <strong>@order.PurchaseOrder.GetTotal().ToString()</strong>
+                                @if (order.PurchaseOrder.Properties[Constants.Quote.QuoteStatus] != null && order.PurchaseOrder.Properties[Constants.Quote.QuoteStatus].ToString().Equals("RequestQuotationFinished"))
+                                {
+                                    @Html.DisplayName("Old Total") <strong> @order.PurchaseOrder.GetTotal().ToString() </strong> <br/>
+                                    @Html.DisplayName("New Total") <strong> @order.PurchaseOrder.Currency.Format.CurrencySymbol@order.PurchaseOrder.Properties["PreQuoteTotal"].ToString().AsDecimal().ToString("N") </strong>
+                                }
+                                else
+                                {
+                                    @Html.Translate("/OrderHistory/Labels/TotalPrice") <strong> @order.PurchaseOrder.GetTotal().ToString() </strong> <br/>
+                                }
                             </p>
                         </div>
                         <div class="col-xs-12 col-sm-6">

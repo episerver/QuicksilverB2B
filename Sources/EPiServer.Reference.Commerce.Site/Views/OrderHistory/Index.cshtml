@@ -36,8 +36,8 @@
                                 <br>
                                 @if (order.PurchaseOrder.Properties[Constants.Quote.QuoteStatus] != null && order.PurchaseOrder.Properties[Constants.Quote.QuoteStatus].ToString().Equals("RequestQuotationFinished"))
                                 {
-                                    @Html.DisplayName("Old Total") <strong> @order.PurchaseOrder.GetTotal().ToString() </strong> <br/>
-                                    @Html.DisplayName("New Total") <strong> @order.PurchaseOrder.Currency.Format.CurrencySymbol@order.PurchaseOrder.Properties["PreQuoteTotal"].ToString().AsDecimal().ToString("N") </strong>
+                                    @Html.DisplayName("New Total") <strong> @order.PurchaseOrder.GetTotal().ToString() </strong> <br/>
+                                    @Html.DisplayName("Old Total") <strong> @order.PurchaseOrder.Currency.Format.CurrencySymbol@order.PurchaseOrder.Properties["PreQuoteTotal"].ToString().AsDecimal().ToString("N") </strong>
                                 }
                                 else
                                 {

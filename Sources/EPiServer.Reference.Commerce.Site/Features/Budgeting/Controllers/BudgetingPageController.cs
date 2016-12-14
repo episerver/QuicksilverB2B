@@ -127,6 +127,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
             {
                 var currentOrganization = _organizationService.GetCurrentUserOrganization();
                 var organizationId = currentOrganization.OrganizationId;
+                
+                // Set finish date to the end of the day.
+                finishDateTime = finishDateTime.AddHours(23);
+                finishDateTime = finishDateTime.AddMinutes(59);
+                finishDateTime = finishDateTime.AddSeconds(59);
 
                 if (!string.IsNullOrEmpty(Session[Constants.Fields.SelectedSuborganization]?.ToString()))
                 {
@@ -200,6 +205,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
                 ? _organizationService.GetSubOrganizationById(Session[Constants.Fields.SelectedSuborganization].ToString())
                 : _organizationService.GetCurrentUserOrganization();
             var budget = _budgetService.GetBudgetById(budgetId);
+
+            // Set finish date to the end of the day.
+            finishDateTime = finishDateTime.AddHours(23);
+            finishDateTime = finishDateTime.AddMinutes(59);
+            finishDateTime = finishDateTime.AddSeconds(59);
 
             //Can update bugdets of same organization as request user organization
             if (budget.OrganizationId != currentOrganization.OrganizationId && currentOrganization.SubOrganizations.All(suborg => suborg.OrganizationId != budget.OrganizationId))
@@ -286,6 +296,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
                 var organizationId = currentOrganization.OrganizationId;
                 var user = _customerService.GetCustomerByEmail(userEmail);
 
+                // Set finish date to the end of the day.
+                finishDateTime = finishDateTime.AddHours(23);
+                finishDateTime = finishDateTime.AddMinutes(59);
+                finishDateTime = finishDateTime.AddSeconds(59);
+
                 //Check user role.
                 if (user.Properties["UserRole"].Value.ToString() != Constants.UserRoles.Purchaser)
                     return Json(new { success = false });
@@ -353,6 +368,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
               ? _organizationService.GetSubOrganizationById(Session[Constants.Fields.SelectedSuborganization].ToString())
               : _organizationService.GetCurrentUserOrganization();
             var budget = _budgetService.GetBudgetById(budgetId);
+
+            // Set finish date to the end of the day.
+            finishDateTime = finishDateTime.AddHours(23);
+            finishDateTime = finishDateTime.AddMinutes(59);
+            finishDateTime = finishDateTime.AddSeconds(59);
 
             //Can update bugdets of same organization as request user organization
             if (budget.OrganizationId != currentOrganization.OrganizationId && currentOrganization.SubOrganizations.All(suborg => suborg.OrganizationId != budget.OrganizationId))

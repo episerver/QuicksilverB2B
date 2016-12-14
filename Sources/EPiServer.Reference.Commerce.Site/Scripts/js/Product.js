@@ -47,7 +47,7 @@
             url: url,
             data: { variationCode: skuCode, quickview: true },
             success: function (result) {
-                $(".modal-dialog", $("#ModalDialog")).html($(result));
+                $(".modal-dialog", $("#Quickview")).html($(result));
             }
         });
     },

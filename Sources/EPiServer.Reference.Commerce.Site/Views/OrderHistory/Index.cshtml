@@ -1,8 +1,8 @@
 ﻿@using EPiServer.Commerce.Order
 @using EPiServer.Reference.Commerce.Site.B2B
+@using EPiServer.Reference.Commerce.Site.B2B.Enums
 @using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 @model EPiServer.Reference.Commerce.Site.Features.OrderHistory.ViewModels.OrderHistoryViewModel
-
 
 <div class="container-fluid">
     <div class="row">
@@ -13,7 +13,6 @@
                     <h2>@Html.PropertyFor(x => x.CurrentPage.Name)</h2>
                     @Html.PropertyFor(x => x.CurrentPage.MainBody)
                 </div>
-
                 @foreach (var order in Model.Orders)
                 {
                     var orderForm = order.PurchaseOrder.GetFirstForm();
@@ -23,7 +22,9 @@
                             <h3 class="h4">@Html.Translate("/OrderHistory/Labels/OrderID") @order.PurchaseOrder.OrderNumber</h3>
                             @if (string.Join(", ", orderForm.Payments.Select(x => x.PaymentMethodName)).Equals("BudgetPayment"))
                             {
-                                <p class="text-success"><strong>This is an organization order</strong></p>
+                                <p class="text-success">
+                                    <strong>This is an organization order</strong>
+                                </p>
                             }
                             <p>
                                 @Html.Translate("/OrderHistory/Labels/OrderDate") @order.PurchaseOrder.Created.ToLongDateString()<br>@Html.Translate("/OrderHistory/Labels/Status") <strong>@(order.QuoteStatus ?? order.PurchaseOrder.OrderStatus.ToString())</strong>
@@ -36,12 +37,17 @@
                                 <br>
                                 @if (order.PurchaseOrder.Properties[Constants.Quote.QuoteStatus] != null && order.PurchaseOrder.Properties[Constants.Quote.QuoteStatus].ToString().Equals("RequestQuotationFinished"))
                                 {
-                                    @Html.DisplayName("Old Total") <strong> @order.PurchaseOrder.GetTotal().ToString() </strong> <br/>
-                                    @Html.DisplayName("New Total") <strong> @order.PurchaseOrder.Currency.Format.CurrencySymbol@order.PurchaseOrder.Properties["PreQuoteTotal"].ToString().AsDecimal().ToString("N") </strong>
+                                    @Html.DisplayName("Old Total")
+                                    <strong> @order.PurchaseOrder.GetTotal().ToString() </strong>
+                                    <br />
+                                    @Html.DisplayName("New Total")
+                                    <strong> @order.PurchaseOrder.Currency.Format.CurrencySymbol@order.PurchaseOrder.Properties["PreQuoteTotal"].ToString().AsDecimal().ToString("N") </strong>
                                 }
                                 else
                                 {
-                                    @Html.Translate("/OrderHistory/Labels/TotalPrice") <strong> @order.PurchaseOrder.GetTotal().ToString() </strong> <br/>
+                                    @Html.Translate("/OrderHistory/Labels/TotalPrice")
+                                    <strong> @order.PurchaseOrder.GetTotal().ToString() </strong>
+                                    <br />
                                 }
                             </p>
                         </div>
@@ -80,6 +86,16 @@
                         </div>
 
                     </div>
+                    if (Request.IsAuthenticated && string.IsNullOrEmpty(order.PurchaseOrder.Properties[Constants.Quote.QuoteStatus] as string) && Model.CurrentCustomer.Role == B2BUserRoles.Purchaser)
+                    {
+                        using (@Html.BeginForm("RequestQuote", "Cart", FormMethod.Post))
+                        {
+                            <input type="hidden" name="orderId" value=@order.OrderGroupId/>
+                            <div class="cart-item">
+                                <button type="button" class="btn btn-block btn-warning jsCartRequestQuote" aria-expanded="false">@Html.Translate("/Header/MiniCart/Button/RequestQuotation")</button>
+                            </div>
+                        }
+                    }
                     <hr />
                 }
             </div>

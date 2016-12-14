@@ -13,6 +13,7 @@ using EPiServer.Logging;
 using EPiServer.Reference.Commerce.Site.Features.OrderHistory.ViewModels;
 using Mediachase.Commerce.Orders;
 using EPiServer.Reference.Commerce.Site.B2B;
+using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Web.Routing;
 
@@ -25,13 +26,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.Controllers
         private readonly IAddressBookService _addressBookService;
         private readonly IOrderRepository _orderRepository;
         private readonly IContentLoader _contentLoader;
+        private readonly ICustomerService _customerService;
 
-        public OrderHistoryController(CustomerContextFacade customerContextFacade, IAddressBookService addressBookService, IOrderRepository orderRepository, IContentLoader contentLoader)
+        public OrderHistoryController(CustomerContextFacade customerContextFacade, IAddressBookService addressBookService, IOrderRepository orderRepository, IContentLoader contentLoader, ICustomerService customerService)
         {
             _customerContext = customerContextFacade;
             _addressBookService = addressBookService;
             _orderRepository = orderRepository;
             _contentLoader = contentLoader;
+            _customerService = customerService;
         }
 
         [HttpGet]
@@ -45,7 +48,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.Controllers
             var viewModel = new OrderHistoryViewModel
             {
                 CurrentPage = currentPage,
-                Orders = new List<OrderViewModel>()
+                Orders = new List<OrderViewModel>(),
+                CurrentCustomer = _customerService.GetCurrentContact()
             };
 
             foreach (var purchaseOrder in purchaseOrders)

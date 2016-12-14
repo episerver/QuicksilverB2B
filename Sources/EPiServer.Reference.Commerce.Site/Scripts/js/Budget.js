@@ -19,7 +19,12 @@
             url: form[0].action,
             data: data,
             success: function (result) {
-                window.location = $(".cancelNewBudget").attr('href');
+                if (result.result === "true")
+                    window.location = $(".cancelNewBudget").attr('href');
+                else {
+                    $("#BudgetWarningMessage").show();
+                    $(".warning-message-data").text(result.result);
+                }
             }
         });
 
@@ -37,7 +42,12 @@
             url: form[0].action,
             data: data,
             success: function (result) {
-                window.location = $(".cancelNewBudget").attr('href');
+                if (result.result === "true")
+                    window.location = $(".cancelNewBudget").attr('href');
+                else {
+                    $("#BudgetWarningMessage").show();
+                    $(".warning-message-data").text(result.result);
+                }
             }
         });
 
@@ -56,10 +66,11 @@
             url: form[0].action,
             data: data,
             success: function (result) {
-                if (result.result === true)
+                if (result.result === "true")
                     window.location = $(".cancelUpdateBudget").attr('href');
                 else {
                     $("#BudgetWarningMessage").show();
+                    $(".warning-message-data").text(result.result);
                 }
             }
         });
@@ -79,10 +90,11 @@
             url: form[0].action,
             data: data,
             success: function (result) {
-                if (result.result === true)
+                if (result.result === "true")
                     window.location = $(".cancelUpdateBudget").attr('href');
                 else {
                     $("#BudgetWarningMessage").show();
+                    $(".warning-message-data").text(result.result);
                 }
             }
         });

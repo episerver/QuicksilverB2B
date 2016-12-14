@@ -122,7 +122,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
         [NavigationAuthorize("Admin")]
         public ActionResult NewBudget(DateTime startDateTime, DateTime finishDateTime, decimal amount, string currency, string status)
         {
-            var success = true;
+            var result = "true";
             try
             {
                 var currentOrganization = _organizationService.GetCurrentUserOrganization();
@@ -138,22 +138,22 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
                     organizationId = Guid.Parse(Session[Constants.Fields.SelectedSuborganization].ToString());
                     // Validate Ammount of available budget.
                     if (!_budgetService.CheckAmountByTimeLine(currentOrganization.OrganizationId, amount, startDateTime, finishDateTime))
-                        return Json(new {success = false});
+                        return Json(new { result = "Not enough amount on organization time line budget."});
                     // It should overlap with another budget of the parent organization
                     if (!_budgetService.IsSuborganizationValidTimeSlice(startDateTime, finishDateTime, currentOrganization.OrganizationId))
-                        return Json(new { success = false });
+                        return Json(new { result = "Do not overlap the orgnization budget time line." });
                     // Validate for existing current budget. Avoid duplicate current budget since the budgets of suborg. must fit org. date times. 
                     if (_budgetService.GetBudgetByTimeLine(organizationId,startDateTime,finishDateTime) != null)
-                        return Json(new { success = false });
+                        return Json(new { result = "Duplicate budget on selected time line." });
                     // Have to deduct from organization correpondent budget.
                     if (!_budgetService.LockOrganizationAmount(startDateTime, finishDateTime, currentOrganization.OrganizationId, amount))
-                        return Json(new { success = false });
+                        return Json(new { result = "Cannot lock amount." });
                 }
                 else
                 {
                     // Invalid date selection. Overlaps with another budget.
                     if (!_budgetService.IsTimeOverlapped(startDateTime, finishDateTime, organizationId))
-                        return Json(new { success = false });
+                        return Json(new { result = "Invalid Date. Overlaps another budget." });
                 }
 
                 _budgetService.CreateNewBudget(new BudgetViewModel
@@ -172,10 +172,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
             catch (Exception ex)
             {
                 LogManager.GetLogger(GetType()).Error(ex.Message, ex.StackTrace);
-                success = false;
+                result = "Server Error.";
             }
            
-            return Json(new {success = success});
+            return Json(new { result = result });
         }
 
         [NavigationAuthorize("Admin")]
@@ -199,7 +199,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
         [NavigationAuthorize("Admin")]
         public ActionResult UpdateBudget(DateTime startDateTime, DateTime finishDateTime, decimal amount, string currency, string status, int budgetId)
         {
-            var success = true;
+            var result = "true";
 
             var currentOrganization = !string.IsNullOrEmpty(Session[Constants.Fields.SelectedSuborganization]?.ToString())
                 ? _organizationService.GetSubOrganizationById(Session[Constants.Fields.SelectedSuborganization].ToString())
@@ -213,7 +213,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
 
             //Can update bugdets of same organization as request user organization
             if (budget.OrganizationId != currentOrganization.OrganizationId && currentOrganization.SubOrganizations.All(suborg => suborg.OrganizationId != budget.OrganizationId))
-                return Json(new { success = false });
+                return Json(new { result = "Invalid Update." });
 
             try
             {
@@ -226,22 +226,22 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
                     currentOrganization =_organizationService.GetSubOrganizationById(budget.OrganizationId.ToString());
                     // Check budget ballance.
                     if (!_budgetService.ValidateSuborganizationNewAmount(currentOrganization.OrganizationId, currentOrganization.ParentOrganization.OrganizationId, amount))
-                        return Json(new {success = false});
+                        return Json(new { result = "Not enough amount on organization time line budget." });
                     // Have to unlock the old amount and to lock the new amount from the organization correpondent budget.
                     if (
                         !_budgetService.UnLockOrganizationAmount(startDateTime, finishDateTime,
                             currentOrganization.ParentOrganization.OrganizationId, budget.Amount))
-                        return Json(new {success = false});
+                        return Json(new { result = "Cannot unlock amount." });
                     if (
                         !_budgetService.LockOrganizationAmount(startDateTime, finishDateTime,
                             currentOrganization.ParentOrganization.OrganizationId, amount))
-                        return Json(new {success = false});
+                        return Json(new { result = "Cannot lock amount." });
                 }
                 else
                 {
                     // Check budget lock ammount.
                     if (budget.LockAmount > amount)
-                        return Json(new { success = false });
+                        return Json(new { result = "Invalid set amount." });
                 }
 
                 _budgetService.UpdateBudget( new BudgetViewModel
@@ -260,10 +260,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
             catch (Exception ex)
             {
                 LogManager.GetLogger(GetType()).Error(ex.Message, ex.StackTrace);
-                success = false;
+                result = "Server Error.";
             }
 
-            return Json(new { result = success });
+            return Json(new { result = result });
         }
         
         [NavigationAuthorize("Admin")]
@@ -286,7 +286,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
         [NavigationAuthorize("Admin")]
         public ActionResult NewBudgetToUser(DateTime startDateTime, DateTime finishDateTime, decimal amount, string currency, string status, string userEmail)
         {
-            var success = true;
+            var result = "true";
             try
             {
                 var currentOrganization = !string.IsNullOrEmpty(Session[Constants.Fields.SelectedSuborganization]?.ToString())
@@ -303,27 +303,27 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
 
                 //Check user role.
                 if (user.Properties["UserRole"].Value.ToString() != Constants.UserRoles.Purchaser)
-                    return Json(new { success = false });
+                    return Json(new { result = "Invalid User Role." });
                 // Can assign only to same organization user.
                 if (user.ContactOrganization.Name != currentOrganization.Name)
-                    return Json(new { success = false });
+                    return Json(new { result = "Cannot assigned to another organization." });
 
                 var userGuid = Guid.Parse(user.PrimaryKeyId.Value.ToString());
                 // Validate Ammount of available budget.
                 if (!_budgetService.HasEnoughAmount(currentOrganization.OrganizationId, amount, startDateTime, finishDateTime))
-                    return Json(new { success = false });
+                    return Json(new { result = "Not enough amount on organization time line budget." });
 
                 // It should overlap with another budget of the parent organization
                 if (!_budgetService.IsSuborganizationValidTimeSlice(startDateTime, finishDateTime, organizationId))
-                    return Json(new { success = false });
+                    return Json(new { result = "Do not overlap the orgnization budget time line." });
 
                 // Can have only one active budget per purchaser per current period
                 if (_budgetService.GetCustomerCurrentBudget(organizationId,userGuid) != null)
-                    return Json(new { success = false });
+                    return Json(new { result = "Duplicate budget on selected time line." });
                 
                 // Have to deduct from organization correpondent budget.
                 if (!_budgetService.LockOrganizationAmount(startDateTime, finishDateTime, currentOrganization.OrganizationId, amount))
-                    return Json(new { success = false });
+                    return Json(new { result = "Cannot lock amount." });
 
                 _budgetService.CreateNewBudget(new BudgetViewModel
                 {
@@ -343,10 +343,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
             catch (Exception ex)
             {
                 LogManager.GetLogger(GetType()).Error(ex.Message, ex.StackTrace);
-                success = false;
+                result = "Server Error.";
             }
 
-            return Json(new { success = success });
+            return Json(new { result = result });
         }
 
         [NavigationAuthorize("Admin")]
@@ -376,20 +376,20 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
 
             //Can update bugdets of same organization as request user organization
             if (budget.OrganizationId != currentOrganization.OrganizationId && currentOrganization.SubOrganizations.All(suborg => suborg.OrganizationId != budget.OrganizationId))
-                return Json(new { success = false });
+                return Json(new { result = "Cannot edit another organization button." });
             // Amount cannot be lower then spent amount.
             if (budget.SpentBudget > amount)
-                return Json(new { success = false });
+                return Json(new { result = "Amount cannot be lower then spent amount" });
             // Check budget ballance.
             if (!_budgetService.CheckAmount(budget.OrganizationId, amount, budget.Amount))
-                return Json(new { success = false });
+                return Json(new { result = "Not enough amount on organization time line budget." });
             // Have to unlock the old amount and to lock the new amount from the organization correpondent budget.
             if (!_budgetService.UnLockOrganizationAmount(startDateTime, finishDateTime, budget.OrganizationId, budget.Amount))
-                return Json(new { success = false });
+                return Json(new { result = "Cannot unlock amount." });
             if (!_budgetService.LockOrganizationAmount(startDateTime, finishDateTime, budget.OrganizationId, amount))
-                return Json(new { success = false });
+                return Json(new { result = "Cannot lock amount." });
 
-            var success = true;
+            var result = "true";
             try
             {
                 _budgetService.UpdateBudget(new BudgetViewModel
@@ -409,10 +409,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Budgeting.Controllers
             catch (Exception ex)
             {
                 LogManager.GetLogger(GetType()).Error(ex.Message, ex.StackTrace);
-                success = false;
+                result = "Server Error.";
             }
 
-            return Json(new { result = success });
+            return Json(new { result = result });
         }
 
     }

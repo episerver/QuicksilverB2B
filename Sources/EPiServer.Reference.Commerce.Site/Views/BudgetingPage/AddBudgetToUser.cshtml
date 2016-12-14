@@ -65,6 +65,10 @@
                             <a href="@Url.Action("Index", "BudgetingPage")" class="btn btn-default cancelNewBudget">Cancel</a>
                         </div>
                     }
+                    <div id="BudgetWarningMessage" class="col-md-5 col-xs-12 alert alert-danger pull-right" hidden>
+                        <button type="button" class="close" data-hide="alert">&times;</button>
+                        <span class="warning-message warning-message-data"></span>
+                    </div>
                 </section>
             </div>
         </main>

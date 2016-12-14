@@ -44,10 +44,12 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
         SearchController _subject;
         Mock<SearchViewModelFactory> _searchViwModelFactoryMock;
         Mock<ISearchService> _searchServiceMock;
+        Mock<IFindProductSearchService> _findProductSearchService;
 
         public SearchControllerTests()
         {
             _searchServiceMock = new Mock<ISearchService>();
+            _findProductSearchService = new Mock<IFindProductSearchService>();
             _searchViwModelFactoryMock = new Mock<SearchViewModelFactory>(null,null);
 
             _searchViwModelFactoryMock.Setup(
@@ -68,7 +70,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Search.Controllers
                         DiscountedPrice = new Money(10, Currency.USD)
                     }
                 });
-            _subject = new SearchController(_searchViwModelFactoryMock.Object, _searchServiceMock.Object);
+            _subject = new SearchController(_searchViwModelFactoryMock.Object, _findProductSearchService.Object);
 
         }
     }

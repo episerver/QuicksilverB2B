@@ -62,5 +62,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Models
 
         [Ignore]
         public virtual List<string> ExplicitACLParentBlackList => this.GetParentBlackListACL().ToList();
+
+        [Ignore]
+        public virtual List<string> VariantCodes
+            => this.VariationContents().Select(v => v.Code).ToList();
     }
 }

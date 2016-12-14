@@ -70,6 +70,31 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             return  returnedResults;
         }
 
+        public IEnumerable<ProductViewModel> QuickSearch(string query)
+        {
+            var filterOptions = new FilterOptionViewModel
+            {
+                Q = query,
+                PageSize = 5,
+                Sort = string.Empty,
+                FacetGroups = new List<FacetGroupOption>()
+            };
+            return QuickSearch(filterOptions);
+        }
+
+        public IEnumerable<ProductViewModel> QuickSearch(FilterOptionViewModel filterOptions)
+        {
+            if (string.IsNullOrEmpty(filterOptions.Q))
+            {
+                return Enumerable.Empty<ProductViewModel>();
+            }
+
+            var query = BuildSearchQuery(null, filterOptions);
+
+            var searchResults = query.GetContentResult();
+            return CreateProductViewModels(searchResults);
+        }
+
         private IEnumerable<ProductViewModel> CreateProductViewModels(IContentResult<BaseProduct> searchResult)
         {
             var market = _currentMarket.GetCurrentMarket();
@@ -134,7 +159,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             var query = SearchClient.Instance.Search<BaseProduct>();
             if (!string.IsNullOrWhiteSpace(filterOptions.Q))
             {
-                query = query.For(filterOptions.Q);
+                query = query.For(filterOptions.Q)
+                    .InFields(x => x.Code, x => x.DisplayName, x => x.Name, x => x.Brand)
+                    .InField(x => x.Description)
+                    .InField(x => x.LongDescription)
+                    .InField(x => x.VariantCodes);
             }
             query = query.FilterOnCurrentMarket();
             query = query.FilterForVisitor();

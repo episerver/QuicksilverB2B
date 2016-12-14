@@ -1,8 +1,8 @@
 ﻿@using System.Web.Mvc.Html
 @using EPiServer.Commerce.Order
 @using EPiServer.Reference.Commerce.Site.B2B.Enums
+@using EPiServer.Reference.Commerce.Site.B2B
 @using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
-@using Microsoft.SqlServer.Server
 @model EPiServer.Reference.Commerce.Site.Features.OrderDetails.ViewModels.OrderDetailsViewModel
 @if (Model.PurchaseOrder != null)
 {
@@ -25,7 +25,15 @@
                                 string.Join(", ", orderForm.Payments.Select(x => x.PaymentMethodName));
                             }
                             <br />
-                            @Html.Translate("/OrderHistory/Labels/TotalPrice") <strong>@Model.PurchaseOrder.GetTotal().ToString()</strong>
+                            @if (Model.PurchaseOrder.Properties[Constants.Quote.QuoteStatus] != null && Model.PurchaseOrder.Properties[Constants.Quote.QuoteStatus].ToString().Equals("RequestQuotationFinished"))
+                            {
+                                @Html.DisplayName("Old Total") <strong> @Model.PurchaseOrder.GetTotal().ToString() </strong> <br />
+                                    @Html.DisplayName("New Total") <strong> @Model.PurchaseOrder.Currency.Format.CurrencySymbol@Model.PurchaseOrder.Properties["PreQuoteTotal"].ToString().AsDecimal().ToString("N") </strong>
+                            }
+                            else
+                            {
+                                @Html.Translate("/OrderHistory/Labels/TotalPrice") <strong> @Model.PurchaseOrder.GetTotal().ToString() </strong> <br />
+                            }
                         </p>
                     </div>
                     <div class="col-xs-12 col-sm-6">

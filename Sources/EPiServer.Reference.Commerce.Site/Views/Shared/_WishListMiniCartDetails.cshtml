@@ -1,4 +1,5 @@
-﻿@using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
+﻿@using EPiServer.Reference.Commerce.Site.B2B.Enums
+@using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 @model EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels.WishListMiniCartViewModel
 
 <div class="product-dropdown cart-dropdown product-row list-unstyled">
@@ -61,12 +62,15 @@
             <li class="cart-item">
                 <button type="button" class="btn btn-block btn-primary" aria-expanded="false" onclick="window.location.href = '@Url.ContentUrl(Model.WishListPage)'">@Html.Translate("/WishList/Button/GoToWishlistPage")</button>
             </li>
-            @using (Html.BeginForm("RequestWishListQuote", "WishList", FormMethod.Post))
+            @if (Model.CurrentCustomer.UserRole == B2BUserRoles.Purchaser.ToString())
             {
-            <li class="cart-item">
-                <button type="button" class="btn btn-block btn-warning jsWishListQuote" aria-expanded="false">@Html.Translate("/WishList/Button/WishListQuote")</button>
-            </li>
-            }   
+                using (Html.BeginForm("RequestWishListQuote", "WishList", FormMethod.Post))
+                {
+                <li class="cart-item">
+                    <button type = "button" class="btn btn-block btn-warning jsWishListQuote" aria-expanded="false">@Html.Translate("/WishList/Button/WishListQuote")</button>
+                </li>
+                }
+            }
             <li class="cart-item">
                 <button type="button" class="btn btn-block btn-default jsWishListContinueShopping" aria-expanded="false">@Html.Translate("/Header/MiniCart/Button/Close")</button>
             </li>

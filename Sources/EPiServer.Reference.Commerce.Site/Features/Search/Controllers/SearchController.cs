@@ -10,12 +10,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
     public class SearchController : PageController<SearchPage>
     {
         private readonly SearchViewModelFactory _viewModelFactory;
-        private readonly ISearchService _searchService;
+        private readonly IFindProductSearchService _findProductSearchService;
 
-        public SearchController(SearchViewModelFactory viewModelFactory, ISearchService searchService)
+        public SearchController(SearchViewModelFactory viewModelFactory, IFindProductSearchService findProductSearchService)
         {
             _viewModelFactory = viewModelFactory;
-            _searchService = searchService;
+            _findProductSearchService = findProductSearchService;
         }
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
@@ -31,7 +31,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
         [ValidateInput(false)]
         public ActionResult QuickSearch(string q = "")
         {
-            var result = _searchService.QuickSearch(q);
+            var result = _findProductSearchService.QuickSearch(q);
             return View(result);
         }
     }

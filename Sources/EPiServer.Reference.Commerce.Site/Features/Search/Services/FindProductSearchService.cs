@@ -163,7 +163,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
                     .InFields(x => x.Code, x => x.DisplayName, x => x.Name, x => x.Brand)
                     .InField(x => x.Description)
                     .InField(x => x.LongDescription)
-                    .InField(x => x.VariantCodes);
+                    .InField(x => x.VariantCodes)
+                    .ApplyBestBets();
             }
             query = query.FilterOnCurrentMarket();
             query = query.FilterForVisitor();

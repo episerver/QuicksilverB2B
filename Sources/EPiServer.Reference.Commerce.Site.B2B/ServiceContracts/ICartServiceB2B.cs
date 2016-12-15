@@ -1,4 +1,5 @@
-﻿using EPiServer.Commerce.Order;
+﻿using System;
+using EPiServer.Commerce.Order;
 
 namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
 {
@@ -10,5 +11,6 @@ namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
         ICart PlaceOrderToCart(IPurchaseOrder purchaseOrder, ICart cart);
         void RemoveQuoteNumber(ICart cart);
         string DefaultWishListName { get; }
+        bool PlaceCartForQuoteById(int orderId, Guid userId);
     }
 }

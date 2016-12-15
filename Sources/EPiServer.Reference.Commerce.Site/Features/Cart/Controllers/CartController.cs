@@ -10,6 +10,7 @@ using Castle.Core.Internal;
 using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.B2B.Enums;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
+using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using Mediachase.Commerce.Catalog;
 using Constants = EPiServer.Reference.Commerce.Site.B2B.Constants;
 
@@ -25,7 +26,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         private readonly IQuickOrderService _quickOrderService;
         private readonly ReferenceConverter _referenceConverter;
         private readonly ICustomerService _customerService;
-        
+        private readonly IContentLoader _contentLoader;
+
         public CartController(
             ICartService cartService,
             IOrderRepository orderRepository,
@@ -33,7 +35,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
             ICartServiceB2B cartServiceB2B,
             IQuickOrderService quickOrderService,
             ReferenceConverter referenceConverter,
-            ICustomerService customerService)
+            ICustomerService customerService,
+            IContentLoader contentLoader)
         {
             _cartService = cartService;
             _orderRepository = orderRepository;
@@ -42,6 +45,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
             _quickOrderService = quickOrderService;
             _referenceConverter = referenceConverter;
             _customerService = customerService;
+            _contentLoader = contentLoader;
         }
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
@@ -195,6 +199,21 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
             _cart = _cartServiceB2B.CreateNewCart();
 
             return Json(new { result = succesRequest });
+        }
+
+        [HttpPost]
+        [AllowDBWrite]
+        public ActionResult RequestQuoteById(int orderId)
+        {
+            var currentCustomer = _customerService.GetCurrentContact();
+            if (currentCustomer.Role != B2BUserRoles.Purchaser)
+                return Json(new { result = false });
+
+             _cartServiceB2B.PlaceCartForQuoteById(orderId, currentCustomer.ContactId);
+
+            var startPage = _contentLoader.Get<StartPage>(ContentReference.StartPage);
+
+            return RedirectToAction("Index", new { Node = startPage.OrderHistoryPage });
         }
 
         private ICart Cart

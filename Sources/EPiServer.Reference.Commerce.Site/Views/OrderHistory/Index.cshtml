@@ -83,16 +83,7 @@
                         </div>
 
                     </div>
-                    if (Request.IsAuthenticated && string.IsNullOrEmpty(order.PurchaseOrder.Properties[Constants.Quote.QuoteStatus] as string) && Model.CurrentCustomer.Role == B2BUserRoles.Purchaser)
-                    {
-                        using (@Html.BeginForm("RequestQuote", "Cart", FormMethod.Post))
-                        {
-                            <input type="hidden" name="orderId" value=@order.OrderGroupId/>
-                            <div class="cart-item">
-                                <button type="button" class="btn btn-block btn-warning jsCartRequestQuote" aria-expanded="false">@Html.Translate("/Header/MiniCart/Button/RequestQuotation")</button>
-                            </div>
-                        }
-                    }
+
                     <hr />
                 }
             </div>

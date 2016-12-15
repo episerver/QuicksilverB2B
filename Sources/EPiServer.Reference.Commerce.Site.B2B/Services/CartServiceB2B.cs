@@ -91,6 +91,64 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             return quoteResult;
         }
 
+        public bool PlaceCartForQuoteById(int orderId, Guid userId)
+        {
+            var quoteResult = true;
+            try
+            {
+                var referedOrder = _orderRepository.Load<IPurchaseOrder>(orderId);
+                var cart = _orderRepository.LoadOrCreateCart<ICart>(userId,"RequstQuoteFromOrder");
+                foreach (var lineItem in referedOrder.GetFirstForm().GetAllLineItems())
+                {
+                    var newLineItem = lineItem;
+                    newLineItem.Properties[Constants.Quote.PreQuotePrice] = lineItem.PlacedPrice;
+                    cart.AddLineItem(newLineItem);
+                }
+                cart.Currency = referedOrder.Currency;
+                cart.Market = referedOrder.Market;
+
+                OrderReference orderReference = _orderRepository.SaveAsPurchaseOrder(cart);
+                PurchaseOrder purchaseOrder = _orderRepository.Load<PurchaseOrder>(orderReference.OrderGroupId);
+                if (purchaseOrder != null)
+                {
+                    int quoteExpireDays;
+                    int.TryParse(ConfigurationManager.AppSettings[Constants.Quote.QuoteExpireDate], out quoteExpireDays);
+                    purchaseOrder[Constants.Quote.QuoteExpireDate] =
+                        string.IsNullOrEmpty(ConfigurationManager.AppSettings[Constants.Quote.QuoteExpireDate])
+                            ? DateTime.Now.AddDays(30)
+                            : DateTime.Now.AddDays(quoteExpireDays);
+
+                    purchaseOrder[Constants.Quote.PreQuoteTotal] = purchaseOrder.Total;
+                    purchaseOrder[Constants.Quote.QuoteStatus] = Constants.Quote.RequestQuotation;
+                    purchaseOrder.Status = OrderStatus.OnHold.ToString();
+                    if (string.IsNullOrEmpty(purchaseOrder[Constants.Customer.CustomerFullName]?.ToString()))
+                    {
+                        if (CustomerContext.Current != null && CustomerContext.Current.CurrentContact != null)
+                        {
+                            var contact = CustomerContext.Current.CurrentContact;
+                            purchaseOrder[Constants.Customer.CustomerFullName] = contact.FullName;
+                            purchaseOrder[Constants.Customer.CustomerEmailAddress] = contact.Email;
+                            if (_organizationService.GetCurrentUserOrganization() != null)
+                            {
+                                var organization = _organizationService.GetCurrentUserOrganization();
+                                purchaseOrder[Constants.Customer.CurrentCustomerOrganization] = organization.Name;
+                            }
+                        }
+                    }
+                }
+                purchaseOrder.AcceptChanges();
+                _orderRepository.Delete(cart.OrderLink);
+            }
+            catch (Exception ex)
+            {
+                quoteResult = false;
+                LogManager.GetLogger(GetType()).Error("Failed to process request quotation request.", ex);
+            }
+
+            return quoteResult;
+        }
+
+
         public ICart PlaceOrderToCart(IPurchaseOrder purchaseOrder, ICart cart)
         {
             ICart returnCart = cart;

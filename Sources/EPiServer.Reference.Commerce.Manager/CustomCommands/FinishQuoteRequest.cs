@@ -38,7 +38,7 @@ namespace EPiServer.Reference.Commerce.Manager.CustomCommands
             }
             catch (Exception ex)
             {
-                LogManager.GetLogger(GetType()).Error("Failed to process request quotation approve.", ex);
+                LogManager.GetLogger(GetType()).Error("Failed to process request quote approve.", ex);
             }
         }
     }

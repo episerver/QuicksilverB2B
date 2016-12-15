@@ -110,6 +110,8 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
                 budgetPayment.Status = PaymentStatus.Pending.ToString();
                 budgetPayment.AcceptChanges();
                 purchaseOrder.ProcessPayments();
+                budgetPayment.Status = PaymentStatus.Processed.ToString();
+                budgetPayment.AcceptChanges();
             }
             catch (Exception ex)
             {

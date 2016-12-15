@@ -21,13 +21,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderDetails.Controllers
         private readonly IOrdersService _ordersService;
         private readonly ICustomerService _customerService;
         private readonly IOrderRepository _orderRepository;
+        private readonly IContentLoader _contentLoader;
 
-        public OrderDetailsController(IAddressBookService addressBookService, IOrdersService ordersService, ICustomerService customerService, IOrderRepository orderRepository)
+        public OrderDetailsController(IAddressBookService addressBookService, IOrdersService ordersService, ICustomerService customerService, IOrderRepository orderRepository, IContentLoader contentLoader)
         {
             _addressBookService = addressBookService;
             _ordersService = ordersService;
             _customerService = customerService;
             _orderRepository = orderRepository;
+            _contentLoader = contentLoader;
         }
 
         [HttpGet]
@@ -97,13 +99,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderDetails.Controllers
             return View(orderViewModel);
         }
 
-        [HttpGet]
-        public ActionResult ApproveOrder(OrderDetailsPage currentPage, int orderGroupId = 0)
+        [HttpPost]
+        public ActionResult ApproveOrder(int orderGroupId = 0)
         {
-            if (orderGroupId == 0) RedirectToAction("Index", new { node = currentPage.ContentLink, orderGroupId = orderGroupId });
+            if (orderGroupId == 0)
+                return Json(new { result = true});
+            var success =_ordersService.ApproveOrder(orderGroupId);
 
-            _ordersService.ApproveOrder(orderGroupId);
-            return RedirectToAction("Index", new { node = currentPage.ContentLink, orderGroupId = orderGroupId });
+            return success ? Json(new { result = true }) : Json(new {result = "Failed to process your payment."});
         }
     }
 }

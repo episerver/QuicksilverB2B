@@ -96,13 +96,13 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
                     .FirstOrDefault(payment => payment.PaymentMethodName.Equals(Constants.Order.BudgetPayment));
         }
 
-        public void ApproveOrder(int orderGroupId)
+        public bool ApproveOrder(int orderGroupId)
         {
             var purchaseOrder = _orderRepository.Load<PurchaseOrder>(orderGroupId);
-            if (purchaseOrder == null) return;
+            if (purchaseOrder == null) return false;
 
             var budgetPayment = GetOrderBudgetPayment(purchaseOrder) as Payment;
-            if (budgetPayment == null) return;
+            if (budgetPayment == null) return false;
 
             try
             {
@@ -117,7 +117,9 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
                 budgetPayment.Status = PaymentStatus.Processed.ToString();
                 budgetPayment.AcceptChanges();
                 LogManager.GetLogger(GetType()).Error("Failed processs on approve order.", ex);
+                return false;
             }
+            return true;
 
         }
 

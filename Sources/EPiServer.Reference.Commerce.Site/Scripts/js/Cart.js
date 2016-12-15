@@ -10,6 +10,7 @@
             .on('click', '.jsCartLoadOrder', Cart.loadOrder)
             .on('click', '.jsClearQuotedCart', Cart.clearQuotedCart)
             .on('click', '.jsWishListQuote', Cart.wishListQuote)
+            .on('click', '.jsApproveOrder', Cart.approveOrder)
             .on('change', '#MiniCart', function () { $("#MiniCartResponsive").html($(this).html()); })
             .on('change', '#WishListMiniCart', function () { $("#WishListMiniCartResponsive").html($(this).html()); })
             .on('click', '.jsCartContinueShopping', function () {
@@ -162,6 +163,23 @@
             error: function (xhr, status, error) {
                 $(".warning-message", $("#CartWarningMessage")).html(xhr.statusText);
                 $("#CartWarningMessage").show();
+            }
+        });
+    },
+    approveOrder: function (e) {
+        var form = $(this).closest("form");
+        var orderLink = e.currentTarget.getAttribute("data-order-link");
+        $.ajax({
+            type: "POST",
+            url: form[0].action,
+            data: {orderGroupId: orderLink},
+            success: function (result) {
+                if (result.result == true)
+                    window.location = $(".cancelUpdateBudget").attr('href');
+                else {
+                    $("#BudgetWarningMessage").show();
+                    $(".warning-message-data").text(result.result);
+                }
             }
         });
     },

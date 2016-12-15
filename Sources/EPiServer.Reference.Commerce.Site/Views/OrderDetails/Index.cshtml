@@ -76,12 +76,20 @@
                                     <button type="button" class="btn btn-danger btn-empty jsCartLoadOrder" aria-expanded="false" data-order-link="@Model.OrderGroupId">@Html.Translate("/Header/MiniCart/Button/GoToCheckout")</button>
                                 }
                             }
-                        
+
                             if (!Model.IsPaymentApproved)
                             {
-                                <a href="@Url.Action("ApproveOrder", "OrderDetails", new {orderGroupId = Model.OrderGroupId})" class="btn btn-danger btn-empty" aria-expanded="false">Approve</a>
+                                using (Html.BeginForm("ApproveOrder", "OrderDetails", FormMethod.Post))
+                                {
+                                    <button type="button" data-order-link="@Model.OrderGroupId" class="btn btn-danger btn-empty jsApproveOrder" aria-expanded="false">Approve</button>
+                                }
                             }
                         }
+                        <div id="BudgetWarningMessage" class="col-md-5 col-xs-12 alert alert-danger pull-right" hidden>
+                            <button type="button" class="close" data-hide="alert">&times;</button>
+                            <span class="warning-message warning-message-data"></span>
+                            <a class="hidden cancelUpdateBudget" href="@Url.Action("Index", "OrderDetails", new {currentPage = Model.CurrentPage.ContentLink ,orderGroupId = @Model.OrderGroupId})"></a>
+                        </div>
                     </div>
                 </div>
             </main>

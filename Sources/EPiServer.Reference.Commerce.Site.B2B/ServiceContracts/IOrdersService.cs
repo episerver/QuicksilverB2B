@@ -10,7 +10,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
     {
         List<OrderOrganizationViewModel> GetUserOrders(Guid userGuid);
         IPayment GetOrderBudgetPayment(IPurchaseOrder purchaseOrder);
-        void ApproveOrder(int orderGroupId);
+        bool ApproveOrder(int orderGroupId);
         ContactViewModel GetPurchaserCustomer(OrderGroup order);
     }
 }

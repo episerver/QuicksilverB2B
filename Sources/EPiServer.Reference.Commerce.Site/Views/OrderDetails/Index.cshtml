@@ -19,12 +19,12 @@
                             <br />
                             @Html.Translate("/OrderHistory/Labels/Status") <strong>@(Model.OrderStatus)</strong>
                             <br />
-                            @Html.Translate("/OrderHistory/Labels/Payment")
                             @if (orderForm.Payments.Any())
                             {
+                                Html.Translate("/OrderHistory/Labels/Payment");
                                 string.Join(", ", orderForm.Payments.Select(x => x.PaymentMethodName));
+                                <br />
                             }
-                            <br />
                             @if (Model.PurchaseOrder.Properties[Constants.Quote.QuoteStatus] != null && Model.PurchaseOrder.Properties[Constants.Quote.QuoteStatus].ToString().Equals("RequestQuotationFinished"))
                             {
                                 @Html.DisplayName("New Total") <strong> @Model.PurchaseOrder.GetTotal().ToString() </strong> <br />

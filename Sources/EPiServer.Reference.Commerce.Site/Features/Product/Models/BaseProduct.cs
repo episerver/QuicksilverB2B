@@ -66,5 +66,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Models
         [Ignore]
         public virtual List<string> VariantCodes
             => this.VariationContents().Select(v => v.Code).ToList();
+
+        [Ignore]
+        public virtual string EscapedCode => Code.Replace("-","");
+
+        [Ignore]
+        public virtual List<string> EscapedVariantCodes => this.VariationContents().Select(v => v.Code.Replace("-", "")).ToList();
     }
 }

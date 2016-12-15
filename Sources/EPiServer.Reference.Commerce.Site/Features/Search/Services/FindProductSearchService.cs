@@ -159,11 +159,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
             var query = SearchClient.Instance.Search<BaseProduct>();
             if (!string.IsNullOrWhiteSpace(filterOptions.Q))
             {
+                filterOptions.Q = filterOptions.Q.Replace("-", "");
                 query = query.For(filterOptions.Q)
-                    .InFields(x => x.Code, x => x.DisplayName, x => x.Name, x => x.Brand)
+                    .InFields(x => x.EscapedCode, x => x.DisplayName, x => x.Name, x => x.Brand)
                     .InField(x => x.Description)
                     .InField(x => x.LongDescription)
-                    .InField(x => x.VariantCodes);
+                    .InField(x => x.EscapedVariantCodes)
+                    .ApplyBestBets();
             }
             query = query.FilterOnCurrentMarket();
             query = query.FilterForVisitor();

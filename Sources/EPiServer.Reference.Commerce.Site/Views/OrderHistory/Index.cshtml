@@ -13,79 +13,28 @@
                     <h2>@Html.PropertyFor(x => x.CurrentPage.Name)</h2>
                     @Html.PropertyFor(x => x.CurrentPage.MainBody)
                 </div>
-                @foreach (var order in Model.Orders)
-                {
-                    var orderForm = order.PurchaseOrder.GetFirstForm();
 
-                    <div class="row section-box">
-                        <div class="col-xs-12 col-sm-6">
-                            <h3 class="h4">@Html.Translate("/OrderHistory/Labels/OrderID") @order.PurchaseOrder.OrderNumber</h3>
-                            @if (string.Join(", ", orderForm.Payments.Select(x => x.PaymentMethodName)).Equals("BudgetPayment"))
-                            {
-                                <p class="text-success">
-                                    <strong>This is an organization order</strong>
-                                </p>
-                            }
-                            <p>
-                                @Html.Translate("/OrderHistory/Labels/OrderDate") @order.PurchaseOrder.Created.ToLongDateString()<br>@Html.Translate("/OrderHistory/Labels/Status") <strong>@(order.QuoteStatus ?? order.PurchaseOrder.OrderStatus.ToString())</strong>
-                                <br />
-                                @Html.Translate("/OrderHistory/Labels/Payment")
-                                @if (orderForm.Payments.Any())
-                                {
-                                    @String.Join(", ", orderForm.Payments.Select(x => x.PaymentMethodName))
-                                }
-                                <br>
-                                @if (order.PurchaseOrder.Properties[Constants.Quote.QuoteStatus] != null && order.PurchaseOrder.Properties[Constants.Quote.QuoteStatus].ToString().Equals("RequestQuotationFinished"))
-                                {
-                                    @Html.DisplayName("New Total") <strong> @order.PurchaseOrder.GetTotal().ToString() </strong> <br/>
-                                    @Html.DisplayName("Old Total") <strong> @order.PurchaseOrder.Currency.Format.CurrencySymbol@order.PurchaseOrder.Properties["PreQuoteTotal"].ToString().AsDecimal().ToString("N") </strong>
-                                }
-                                else
-                                {
-                                    @Html.Translate("/OrderHistory/Labels/TotalPrice")
-                                    <strong> @order.PurchaseOrder.GetTotal().ToString() </strong>
-                                    <br />
-                                }
-                            </p>
-                        </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <h4>@Html.Translate("/OrderHistory/Labels/ShippedTo")</h4>
-
-                            @foreach (var shippingAddress in order.ShippingAddresses)
-                            {
-                                @Html.Partial("_Address", shippingAddress)
-                            }
-
-                        </div>
-                        <div class="col-xs-12 spacer-top-m">
-                            <table class="table table-stripped no-border">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            Product
-                                        </th>
-                                        <th>
-                                            Title
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in order.Items)
-                                    {
-                                        <tr>
-                                            <td><a href="@item.LineItem.GetUrl()" class="link--black"><img src="@item.LineItem.GetThumbnailUrl()" /></a></td>
-                                            <td><a href="@item.LineItem.GetUrl()" class="link--black">@item.LineItem.GetEntryContent().DisplayName</a></td>
-                                        </tr>
-                                    }
-
-                                </tbody>
-                            </table>
-                        </div>
-
-                    </div>
-
-                    <hr />
-                }
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>@Html.Translate("/OrderHistory/Labels/OrderID")</th>
+                            <th>@Html.Translate("/OrderHistory/Labels/OrderDate")</th>
+                            <th>@Html.Translate("/OrderHistory/Labels/Amount")</th>
+                            <th>@Html.Translate("/OrderHistory/Labels/Status")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model.Orders)
+                        {
+                            <tr class="orderElement @(order.QuoteStatus ?? order.PurchaseOrder.OrderStatus.ToString())">
+                                <td><a href="@(Model.OrderDetailsPageUrl)?orderGroupId=@order.OrderGroupId">#@order.PurchaseOrder.OrderNumber</a></td>
+                                <td>@order.PurchaseOrder.Created.ToLongDateString()</td>
+                                <td>@order.PurchaseOrder.GetTotal().ToString()</td>
+                                <td>@(order.QuoteStatus ?? order.PurchaseOrder.OrderStatus.ToString())</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

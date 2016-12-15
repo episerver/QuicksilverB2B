@@ -85,7 +85,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             catch (Exception ex)
             {
                 quoteResult = false;
-                LogManager.GetLogger(GetType()).Error("Failed to process request quotation request.", ex);
+                LogManager.GetLogger(GetType()).Error("Failed to process request quote request.", ex);
             }
 
             return quoteResult;
@@ -141,7 +141,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             }
             catch (Exception ex)
             {
-                LogManager.GetLogger(GetType()).Error("Failed to process request quotation request.", ex);
+                LogManager.GetLogger(GetType()).Error("Failed to process request quote request.", ex);
             }
 
             return purchaseOrder?.Id ?? 0;

@@ -85,6 +85,16 @@
                                 }
                             }
                         }
+                        @if (Request.IsAuthenticated && string.IsNullOrEmpty(Model.PurchaseOrder.Properties[Constants.Quote.QuoteStatus] as string) && Model.CurrentCustomer.Role == B2BUserRoles.Purchaser)
+                        {
+                        using (@Html.BeginForm("RequestQuoteById", "Cart", FormMethod.Post))
+                        {
+                        @Html.Hidden("orderId", Model.OrderGroupId);
+                        <div class="cart-item">
+                            <button type="submit" class="btn btn-block btn-warning" aria-expanded="false">@Html.Translate("/Header/MiniCart/Button/RequestQuotation")</button>
+                        </div>
+                        }
+                        }
                         <div id="BudgetWarningMessage" class="col-md-5 col-xs-12 alert alert-danger pull-right" hidden>
                             <button type="button" class="close" data-hide="alert">&times;</button>
                             <span class="warning-message warning-message-data"></span>

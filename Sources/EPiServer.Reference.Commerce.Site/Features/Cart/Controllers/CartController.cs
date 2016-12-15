@@ -209,11 +209,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
             if (currentCustomer.Role != B2BUserRoles.Purchaser)
                 return Json(new { result = false });
 
-             _cartServiceB2B.PlaceCartForQuoteById(orderId, currentCustomer.ContactId);
+             var placedOrderId =_cartServiceB2B.PlaceCartForQuoteById(orderId, currentCustomer.ContactId);
 
             var startPage = _contentLoader.Get<StartPage>(ContentReference.StartPage);
 
-            return RedirectToAction("Index", new { Node = startPage.OrderHistoryPage });
+            return RedirectToAction("Index", "OrderDetails",
+                new {currentPage = startPage.OrderDetailsPage, orderGroupId = placedOrderId });
         }
 
         private ICart Cart

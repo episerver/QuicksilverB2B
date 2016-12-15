@@ -11,6 +11,6 @@ namespace EPiServer.Reference.Commerce.Site.B2B.ServiceContracts
         ICart PlaceOrderToCart(IPurchaseOrder purchaseOrder, ICart cart);
         void RemoveQuoteNumber(ICart cart);
         string DefaultWishListName { get; }
-        bool PlaceCartForQuoteById(int orderId, Guid userId);
+        int PlaceCartForQuoteById(int orderId, Guid userId);
     }
 }

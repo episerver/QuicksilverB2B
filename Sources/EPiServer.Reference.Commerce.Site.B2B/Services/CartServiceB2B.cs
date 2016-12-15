@@ -91,9 +91,9 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             return quoteResult;
         }
 
-        public bool PlaceCartForQuoteById(int orderId, Guid userId)
+        public int PlaceCartForQuoteById(int orderId, Guid userId)
         {
-            var quoteResult = true;
+            PurchaseOrder purchaseOrder = null;
             try
             {
                 var referedOrder = _orderRepository.Load<IPurchaseOrder>(orderId);
@@ -108,7 +108,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
                 cart.Market = referedOrder.Market;
 
                 OrderReference orderReference = _orderRepository.SaveAsPurchaseOrder(cart);
-                PurchaseOrder purchaseOrder = _orderRepository.Load<PurchaseOrder>(orderReference.OrderGroupId);
+                purchaseOrder = _orderRepository.Load<PurchaseOrder>(orderReference.OrderGroupId);
                 if (purchaseOrder != null)
                 {
                     int quoteExpireDays;
@@ -141,11 +141,10 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             }
             catch (Exception ex)
             {
-                quoteResult = false;
                 LogManager.GetLogger(GetType()).Error("Failed to process request quotation request.", ex);
             }
 
-            return quoteResult;
+            return purchaseOrder?.Id ?? 0;
         }
 
 

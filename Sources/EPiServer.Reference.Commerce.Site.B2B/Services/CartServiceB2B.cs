@@ -155,6 +155,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
             foreach (var lineItem in lineItems)
             {
                 cart.AddLineItem(lineItem);
+                lineItem.IsInventoryAllocated = false;
             }
             return returnCart;
         }

@@ -65,6 +65,8 @@ namespace EPiServer.Reference.Commerce.BudgetPayment
             if (payment.TransactionType == TransactionType.Capture.ToString())
             {
                 UpdateUserBudgets(purchaserCustomer, payment.Amount);
+                payment.Status = PaymentStatus.Processed.ToString();
+                payment.AcceptChanges();
             }
             return true;
         }

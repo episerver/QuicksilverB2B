@@ -577,7 +577,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
             //TODO replace with content loader if possible and extend type to get link url
             //var checkoutPage = _contentLoader.Get<StartPage>(ContentReference.StartPage).CheckoutPage;
-
+            _cartService.ValidateCart(returnedCart);
             return Json(new { link = checkoutPage.LinkURL}); 
         }
 

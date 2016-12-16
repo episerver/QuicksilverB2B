@@ -51,7 +51,7 @@
                                     <span class="custom-select-arrow arrow-down"></span>
                                     @Html.DropDownListFor(
                                         model => model.Contact.Location,
-                                        new SelectList(Model.Organizations, "Address.AddressId", "Address.Name", Model.Contact.Location), new { @id = "select-location" })
+                                        new SelectList(Model.SubOrganization.Locations, "AddressId", "Name", Model.Contact.Location), new { @id = "select-location" })
                                 </div>
                             </div>
                             <div class="spacer-top-l">

@@ -10,5 +10,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.ViewModels
         public List<ContactViewModel> Users { get; set; }
         public ContactViewModel Contact { get; set; }
         public List<OrganizationModel> Organizations { get; set; }
+        public SubOrganizationModel SubOrganization { get; set; }
     }
 }

@@ -9,6 +9,7 @@ using EPiServer.Globalization;
 using EPiServer.Reference.Commerce.Shared.Models;
 using EPiServer.Reference.Commerce.Shared.Models.Identity;
 using EPiServer.Reference.Commerce.Shared.Services;
+using EPiServer.Reference.Commerce.Site.B2B.Enums;
 using EPiServer.Reference.Commerce.Site.B2B.Filters;
 using EPiServer.Reference.Commerce.Site.B2B.Models.Pages;
 using EPiServer.Reference.Commerce.Site.B2B.Models.ViewModels;
@@ -80,7 +81,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
         }
 
         [NavigationAuthorize("Admin")]
-        public ActionResult EditUser(UsersPage currentPage,string id)
+        public ActionResult EditUser(UsersPage currentPage, string id)
         {
             if (id.IsNullOrEmpty())
             {
@@ -93,7 +94,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
             {
                 CurrentPage = currentPage,
                 Contact = contact,
-                Organizations = organization.SubOrganizations ?? new List<OrganizationModel>()
+                Organizations = organization.SubOrganizations ?? new List<OrganizationModel>(),
+                SubOrganization =
+                    contact.Role != B2BUserRoles.Admin
+                        ? _organizationService.GetSubOrganizationById(contact.Organization?.OrganizationId.ToString())
+                        : new SubOrganizationModel()
             };
             return View(viewModel);
         }

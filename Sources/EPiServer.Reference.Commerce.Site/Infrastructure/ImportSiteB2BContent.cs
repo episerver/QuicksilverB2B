@@ -51,8 +51,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             _progressMessenger = progressMessenger;
             try
             {
-                //_progressMessenger.AddProgressMessageText("Importing product assets...", false, 0);
-                //ImportAssets(Path.Combine(HostingEnvironment.ApplicationPhysicalPath, @"App_Data\B2BProductAssets.episerverdata"));
+                _progressMessenger.AddProgressMessageText("Importing product assets...", false, 0);
+                ImportAssets(Path.Combine(HostingEnvironment.ApplicationPhysicalPath, @"App_Data\B2BProductAssets.episerverdata"));
 
                 _progressMessenger.AddProgressMessageText("Importing catalog...", false, 0);
                 ImportCatalog(Path.Combine(HostingEnvironment.ApplicationPhysicalPath, @"App_Data\CatalogExport_QuicksilverB2B_20161212-183053.zip"));

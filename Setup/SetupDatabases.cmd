@@ -3,7 +3,7 @@
 
 set cms_db=Quicksilver.Cms.B2b
 set commerce_db=Quicksilver.Commerce.B2b
-set user=Quicksilver
+set user=Quicksilver.B2b
 set password=Episerver15
 
 :: Determine package folders

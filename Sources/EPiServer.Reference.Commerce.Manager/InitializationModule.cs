@@ -22,7 +22,7 @@ namespace EPiServer.Reference.Commerce.Manager
             _log.Debug("Initializing Commerce Manager.");
 
             // TODO: Remove this when you are not going to use LocalDb anymore.
-            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + @"\..\db\");
+            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + @"\..\appdata\");
             _log.Debug("Setting data directory for Local DB to: " + dir.FullName);
             AppDomain.CurrentDomain.SetData("DataDirectory", dir.FullName);
 

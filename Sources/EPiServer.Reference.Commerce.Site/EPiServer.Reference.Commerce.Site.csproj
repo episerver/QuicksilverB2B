@@ -705,6 +705,7 @@
     <Compile Include="Infrastructure\Facades\SearchFacade.cs" />
     <Compile Include="Infrastructure\Facades\UrlAuthorizationFacade.cs" />
     <Compile Include="Features\Shared\Extensions\HtmlHelperExtensions.cs" />
+    <Compile Include="Infrastructure\ImportMedia.cs" />
     <Compile Include="Infrastructure\ImportSiteB2BContent.cs" />
     <Compile Include="Infrastructure\ImportSiteContent.cs" />
     <Compile Include="Features\Cart\ViewModels\MiniCartViewModel.cs" />

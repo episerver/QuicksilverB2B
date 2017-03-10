@@ -22,6 +22,8 @@ using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using EPiServer.Cms.UI.AspNetIdentity;
+using EPiServer.Reference.Commerce.Shared.Identity;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
 {
@@ -32,21 +34,22 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
         private readonly IOrganizationService _organizationService;
         private readonly IContentLoader _contentLoader;
         private readonly IMailService _mailService;
-        private readonly ApplicationUserManager _userManager;
-        private readonly ApplicationSignInManager _signInManager;
+        private readonly ApplicationUserManager<SiteUser> _userManager;
+        private readonly ApplicationSignInManager<SiteUser> _signInManager;
         private readonly LocalizationService _localizationService;
         private readonly IEPiFindSearchService _ePiFindSearchService;
         private readonly CookieService _cookieService;
 
         public UsersPageController(ICustomerService customerService, IOrganizationService organizationService,
-            ApplicationUserManager applicationUserManager, ApplicationSignInManager applicationSignInManager, 
+            ApplicationUserManager<SiteUser> userManager,
+            ApplicationSignInManager<SiteUser> signinManager,
             IContentLoader contentLoader, IMailService mailService, LocalizationService localizationService, 
             IEPiFindSearchService ePiFindSearchService, CookieService cookieService)
         {
             _customerService = customerService;
             _organizationService = organizationService;
-            _userManager = applicationUserManager;
-            _signInManager = applicationSignInManager;
+            _userManager = userManager;
+            _signInManager = signinManager;
             _contentLoader = contentLoader;
             _mailService = mailService;
             _localizationService = localizationService;
@@ -130,7 +133,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
         [NavigationAuthorize("Admin")]
         public ActionResult AddUser(UsersPageViewModel viewModel)
         {
-            ApplicationUser user = _userManager.FindByEmail(viewModel.Contact.Email);
+            var user = _userManager.FindByEmail(viewModel.Contact.Email);
             if (user != null)
             {
                 if (_customerService.HasOrganization(user.Id))
@@ -196,7 +199,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Users.Controllers
         #region Helpers
         private void SaveUser(UsersPageViewModel viewModel)
         {
-            var contactUser = new ApplicationUser
+            var contactUser = new SiteUser
             {
                 UserName = viewModel.Contact.Email,
                 Email = viewModel.Contact.Email,

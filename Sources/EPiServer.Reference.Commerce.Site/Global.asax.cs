@@ -24,7 +24,7 @@ namespace EPiServer.Reference.Commerce.Site
         {
             // TODO: Remove this when you are not going to use LocalDb anymore.
             ILogger log = LogManager.GetLogger();
-            DirectoryInfo dir = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + @"\..\db\");
+            DirectoryInfo dir = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + @"\..\appdata\");
             log.Debug("Setting data directory for Local DB to: " + dir.FullName);
             AppDomain.CurrentDomain.SetData("DataDirectory", dir.FullName);
         }

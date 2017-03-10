@@ -240,7 +240,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
         private readonly Mock<ICartServiceB2B> _cartServiceB2BMock;
         private readonly Mock<IAddressBookService> _addressBookServiceMock;
         private readonly Mock<OrderSummaryViewModelFactory> _orderSummaryViewModelFactoryMock;
-        private readonly Mock<IOrderFactory> _orderFactoryMock;
+        private readonly Mock<IOrderGroupFactory> _orderGroupFactoryMock;
         private readonly Mock<IContentLoader> _contentLoaderMock;
         private readonly Mock<IOrganizationService> _organizationServiceMock;
         private readonly Mock<IBudgetService> _budgetService;
@@ -267,7 +267,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
             _organizationServiceMock = new Mock<IOrganizationService>();
             _orderSummaryViewModelFactoryMock = new Mock<OrderSummaryViewModelFactory>(null, null, null, null);
             _checkoutViewModelFactoryMock = new Mock<CheckoutViewModelFactory>(null, null, null, null, null, null, null, null);
-            _orderFactoryMock = new Mock<IOrderFactory>();
+            _orderGroupFactoryMock = new Mock<IOrderGroupFactory>();
             _contentLoaderMock = new Mock<IContentLoader>();
             _cart = new FakeCart(null, new Currency("USD"));
             _budgetService = new Mock<IBudgetService>();
@@ -289,14 +289,14 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
             _subject = new CheckoutControllerForTest(_contentRepositoryMock.Object, _mailServiceMock.Object, _localizationService,
                 _currencyServiceMock.Object, _controllerExceptionHandlerMock.Object, _customerContextFacadeMock.Object, _orderRepositoryMock.Object,
                 _checkoutViewModelFactoryMock.Object, _orderGroupCalculatorMock.Object, _paymentProcessorMock.Object, _promotionEngineMock.Object,
-                _cartServiceMock.Object, _addressBookServiceMock.Object, _orderSummaryViewModelFactoryMock.Object, _orderFactoryMock.Object,
+                _cartServiceMock.Object, _addressBookServiceMock.Object, _orderSummaryViewModelFactoryMock.Object, _orderGroupFactoryMock.Object,
                 _cartServiceB2BMock.Object, _contentLoaderMock.Object,_organizationServiceMock.Object,_budgetService.Object);
 
             _checkoutViewModelFactoryMock
                 .Setup(x => x.CreateCheckoutViewModel(It.IsAny<ICart>(), It.IsAny<CheckoutPage>(), It.IsAny<PaymentMethodViewModel<PaymentMethodBase>>()))
                 .Returns((ICart cart, CheckoutPage currentPage, PaymentMethodViewModel<PaymentMethodBase> paymentMethodViewModel) => CreateCheckoutViewModel(currentPage, paymentMethodViewModel));
 
-            _orderFactoryMock.Setup(x => x.CreateCardPayment()).Returns(paymentMock.Object);
+            _orderGroupFactoryMock.Setup(x => x.CreateCardPayment(It.IsAny<ICart>())).Returns(paymentMock.Object);
             _orderRepositoryMock.Setup(x => x.SaveAsPurchaseOrder(_cart)).Returns(orderReference);
             _orderRepositoryMock.Setup(x => x.Load<IPurchaseOrder>(orderReference.OrderGroupId)).Returns(purchaseOrder);
 
@@ -307,7 +307,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
             _cartServiceMock.Setup(x => x.ValidateCart(It.IsAny<ICart>())).Returns(new Dictionary<ILineItem, List<ValidationIssue>>());
             _cartServiceMock.Setup(x => x.RequestInventory(It.IsAny<ICart>())).Returns(new Dictionary<ILineItem, List<ValidationIssue>>());
 
-            _cart.AddLineItem(new InMemoryLineItem(), _orderFactoryMock.Object);
+            _cart.AddLineItem(new InMemoryLineItem(), _orderGroupFactoryMock.Object);
         }
 
         private CheckoutViewModel CreateCheckoutViewModel(CheckoutPage currentPage, IPaymentMethodViewModel<PaymentMethodBase> paymentMethodViewModel)
@@ -358,7 +358,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
             return new PaymentMethodViewModel<GenericCreditCardPaymentMethod>
             {
                 PaymentMethodId = Guid.NewGuid(),
-                PaymentMethod = new GenericCreditCardPaymentMethod(_localizationService, _orderFactoryMock.Object)
+                PaymentMethod = new GenericCreditCardPaymentMethod(_localizationService, _orderGroupFactoryMock.Object)
                 {
                     CardType = "VISA",
                     CreditCardName = "Card Owner",
@@ -400,7 +400,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
                 ICartService cartService,
                 IAddressBookService addressBookService,
                 OrderSummaryViewModelFactory orderSummaryViewModelFactory,
-                IOrderFactory orderFactory,
+                IOrderGroupFactory orderGroupFactory,
                 ICartServiceB2B cartServiceB2B,
                 IContentLoader contentLoader,
                 IOrganizationService organizationService,
@@ -420,7 +420,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.Controllers
                       cartService,
                       addressBookService,
                       orderSummaryViewModelFactory,
-                      orderFactory,
+                      orderGroupFactory,
                       cartServiceB2B,
                       contentLoader,
                       organizationService)

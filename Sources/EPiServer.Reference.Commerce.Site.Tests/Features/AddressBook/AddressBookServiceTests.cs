@@ -255,7 +255,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.AddressBook
             var customerContext = new FakeCustomerContext(_currentContact);
             var countryManager = new FakeCountryManager();
 
-            _subject = new AddressBookService(customerContext, countryManager, new Mock<IOrderFactory>().Object);
+            _subject = new AddressBookService(customerContext, countryManager, new Mock<IOrderGroupFactory>().Object);
         }
     }
 }

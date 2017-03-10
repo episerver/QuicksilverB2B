@@ -73,10 +73,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
 
             services.AddTransient<PreferredCultureAccessor>(locator => () => ContentLanguage.PreferredCulture);
 
-            services.AddTransient<IOwinContext>(locator => HttpContext.Current.GetOwinContext());
-            services.AddTransient<ApplicationUserManager>(locator => locator.GetInstance<IOwinContext>().GetUserManager<ApplicationUserManager>());
-            services.AddTransient<ApplicationSignInManager>(locator => locator.GetInstance<IOwinContext>().Get<ApplicationSignInManager>());
-            services.AddTransient<IAuthenticationManager>(locator => locator.GetInstance<IOwinContext>().Authentication);
+            
             services.AddTransient<IBudgetService, BudgetService>();
             services.AddTransient<IOrganizationService, OrganizationService>();
             services.AddTransient<IModelBinderProvider, ModelBinderProvider>();

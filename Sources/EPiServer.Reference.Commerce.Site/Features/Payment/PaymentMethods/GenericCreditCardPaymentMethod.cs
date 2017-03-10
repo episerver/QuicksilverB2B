@@ -19,22 +19,22 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
             "ExpirationMonth",
         };
 
-        private readonly IOrderFactory _orderFactory;
+        private readonly IOrderGroupFactory _orderGroupFactory;
 
         public GenericCreditCardPaymentMethod()
-            : this(LocalizationService.Current, ServiceLocator.Current.GetInstance<IOrderFactory>())
+            : this(LocalizationService.Current, ServiceLocator.Current.GetInstance<IOrderGroupFactory>())
         {
         }
 
-        public GenericCreditCardPaymentMethod(IOrderFactory orderFactory)
-            : this(LocalizationService.Current, orderFactory)
+        public GenericCreditCardPaymentMethod(IOrderGroupFactory orderGroupFactory)
+            : this(LocalizationService.Current, orderGroupFactory)
         {
         }
 
-        public GenericCreditCardPaymentMethod(LocalizationService localizationService, IOrderFactory orderFactory)
+        public GenericCreditCardPaymentMethod(LocalizationService localizationService, IOrderGroupFactory orderGroupFactory)
             : base(localizationService)
         {
-            _orderFactory = orderFactory;
+            _orderGroupFactory = orderGroupFactory;
             ExpirationMonth = DateTime.Now.Month;
             CreditCardSecurityCode = "212";
             CardType = "Generic";
@@ -168,9 +168,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
             return null;
         }
 
-        public override IPayment CreatePayment(decimal amount)
+        public override IPayment CreatePayment(IOrderGroup orderGroup, decimal amount)
         {
-            var payment = _orderFactory.CreateCardPayment();
+            var payment = _orderGroupFactory.CreateCardPayment(orderGroup);
             payment.CardType = "Credit card";
             payment.PaymentMethodId = PaymentMethodId;
             payment.PaymentMethodName = "GenericCreditCard";

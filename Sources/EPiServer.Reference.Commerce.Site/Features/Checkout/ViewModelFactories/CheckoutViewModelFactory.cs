@@ -30,7 +30,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
         readonly PaymentMethodViewModelFactory _paymentMethodViewModelFactory;
         readonly IAddressBookService _addressBookService;
         readonly IContentLoader _contentLoader;
-        readonly IOrderFactory _orderFactory;
+        readonly IOrderGroupFactory _orderGroupFactory;
         readonly UrlResolver _urlResolver;
         readonly ServiceAccessor<HttpContextBase> _httpContextAccessor;
         readonly ShipmentViewModelFactory _shipmentViewModelFactory;
@@ -44,7 +44,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
             PaymentMethodViewModelFactory paymentMethodViewModelFactory,
             IAddressBookService addressBookService,
             IContentLoader contentLoader,
-            IOrderFactory orderFactory,
+            IOrderGroupFactory orderGroupFactory,
             UrlResolver urlResolver,
             ServiceAccessor<HttpContextBase> httpContextAccessor,
             ShipmentViewModelFactory shipmentViewModelFactory,
@@ -57,7 +57,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
             _paymentMethodViewModelFactory = paymentMethodViewModelFactory;
             _addressBookService = addressBookService;
             _contentLoader = contentLoader;
-            _orderFactory = orderFactory;
+            _orderGroupFactory = orderGroupFactory;
             _urlResolver = urlResolver;
             _httpContextAccessor = httpContextAccessor;
             _shipmentViewModelFactory = shipmentViewModelFactory;
@@ -165,7 +165,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModelFactories
                 viewModel.PaymentMethodViewModels.First() :
                 viewModel.PaymentMethodViewModels.Single(p => p.SystemName == viewModel.Payment.SystemName);
 
-            viewModel.Payment = PaymentMethodViewModelResolver.Resolve(selectedPaymentMethod.SystemName, _orderFactory);
+            viewModel.Payment = PaymentMethodViewModelResolver.Resolve(selectedPaymentMethod.SystemName, _orderGroupFactory);
             viewModel.Payment.Description = selectedPaymentMethod.Description;
             viewModel.Payment.SystemName = selectedPaymentMethod.SystemName;
             viewModel.Payment.PaymentMethod.PaymentMethodId = selectedPaymentMethod.PaymentMethodId;

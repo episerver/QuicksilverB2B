@@ -385,7 +385,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
         private readonly Mock<CustomerContextFacade> _customerContextFacaceMock;
         private readonly Mock<IInventoryProcessor> _inventoryProcessorMock;
         private readonly Mock<ILineItemValidator> _lineItemValidatorMock;
-        private readonly Mock<IOrderFactory> _orderFactoryMock;
+        private readonly Mock<IOrderGroupFactory> _orderGroupFactoryMock;
         private readonly Mock<IOrderRepository> _orderRepositoryMock;
         private readonly Mock<IPlacedPriceProcessor> _placedPriceProcessorMock;
         private readonly Mock<IPricingService> _pricingServiceMock;
@@ -406,7 +406,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
             _customerContextFacaceMock = new Mock<CustomerContextFacade>();
             _inventoryProcessorMock = new Mock<IInventoryProcessor>();
             _lineItemValidatorMock = new Mock<ILineItemValidator>();
-            _orderFactoryMock = new Mock<IOrderFactory>();
+            _orderGroupFactoryMock = new Mock<IOrderGroupFactory>();
             _orderRepositoryMock = new Mock<IOrderRepository>();
             _placedPriceProcessorMock = new Mock<IPlacedPriceProcessor>();
             _pricingServiceMock = new Mock<IPricingService>();
@@ -420,15 +420,15 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Cart.Services
             _appContext = new Mock<AppContextFacade>();
             _lineItemCalculator = new Mock<ILineItemCalculator>();
 
-            _subject = new CartService(_productServiceMock.Object, _pricingServiceMock.Object, _orderFactoryMock.Object, _customerContextFacaceMock.Object, _placedPriceProcessorMock.Object,
+            _subject = new CartService(_productServiceMock.Object, _pricingServiceMock.Object, _orderGroupFactoryMock.Object, _customerContextFacaceMock.Object, _placedPriceProcessorMock.Object,
                 _inventoryProcessorMock.Object, _lineItemValidatorMock.Object, _orderRepositoryMock.Object, _promotionEngineMock.Object, _addressBookServiceMock.Object, _currentMarketMock.Object,
                 _currencyServiceMock.Object,_appContext.Object, _promotionService.Object,_lineItemCalculator.Object);
             _cart = new FakeCart(new Mock<IMarket>().Object, new Currency("USD")) { Name = _subject.DefaultCartName };
 
             _orderRepositoryMock.Setup(x => x.Load<ICart>(It.IsAny<Guid>(), _subject.DefaultCartName)).Returns(new[] { _cart });
             _orderRepositoryMock.Setup(x => x.Create<ICart>(It.IsAny<Guid>(), _subject.DefaultCartName)).Returns(_cart);
-            _orderFactoryMock.Setup(x => x.CreateLineItem(It.IsAny<string>())).Returns((string code) => new InMemoryLineItem() { Code = code });
-            _orderFactoryMock.Setup(x => x.CreateShipment()).Returns(() => new InMemoryShipment());
+            _orderGroupFactoryMock.Setup(x => x.CreateLineItem(It.IsAny<string>(), It.IsAny<ICart>())).Returns((string code) => new InMemoryLineItem() { Code = code });
+            _orderGroupFactoryMock.Setup(x => x.CreateShipment(It.IsAny<ICart>())).Returns(() => new InMemoryShipment());
             _currentMarketMock.Setup(x => x.GetCurrentMarket()).Returns(_marketMock.Object);
             _lineItemValidatorMock.Setup(x => x.Validate(It.IsAny<ILineItem>(), It.IsAny<IMarket>(), It.IsAny<Action<ILineItem, ValidationIssue>>())).Returns(true);
             _placedPriceProcessorMock.Setup(x => x.UpdatePlacedPrice(It.IsAny<ILineItem>(), It.IsAny<CustomerContact>(), It.IsAny<IMarket>(), _cart.Currency, It.IsAny<Action<ILineItem, ValidationIssue>>())).Returns(true);

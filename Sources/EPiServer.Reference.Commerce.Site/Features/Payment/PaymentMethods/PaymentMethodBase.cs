@@ -15,7 +15,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
 
         public Guid PaymentMethodId { get; set; }
 
-        public abstract IPayment CreatePayment(decimal amount);
+        public abstract IPayment CreatePayment(IOrderGroup orderGroup, decimal amount);
 
         public abstract void PostProcess(IPayment payment);
 

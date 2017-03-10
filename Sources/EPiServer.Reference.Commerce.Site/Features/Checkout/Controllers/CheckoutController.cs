@@ -54,7 +54,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         private readonly ICartService _cartService;
         private readonly ICartServiceB2B _cartServiceB2B;
         private readonly IAddressBookService _addressBookService;
-        private readonly IOrderFactory _orderFactory;
+        private readonly IOrderGroupFactory _orderGroupFactory;
         private readonly IContentLoader _contentLoader;
         private readonly IOrganizationService _organizationService;
         private ICart _cart;
@@ -73,7 +73,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             ICartService cartService,
             IAddressBookService addressBookService,
             OrderSummaryViewModelFactory orderSummaryViewModelFactory,
-            IOrderFactory orderFactory,
+            IOrderGroupFactory orderGroupFactory,
             ICartServiceB2B cartServiceB2B,
             IContentLoader contentLoader,
             IOrganizationService organizationService)
@@ -92,7 +92,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             _cartService = cartService;
             _addressBookService = addressBookService;
             _orderSummaryViewModelFactory = orderSummaryViewModelFactory;
-            _orderFactory = orderFactory;
+            _orderGroupFactory = orderGroupFactory;
             _cartServiceB2B = cartServiceB2B;
             _contentLoader = contentLoader;
             _organizationService = organizationService;
@@ -136,7 +136,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             {
                 if (!string.IsNullOrEmpty(viewModel.BillingAddress.AddressId))
                 {
-                    Cart.GetFirstForm().Shipments.First().ShippingAddress = _addressBookService.ConvertToAddress(viewModel.BillingAddress);
+                    Cart.GetFirstForm().Shipments.First().ShippingAddress = _addressBookService.ConvertToAddress(Cart, viewModel.BillingAddress);
                     cartChanged = true;
                 }
             }
@@ -194,7 +194,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
 
             if (viewModel.UseBillingAddressForShipment)
             {
-                Cart.GetFirstForm().Shipments.First().ShippingAddress = _addressBookService.ConvertToAddress(viewModel.BillingAddress);
+                Cart.GetFirstForm().Shipments.First().ShippingAddress = _addressBookService.ConvertToAddress(Cart, viewModel.BillingAddress);
             }
             else
             {
@@ -512,16 +512,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             var shipments = Cart.GetFirstForm().Shipments;
             for (int index = 0; index < shipments.Count; index++)
             {
-                shipments.ElementAt(index).ShippingAddress = _addressBookService.ConvertToAddress(shipmentViewModels[index].Address);
+                shipments.ElementAt(index).ShippingAddress = _addressBookService.ConvertToAddress(Cart, shipmentViewModels[index].Address);
             }
         }
 
         private void CreatePayment(IPaymentMethodViewModel<PaymentMethodBase> paymentViewModel, AddressModel billingAddress)
         {
-            IOrderAddress address = _addressBookService.ConvertToAddress(billingAddress);
+            IOrderAddress address = _addressBookService.ConvertToAddress(Cart, billingAddress);
             var total = Cart.GetTotal(_orderGroupCalculator);
-            var payment = paymentViewModel.PaymentMethod.CreatePayment(total.Amount);
-            Cart.AddPayment(payment, _orderFactory);
+            var payment = paymentViewModel.PaymentMethod.CreatePayment(Cart, total.Amount);
+            Cart.AddPayment(payment, _orderGroupFactory);
             payment.BillingAddress = address;
 
             if (Cart.IsQuoteCart())

@@ -330,9 +330,6 @@
   <data name="Entry_Select_Merchant" xml:space="preserve">
     <value>vælg grossist</value>
   </data>
-  <data name="Entry_Allow_Preorder" xml:space="preserve">
-    <value>Tillad forudbestilling</value>
-  </data>
   <data name="Entry_Weight_Required" xml:space="preserve">
     <value>&lt;b&gt;Obligatorisk felt mangler&lt;/b&gt;&lt;br /&gt;Der kræves en vægt.</value>
   </data>
@@ -353,9 +350,6 @@
   </data>
   <data name="Entry_Select_Tax_Category" xml:space="preserve">
     <value>vælg afgiftskategori</value>
-  </data>
-  <data name="Entry_Allow_Backorder" xml:space="preserve">
-    <value>Tillad restordre</value>
   </data>
   <data name="Entry_Select_Warehouse" xml:space="preserve">
     <value>vælg lager</value>
@@ -803,5 +797,8 @@
   </data>
   <data name="Warehouse_IsPickupLocation_Description" xml:space="preserve">
     <value>Ordrer på varer, der skal afhentes i butikken, kan afgives fra dette lager.</value>
+  </data>
+  <data name="Delete_Versions_Warning" xml:space="preserve">
+    <value>Advarsel. Hvis du opdaterer dette element via Commerce Manager, bliver tidligere og afventende indholdsversioner overskrevet. Disse indholdsversioner kan være blevet oprettet via andre brugergrænseflader.</value>
   </data>
 </root>

@@ -124,7 +124,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
             var contentLoaderMock = new Mock<IContentLoader>();
             contentLoaderMock.Setup(x => x.Get<StartPage>(It.IsAny<PageReference>())).Returns(_startPage);
 
-            var orderFactoryMock = new Mock<IOrderFactory>();
+            var orderGroupFactoryMock = new Mock<IOrderGroupFactory>();
             var urlResolverMock = new Mock<UrlResolver>();
             var httpcontextMock = new Mock<HttpContextBase>();
             var requestMock = new Mock<HttpRequestBase>();
@@ -153,7 +153,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Features.Checkout.ViewModelFac
                 paymentMethodViewModelFactory,
                 addressBookServiceMock.Object,
                 contentLoaderMock.Object,
-                orderFactoryMock.Object,
+                orderGroupFactoryMock.Object,
                 urlResolverMock.Object,
                 (() => httpcontextMock.Object),
                 shipmentViewModelFactoryMock.Object,

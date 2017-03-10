@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using EPiServer.Commerce.Order;
 using EPiServer.Reference.Commerce.Site.B2B;
 using Mediachase.BusinessFoundation;
 using Mediachase.Commerce;
@@ -10,12 +9,14 @@ using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Managers;
 using Mediachase.MetaDataPlus;
 using Mediachase.Web.Console.BaseClasses;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EPiServer.Reference.Commerce.Manager.CustomCommands
 {
     public class B2BSaveChangesHandler : SaveChangesHandler
     {
-        protected override void DoCommand(OrderGroup order, CommandParameters cp)
+        protected override void DoCommand(IOrderGroup order, CommandParameters cp)
         {
             Mediachase.Ibn.Web.UI.CHelper.RequireDataBind();
             PurchaseOrder purchaseOrder = order as PurchaseOrder;
@@ -26,9 +27,9 @@ namespace EPiServer.Reference.Commerce.Manager.CustomCommands
                 {
                     {
                         "PreventProcessPayment",
-                        !string.IsNullOrEmpty(order["QuoteStatus"] as string) &&
-                        (order["QuoteStatus"].ToString() == Constants.Quote.RequestQuotation||
-                        order["QuoteStatus"].ToString() == Constants.Quote.RequestQuotationFinished)
+                        !string.IsNullOrEmpty(order.Properties["QuoteStatus"] as string) &&
+                        (order.Properties["QuoteStatus"].ToString() == Constants.Quote.RequestQuotation||
+                        order.Properties["QuoteStatus"].ToString() == Constants.Quote.RequestQuotationFinished)
                     }
                 });
 

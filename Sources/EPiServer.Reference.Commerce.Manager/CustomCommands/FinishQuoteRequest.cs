@@ -6,20 +6,21 @@ using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Managers;
 using System.Configuration;
 using EPiServer.Reference.Commerce.Site.B2B;
+using EPiServer.Commerce.Order;
 
 namespace EPiServer.Reference.Commerce.Manager.CustomCommands
 {
     public class FinishQuoteRequest : TransactionCommandHandler
     {
-        protected override bool IsCommandEnable(OrderGroup order, CommandParameters cp)
+        protected override bool IsCommandEnable(IOrderGroup order, CommandParameters cp)
         {
             bool flag = base.IsCommandEnable(order, cp);
-            if (flag && !string.IsNullOrEmpty(order[Constants.Quote.QuoteStatus] as string) )
-                flag = order[Constants.Quote.QuoteStatus].ToString() == Constants.Quote.RequestQuotation;
+            if (flag && !string.IsNullOrEmpty(order.Properties[Constants.Quote.QuoteStatus] as string) )
+                flag = order.Properties[Constants.Quote.QuoteStatus].ToString() == Constants.Quote.RequestQuotation;
             return flag;
         }
 
-        protected override void DoCommand(OrderGroup order, CommandParameters cp)
+        protected override void DoCommand(IOrderGroup order, CommandParameters cp)
         {
             try
             {
@@ -41,5 +42,6 @@ namespace EPiServer.Reference.Commerce.Manager.CustomCommands
                 LogManager.GetLogger(GetType()).Error("Failed to process request quote approve.", ex);
             }
         }
+        
     }
 }

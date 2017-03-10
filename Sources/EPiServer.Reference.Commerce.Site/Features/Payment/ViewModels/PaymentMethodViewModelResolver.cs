@@ -7,18 +7,18 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.ViewModels
 {
     public class PaymentMethodViewModelResolver
     {
-        private static readonly Lazy<IOrderFactory> _orderFactory = new Lazy<IOrderFactory>(() => ServiceLocator.Current.GetInstance<IOrderFactory>());
+        private static readonly Lazy<IOrderGroupFactory> _orderGroupFactory = new Lazy<IOrderGroupFactory>(() => ServiceLocator.Current.GetInstance<IOrderGroupFactory>());
 
-        public static IPaymentMethodViewModel<PaymentMethodBase> Resolve(string paymentMethodName, IOrderFactory orderFactory)
+        public static IPaymentMethodViewModel<PaymentMethodBase> Resolve(string paymentMethodName, IOrderGroupFactory orderGroupFactory)
         {
             switch (paymentMethodName)
             {
                 case "CashOnDelivery":
-                    return new CashOnDeliveryViewModel { PaymentMethod = new CashOnDeliveryPaymentMethod(orderFactory)};
+                    return new CashOnDeliveryViewModel { PaymentMethod = new CashOnDeliveryPaymentMethod(orderGroupFactory) };
                 case "GenericCreditCard":
-                    return new GenericCreditCardViewModel { PaymentMethod = new GenericCreditCardPaymentMethod(orderFactory) };
+                    return new GenericCreditCardViewModel { PaymentMethod = new GenericCreditCardPaymentMethod(orderGroupFactory) };
                 case "BudgetPayment":
-                    return new BudgetPaymentViewModel { PaymentMethod = new BudgetPaymentMethod(orderFactory) };
+                    return new BudgetPaymentViewModel { PaymentMethod = new BudgetPaymentMethod(orderGroupFactory) };
             }
 
             throw new ArgumentException("No view model has been implemented for the method " + paymentMethodName, "paymentMethodName");
@@ -26,7 +26,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.ViewModels
 
         public static IPaymentMethodViewModel<PaymentMethodBase> Resolve(string paymentMethodName)
         {
-            return Resolve(paymentMethodName, _orderFactory.Value);
+            return Resolve(paymentMethodName, _orderGroupFactory.Value);
         }
     }
 }

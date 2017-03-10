@@ -7,22 +7,22 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
 {
     public class BudgetPaymentMethod : PaymentMethodBase
     {
-        private readonly IOrderFactory _orderFactory;
+        private readonly IOrderGroupFactory _orderGroupFactory;
 
         public BudgetPaymentMethod()
-            : this(LocalizationService.Current, ServiceLocator.Current.GetInstance<IOrderFactory>())
+            : this(LocalizationService.Current, ServiceLocator.Current.GetInstance<IOrderGroupFactory>())
         {
         }
 
-        public BudgetPaymentMethod(IOrderFactory orderFactory)
-            : this(LocalizationService.Current, orderFactory)
+        public BudgetPaymentMethod(IOrderGroupFactory orderGroupFactory)
+            : this(LocalizationService.Current, orderGroupFactory)
         {
         }
 
-        public BudgetPaymentMethod(LocalizationService localizationService, IOrderFactory orderFactory)
+        public BudgetPaymentMethod(LocalizationService localizationService, IOrderGroupFactory orderFactory)
             : base(localizationService)
         {
-            _orderFactory = orderFactory;
+            _orderGroupFactory = orderFactory;
         }
 
         public override bool ValidateData()
@@ -30,9 +30,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Payment.PaymentMethods
             return true;
         }
 
-        public override IPayment CreatePayment(decimal amount)
+        public override IPayment CreatePayment(IOrderGroup orderGroup, decimal amount)
         {
-            var payment = _orderFactory.CreatePayment();
+            var payment = _orderGroupFactory.CreatePayment(orderGroup);
             payment.PaymentMethodId = PaymentMethodId;
             payment.PaymentMethodName = "BudgetPayment";
             payment.Amount = amount;

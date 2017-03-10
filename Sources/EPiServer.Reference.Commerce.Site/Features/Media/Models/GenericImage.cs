@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Episerver.DataImporter.Models
 {
     [ContentType(DisplayName = "GenericImage", GUID = "b7177be9-e764-4755-90bb-75c0fc54735e", Description = "")]
-    [MediaDescriptor(ExtensionString = "jpg,jpeg,jpe,ico,gif,bmp,png")]
+    //[MediaDescriptor(ExtensionString = "jpg,jpeg,jpe,ico,gif,bmp,png")]
     public class GenericImage : ImageData
     {
         [CultureSpecific]

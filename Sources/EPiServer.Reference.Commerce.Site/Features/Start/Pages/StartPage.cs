@@ -170,5 +170,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
         [AllowedTypes(typeof(OrderPadsPage))]
         public virtual ContentReference OrderPadsPage { get; set; }
 
+        [Display(
+           Name = "Main Content Area",
+           Description = "",
+           GroupName = SiteTabs.SiteStructure,
+           Order = 8)]
+        public virtual ContentArea MainContentArea { get; set; }
+
     }
 }

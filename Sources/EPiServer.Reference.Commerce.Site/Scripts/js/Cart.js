@@ -11,6 +11,7 @@
             .on('click', '.jsClearQuotedCart', Cart.clearQuotedCart)
             .on('click', '.jsWishListQuote', Cart.wishListQuote)
             .on('click', '.jsApproveOrder', Cart.approveOrder)
+            .on('click', '.jsReorder', Cart.reOrder)
             .on('change', '#MiniCart', function () { $("#MiniCartResponsive").html($(this).html()); })
             .on('change', '#WishListMiniCart', function () { $("#WishListMiniCartResponsive").html($(this).html()); })
             .on('click', '.jsCartContinueShopping', function () {
@@ -176,6 +177,28 @@
             success: function (result) {
                 if (result.result == true)
                     window.location = $(".cancelUpdateBudget").attr('href');
+                else {
+                    $("#BudgetWarningMessage").show();
+                    $(".warning-message-data").text(result.result);
+                }
+            }
+        });
+    },
+    reOrder: function (e) {
+        var form = $(this).closest("form");
+        var orderLink = e.currentTarget.getAttribute("data-order-link");
+        $.ajax({
+            type: "POST",
+            url: form[0].action,
+            data: { orderGroupId: orderLink },
+            success: function (result) {
+                if (result.result == true){
+                    $("#BudgetWarningMessage").show();
+                    $(".warning-message-data").text("Reorder line items added to cart");
+                    window.location = $(".cancelUpdateBudget").attr('href');
+
+                }
+
                 else {
                     $("#BudgetWarningMessage").show();
                     $(".warning-message-data").text(result.result);

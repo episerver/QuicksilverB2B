@@ -27,8 +27,9 @@
                             <br />
                             @if (orderForm.Payments.Any())
                             {
-                                Html.Translate("/OrderHistory/Labels/Payment");
-                                string.Join(", ", orderForm.Payments.Select(x => x.PaymentMethodName));
+                              
+                                <span>Payments</span>
+                                @orderForm.Payments.First().PaymentMethodName;
                                 <br />
                             }
                             @if (Model.PurchaseOrder.Properties[Constants.Quote.QuoteStatus] != null && Model.PurchaseOrder.Properties[Constants.Quote.QuoteStatus].ToString().Equals("RequestQuotationFinished"))
@@ -39,6 +40,11 @@
                             else
                             {
                                 @Html.Translate("/OrderHistory/Labels/TotalPrice") <strong> @Model.PurchaseOrder.GetTotal().ToString() </strong> <br />
+                            }
+                            @using (Html.BeginForm("Reorder", "OrderDetails", FormMethod.Post))
+                            {
+
+                            <button type="button" data-order-link="@Model.OrderGroupId" class="btn btn-danger btn-empty jsReorder" >Reorder</button>
                             }
                         </p>
                     </div>
@@ -106,6 +112,7 @@
                             <span class="warning-message warning-message-data"></span>
                             <a class="hidden cancelUpdateBudget" href="@Url.Action("Index", "OrderDetails", new {currentPage = Model.CurrentPage.ContentLink ,orderGroupId = @Model.OrderGroupId})"></a>
                         </div>
+                    
                     </div>
                 </div>
             </main>

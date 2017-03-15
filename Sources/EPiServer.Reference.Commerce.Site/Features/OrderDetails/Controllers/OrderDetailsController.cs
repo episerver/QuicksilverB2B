@@ -10,8 +10,13 @@ using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
 using EPiServer.Reference.Commerce.Site.Features.OrderDetails.Pages;
 using EPiServer.Reference.Commerce.Site.Features.OrderDetails.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Models;
+using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
+using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using EPiServer.Web.Mvc;
 using Mediachase.Commerce.Orders;
+using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
+using EPiServer.Core;
 
 namespace EPiServer.Reference.Commerce.Site.Features.OrderDetails.Controllers
 {
@@ -22,14 +27,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderDetails.Controllers
         private readonly ICustomerService _customerService;
         private readonly IOrderRepository _orderRepository;
         private readonly IContentLoader _contentLoader;
+        private readonly ICartService _cartService;
 
-        public OrderDetailsController(IAddressBookService addressBookService, IOrdersService ordersService, ICustomerService customerService, IOrderRepository orderRepository, IContentLoader contentLoader)
+        public OrderDetailsController(IAddressBookService addressBookService, IOrdersService ordersService, ICustomerService customerService, IOrderRepository orderRepository, IContentLoader contentLoader, ICartService cartService)
         {
             _addressBookService = addressBookService;
             _ordersService = ordersService;
             _customerService = customerService;
             _orderRepository = orderRepository;
             _contentLoader = contentLoader;
+            _cartService = cartService;
         }
 
         [HttpGet]
@@ -86,6 +93,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderDetails.Controllers
 
                 }
             }
+        
 
             if (!string.IsNullOrEmpty(purchaseOrder["QuoteStatus"]?.ToString()) &&
                 (purchaseOrder.Status == OrderStatus.InProgress.ToString() ||
@@ -108,5 +116,27 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderDetails.Controllers
 
             return success ? Json(new { result = true }) : Json(new {result = "Failed to process your payment."});
         }
+
+        [HttpPost]
+        public ActionResult Reorder(int orderGroupId = 0)
+        {
+            var purchaseOrder = OrderContext.Current.GetPurchaseOrderById(orderGroupId);
+            var form = purchaseOrder.GetFirstForm();
+            var list = form.GetAllLineItems();
+
+            string warningMessage = string.Empty;
+            
+            ICart Cart = _cartService.LoadOrCreateCart(_cartService.DefaultCartName);
+
+            foreach (var item in list)
+            {
+                Cart.AddLineItem(item);
+               
+            }
+
+           var order = _orderRepository.Save(Cart);
+            return Json(new { result = true });
+        }
+
     }
 }

@@ -1,4 +1,6 @@
-﻿using EPiServer.Reference.Commerce.Shared.Models.Identity;
+﻿using EPiServer.Cms.UI.AspNetIdentity;
+using EPiServer.Reference.Commerce.Shared.Identity;
+using EPiServer.Reference.Commerce.Shared.Models.Identity;
 using Mediachase.Commerce.Core;
 using Microsoft.AspNet.Identity.Owin;
 using System;
@@ -22,13 +24,13 @@ namespace EPiServer.Reference.Commerce.Manager
     {
         private const string UserLoginFailureMessage = "Login failed. Please try again.";
 
-        private ApplicationSignInManager _signInManager;
+        private ApplicationSignInManager<SiteUser> _signInManager;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             Page.Header.DataBind();
 
-            _signInManager = Request.GetOwinContext().Get<ApplicationSignInManager>();
+            _signInManager = Request.GetOwinContext().Get<ApplicationSignInManager<SiteUser>>();
             LoginCtrl.Authenticate += LoginCtrl_Authenticate;
 
             if (IsPostBack) 

@@ -7,7 +7,7 @@
 <%@ Import Namespace="EPiServer.Logging" %>
 <%@ Import Namespace="Mediachase.Commerce.Security" %>
 
-<script RunAt="server">
+<script RunAt="server" Language="C#">
 
     private static AuthenticationMode _authenticationMode;
     private static DatabaseMode _databaseMode;

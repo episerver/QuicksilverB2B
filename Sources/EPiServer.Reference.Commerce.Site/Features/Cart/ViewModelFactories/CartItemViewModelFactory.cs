@@ -92,8 +92,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
 
         private IEnumerable<string> GetAvailableSizes(BaseProduct product, VariationContent variant)
         {
+            var baseVariant = variant as BaseVariant;
+            if (baseVariant == null)
+            {
+                return Enumerable.Empty<string>();
+            }
             return product != null ?
-                _productService.GetVariations(product).Where(x => x.Color.Equals(((BaseVariant)variant).Color, StringComparison.OrdinalIgnoreCase)).Select(x => x.Size)
+                _productService.GetVariations(product).Where(x => string.IsNullOrEmpty(x.Color) || string.IsNullOrEmpty(baseVariant.Color) || x.Color.Equals(baseVariant.Color))
+                .Select(x => x.Size)
                 : Enumerable.Empty<string>();
         }
 

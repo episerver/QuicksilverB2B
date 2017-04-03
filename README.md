@@ -11,3 +11,7 @@ Installation
 *By default SetupDatabases.cmd use the default SQL Server instance. Change this line `set sql=sqlcmd -S . -E` by replacing `.` with the instance name to use different instance.
 
 Note: SQL scripts are executed using Windows authentication so make sure your user has sufficient permissions.
+
+Logging in
+-------------
+To log in to the site, use u: admin p: store.

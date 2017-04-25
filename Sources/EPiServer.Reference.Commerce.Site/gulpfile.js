@@ -12,10 +12,9 @@ var less = require('gulp-less'),
 var autoprefixer = new lessAutoprefixer({ browsers: ['last 2 versions'] });
 
 // Settings
-
-var config = {
+var inputLESSPartials = './Styles/**/*.less';
+var configB2B = {
     inputLESS: './Styles/b2b/global.less',
-    inputLESSPartials: './Styles/b2b/**/*.less',
     outputLESS: './Styles/b2b/',
     outputSourceMaps: './',
     inputMinifier: './Styles/b2b/global.css',
@@ -27,40 +26,53 @@ var config = {
     }
 };
 
+
+var configQS = {
+    inputLESS: './Styles/style.less',
+    outputLESS: './Styles/',
+    outputSourceMaps: './',
+    inputMinifier: './Styles/style.css',
+    lessOptions: {
+        outputStyle: 'expanded'
+    },
+    autoprefixerOptions: {
+        browsers: ['latest 2 versions']
+    }
+};
+
 // Compiling less & generate sourcemaps & add vendor prefixes
 gulp.task('less', function () {
-    return gulp.src(config.inputLESS)
+    return gulp.src([configB2B.inputLESS, configQS.inputLESS], { base: '.' })
         .pipe(plumber({
-	  errorHandler: onError
-	  }))
+            errorHandler: onError
+        }))
         .pipe(sourceMaps.init())
         .pipe(less({
-			plugins: [autoprefixer]
-		}))
+            plugins: [autoprefixer]
+        }))
         .pipe(sourceMaps.write())
-        .pipe(gulp.dest(config.outputLESS));
+        .pipe(gulp.dest('.'));
+
 
 });
 
 gulp.task('minify', ['less'], function () {
-    return gulp.src(config.inputMinifier)
+    return gulp.src([configB2B.inputMinifier, configQS.inputMinifier], { base: '.' })
         .pipe(cleanCSS())
         .pipe(rename({
             extname: '.min.css'
         }))
-        .pipe(gulp.dest(config.outputLESS));
+        .pipe(gulp.dest('.', { overwrite: true }));
 });
 
 // Watch files for changes
 gulp.task('watch', ['less'], function () {
-    gulp.watch(config.inputLESSPartials, ['less']);
+    gulp.watch(inputLESSPartials, ['less']);
 });
 
 gulp.task('default', ['watch']);
 
-var onError = function (err) {  
-  gutil.beep();
-  console.log(err);
+var onError = function (err) {
+    gutil.beep();
+    console.log(err);
 };
-
-

@@ -12,4 +12,4 @@ Note: SQL scripts are executed using Windows authentication so make sure your us
 
 Logging in
 -------------
-To log in to the site, use u: admin p: store.
+To log in to the site, use u: admin@episerver.com  p: store.

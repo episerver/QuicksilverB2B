@@ -1,4 +1,4 @@
-html { 
+html {
     min-height: 100%;
     position: relative;
 }
@@ -9,7 +9,11 @@ body {
 h1, h2, h3 { font-family: 'Raleway', sans-serif; }
 h1, h2, h3, h4 { margin-top: 0; }
 
-.link--black { 
+img {
+    max-width: 100%;
+}
+
+.link--black {
     &,
     &:hover,
     &:visited,
@@ -21,7 +25,7 @@ h1, h2, h3, h4 { margin-top: 0; }
 
 
 .form-inline { display: inline-block; }
-.form-field--narrow { 
+.form-field--narrow {
     input[type="text"]& { max-width: 60px; }
     select& { max-width: 70px; }
 }
@@ -37,7 +41,7 @@ h1, h2, h3, h4 { margin-top: 0; }
 
 
 .page-wrapper { min-height: 100%; }
-.site-wrapper { 
+.site-wrapper {
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -61,31 +65,31 @@ h1, h2, h3, h4 { margin-top: 0; }
     z-index: 100000;
 }
 
-@-webkit-keyframes cookiesIn { 
-    0% { 
-        opacity: 0; 
-        -webkit-transform: translateY(40px); 
-    } 
-    100% { 
-        opacity: 1; 
-        -webkit-transform: translateY(0); 
-    } 
-} 
+@-webkit-keyframes cookiesIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+    }
+}
 
-@keyframes cookiesIn { 
-    0% { 
-        opacity: 0; 
-        transform: translateY(40px); 
-    } 
-    100% { 
-        opacity: 1; 
-        transform: translateY(0); 
-    } 
-} 
+@keyframes cookiesIn {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
-.cookiesIn { 
-    -webkit-animation-name: cookiesIn; 
-    animation-name: cookiesIn; 
+.cookiesIn {
+    -webkit-animation-name: cookiesIn;
+    animation-name: cookiesIn;
 }
 
 
@@ -99,7 +103,7 @@ h1, h2, h3, h4 { margin-top: 0; }
     font-size: 20px;
     font-weight: 500;
     margin: 0;
-    padding: 0px; 
+    padding: 0px;
     position: relative;
 
     &,
@@ -126,9 +130,9 @@ h1, h2, h3, h4 { margin-top: 0; }
 @media (max-width: @screen-xs-max) {
     body { padding-top: 70px; }
 
-    ul#epi-quickNavigator { display: none; }	
+    ul#epi-quickNavigator { display: none; }
 
-    .xs-vertical-margin { 
+    .xs-vertical-margin {
         display: inline-block;
         margin-bottom: @padding-large-vertical;
     }
@@ -142,7 +146,7 @@ h1, h2, h3, h4 { margin-top: 0; }
         font-weight: 400;
         top: -10px;
     }
-    
+
     .modal.in .modal-dialog.modal--tall {
         transform: translate(0, 10%);
     }

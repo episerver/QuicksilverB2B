@@ -18,7 +18,11 @@ namespace EPiServer.Reference.Commerce.Site
 {
     public class Global : EPiServer.Global
     {
-
+        /// <summary>
+        /// IMPORTANT! This needs to be static as that ensures it runs
+        /// before the EPiServer.Global class constructor. In that one
+        /// the initialization engine kicks in and loads modules that
+        /// requires the databases to be available
         /// </summary>
         static Global()
         {

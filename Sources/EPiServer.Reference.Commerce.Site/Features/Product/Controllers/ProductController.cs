@@ -32,7 +32,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
         private readonly ICurrencyService _currencyservice;
         private readonly IRelationRepository _relationRepository;
         private readonly IQuickOrderService _quickOrderService;
-        private readonly AppContextFacade _appContext;
         private readonly UrlResolver _urlResolver;
         private readonly FilterPublished _filterPublished;
         private readonly CultureInfo _preferredCulture;
@@ -45,7 +44,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             ICurrentMarket currentMarket,
             CurrencyService currencyservice,
             IRelationRepository relationRepository,
-            AppContextFacade appContext,
             UrlResolver urlResolver,
             FilterPublished filterPublished,
             PreferredCultureAccessor preferredCultureAccessor,
@@ -58,7 +56,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             _currentMarket = currentMarket;
             _currencyservice = currencyservice;
             _relationRepository = relationRepository;
-            _appContext = appContext;
             _urlResolver = urlResolver;
             _preferredCulture = preferredCultureAccessor();
             _isInEditMode = isInEditModeAccessor();
@@ -202,7 +199,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             return _priceService.GetDefaultPrice(
                 market.MarketId,
                 DateTime.Now,
-                new CatalogKey(_appContext.ApplicationId, variation.Code),
+                new CatalogKey(variation.Code),
                 currency);
         }
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
@@ -12,6 +14,7 @@ using EPiServer.Core;
 using System.IO;
 using EPiServer.Logging;
 using System.Text;
+using System.Web;
 using EPiServer.DataAbstraction;
 using EPiServer.Scheduler;
 
@@ -71,7 +74,15 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
 
             // Clear the cache to ensure setup is running in a controlled environment, if perhaps we're developing and have just cleared the database.
-            CacheManager.Clear();
+            List<string> keys = new List<string>();
+            foreach (DictionaryEntry entry in HttpRuntime.Cache)
+            {
+                keys.Add((string)entry.Key);
+            }
+            foreach (string key in keys)
+            {
+                HttpRuntime.Cache.Remove(key);
+            }
 
             var options = new ImportOptions { KeepIdentity = true };
 

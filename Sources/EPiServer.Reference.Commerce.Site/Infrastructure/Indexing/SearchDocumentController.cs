@@ -27,15 +27,13 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
         private readonly ReferenceConverter _referenceConverter;
         private readonly AssetUrlResolver _assetUrlResolver;
         private readonly IRelationRepository _relationRepository;
-        private readonly AppContextFacade _appContext;
-
+        
         public SearchDocumentController(IPriceService priceService,
             IPromotionService promotionService,
             IContentLoader contentLoader,
             ReferenceConverter referenceConverter,
             AssetUrlResolver assetUrlResolver,
-            IRelationRepository relationRepository,
-            AppContextFacade appContext)
+            IRelationRepository relationRepository)
         {
             _priceService = priceService;
             _promotionService = promotionService;
@@ -43,7 +41,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
             _referenceConverter = referenceConverter;
             _assetUrlResolver = assetUrlResolver;
             _relationRepository = relationRepository;
-            _appContext = appContext;
+            
         }
 
         [Route("searchdocuments/{language}/{code}", Name = "PopulateSearchDocument")]
@@ -122,7 +120,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
 
         private void AddPrices(RestSearchDocument document, IEnumerable<FashionVariant> variants)
         {
-            var prices = _priceService.GetCatalogEntryPrices(variants.Select(x => new CatalogKey(_appContext.ApplicationId, x.Code))).ToList();
+            var prices = _priceService.GetCatalogEntryPrices(variants.Select(x => new CatalogKey(x.Code))).ToList();
             var validPrices = prices.Where(x => x.ValidFrom <= DateTime.Now && (x.ValidUntil == null || x.ValidUntil >= DateTime.Now));
 
             foreach (var marketPrices in validPrices.GroupBy(x => x.MarketId))

@@ -91,7 +91,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
             List<VariationContent> variants = productContent.VariationContents().ToList();
             return
                 priceService.GetCatalogEntryPrices(
-                    variants.Select(x => new CatalogKey(AppContext.Current.ApplicationId, x.Code))).ToList();
+                    variants.Select(x => new CatalogKey(x.Code))).ToList();
         }
 
         public static IEnumerable<VariationContent> VariationContents(this ProductContent productContent)

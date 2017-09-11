@@ -147,9 +147,6 @@
   <data name="Payment_IBiz_E_Payment_Integrator_Configure" xml:space="preserve">
     <value>Configurer le composant IBiz E-Payment Integrator</value>
   </data>
-  <data name="Payment_IBiz_E_Payment_Integrator_Get" xml:space="preserve">
-    <value>Obtenir IBiz E-Payment Integrator sur &lt;a target="_blank" href="http://www.nsoftware.com"&gt;www.nsoftware.com&lt;/a&gt;. Vous trouverez également sur ce site de la documentation sur son mode de configuration.</value>
-  </data>
   <data name="Payment_iTransact_RediCharge_HTML" xml:space="preserve">
     <value>iTransact RediCharge HTML</value>
   </data>
@@ -356,9 +353,6 @@
   </data>
   <data name="Gateway_Chase" xml:space="preserve">
     <value>Chase</value>
-  </data>
-  <data name="Order_Get_IBiz_E_Payment_Integrator" xml:space="preserve">
-    <value>Obtenir IBiz E-Payment Integrator sur &lt;a target="_blank" href="http://www.nsoftware.com"&gt;www.nsoftware.com&lt;/a&gt;. Vous trouverez également sur ce site de la documentation sur son mode de configuration.</value>
   </data>
   <data name="Order_Payment_Options" xml:space="preserve">
     <value>Options de paiement</value>
@@ -832,10 +826,10 @@
     <value>Expédition</value>
   </data>
   <data name="OrderNote_AddNewLineItemPattern" xml:space="preserve">
-    <value>Nouvelle UGS ({0} de {1}) ajoutée à l'expédition n°{2}, le montant total de la commande est passé à {3}</value>
+    <value>Nouvelle UGS ({0} de {1}) ajoutée à l'expédition #{2}, le montant total de la commande est passé à {3}</value>
   </data>
   <data name="OrderNote_ChangeLineItemPattern" xml:space="preserve">
-    <value>L'UGS ({0} de {1}) a été modifiée dans l'expédition n°{2}, le montant total de la commande est passé à {3}</value>
+    <value>L'UGS ({0} de {1}) a été modifiée dans l'expédition #{2}, le montant total de la commande est passé à {3}</value>
   </data>
   <data name="OrderNote_ChangeReturnStatusPattern" xml:space="preserve">
     <value>Le statut du retour de commande avec le n°{0}  a été remplacé par {1}</value>
@@ -844,13 +838,13 @@
     <value>Le statut de l'expédition {0} a été remplacé par {1}</value>
   </data>
   <data name="OrderNote_DeleteLineItemPattern" xml:space="preserve">
-    <value>L'UGS ({0} de {1}) a été supprimée de l'expédition n°{2}, le montant total de la commande est passé à {3}</value>
+    <value>L'UGS ({0} de {1}) a été supprimée de l'expédition #{2}, le montant total de la commande est passé à {3}</value>
   </data>
   <data name="OrderNote_MoveLineItemPattern" xml:space="preserve">
-    <value>L'UGS ({0} de {1}) a été déplacée dans l'expédition n°{2}</value>
+    <value>L'UGS ({0} de {1}) a été déplacée dans l'expédition #{2}</value>
   </data>
   <data name="OrderNote_ReturnLineItemPattern" xml:space="preserve">
-    <value>L'UGS ({0} de {1}) a été renvoyée avec le n° de retour {2} pour le motif {3}</value>
+    <value>L'UGS ({0} de {1}) a été renvoyée avec le n° de retour #{2} pour le motif {3}</value>
   </data>
   <data name="OrderNote_ChangeOrderStatusPattern" xml:space="preserve">
     <value>Le statut de la commande a été remplacé par {0}</value>
@@ -1277,5 +1271,8 @@
   </data>
   <data name="Warehouse_Pickup_Fulfillment" xml:space="preserve">
     <value>Retrait du client à {0}</value>
+  </data>
+  <data name="Shipment_Id" xml:space="preserve">
+    <value>ID d'expédition</value>
   </data>
 </root>

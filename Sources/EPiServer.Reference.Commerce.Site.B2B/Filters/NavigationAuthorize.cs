@@ -4,7 +4,6 @@ using System.Web.Mvc;
 using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.B2B.Enums;
 using EPiServer.Reference.Commerce.Site.B2B.Models.Contact;
-using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
 using EPiServer.Reference.Commerce.Site;
 using Mediachase.Commerce.Customers;
@@ -15,7 +14,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Filters
     public class NavigationAuthorize : ActionFilterAttribute
     {
         private List<B2BUserRoles> _authorizedRoles;
-        private readonly Injected<IContentLoader> _contentLoader;
+
         public NavigationAuthorize(string authorizedRoles)
         {
             ToB2BRoles(authorizedRoles);

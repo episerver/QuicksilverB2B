@@ -27,35 +27,29 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
         private readonly IPromotionService _promotionService;
         private readonly IPricingService _pricingService;
         private readonly UrlResolver _urlResolver;
-        private readonly LinksRepository _linksRepository;
         private readonly IRelationRepository _relationRepository;
         private readonly CultureInfo _preferredCulture;
         private readonly ICurrentMarket _currentMarket;
         private readonly ICurrencyService _currencyService;
-        private readonly AppContextFacade _appContext;
         private readonly ReferenceConverter _referenceConverter;
 
         public ProductService(IContentLoader contentLoader,
             IPromotionService promotionService,
             IPricingService pricingService,
             UrlResolver urlResolver,
-            LinksRepository linksRepository,
             IRelationRepository relationRepository,
             ICurrentMarket currentMarket,
             ICurrencyService currencyService,
-            AppContextFacade appContext,
             ReferenceConverter referenceConverter)
         {
             _contentLoader = contentLoader;
             _promotionService = promotionService;
             _pricingService = pricingService;
             _urlResolver = urlResolver;
-            _linksRepository = linksRepository;
             _relationRepository = relationRepository;
             _preferredCulture = ContentLanguage.PreferredCulture;
             _currentMarket = currentMarket;
             _currencyService = currencyService;
-            _appContext = appContext;
             _referenceConverter = referenceConverter;
         }
 
@@ -70,10 +64,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
         public string GetSiblingVariantCodeBySize(string siblingCode, string size)
         {
             ContentReference variationReference = _referenceConverter.GetContentLink(siblingCode);
-            IEnumerable<Relation> productRelations = _linksRepository.GetRelationsByTarget(variationReference).ToList();
-            IEnumerable<ProductVariation> siblingsRelations = _relationRepository.GetRelationsBySource<ProductVariation>(productRelations.First().Source);
-            IEnumerable<ContentReference> siblingsReferences = siblingsRelations.Select(x => x.Target);
-            IEnumerable<IContent> siblingVariations = _contentLoader.GetItems(siblingsReferences, _preferredCulture);
+            IEnumerable<ProductVariation> productRelations = _relationRepository.GetParents<ProductVariation>(variationReference).ToList();
+            IEnumerable<ProductVariation> siblingsRelations = _relationRepository.GetChildren<ProductVariation>(productRelations.First().Parent);
+            IEnumerable<ContentReference> siblingsReferences = siblingsRelations.Select(x => x.Child);
+            IEnumerable<IContent> siblingVariations = _contentLoader.GetItems(siblingsReferences, _preferredCulture).ToList();
 
             var siblingVariant = siblingVariations.OfType<BaseVariant>().First(x => x.Code == siblingCode);
 
@@ -95,8 +89,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             var fashionProducts = products.ToList();
             foreach (var product in fashionProducts)
             {
-                var relations = _linksRepository.GetRelationsBySource(product.VariantsReference).OfType<ProductVariation>();
-                variationsToLoad.Add(relations.First().Target, product.ContentLink);
+                var relations = _relationRepository.GetChildren<ProductVariation>(product.ContentLink);
+                variationsToLoad.Add(relations.First().Child, product.ContentLink);
             }
 
             var variations = _contentLoader.GetItems(variationsToLoad.Select(x => x.Key), _preferredCulture).Cast<BaseVariant>();
@@ -170,7 +164,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
 
         private Money GetDiscountPrice(VariationContent variation, IMarket market, Currency currency, Money originalPrice)
         {
-            var discountedPrice = _promotionService.GetDiscountPrice(new CatalogKey(_appContext.ApplicationId, variation.Code), market.MarketId, currency);
+            var discountedPrice = _promotionService.GetDiscountPrice(new CatalogKey(variation.Code), market.MarketId, currency);
             if (discountedPrice != null)
             {
                 return discountedPrice.UnitPrice;

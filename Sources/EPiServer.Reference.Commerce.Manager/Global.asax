@@ -7,7 +7,7 @@
 <%@ Import Namespace="EPiServer.Logging" %>
 <%@ Import Namespace="Mediachase.Commerce.Security" %>
 
-<script RunAt="server" Language="C#">
+<script RunAt="server">
 
     private static AuthenticationMode _authenticationMode;
     private static DatabaseMode _databaseMode;
@@ -149,7 +149,6 @@
                 Membership.Provider.ApplicationName = appName;
                 Roles.Provider.ApplicationName = appName;
                 ProfileManager.ApplicationName = appName;
-                Mediachase.Commerce.Core.AppContext.Current.ApplicationId = dto.Application[0].ApplicationId;
                 Mediachase.Commerce.Core.AppContext.Current.ApplicationName = dto.Application[0].Name;
             }
         }

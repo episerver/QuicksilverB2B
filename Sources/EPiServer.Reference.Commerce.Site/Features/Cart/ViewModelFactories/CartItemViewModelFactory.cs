@@ -29,7 +29,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
         private readonly ICurrentMarket _currentMarket;
         private readonly ICurrencyService _currencyService;
         private readonly IPromotionService _promotionService;
-        private readonly AppContextFacade _appContext;
         private readonly ILineItemCalculator _lineItemCalculator;
         private readonly IProductService _productService;
         private readonly IRelationRepository _relationRepository;
@@ -42,7 +41,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
             ICurrentMarket currentMarket,
             ICurrencyService currencyService,
             IPromotionService promotionService,
-            AppContextFacade appContext,
             ILineItemCalculator lineItemCalculator,
             IProductService productService, 
             IRelationRepository relationRepository, 
@@ -54,7 +52,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
             _currentMarket = currentMarket;
             _currencyService = currencyService;
             _promotionService = promotionService;
-            _appContext = appContext;
             _lineItemCalculator = lineItemCalculator;
             _productService = productService;
             _relationRepository = relationRepository;
@@ -114,7 +111,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
             var currency = _currencyService.GetCurrentCurrency();
             if (cart.Name.Equals(_cartService.DefaultWishListName)) 
             {
-                var discountedPrice = _promotionService.GetDiscountPrice(new CatalogKey(_appContext.ApplicationId, lineItem.Code), marketId, currency);
+                var discountedPrice = _promotionService.GetDiscountPrice(new CatalogKey(lineItem.Code), marketId, currency);
                 return discountedPrice != null ? discountedPrice.UnitPrice : (Money?)null;
             }
             return lineItem.GetDiscountedPrice(cart.Currency, _lineItemCalculator);

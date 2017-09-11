@@ -25,6 +25,7 @@ using Mediachase.Commerce.Orders.Managers;
 using Mediachase.Commerce.Shared;
 using Mediachase.Search;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -32,6 +33,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Hosting;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure
@@ -80,7 +82,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 ConfigureMarketing();
 
                 _progressMessenger.AddProgressMessageText("Rebuilding index...", false, 0);
-                BuildIndex(_progressMessenger, AppContext.Current.ApplicationId, AppContext.Current.ApplicationName, true);
+                BuildIndex(_progressMessenger, AppContext.Current.ApplicationName, true);
                 _progressMessenger.AddProgressMessageText("Done rebuilding index", false, 0);
 
                 return true;
@@ -165,7 +167,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
         {
             var row = paymentMethodDto.PaymentMethod.AddPaymentMethodRow(id, name, description, language.TwoLetterISOLanguageName,
                             systemKeyword, true, isDefault, gatewayClass,
-                            implementationClass, false, orderIndex, DateTime.Now, DateTime.Now, AppContext.Current.ApplicationId);
+                            implementationClass, false, orderIndex, DateTime.Now, DateTime.Now);
 
             var paymentMethod = new PaymentMethod(row);
             paymentMethod.MarketId.AddRange(markets.Where(x => x.IsEnabled && x.Languages.Contains(language)).Select(x => x.MarketId));
@@ -239,7 +241,6 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             return dto.ShippingMethod.AddShippingMethodRow(
                 Guid.NewGuid(),
                 shippingOption,
-                AppContext.Current.ApplicationId,
                 languageId,
                 true,
                 name,
@@ -280,7 +281,15 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
 
             // Clear the cache to ensure setup is running in a controlled environment, if perhaps we're developing and have just cleared the database.
-            CacheManager.Clear();
+            List<string> keys = new List<string>();
+            foreach (DictionaryEntry entry in HttpRuntime.Cache)
+            {
+                keys.Add((string)entry.Key);
+            }
+            foreach (string key in keys)
+            {
+                HttpRuntime.Cache.Remove(key);
+            }
 
             var options = new ImportOptions { KeepIdentity = true };
 
@@ -294,7 +303,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
 
         private void ImportCatalog(string path)
         {
-            var importJob = new ImportJob(AppContext.Current.ApplicationId, path, "Catalog.xml", true);
+            var importJob = new ImportJob(path, "Catalog.xml", true);
 
             Action importCatalog = () =>
             {
@@ -320,7 +329,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             _progressMessenger.AddProgressMessageText("Done syncing metaclasses with content types", false, 70);
         }
 
-        private void BuildIndex(IProgressMessenger progressMessenger, Guid applicationId, string applicationName, bool rebuild)
+        private void BuildIndex(IProgressMessenger progressMessenger,string applicationName, bool rebuild)
         {
             var searchManager = new SearchManager(applicationName);
             searchManager.SearchIndexMessage += SearchManager_SearchIndexMessage;

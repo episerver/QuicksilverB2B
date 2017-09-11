@@ -13,7 +13,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
     {
 #pragma warning disable 649
         private static Injected<UrlResolver> _urlResolver;
-        private static Injected<ILinksRepository> _linksRepository;
+        private static Injected<IRelationRepository> _relationRepository;
         private static Injected<IContentLoader> _contentLoader;
 #pragma warning restore 649
 
@@ -30,12 +30,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 
         public static string GetUrl(this VariationContent variant)
         {
-            return GetUrl(variant, _linksRepository.Service, _urlResolver.Service);
+            return GetUrl(variant, _relationRepository.Service, _urlResolver.Service);
         }
 
-        public static string GetUrl(this VariationContent variant, ILinksRepository linksRepository, UrlResolver urlResolver)
+        public static string GetUrl(this VariationContent variant, IRelationRepository relationRepository, UrlResolver urlResolver)
         {
-            var productLink = variant.GetParentProducts(linksRepository).FirstOrDefault();
+            var productLink = variant.GetParentProducts(relationRepository).FirstOrDefault();
             if (productLink == null)
             {
                 return string.Empty;

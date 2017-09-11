@@ -32,7 +32,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
         private readonly IAddressBookService _addressBookService;
         private readonly ICurrentMarket _currentMarket;
         private readonly ICurrencyService _currencyService;
-        private readonly AppContextFacade _appContext;
         private readonly ILineItemCalculator _lineItemCalculator;
         private readonly IPromotionService _promotionService;
 
@@ -49,7 +48,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             IAddressBookService addressBookService,
             ICurrentMarket currentMarket,
             ICurrencyService currencyService,
-            AppContextFacade appContext,
             IPromotionService promotionService,
             ILineItemCalculator lineItemCalculator)
         {
@@ -65,7 +63,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             _addressBookService = addressBookService;
             _currentMarket = currentMarket;
             _currencyService = currencyService;
-            _appContext = appContext;
             _promotionService = promotionService;
             _lineItemCalculator = lineItemCalculator;
         }
@@ -323,7 +320,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
             var currency = _currencyService.GetCurrentCurrency();
             if (cart.Name.Equals(DefaultWishListName))
             {
-                var discountedPrice = _promotionService.GetDiscountPrice(new CatalogKey(_appContext.ApplicationId, lineItem.Code), marketId, currency);
+                var discountedPrice = _promotionService.GetDiscountPrice(new CatalogKey(lineItem.Code), marketId, currency);
                 return discountedPrice != null ? discountedPrice.UnitPrice : (Money?)null;
             }
             return lineItem.GetDiscountedPrice(cart.Currency, _lineItemCalculator);

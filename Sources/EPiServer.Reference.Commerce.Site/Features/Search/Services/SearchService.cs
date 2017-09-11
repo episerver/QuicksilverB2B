@@ -24,7 +24,7 @@ using System.Web.Helpers;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
 {
-    [ServiceConfiguration(typeof(ISearchService), Lifecycle = ServiceInstanceScope.PerRequest)]
+    [ServiceConfiguration(typeof(ISearchService), Lifecycle = ServiceInstanceScope.Transient)]
     public class SearchService : ISearchService
     {
         private readonly SearchFacade _search;

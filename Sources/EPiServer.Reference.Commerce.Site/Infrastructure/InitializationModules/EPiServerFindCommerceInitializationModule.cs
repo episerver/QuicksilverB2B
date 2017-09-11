@@ -94,7 +94,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.InitializationModules
         /// <inheritdoc/>
         public void ConfigureContainer(ServiceConfigurationContext context)
         {
-            if (!context.Container.GetAllInstances<IContentIndexer>().Any())
+            if (!context.StructureMap().GetAllInstances<IContentIndexer>().Any())
                 context.Services.Configure(c => c.For<IContentIndexer>().Singleton().Use(ContentIndexer.Instance));
             context.Services.Configure(c => c.For<EventedIndexingSettings>().Singleton().Use(() => EventedIndexingSettings.Instance));
         }

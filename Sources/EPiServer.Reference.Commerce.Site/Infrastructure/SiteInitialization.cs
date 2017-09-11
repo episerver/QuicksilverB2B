@@ -67,8 +67,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                         defaultImplementation,
                         locator.GetInstance<RequestContext>()));
 
-            services.AddTransient<IOrderGroupCalculator, SiteOrderGroupCalculator>(); // TODO: should remove this configuration and calculator class after COM-2434 was resolved
-            services.AddTransient<IOrderFormCalculator, SiteOrderFormCalculator>(); // TODO: should remove this configuration and calculator class after COM-2434 was resolved
+            
             services.AddTransient<IPlacedPriceProcessor, B2BPlacedPriceProcessor>(); // TODO: should remove this configuration and calculator class after COM-2434 was resolved
 
             services.AddTransient<PreferredCultureAccessor>(locator => () => ContentLanguage.PreferredCulture);
@@ -80,13 +79,13 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             services.AddHttpContextOrThreadScoped<SiteContext, CustomCurrencySiteContext>();
             services.AddTransient<HttpContextBase>(locator => HttpContext.Current.ContextBaseOrNull());
             services.AddTransient<IOrderRepository, DefaultOrderRepository>();
-            DependencyResolver.SetResolver(new StructureMapDependencyResolver(context.Container));
+            DependencyResolver.SetResolver(new StructureMapDependencyResolver(context.StructureMap()));
             GlobalConfiguration.Configure(config =>
             {
                 config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.LocalOnly;
                 config.Formatters.JsonFormatter.SerializerSettings = new JsonSerializerSettings();
                 config.Formatters.XmlFormatter.UseXmlSerializer = true;
-                config.DependencyResolver = new StructureMapResolver(context.Container);
+                config.DependencyResolver = new StructureMapResolver(context.StructureMap());
                 config.MapHttpAttributeRoutes();
             });
         }

@@ -16,7 +16,7 @@ using Mediachase.Commerce.Pricing;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
 {
-    [ServiceConfiguration(typeof(IEPiFindSearchService), Lifecycle = ServiceInstanceScope.PerRequest)]
+    [ServiceConfiguration(typeof(IEPiFindSearchService), Lifecycle = ServiceInstanceScope.Transient)]
     public class EPiFindSearchService : IEPiFindSearchService
     {
         private readonly IPriceService _priceService;
@@ -59,7 +59,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
                 return searchResult.Select(variation =>
                 {
                     var defaultPrice = _priceService.GetDefaultPrice(market.MarketId, DateTime.Now,
-                        new CatalogKey(AppContext.Current.ApplicationId, variation.Code), currency);
+                        new CatalogKey(variation.Code), currency);
                     var discountedPrice = defaultPrice != null ? _promotionService.GetDiscountPrice(defaultPrice.CatalogKey, market.MarketId,
                         currency) : null;
                     return new SkuSearchResultModel

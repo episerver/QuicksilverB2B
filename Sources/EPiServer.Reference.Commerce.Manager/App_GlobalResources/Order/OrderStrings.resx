@@ -144,12 +144,6 @@
   <data name="Payment_Fast_Transact" xml:space="preserve">
     <value>Fast Transact</value>
   </data>
-  <data name="Payment_IBiz_E_Payment_Integrator_Configure" xml:space="preserve">
-    <value>Configure IBiz E-Payment Integrator Component</value>
-  </data>
-  <data name="Payment_IBiz_E_Payment_Integrator_Get" xml:space="preserve">
-    <value>Get IBiz E-Payment Integrator from &lt;a target="_blank" href="http://www.nsoftware.com"&gt;www.nsoftware.com&lt;/a&gt;. You will also find there more documentation on how to configure it.</value>
-  </data>
   <data name="Payment_iTransact_RediCharge_HTML" xml:space="preserve">
     <value>iTransact RediCharge HTML</value>
   </data>
@@ -209,9 +203,6 @@
   </data>
   <data name="Gateway_eProcessing" xml:space="preserve">
     <value>eProcessing</value>
-  </data>
-  <data name="Order_Configure_IBiz_E_Payment_Integrator_Component" xml:space="preserve">
-    <value>Configure IBiz E-Payment Integrator Component</value>
   </data>
   <data name="Order_Pick_a_Gateway" xml:space="preserve">
     <value>Pick a Gateway</value>
@@ -359,9 +350,6 @@
   </data>
   <data name="Gateway_Chase" xml:space="preserve">
     <value>Chase</value>
-  </data>
-  <data name="Order_Get_IBiz_E_Payment_Integrator" xml:space="preserve">
-    <value>Get IBiz E-Payment Integrator from &lt;a target="_blank" href="http://www.nsoftware.com"&gt;www.nsoftware.com&lt;/a&gt;. You will find more documentation on how to configure it there also.</value>
   </data>
   <data name="Order_Payment_Options" xml:space="preserve">
     <value>Payment Options</value>
@@ -1255,7 +1243,7 @@
     <value>Order Market</value>
   </data>
   <data name="Order_PurchaseOrder_PaymentLess" xml:space="preserve">
-    <value>The payment total and the order total do not not match. Please adjust your payment.</value>
+    <value>The payment total and the order total do not match. Please adjust your payment.</value>
   </data>
   <data name="Payment_Market_Selected" xml:space="preserve">
     <value>Selected Markets for Payment Method</value>
@@ -1319,5 +1307,11 @@
   </data>
   <data name="Market_Change_Warning" xml:space="preserve">
     <value>If the new market does not support the current currency, the currency will be changed to the new market's default and placed price to list price for all items.</value>
+  </data>
+  <data name="Shipment_Id" xml:space="preserve">
+    <value>Shipment Id</value>
+  </data>
+  <data name="GiftItem_RemovedDueToInsufficientQuantityInInventory" xml:space="preserve">
+    <value>The gift {0} has not enough quantity in stock and was removed from your cart.</value>
   </data>
 </root>

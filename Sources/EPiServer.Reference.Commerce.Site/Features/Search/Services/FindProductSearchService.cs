@@ -24,7 +24,7 @@ using Constants = EPiServer.Reference.Commerce.Site.B2B.Constants;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Search.Services
 {
-    [ServiceConfiguration(typeof(IFindProductSearchService), Lifecycle = ServiceInstanceScope.PerRequest)]
+    [ServiceConfiguration(typeof(IFindProductSearchService), Lifecycle = ServiceInstanceScope.Transient)]
     public class FindProductSearchService : IFindProductSearchService
     {
         private readonly ICurrentMarket _currentMarket;

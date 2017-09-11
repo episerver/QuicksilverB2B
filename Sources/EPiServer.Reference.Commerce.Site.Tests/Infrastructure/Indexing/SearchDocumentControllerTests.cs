@@ -199,8 +199,7 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
                 _contentLoaderMock.Object,
                 _referenceConverterMock.Object,
                 _assetUrlResolverMock.Object,
-                _relationRepositoryMock.Object,
-                _fakeAppContext)
+                _relationRepositoryMock.Object)
             {
                 Request = new HttpRequestMessage(),
                 Configuration = new HttpConfiguration()
@@ -212,8 +211,8 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
             var rootNodeReference = GetContentReference(10, CatalogContentType.CatalogNode);
             var catalogReference = GetContentReference(4, CatalogContentType.Catalog);
             var variants = new[] { bluevariantReference, greenVariantReference };
-            var greenCatalogKey = new CatalogKey(_fakeAppContext.ApplicationId, "Variant 1");
-            var blueCatalogKey = new CatalogKey(_fakeAppContext.ApplicationId, "Variant 2");
+            var greenCatalogKey = new CatalogKey("Variant 1");
+            var blueCatalogKey = new CatalogKey("Variant 2");
 
             SetupGetContentLink("Product", productReference);
             SetupGetFashionProduct(productReference, rootNodeReference);
@@ -283,15 +282,15 @@ namespace EPiServer.Reference.Commerce.Site.Tests.Infrastructure.Indexing
         {
             _relationRepositoryMock.Setup(
                 x =>
-                    x.GetRelationsBySource<ProductVariation>(productReference))
+                    x.GetChildren<ProductVariation>(productReference))
                 .Returns(variants.Select(x =>
                     new ProductVariation
                     {
                         GroupName = "Default",
                         Quantity = 1,
                         SortOrder = 1,
-                        Source = productReference,
-                        Target = x
+                        Parent = productReference,
+                        Child = x
                     }));
         }
 

@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using Mediachase.Commerce;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
 {
@@ -54,8 +55,10 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Indexing
             ReferenceConverter referenceConverter,
             AssetUrlResolver assetUrlResolver,
             IRelationRepository relationRepository,
-            ILogger logger)
-            : base(catalogSystem, priceService, inventoryService, metaDataContext)
+            ILogger logger,
+            CatalogItemChangeManager catalogItemChangeManager,
+            NodeIdentityResolver nodeIdentityResolver)
+            : base(catalogSystem, priceService, inventoryService, metaDataContext, catalogItemChangeManager, nodeIdentityResolver)
         {
             _priceService = priceService;
             _contentLoader = contentLoader;

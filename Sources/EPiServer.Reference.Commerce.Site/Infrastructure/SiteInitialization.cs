@@ -8,7 +8,6 @@ using EPiServer.Globalization;
 using EPiServer.Reference.Commerce.Shared.Models.Identity;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
-using EPiServer.Reference.Commerce.Site.Infrastructure.Business;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Reference.Commerce.Site.Infrastructure.WebApi;
 using EPiServer.ServiceLocation;

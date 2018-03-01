@@ -37,7 +37,7 @@ namespace EPiServer.Reference.Commerce.Manager
             {
                 return;
             }
-            LoginCtrl.FindControl("ApplicationRow").Visible = AppContext.Current.GetApplicationDto().Application.Count != 1;
+            LoginCtrl.FindControl("ApplicationRow").Visible = Mediachase.Commerce.Core.AppContext.Current.GetApplicationDto().Application.Count != 1;
             LoginCtrl.Focus();
         }
 

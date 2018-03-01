@@ -62,8 +62,8 @@
 				</Command>
 				<Command id="btn_SaveBtn">
 					<CommandType>ServerAction</CommandType>
-          <Handler type="EPiServer.Reference.Commerce.Manager.CustomCommands.B2BSaveChangesHandler, EPiServer.Reference.Commerce.Manager" />
-          <EnableHandler type="EPiServer.Reference.Commerce.Manager.CustomCommands.B2BSaveChangesHandler, EPiServer.Reference.Commerce.Manager" />
+					<Handler type="Mediachase.Commerce.Manager.Order.CommandHandlers.PurchaseOrderHandlers.SaveChangesHandler, Mediachase.ConsoleManager" />
+					<EnableHandler type="Mediachase.Commerce.Manager.Order.CommandHandlers.PurchaseOrderHandlers.SaveChangesHandler, Mediachase.ConsoleManager" />
 				</Command>
 				<Command id="btn_CancelBtn">
 					<CommandType>ServerAction</CommandType>

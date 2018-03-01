@@ -82,7 +82,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 ConfigureMarketing();
 
                 _progressMessenger.AddProgressMessageText("Rebuilding index...", false, 0);
-                BuildIndex(_progressMessenger, AppContext.Current.ApplicationName, true);
+                BuildIndex(_progressMessenger, Mediachase.Commerce.Core.AppContext.Current.ApplicationName, true);
                 _progressMessenger.AddProgressMessageText("Done rebuilding index", false, 0);
 
                 return true;

@@ -176,6 +176,5 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
            GroupName = SiteTabs.SiteStructure,
            Order = 8)]
         public virtual ContentArea MainContentArea { get; set; }
-
     }
 }

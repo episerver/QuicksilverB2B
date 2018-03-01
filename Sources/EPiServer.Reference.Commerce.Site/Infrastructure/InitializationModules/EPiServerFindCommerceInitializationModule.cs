@@ -21,9 +21,9 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.InitializationModules
     [ModuleDependency(typeof(FindCommerceInitializationModule))]
     public class EPiServerFindCommerceInitializationModule : IConfigurableModule
     {
-        private static readonly ILogger Log = LogManager.GetLogger(typeof(FindCommerceInitializationModule));
-        private static CatalogKeyEventBroadcaster _broadcaster;
-        private static CatalogContentEventListener _listener;
+        //private static readonly ILogger Log = LogManager.GetLogger(typeof(FindCommerceInitializationModule));
+        //private static CatalogKeyEventBroadcaster _broadcaster;
+        //private static CatalogContentEventListener _listener;
 
         /// <summary>
         /// Initializes this instance.
@@ -38,21 +38,21 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.InitializationModules
         /// </remarks>
         public void Initialize(InitializationEngine context)
         {
-            CatalogContentClientConventions instance = context.Locate.Advanced.GetInstance<B2BCatalogContentClientConventions>();
-            try
-            {
-                instance.ApplyConventions(SearchClient.Instance.Conventions);
-            }
-            catch (Exception ex)
-            {
-                if (Log.IsErrorEnabled())
-                    Log.Error("Could not apply catalog content conventions.", ex);
-            }
-            _broadcaster = context.Locate.Advanced.GetInstance<CatalogKeyEventBroadcaster>();
-            _listener = context.Locate.Advanced.GetInstance<CatalogContentEventListener>();
-            _listener.AddEvent();
-            _broadcaster.InventoryUpdated += _listener.InventoryUpdated;
-            _broadcaster.PriceUpdated += _listener.PriceUpdated;
+            //CatalogContentClientConventions instance = context.Locate.Advanced.GetInstance<B2BCatalogContentClientConventions>();
+            //try
+            //{
+            //    instance.ApplyConventions(SearchClient.Instance.Conventions);
+            //}
+            //catch (Exception ex)
+            //{
+            //    if (Log.IsErrorEnabled())
+            //        Log.Error("Could not apply catalog content conventions.", ex);
+            //}
+            //_broadcaster = context.Locate.Advanced.GetInstance<CatalogKeyEventBroadcaster>();
+            //_listener = context.Locate.Advanced.GetInstance<CatalogContentEventListener>();
+            //_listener.AddEvent();
+            //_broadcaster.InventoryUpdated += _listener.InventoryUpdated;
+            //_broadcaster.PriceUpdated += _listener.PriceUpdated;
         }
 
         /// <summary>
@@ -86,17 +86,19 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.InitializationModules
         /// </remarks>
         public void Uninitialize(InitializationEngine context)
         {
-            _broadcaster.InventoryUpdated -= _listener.InventoryUpdated;
-            _broadcaster.PriceUpdated -= _listener.PriceUpdated;
-            _listener.RemoveEvent();
+            //_broadcaster.InventoryUpdated -= _listener.InventoryUpdated;
+            //_broadcaster.PriceUpdated -= _listener.PriceUpdated;
+            //_listener.RemoveEvent();
         }
 
         /// <inheritdoc/>
         public void ConfigureContainer(ServiceConfigurationContext context)
         {
             if (!context.StructureMap().GetAllInstances<IContentIndexer>().Any())
-                context.Services.Configure(c => c.For<IContentIndexer>().Singleton().Use(ContentIndexer.Instance));
-            context.Services.Configure(c => c.For<EventedIndexingSettings>().Singleton().Use(() => EventedIndexingSettings.Instance));
+            {
+                context.StructureMap().Configure(c => c.For<IContentIndexer>().Singleton().Use(ContentIndexer.Instance));
+            }
+            context.StructureMap().Configure(c => c.For<EventedIndexingSettings>().Singleton().Use(() => EventedIndexingSettings.Instance));
         }
     }
 }

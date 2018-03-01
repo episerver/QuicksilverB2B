@@ -870,6 +870,9 @@
   <data name="CancelOrderConfirmation" xml:space="preserve">
     <value>Are you sure you want to cancel current purchase order?</value>
   </data>
+  <data name="CancelPaymentPlanConfirmation" xml:space="preserve">
+    <value>Are you sure you want to cancel current payment plan?</value>
+  </data>
   <data name="CancelReturnConfirmation" xml:space="preserve">
     <value>Are you sure you want to cancel current return request?</value>
   </data>
@@ -1301,6 +1304,9 @@
   </data>
   <data name="LineItem_RemovedDueToUnavailableItem" xml:space="preserve">
     <value>The product {0} is not available in store and was removed from your cart.</value>
+  </data>
+  <data name="LineItem_RemovedDueToInvalidMaxQuantitySetting" xml:space="preserve">
+    <value>The product {0} does not have a valid max quantity setting and was removed from your cart.</value>
   </data>
   <data name="Currency_Change_Warning" xml:space="preserve">
     <value>Changing currency will set placed price to list price for all items.</value>

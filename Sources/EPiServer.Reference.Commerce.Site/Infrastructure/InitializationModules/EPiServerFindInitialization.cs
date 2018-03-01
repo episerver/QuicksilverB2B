@@ -12,9 +12,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.InitializationModules
     {
         public void Initialize(InitializationEngine context)
         {
-            ContentIndexer.Instance.Conventions.ForInstancesOf<PageData>().ShouldIndex(x => false);
-            ContentIndexer.Instance.Conventions.ForInstancesOf<BlockData>().ShouldIndex(x => false);
-            ContentIndexer.Instance.Conventions.ForInstancesOf<MediaData>().ShouldIndex(x => false);
+            
         }
 
         public void Uninitialize(InitializationEngine context)

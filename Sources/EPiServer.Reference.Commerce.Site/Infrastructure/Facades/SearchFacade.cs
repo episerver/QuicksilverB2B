@@ -50,7 +50,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Facades
             {
                 return;
             }
-            _searchManager = new SearchManager(AppContext.Current.ApplicationName);
+            _searchManager = new SearchManager(Mediachase.Commerce.Core.AppContext.Current.ApplicationName);
             _searchProviderType = LoadSearchProvider();
             _initialized = true;
         }

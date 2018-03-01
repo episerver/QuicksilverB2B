@@ -7,7 +7,9 @@ using EPiServer.ServiceLocation;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Website.Helpers;
 using System.Configuration;
+using EPiServer.Security;
 using Mediachase.Commerce.Customers;
+using Mediachase.Commerce.Security;
 
 namespace EPiServer.Reference.Commerce.Site.B2B.Services
 {
@@ -26,7 +28,7 @@ namespace EPiServer.Reference.Commerce.Site.B2B.Services
 
         public ICart CreateNewCart()
         {
-            return new CartHelper(DefaultCartName).Cart;
+            return _orderRepository.LoadOrCreateCart<ICart>(PrincipalInfo.Current.Principal.GetContactId(), DefaultCartName);
         }
 
         public void DeleteCart(ICart cart)

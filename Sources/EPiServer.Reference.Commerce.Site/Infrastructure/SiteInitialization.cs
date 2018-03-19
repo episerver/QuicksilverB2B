@@ -23,13 +23,15 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.WebPages;
+using EPiServer.Find.Commerce;
 using EPiServer.Reference.Commerce.Site.B2B.CustomerProcessors;
 using EPiServer.Reference.Commerce.Site.B2B.ServiceContracts;
 using EPiServer.Reference.Commerce.Site.B2B.Services;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Business;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure
 {
-    [ModuleDependency(typeof(EPiServer.Commerce.Initialization.InitializationModule))]
+    [ModuleDependency(typeof(EPiServer.Commerce.Initialization.InitializationModule), typeof(Find.Commerce.FindCommerceInitializationModule))]
     public class SiteInitialization : IConfigurableModule
     {
         public void Initialize(InitializationEngine context)
@@ -55,6 +57,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
 
             services.AddSingleton<ICurrentMarket, B2BCurrentMarket>();
 
+            services.AddSingleton<CatalogContentClientConventions, B2BCatalogContentClientConventions>();
             //Register for auto injection of edit mode check, should be default life cycle (per request to service locator)
             services.AddTransient<IsInEditModeAccessor>(locator => () => PageEditing.PageIsInEditMode);
 

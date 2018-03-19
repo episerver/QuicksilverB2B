@@ -662,6 +662,7 @@
     <Compile Include="Features\Payment\PaymentMethods\PaymentMethodBase.cs" />
     <Compile Include="Features\Shared\Services\IPromotionService.cs" />
     <Compile Include="Features\Shared\Services\PromotionService.cs" />
+    <Compile Include="Infrastructure\Business\B2BCatalogContentClientConventions.cs" />
     <Compile Include="Infrastructure\CurrencySetup.cs" />
     <Compile Include="Features\AddressBook\Services\AddressBookService.cs" />
     <Compile Include="Features\AddressBook\Controllers\AddressBookController.cs" />
@@ -1159,7 +1160,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Features\Users\Models\" />
-    <Folder Include="Infrastructure\Business\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

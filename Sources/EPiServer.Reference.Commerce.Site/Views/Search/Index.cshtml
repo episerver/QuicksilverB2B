@@ -5,20 +5,22 @@
         Layout = null;
     }
 }
-<div class="row category-page">
-    @if (Model.HasError)
-    {
-        <div class="col-md-12 text-danger">@Model.ErrorMessage</div>
-    }
-    else
-    {
-        using (Html.BeginForm("Index", "Search", FormMethod.Get, new { @class = "jsSearchForm" }))
+<div class="container">
+    <div class="row category-page">
+        @if (Model.HasError)
         {
-            @Html.Partial("_Facet", Model.FilterOption)
-            <div class="col-md-9">
-                @Html.Partial("_ProductList", Model.ProductViewModels)
-            </div>
-            <input class="jsSearchPage" id="FilterOption_Page" name="FilterOption.Page" type="hidden" value="@(Model.FilterOption.Page + 1)" />
+            <div class="col-md-12 text-danger">@Model.ErrorMessage</div>
         }
-    }
+        else
+        {
+            using (Html.BeginForm("Index", "Search", FormMethod.Get, new { @class = "jsSearchForm" }))
+            {
+                @Html.Partial("_Facet", Model.FilterOption)
+                <div class="col-md-9">
+                    @Html.Partial("_ProductList", Model.ProductViewModels)
+                </div>
+                <input class="jsSearchPage" id="FilterOption_Page" name="FilterOption.Page" type="hidden" value="@(Model.FilterOption.Page + 1)" />
+            }
+        }
+    </div>
 </div>

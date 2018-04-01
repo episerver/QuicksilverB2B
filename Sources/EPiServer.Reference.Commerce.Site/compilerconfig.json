@@ -1,0 +1,10 @@
+﻿[
+  {
+    "outputFile": "Styles/b2b/global.css",
+    "inputFile": "Styles/b2b/global.less"
+  },
+  {
+    "outputFile": "Styles/style.css",
+    "inputFile": "Styles/style.less"
+  }
+]

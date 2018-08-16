@@ -7,13 +7,13 @@
     }
 }
 
-<div class="container-fluid">
+<div class="container">
     <div class="row category-page">
         @using (Html.BeginForm("Index", "Category", FormMethod.Get, new { @class = "jsSearchForm" }))
         {
             @Html.Action("Facet", new { Model.CurrentContent, Model.FilterOption })
             <div class="col-sm-9">
-                <div class="container-fluid">
+                <div class="container">
                     <div class="row">
                         <div class="col-xs-12">
                             <h1>@Html.PropertyFor(x => x.CurrentContent.DisplayName)</h1>

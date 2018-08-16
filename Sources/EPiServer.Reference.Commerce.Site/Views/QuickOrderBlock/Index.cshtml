@@ -1,13 +1,13 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.QuickOrder.Blocks.QuickOrderBlock
 
-<div class="spacer-left-l">
+<div class="">
     <section>
         <div class="section-title spacer-bottom-l">
             <h2 class="h3">Quick Order Interface</h2>
         </div>
 
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <label>Product name</label>
             </div>
             <div class="col-sm-2">
@@ -22,6 +22,9 @@
             <div class="col-sm-2">
                 <label>Total Price</label>
             </div>
+            <div class="col-sm-1">
+                &nbsp;
+            </div>
         </div>
         @using (Html.BeginForm("Import", "QuickOrderBlock", FormMethod.Post, new { @id = "quickOrderForm", @enctype = "multipart/form-data" }))
         {
@@ -30,7 +33,7 @@
                 for (int i = 0; i < Model.ProductsList.Count; i++)
                 {
                     <div class="row order-row">
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-3">
                             @Html.TextBoxFor(x => x.ProductsList[i].ProductName, new { required = "required" })
                         </div>
                         <div class="form-group col-sm-2">
@@ -45,16 +48,18 @@
                         <div class="form-group col-sm-2">
                             @Html.TextBoxFor(x => x.ProductsList[i].TotalPrice, "{0:0.00}", new { @readonly = "readonly" })
                         </div>
-                        <a href="#" class="btn btn-danger btn-xs delete-icon">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                        </a>
+                        <div class="form-group col-sm-1">
+                            <a href="#" class="btn btn-danger btn-xs delete-icon">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </a>
+                        </div>
                     </div>
                 }
             }
             else
             {
                 <div class="row order-row">
-                    <div class="form-group col-sm-4">
+                    <div class="form-group col-sm-3">
                         @Html.TextBoxFor(x => x.ProductsList[0].ProductName, new { required = "required" })
                     </div>
                     <div class="form-group col-sm-2">
@@ -69,9 +74,11 @@
                     <div class="form-group col-sm-2">
                         @Html.TextBoxFor(x => x.ProductsList[0].TotalPrice, "{0:0.00}", new { @readonly = "readonly" })
                     </div>
-                    <a href="#" class="btn btn-danger btn-xs delete-icon">
-                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                    </a>
+                    <div class="form-group col-sm-1">
+                        <a href="#" class="btn btn-danger btn-sm">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </a>
+                    </div>
                 </div>
             }
             <a class="btn btn-sm btn-primary js-add-row-btn">Add row</a>

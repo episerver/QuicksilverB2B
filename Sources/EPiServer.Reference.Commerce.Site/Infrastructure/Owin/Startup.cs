@@ -14,6 +14,7 @@ using Microsoft.Owin.Security.MicrosoftAccount;
 using Microsoft.Owin.Security.Twitter;
 using Owin;
 using System;
+using EPiServer.ServiceApi.Owin;
 
 [assembly: OwinStartupAttribute(typeof(EPiServer.Reference.Commerce.Site.Infrastructure.Owin.Startup))]
 namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
@@ -70,7 +71,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Owin
             // Once you check this option, your second step of verification during the login process will be remembered on the device where you logged in from.
             // This is similar to the RememberMe option when you log in.
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
-
+            app.UseServiceApiIdentityTokenAuthorization<ApplicationUserManager<SiteUser>, SiteUser>();
             // To enable using an external provider like Facebook or Google, uncomment the options you want to make available.
             // Also remember to apply the correct client id and secret code to each method that you call below.
             // Uncomment the external login providers you want to enable in your site. Don't forget to change their respective client id and secret.

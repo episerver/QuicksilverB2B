@@ -16,13 +16,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
         protected readonly ConfirmationService _confirmationService;
         private readonly AddressBookService _addressBookService;
         protected readonly CustomerContextFacade _customerContext;
-        private readonly IOrderGroupTotalsCalculator _orderGroupTotalsCalculator;
+        private readonly IOrderGroupCalculator _orderGroupTotalsCalculator;
 
         protected OrderConfirmationControllerBase(
             ConfirmationService confirmationService, 
             AddressBookService addressBookService, 
             CustomerContextFacade customerContextFacade,
-            IOrderGroupTotalsCalculator orderGroupTotalsCalculator)
+            IOrderGroupCalculator orderGroupTotalsCalculator)
         {
             _confirmationService = confirmationService;
             _addressBookService = addressBookService;
@@ -40,7 +40,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             }
             
             var lineItems = order.GetFirstForm().Shipments.SelectMany(x => x.LineItems);
-            var totals = _orderGroupTotalsCalculator.GetTotals(order);
+            var totals = _orderGroupTotalsCalculator.GetOrderGroupTotals(order);
             
             var viewModel = new OrderConfirmationViewModel<T>
             {
@@ -55,7 +55,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
                 ContactId = _customerContext.CurrentContactId,
                 Payments = order.GetFirstForm().Payments,
                 OrderGroupId = order.OrderLink.OrderGroupId,
-                OrderLevelDiscountTotal = order.GetOrderDiscountTotal(order.Currency),
+                OrderLevelDiscountTotal = order.GetOrderDiscountTotal(),
                 ShippingSubTotal = order.GetShippingSubTotal(),
                 ShippingDiscountTotal = order.GetShippingDiscountTotal(), 
                 ShippingTotal = totals.ShippingTotal,

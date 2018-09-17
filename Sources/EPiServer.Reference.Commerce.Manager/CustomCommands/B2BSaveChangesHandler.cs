@@ -61,7 +61,7 @@ namespace EPiServer.Reference.Commerce.Manager.CustomCommands
         }
         private static void WriteChangedLineItemNotes(PurchaseOrder purchaseOrder, Shipment shipment)
         {
-            foreach (LineItem lineItem in Shipment.GetShipmentLineItems(shipment).Concat(shipment.Parent.LineItems.DeletedLineItems))
+            foreach (LineItem lineItem in Shipment.GetClonedLineItemsForShipment(shipment).Concat(shipment.Parent.LineItems.DeletedLineItems))
             {
                 string noteDetaisPatternName = null;
                 decimal num = lineItem.Quantity;
@@ -84,7 +84,7 @@ namespace EPiServer.Reference.Commerce.Manager.CustomCommands
                 if (noteDetaisPatternName == null || num == decimal.Zero) continue;
 
                 string str = new Money(purchaseOrder.Total, new Currency(purchaseOrder.BillingCurrency)).ToString();
-                AddNoteToPurchaseOrder(noteDetaisPatternName, purchaseOrder, num.ToString("F2"), lineItem.DisplayName,
+                AddNoteToOrder(purchaseOrder, noteDetaisPatternName, num.ToString("F2"), lineItem.DisplayName,
                     shipment.ShipmentId.ToString(), str);
             }
         }
@@ -94,10 +94,10 @@ namespace EPiServer.Reference.Commerce.Manager.CustomCommands
             if (shipment.ObjectState != MetaObjectState.Added)
                 return;
             string noteDetaisPatternName = "OrderNote_MoveLineItemPattern";
-            foreach (LineItem lineItem in Shipment.GetShipmentLineItems(shipment))
+            foreach (LineItem lineItem in Shipment.GetClonedLineItemsForShipment(shipment))
             {
                 string str = Shipment.GetLineItemQuantity(shipment, lineItem.LineItemId).ToString("F2");
-                AddNoteToPurchaseOrder(noteDetaisPatternName, purchaseOrder, str, lineItem.DisplayName, shipment.ShipmentId.ToString());
+                AddNoteToOrder(purchaseOrder, noteDetaisPatternName, str, lineItem.DisplayName, shipment.ShipmentId.ToString());
             }
         }
 
@@ -118,7 +118,7 @@ namespace EPiServer.Reference.Commerce.Manager.CustomCommands
                             orderForm.RMANumber,
                             lineItem.ReturnReason
                         };
-                        AddNoteToPurchaseOrder(noteDetaisPatternName, purchaseOrder1, strArray);
+                        AddNoteToOrder(purchaseOrder1, noteDetaisPatternName, strArray);
                     }
                 }
             }
@@ -134,7 +134,7 @@ namespace EPiServer.Reference.Commerce.Manager.CustomCommands
                 if (noteDetaisPatternName == null) continue;
 
                 string str = new Money(payment.Amount, new Currency(purchaseOrder.BillingCurrency)).ToString();
-                AddNoteToPurchaseOrder(noteDetaisPatternName, purchaseOrder, payment.PaymentType.ToString(), str);
+                AddNoteToOrder(purchaseOrder, noteDetaisPatternName, payment.PaymentType.ToString(), str);
             }
         }
     }

@@ -42,12 +42,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
 
             var purchaseOrder = new InMemoryPurchaseOrder
             {
-                Forms = new[] { form },
                 Currency = _currentMarket.GetCurrentMarket().DefaultCurrency,
-                Market = _currentMarket.GetCurrentMarket(),
+                MarketId = _currentMarket.GetCurrentMarket().MarketId,
                 OrderLink = new OrderReference(0, string.Empty, Guid.Empty, typeof(IPurchaseOrder))
             };
-
+            purchaseOrder.Forms.Add(form);
             return purchaseOrder;
         }
     }

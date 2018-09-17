@@ -213,7 +213,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Services
                 //If there is an item which has no price in the new currency, a NullReference exception will be thrown.
                 //Mixing currencies in cart is not allowed.
                 //It's up to site's managers to ensure that all items have prices in allowed currency.
-                lineItem.PlacedPrice = _pricingService.GetPrice(lineItem.Code, cart.Market.MarketId, currency).Value.Amount;
+                lineItem.PlacedPrice = _pricingService.GetPrice(lineItem.Code, cart.MarketId, currency).Value.Amount;
             }
 
             ValidateCart(cart);

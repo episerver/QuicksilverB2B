@@ -20,7 +20,7 @@ namespace EPiServer.Reference.Commerce.Manager.CustomCommands
             return flag;
         }
 
-        protected override void DoCommand(IOrderGroup order, CommandParameters cp)
+        protected override void DoCommand(IOrderGroup order, CommandParameters commandParameters)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace EPiServer.Reference.Commerce.Manager.CustomCommands
 
                 purchaseOrder[Constants.Quote.QuoteStatus] = Constants.Quote.RequestQuotationFinished;
                 OrderStatusManager.ReleaseHoldOnOrder(purchaseOrder);
-                AddNoteToPurchaseOrder("OrderNote_ChangeOrderStatusPattern", purchaseOrder, purchaseOrder.Status);
+                AddNoteToOrder(purchaseOrder, "OrderNote_ChangeOrderStatusPattern", purchaseOrder.Status);
                 SavePurchaseOrderChanges(purchaseOrder);
             }
             catch (Exception ex)

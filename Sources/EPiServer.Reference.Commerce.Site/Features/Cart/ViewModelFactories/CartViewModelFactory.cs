@@ -16,7 +16,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
     {
         private readonly IContentLoader _contentLoader;
         private readonly ICurrencyService _currencyService;
-        readonly IOrderGroupTotalsCalculator _orderGroupTotalsCalculator;
         readonly IOrderGroupCalculator _orderGroupCalculator;
         readonly ICustomerService _customerService;
         readonly ShipmentViewModelFactory _shipmentViewModelFactory;
@@ -24,14 +23,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
         public CartViewModelFactory(
             IContentLoader contentLoader, 
             ICurrencyService currencyService, 
-            IOrderGroupTotalsCalculator orderGroupTotalsCalculator, 
             IOrderGroupCalculator orderGroupCalculator,
             ICustomerService customerService,
             ShipmentViewModelFactory shipmentViewModelFactory)
         {
             _contentLoader = contentLoader;
             _currencyService = currencyService;
-            _orderGroupTotalsCalculator = orderGroupTotalsCalculator;
             _orderGroupCalculator = orderGroupCalculator;
             _shipmentViewModelFactory = shipmentViewModelFactory;
             _customerService = customerService;

@@ -115,9 +115,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Market.Services
                 return false;
             }
 
-            return (string.IsNullOrEmpty(campaign.TargetMarket) ||
-                    campaign.TargetMarket == Constants.AllMarkets) ||
-                    market.MarketId.Equals(new MarketId(campaign.TargetMarket));
+            return (campaign.TargetMarkets == null || !campaign.TargetMarkets.Any()) ||
+                   campaign.TargetMarkets.Contains(market.MarketId.ToString());
         }
     }
 }

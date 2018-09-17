@@ -26,12 +26,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             }).ToList();
         }
 
-        public virtual ShippingRate GetRate(IShipment shipment, ShippingMethodInfoModel shippingMethodInfoModel, IMarket currentMarket)
+        public virtual ShippingRate GetRate(IShipment shipment, ShippingMethodInfoModel shippingMethodInfoModel,
+            IMarket currentMarket)
         {
             var type = Type.GetType(shippingMethodInfoModel.ClassName);
-            var shippingGateway = (IShippingGateway)Activator.CreateInstance(type, currentMarket);
+            var shippingGateway = (IShippingGateway) Activator.CreateInstance(type, currentMarket);
             string message = null;
-            return shippingGateway.GetRate(shippingMethodInfoModel.MethodId, (Shipment)shipment, ref message);
+            return shippingGateway.GetRate(currentMarket, shippingMethodInfoModel.MethodId, (Shipment) shipment,
+                ref message);
         }
 
     }

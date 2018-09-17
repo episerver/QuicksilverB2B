@@ -1,4 +1,5 @@
-﻿using EPiServer.Find.ClientConventions;
+﻿using System;
+using EPiServer.Find.ClientConventions;
 using EPiServer.Find.Commerce;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.ServiceLocation;
@@ -10,9 +11,17 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Business
     {
         protected override void ApplyNestedConventions(NestedConventions nestedConventions)
         {
-            base.ApplyNestedConventions(nestedConventions);
-            nestedConventions.ForType<BaseProduct>().Add(p => p.ListingPrices);
-            nestedConventions.ForType<BaseProduct>().Add(p => p.OriginalPrices);
+            try
+            {
+                base.ApplyNestedConventions(nestedConventions);
+                nestedConventions.ForType<BaseProduct>().Add(p => p.ListingPrices);
+                nestedConventions.ForType<BaseProduct>().Add(p => p.OriginalPrices);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            
         }
     }
 }

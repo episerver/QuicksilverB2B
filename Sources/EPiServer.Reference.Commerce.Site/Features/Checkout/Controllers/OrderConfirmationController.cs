@@ -16,7 +16,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             ConfirmationService confirmationService,
             AddressBookService addressBookService,
             CustomerContextFacade customerContextFacade,
-            IOrderGroupTotalsCalculator orderGroupTotalsCalculator)
+            IOrderGroupCalculator orderGroupTotalsCalculator)
             : base(confirmationService, addressBookService, customerContextFacade, orderGroupTotalsCalculator)
         {
         }

@@ -16,6 +16,7 @@ using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Orders;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
+using Mediachase.Commerce.Markets;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
 {
@@ -30,6 +31,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
         readonly CartItemViewModelFactory _cartItemViewModelFactory;
         private readonly CultureInfo _preferredCulture;
         readonly IRelationRepository _relationRepository;
+        private readonly IMarketService _marketService;
 
         public ShipmentViewModelFactory(
             IContentLoader contentLoader,
@@ -39,7 +41,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
             IAddressBookService addressBookService,
             CartItemViewModelFactory cartItemViewModelFactory,
             PreferredCultureAccessor preferredCulture,
-            IRelationRepository relationRepository)
+            IRelationRepository relationRepository, 
+            IMarketService marketService)
         {
             _contentLoader = contentLoader;
             _shippingManagerFacade = shippingManagerFacade;
@@ -48,6 +51,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
             _addressBookService = addressBookService;
             _cartItemViewModelFactory = cartItemViewModelFactory;
             _relationRepository = relationRepository;
+            _marketService = marketService;
             _preferredCulture = preferredCulture();
         }
 
@@ -60,7 +64,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.ViewModelFactories
                     ShipmentId = shipment.ShipmentId,
                     CartItems = new List<CartItemViewModel>(),
                     Address = _addressBookService.ConvertToModel(shipment.ShippingAddress),
-                    ShippingMethods = CreateShippingMethodViewModels(cart.Market, cart.Currency, shipment)
+                    ShippingMethods = CreateShippingMethodViewModels(_marketService.GetMarket(cart.MarketId), cart.Currency, shipment)
                 };
 
                 shipmentModel.ShippingMethodId = shipment.ShippingMethodId == Guid.Empty ? shipmentModel.ShippingMethods.First().Id : shipment.ShippingMethodId;

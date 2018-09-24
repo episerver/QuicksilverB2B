@@ -5,6 +5,7 @@ using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Catalog.DataAnnotations;
 using EPiServer.Commerce.SpecializedProperties;
 using EPiServer.Core;
+using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.Reference.Commerce.Site.B2B.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
@@ -35,6 +36,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Models
         [IncludeInDefaultSearch]
         [Display(Name = "Long Description", Order = 3)]
         public virtual XhtmlString LongDescription { get; set; }
+
+        [Display(Name = "Content Area",
+            Description = "Content area",
+            GroupName = SystemTabNames.Content,
+            Order = 20)]
+        public virtual ContentArea ContentArea { get; set; }
 
         [Ignore]
         public virtual ItemCollection<string> AvailableSizeList { get; set; }

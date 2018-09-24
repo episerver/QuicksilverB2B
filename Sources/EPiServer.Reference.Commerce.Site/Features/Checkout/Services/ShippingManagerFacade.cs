@@ -30,7 +30,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
             IMarket currentMarket)
         {
             var type = Type.GetType(shippingMethodInfoModel.ClassName);
-            var shippingGateway = (IShippingGateway) Activator.CreateInstance(type, currentMarket);
+            var shippingGateway = (IShippingGateway) Activator.CreateInstance(type);
             string message = null;
             return shippingGateway.GetRate(currentMarket, shippingMethodInfoModel.MethodId, (Shipment) shipment,
                 ref message);

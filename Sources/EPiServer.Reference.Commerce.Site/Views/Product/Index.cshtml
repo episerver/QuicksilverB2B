@@ -148,11 +148,11 @@
                     <span class="success-message"></span>
                 </div>
             </div>
+
         </div>
     </div>
 
-    @Html.PropertyFor(m => m.ContentArea, new { CssClass = "row" })
-
+    @Html.PropertyFor(m => m.Product.ContentArea, new { CssClass = "row" })
     @if (Model.Variants != null && Model.Variants.Any())
     {
         <div class="row">

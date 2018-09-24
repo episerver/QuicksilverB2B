@@ -30,17 +30,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Models
         [Display(Name = "Available Sizes", Order = 6)]
         public virtual ItemCollection<string> AvailableSizes { get; set; }
 
+        public virtual ContentArea MarkArea { get; set; }
+
         [Searchable]
         [IncludeInDefaultSearch]
         [BackingType(typeof(PropertyDictionaryMultiple))]
         [Display(Name = "Available Colors", Order = 6)]
         public virtual ItemCollection<string> AvailableColors { get; set; }
 		
-        [Display(Name = "Content Area",
-        Description = "Content area",
-        GroupName = SystemTabNames.Content,
-        Order = 20)]
-        public virtual ContentArea ContentArea { get; set; }
+        
 
         [Ignore]
         public override ItemCollection<string> AvailableSizeList => AvailableSizes;

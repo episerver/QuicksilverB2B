@@ -8,7 +8,7 @@ Installation
 4.  This uses Local DB so no need to run database setup  
 5.  Start the site (Debug-Start from Visual studio) and browse to http://localhost:50244 to finish installation. Login with admin@episerver.com / store.
 
-Note: SQL scripts are executed using Windows authentication so make sure your user has sufficient permissions.
+Note: SQL scripts are executed using Windows authentication so make sure your user has sufficient permissions
 
 Logging in
 -------------
